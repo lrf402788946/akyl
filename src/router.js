@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Index from './views/example/example.vue';
+import post from './views/post/post.vue';
+import dept from './views/dept/dept.vue';
 
 Vue.use(Router);
-
 const router = new Router({
   // base: '/archive/',
   // mode: 'history',
@@ -12,6 +13,16 @@ const router = new Router({
       path: '/',
       name: 'Index',
       component: Index,
+    },
+    {
+      path: '/post',
+      name: 'post',
+      component: post,
+    },
+    {
+      path: '/dept',
+      name: 'dept',
+      component: dept,
     },
   ],
 });
