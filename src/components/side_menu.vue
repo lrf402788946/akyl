@@ -26,7 +26,6 @@
             </li>
             <ul class="submenu">
               <div class="expand-triangle"></div>
-              <router-link :to="{name:'DeptIndex'}"><li><span> 部门管理</span></li></router-link>
               <router-link :to="{name:'user'}"><li><span> 用户管理</span></li></router-link>
               <router-link :to="{name:'role'}"><li><span> 角色管理</span></li></router-link>
               <router-link :to="{name:'user_role'}"><li><span> 权限分配</span></li></router-link>
