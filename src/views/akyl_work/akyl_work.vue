@@ -2,12 +2,12 @@
   <div id="index">
      <!-- 位置导航 begin  -->
       <b-breadcrumb>
-        <b-breadcrumb-item :to="{name:'DeptIndex'}">部门管理</b-breadcrumb-item>
+        <b-breadcrumb-item :to="{name:'DeptIndex'}">工序管理</b-breadcrumb-item>
       </b-breadcrumb>
       <!-- 表格 begin -->
       <div class="base-form">
         <div class="form-inline">
-          <div class="base-form-title" style="width:100%;"><a class="base-margin-left-20">部门列表</a>
+          <div class="base-form-title" style="width:100%;"><a class="base-margin-left-20">工序列表</a>
             <div class="button-table">
             </div>
           </div>
@@ -15,21 +15,21 @@
         <div class="base-padding-20 base-bg-fff">
           <div class="base-align-right" style="margin-bottom:20px;">
             <a class="btn btn-info base-margin-bottom" data-toggle="tooltip" style="font-size:14px !important;padding: 6px 12px !important;" title="" role="button" v-b-modal="'toAdd'">
-              <i class="base-margin-right-5 fa fa-plus-square"></i>添加部门
+              <i class="base-margin-right-5 fa fa-plus-square"></i>添加工序
             </a>
           </div>
           <table class="table table-bordered table-striped ">
             <tbody>
               <tr>
-                <th>部门名称</th>
-                <th>部门职责</th>
-                <th>部门电话</th>
+                <th>工序编号</th>
+                <th>工序代码</th>
+                <th>工序名称</th>
                 <th>操作</th>
               </tr>
               <tr v-for="(item,index) in list" :key="index"><!--美化下input 可以看情况使用-->
-                <td>{{item.dept_name}}</td>
-                <td>{{item.dept_duty}}</td>
-                <td>{{item.dept_tell}}</td>
+                <td>{{item.id}}</td>
+                <td>{{item.code}}</td>
+                <td>{{item.name}}</td>
                 <td>
                   <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update',index)" >修&nbsp;&nbsp;改</b-button>
                   <b-button variant="danger" style="color:white;"  @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
@@ -42,19 +42,19 @@
             </tbody>
           </table>
           <b-modal id="toAdd" title="添加部门" ref="toAdd" hide-footer>
-            <div style="margin-bottom: 7px;">部门名称:</div>
-            <b-form-input v-model="form.dept_name"></b-form-input>
-            <div style="margin-top:7px; margin-bottom:7px;">部门职责:</div>
-            <b-form-input v-model="form.dept_duty"></b-form-input>
-            <div style="margin-top:7px; margin-bottom:7px;">部门电话:</div>
-            <b-form-input v-model="form.dept_tell"></b-form-input>
+            <div style="margin-bottom: 7px;">工序编号:</div>
+            <b-form-input v-model="form.id"></b-form-input>
+            <div style="margin-top:7px; margin-bottom:7px;">工序代码:</div>
+            <b-form-input v-model="form.code"></b-form-input>
+            <div style="margin-top:7px; margin-bottom:7px;">工序名称:</div>
+            <b-form-input v-model="form.name"></b-form-input>
             <b-button variant="secondary" style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  @click="form={}" >重&nbsp;&nbsp;置</b-button>
             <b-button  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   variant="primary" @click="toAdd()" >保&nbsp;&nbsp;存</b-button>
           </b-modal>
 
           <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer> 
             <div class="d-block text-center">
-              <b-alert variant="danger" show>删除部门可能会影响您的管理,确认删除吗?</b-alert>
+              <b-alert variant="danger" show>删除工序可能会影响您的管理,确认删除吗?</b-alert>
             </div>
            <b-button variant="danger"   style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   @click="toDelete()">删&nbsp;&nbsp;除</b-button>
            <b-button variant="primary"   style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   @click="$refs.deleteAlert.hide(),deleteItem=''">
@@ -66,16 +66,16 @@
             <div class="d-block">
               <div class="row">
                 <div class="col-lg-12 marginBot4">
-                    <p class="marginBot4">部门名称</p>
-                    <b-form-input v-model="updateForm.dept_name"></b-form-input>
+                    <p class="marginBot4">工序编号</p>
+                    <b-form-input v-model="updateForm.id"></b-form-input>
                 </div>
                 <div class="col-lg-12 marginBot4">
-                    <p class="marginBot4">部门职责</p>
-                    <b-form-input v-model="updateForm.dept_duty"></b-form-input>
+                    <p class="marginBot4">工序代码</p>
+                    <b-form-input v-model="updateForm.code"></b-form-input>
                 </div>
                 <div class="col-lg-12 marginBot">
-                    <p class="marginBot4">部门电话</p>
-                    <b-form-input v-model="updateForm.dept_tell"></b-form-input>
+                    <p class="marginBot4">工序名称</p>
+                    <b-form-input v-model="updateForm.name"></b-form-input>
                 </div>
                 <div class="col-lg-12 marginBot4">
                   <b-button variant="secondary" @click="closeAlert('update')" class="resetButton" style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >
@@ -100,8 +100,8 @@ export default {
   components: {},
   data() {
     return {
-      list: [{dept_name:'aaa',unit_id:'666',dept_tell:'77',dept_duty:'666'},
-             {dept_name:'aaa',unit_id:'666',dept_tell:'77',dept_duty:'666'}],
+      list: [{id:'1',code:'666',name:'777'},
+             {id:'2',code:'666',name:'777'}],
       form: {},
       deleteItem: '',
       updateForm: {

@@ -32,6 +32,8 @@
               <router-link :to="{name:'UserRoleIndex'}"><li><span> 权限分配</span></li></router-link>
               <router-link :to="{name:'dept'}"><li><span> 部门表</span></li></router-link>
               <router-link :to="{name:'post'}"><li><span> 岗位表</span></li></router-link>
+              <router-link :to="{name:'akyl_work'}"><li><span> 工序管理</span></li></router-link>
+              <router-link :to="{name:'akyl_set'}"><li><span>基础设置管理</span></li></router-link>
             </ul>
 
           </ul>

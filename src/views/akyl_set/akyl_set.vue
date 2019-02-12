@@ -2,96 +2,95 @@
   <div id="index">
      <!-- 位置导航 begin  -->
       <b-breadcrumb>
-        <b-breadcrumb-item :to="{name:'DeptIndex'}">部门管理</b-breadcrumb-item>
+        <b-breadcrumb-item :to="{name:'DeptIndex'}">基础设置管理</b-breadcrumb-item>
       </b-breadcrumb>
       <!-- 表格 begin -->
       <div class="base-form">
         <div class="form-inline">
-          <div class="base-form-title" style="width:100%;"><a class="base-margin-left-20">部门列表</a>
+          <div class="base-form-title" style="width:100%;"><a class="base-margin-left-20">基础设置列表</a>
             <div class="button-table">
             </div>
           </div>
         </div>
         <div class="base-padding-20 base-bg-fff">
-          <div class="base-align-right" style="margin-bottom:20px;">
-            <a class="btn btn-info base-margin-bottom" data-toggle="tooltip" style="font-size:14px !important;padding: 6px 12px !important;" title="" role="button" v-b-modal="'toAdd'">
-              <i class="base-margin-right-5 fa fa-plus-square"></i>添加部门
-            </a>
-          </div>
           <table class="table table-bordered table-striped ">
             <tbody>
               <tr>
-                <th>部门名称</th>
-                <th>部门职责</th>
-                <th>部门电话</th>
+                <th>计时定额</th>
+                <th>计件定额</th>
+                <th>加班计时定额</th>
+                <th>加班计件定额</th>
+                <th>加班补助定额</th>
+                </tr>
+                <tr>
+                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
+                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
+                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
+                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
+                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
+                </tr>
+                <tr>
+                <th>满勤奖</th>
+                <th>通勤补助</th>
+                <th>夜班补助</th>
+                <th>工作时长</th>
+                <th>三月保险每天补贴</th>
+                </tr>
+                <tr>
+                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
+                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
+                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
+                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
+                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
+                </tr>
+                <tr>
+                <th>一年保险每天补贴</th>
+                <th>两年以上保险每天补贴</th>
+                <th>工龄工资按月累加</th>
                 <th>操作</th>
+                </tr>
+                <tr>
+                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
+                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
+                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
+                <td>
+                  <div v-if="isReadOnly">
+                  <b-button  @click="change()" >修&nbsp;&nbsp;改</b-button>
+                  </div>
+                  <div v-if="!isReadOnly">
+                  <b-button  @click="tijiao()" >提&nbsp;&nbsp;交</b-button>
+                  <b-button  @click="fanhui()" >返&nbsp;&nbsp;回</b-button>
+                  </div>
+                </td>
+                
               </tr>
-              <tr v-for="(item,index) in list" :key="index"><!--美化下input 可以看情况使用-->
-                <td>{{item.dept_name}}</td>
-                <td>{{item.dept_duty}}</td>
-                <td>{{item.dept_tell}}</td>
+              <!--<tr v-for="(item,index) in list" :key="index">-->
+                <!-- 进行展示的真实数据
+                <td>{{item.js_price}}</td>
+                <td>{{item.jj_price}}</td>
+                <td>{{item.jb_js_price}}</td>
+                <td>{{item.jb_jj_price}}</td>
+                <td>{{item.jb_price}}</td>
+                <td>{{item.mq_price}}</td>
+                <td>{{item.tq_price}}</td>
+                <td>{{item.yb_price}}</td>
+                <td>{{item.gz_sc}}</td>
+                <td>{{item.bx_price_sy}}</td>
+                <td>{{item.bx_price_yn}}</td>
+                <td>{{item.bx_price_ln}}</td>
+                <td>{{item.gl_price}}</td> 
                 <td>
                   <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update',index)" >修&nbsp;&nbsp;改</b-button>
-                  <b-button variant="danger" style="color:white;"  @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
-                  <!-- <a class="btn btn-xs btn-info base-margin-2" data-toggle="tooltip" @click="toUpdate(index)"
-                    title="" role="button">保&nbsp;&nbsp;存</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                  <a class="btn btn-xs btn-info base-margin-2" data-toggle="tooltip" @click="toDelete(index)"
-                    title="" role="button">删&nbsp;&nbsp;除</a> -->
                 </td>
-              </tr>
+                -->
+                
             </tbody>
-          </table>
-          <b-modal id="toAdd" title="添加部门" ref="toAdd" hide-footer>
-            <div style="margin-bottom: 7px;">部门名称:</div>
-            <b-form-input v-model="form.dept_name"></b-form-input>
-            <div style="margin-top:7px; margin-bottom:7px;">部门职责:</div>
-            <b-form-input v-model="form.dept_duty"></b-form-input>
-            <div style="margin-top:7px; margin-bottom:7px;">部门电话:</div>
-            <b-form-input v-model="form.dept_tell"></b-form-input>
-            <b-button variant="secondary" style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  @click="form={}" >重&nbsp;&nbsp;置</b-button>
-            <b-button  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   variant="primary" @click="toAdd()" >保&nbsp;&nbsp;存</b-button>
-          </b-modal>
-
-          <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer> 
-            <div class="d-block text-center">
-              <b-alert variant="danger" show>删除部门可能会影响您的管理,确认删除吗?</b-alert>
-            </div>
-           <b-button variant="danger"   style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   @click="toDelete()">删&nbsp;&nbsp;除</b-button>
-           <b-button variant="primary"   style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   @click="$refs.deleteAlert.hide(),deleteItem=''">
-             返&nbsp;&nbsp;回</b-button>
-          </b-modal>
-
-          <!-- jkjkjkjk -->
-          <b-modal id="updateAlert" title="修改信息" ref="updateAlert" hide-footer>
-            <div class="d-block">
-              <div class="row">
-                <div class="col-lg-12 marginBot4">
-                    <p class="marginBot4">部门名称</p>
-                    <b-form-input v-model="updateForm.dept_name"></b-form-input>
-                </div>
-                <div class="col-lg-12 marginBot4">
-                    <p class="marginBot4">部门职责</p>
-                    <b-form-input v-model="updateForm.dept_duty"></b-form-input>
-                </div>
-                <div class="col-lg-12 marginBot">
-                    <p class="marginBot4">部门电话</p>
-                    <b-form-input v-model="updateForm.dept_tell"></b-form-input>
-                </div>
-                <div class="col-lg-12 marginBot4">
-                  <b-button variant="secondary" @click="closeAlert('update')" class="resetButton" style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >
-                    返&nbsp;&nbsp;回</b-button>
-                  <b-button variant="primary" @click="toUpdate()" class="resetButton"  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;" >
-                    保&nbsp;&nbsp;存</b-button>
-                </div>
-              </div>
-            </div>
-          </b-modal>
-          <!-- klklklkl -->
-          
+          </table>          
         </div>
       </div>
   </div> 
 </template>
+
 
 <script>
 import _ from 'lodash';
@@ -100,10 +99,10 @@ export default {
   components: {},
   data() {
     return {
-      list: [{dept_name:'aaa',unit_id:'666',dept_tell:'77',dept_duty:'666'},
-             {dept_name:'aaa',unit_id:'666',dept_tell:'77',dept_duty:'666'}],
+      list: [],
       form: {},
       deleteItem: '',
+      isReadOnly:true,
       updateForm: {
         gender: -1,
         dept_id: 'default',
@@ -114,6 +113,7 @@ export default {
   created() {
     // this.search();
   },
+
   methods: {
     //整体逻辑:已有数据的修改直接=>提交=>请求=>刷新视图;添加数据则弹出框添加
     //查询
@@ -165,6 +165,28 @@ export default {
       this.operateId = '';
       this.updateForm = {};
     },
+
+
+
+    
+    //改变文本框只读状态
+    change(){
+      this.isReadOnly=false
+      one = false;
+      two = true;  
+    },
+    tijiao(){
+      this.isReadOnly=true
+      one = true;
+      two = false;  
+    },
+    fanhui(){
+      this.isReadOnly=true
+      one = true;
+      two = false;  
+      this.search();
+    },
+
   },
 };
 </script>
