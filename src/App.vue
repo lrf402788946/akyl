@@ -18,8 +18,8 @@
 </template>
 
 <script>
-import Header from '@/components/Header.vue';
-import sideMenu from '@/components/sideMenu.vue';
+import Header from '@/components/header.vue';
+import sideMenu from '@/components/side_menu.vue';
 export default {
   components: {
     Header,
