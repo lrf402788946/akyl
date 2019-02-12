@@ -1,13 +1,8 @@
 <template lang='html'>
   <div id="index">
-     <!-- 位置导航 begin  -->
-      <b-breadcrumb>
-        <b-breadcrumb-item :to="{name:'DeptIndex'}">部门管理</b-breadcrumb-item>
-      </b-breadcrumb>
-      <!-- 表格 begin -->
       <div class="base-form">
         <div class="form-inline">
-          <div class="base-form-title" style="width:100%;"><a class="base-margin-left-20">部门列表</a>
+          <div class="base-form-title" style="width:100%;"><a class="base-margin-left-20">岗位列表</a>
             <div class="button-table">
             </div>
           </div>
@@ -15,67 +10,54 @@
         <div class="base-padding-20 base-bg-fff">
           <div class="base-align-right" style="margin-bottom:20px;">
             <a class="btn btn-info base-margin-bottom" data-toggle="tooltip" style="font-size:14px !important;padding: 6px 12px !important;" title="" role="button" v-b-modal="'toAdd'">
-              <i class="base-margin-right-5 fa fa-plus-square"></i>添加部门
+              <i class="base-margin-right-5 fa fa-plus-square"></i>添加岗位
             </a>
           </div>
           <table class="table table-bordered table-striped ">
             <tbody>
               <tr>
-                <th>部门名称</th>
-                <th>部门职责</th>
-                <th>部门电话</th>
+                <th>岗位名称</th>
+                <th>岗位补助</th>
                 <th>操作</th>
               </tr>
               <tr v-for="(item,index) in list" :key="index"><!--美化下input 可以看情况使用-->
-                <td>{{item.dept_name}}</td>
-                <td>{{item.dept_duty}}</td>
-                <td>{{item.dept_tell}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.money}}</td>
                 <td>
                   <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update',index)" >修&nbsp;&nbsp;改</b-button>
                   <b-button variant="danger" style="color:white;"  @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
-                  <!-- <a class="btn btn-xs btn-info base-margin-2" data-toggle="tooltip" @click="toUpdate(index)"
-                    title="" role="button">保&nbsp;&nbsp;存</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                  <a class="btn btn-xs btn-info base-margin-2" data-toggle="tooltip" @click="toDelete(index)"
-                    title="" role="button">删&nbsp;&nbsp;除</a> -->
                 </td>
               </tr>
             </tbody>
           </table>
-          <b-modal id="toAdd" title="添加部门" ref="toAdd" hide-footer>
-            <div style="margin-bottom: 7px;">部门名称:</div>
-            <b-form-input v-model="form.dept_name"></b-form-input>
-            <div style="margin-top:7px; margin-bottom:7px;">部门职责:</div>
-            <b-form-input v-model="form.dept_duty"></b-form-input>
-            <div style="margin-top:7px; margin-bottom:7px;">部门电话:</div>
-            <b-form-input v-model="form.dept_tell"></b-form-input>
+          <b-modal id="toAdd" title="添加岗位" ref="toAdd" hide-footer>
+            <div style="margin-bottom: 7px;">岗位名称:</div>
+            <b-form-input v-model="form.name"></b-form-input>
+            <div style="margin-top:7px; margin-bottom:7px;">岗位补助:</div>
+            <b-form-input v-model="form.money"></b-form-input>
             <b-button variant="secondary" style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  @click="form={}" >重&nbsp;&nbsp;置</b-button>
             <b-button  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   variant="primary" @click="toAdd()" >保&nbsp;&nbsp;存</b-button>
           </b-modal>
 
           <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer> 
             <div class="d-block text-center">
-              <b-alert variant="danger" show>删除部门可能会影响您的管理,确认删除吗?</b-alert>
+              <b-alert variant="danger" show>删除岗位可能会有严重影响,确认删除吗?</b-alert>
             </div>
            <b-button variant="danger"   style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   @click="toDelete()">删&nbsp;&nbsp;除</b-button>
            <b-button variant="primary"   style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   @click="$refs.deleteAlert.hide(),deleteItem=''">
              返&nbsp;&nbsp;回</b-button>
           </b-modal>
 
-          <!-- jkjkjkjk -->
           <b-modal id="updateAlert" title="修改信息" ref="updateAlert" hide-footer>
             <div class="d-block">
               <div class="row">
                 <div class="col-lg-12 marginBot4">
-                    <p class="marginBot4">部门名称</p>
-                    <b-form-input v-model="updateForm.dept_name"></b-form-input>
+                    <p class="marginBot4">岗位名称</p>
+                    <b-form-input v-model="updateForm.name"></b-form-input>
                 </div>
                 <div class="col-lg-12 marginBot4">
-                    <p class="marginBot4">部门职责</p>
-                    <b-form-input v-model="updateForm.dept_duty"></b-form-input>
-                </div>
-                <div class="col-lg-12 marginBot">
-                    <p class="marginBot4">部门电话</p>
-                    <b-form-input v-model="updateForm.dept_tell"></b-form-input>
+                    <p class="marginBot4">岗位补助</p>
+                    <b-form-input v-model="updateForm.money"></b-form-input>
                 </div>
                 <div class="col-lg-12 marginBot4">
                   <b-button variant="secondary" @click="closeAlert('update')" class="resetButton" style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >
@@ -86,7 +68,6 @@
               </div>
             </div>
           </b-modal>
-          <!-- klklklkl -->
           
         </div>
       </div>
@@ -100,30 +81,27 @@ export default {
   components: {},
   data() {
     return {
-      list: [{dept_name:'aaa',unit_id:'666',dept_tell:'77',dept_duty:'666'},
-             {dept_name:'aaa',unit_id:'666',dept_tell:'77',dept_duty:'666'}],
+      list: [{name:'aaa',money:'666'}],
       form: {},
       deleteItem: '',
       updateForm: {
-        gender: -1,
-        dept_id: 'default',
+        id: 'default',
       },
     };
   },
   computed: {},
   created() {
-    // this.search();
+    this.search();
   },
   methods: {
-    //整体逻辑:已有数据的修改直接=>提交=>请求=>刷新视图;添加数据则弹出框添加
-    //查询
     async search() {
       //查询方法
-      let result = await this.$axios.get('dept/dept_list');
-      this.$set(this, 'list', result.data.deptList);
+    //   let result = await this.$axios.get('');
+    //   this.$set(this, 'list', result.data.postList);
     },
     async toUpdate() {
-      let result = await this.$axios.post('dept/dept_edit', { data: this.updateForm });
+      //修改方法
+      let result = await this.$axios.post('', { data: this.updateForm });
       this.closeAlert('update');
       this.updateForm = {};
       this.search();
@@ -135,14 +113,14 @@ export default {
     },
     //删除
     async toDelete() {
-      let result = await this.$axios.post('dept/dept_delete', { data: { id: this.deleteItem } });
+      let result = await this.$axios.post('', { data: { id: this.deleteItem } });
       this.search();
       this.deleteItem = '';
       this.$refs.deleteAlert.hide();
     },
     //添加
     async toAdd() {
-      let result = await this.$axios.post('dept/dept_save', { data: this.form });
+      let result = await this.$axios.post('', { data: this.form });
       this.form = {};
       this.search();
       this.$refs.toAdd.hide();
@@ -169,7 +147,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .marginBot4 {
   margin-bottom: 4px;
 }
@@ -267,7 +245,7 @@ button {
   font: 400 13.3333px Arial;
 }
 .btn-info {
-  color: #fff;
+  color: #fff !important;
   background-color: #5bc0de;
   border-color: #46b8da;
 }
