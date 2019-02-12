@@ -17,12 +17,12 @@ const router = new Router({
     },
     {
       path: '/akyl_set',
-      name: 'akyl_set',
+      name: 'set',
       component: akyl_set,
     },
     {
       path: '/akyl_work',
-      name: 'akyl_work',
+      name: 'work',
       component: akyl_work,
     },
   ],
