@@ -1,0 +1,90 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* 整体布局div */
+.base-wrapper {
+	margin: 0;
+	padding: 0;
+	}
+	
+/* 头部div */
+.base-header {
+	min-width: 1024px;
+	height: 60px;
+	-moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;   
+	}	
+.base-header-left {
+	float: left;
+	width: 240px;
+	
+	background-color: #1c2b36;
+	border-bottom: 1px #161e25 solid;
+	
+	color: #a6a6a6;
+	cursor: pointer;
+	}
+	
+/* base-main div */	
+.base-main {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	}
+	
+/* main-left div */		
+.base-main-left {
+	float: left;
+	height: 100%;
+	width: 240px;
+	background-color: #1c2b36;
+	-moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+	}
+/* main-right div */	
+.base-main-right {
+	float: left;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	background-color:#ecedf0;
+	overflow-y: auto !important;
+	}
+
+/* 表单 div */	
+.base-form {
+	margin: 20px;
+	}
+.base-footer {
+	font-size: 12px;
+	padding: 30px 0;
+    color: #46687f;
+	background-color: #1c2b36;
+    width: 240px;
+	height: 100px;
+	line-height: 16px;
+	text-align: center;
+	position: fixed;
+	bottom: 0;
+	letter-spacing: 1px;
+	z-index: 999;
+	}
+
+.box-circle {
+	margin-left:20px;
+	width: 86px;
+    height: 86px;
+	font-size:10px;
+    line-height: 84px;
+    border-radius: 50%;
+	background-color:#FFF;
+    border: 1px solid #CCC;
+    text-align: center;
+    color: #333;
+	}
+
+
+
