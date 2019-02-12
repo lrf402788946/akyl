@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Index from './views/example/example.vue';
+import akyl_set from './views/akyl_set/akyl_set.vue';
+import akyl_work from './views/akyl_work/akyl_work.vue';
 
 Vue.use(Router);
 
@@ -12,6 +14,16 @@ const router = new Router({
       path: '/',
       name: 'Index',
       component: Index,
+    },
+    {
+      path: '/akyl_set',
+      name: 'akyl_set',
+      component: akyl_set,
+    },
+    {
+      path: '/akyl_work',
+      name: 'akyl_work',
+      component: akyl_work,
     },
   ],
 });
