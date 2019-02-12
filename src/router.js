@@ -1,6 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Index from './views/example/example.vue';
+import user from './views/user/user.vue';
+import role from './views/role/role.vue';
+import user_role from './views/user_role/user_role.vue';
 
 Vue.use(Router);
 
@@ -12,6 +15,21 @@ const router = new Router({
       path: '/',
       name: 'Index',
       component: Index,
+    },
+    {
+      path: '/user',
+      name: 'user',
+      component: user,
+    },
+    {
+      path: '/role',
+      name: 'role',
+      component: role,
+    },
+    {
+      path: '/user_role',
+      name: 'user_role',
+      component: user_role,
     },
   ],
 });
