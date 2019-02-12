@@ -6,8 +6,8 @@ import role from './views/role/role.vue';
 import user_role from './views/user_role/user_role.vue';
 import post from './views/post/post.vue';
 import dept from './views/dept/dept.vue';
-import akyl_set from './views/akyl_set/akyl_set.vue';
-import akyl_work from './views/akyl_work/akyl_work.vue';
+import akyl_set from './views/set/set.vue';
+import akyl_work from './views/work/work.vue';
 
 Vue.use(Router);
 const router = new Router({
