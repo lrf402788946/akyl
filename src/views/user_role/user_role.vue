@@ -41,6 +41,7 @@
 
         </div>
       </div>
+      <b-pagination size="md" :total-rows="toatalPage" v-model="currentPage" :per-page="limit" :next-page="search()"></b-pagination>
   </div> 
 </template>
 
@@ -82,6 +83,9 @@ export default {
         },
       ],
       operateId: '',
+      toatalPage: 0,
+      currentPage: 1,
+      limit: 10,
     };
   },
   computed: {},
@@ -93,14 +97,19 @@ export default {
       //查询方法
       let result = await this.$axios.get('role/role_list');
       let result2 = await this.$axios.get('user/user_list');
-      this.userList = result2.data.userList;
-      let newList = result.data.roleList.map(item => {
-        let newObject = { text: item.role_name, value: item.id };
-        return newObject;
-      });
-      this.$set(this, 'roleList', newList);
-      this.$set(this, 'userList', result2.data.userList);
-      this.$set(this, 'origin', result2.data.userList);
+      let newList;
+      if (result2.data.msg === '成功') {
+        this.userList = result2.data.userList;
+        newList = result.data.roleList.map(item => {
+          let newObject = { text: item.role_name, value: item.id };
+          return newObject;
+        });
+      }
+      if (result.data.msg === '成功') {
+        this.$set(this, 'roleList', newList);
+        this.$set(this, 'userList', result2.data.userList);
+        this.$set(this, 'origin', result2.data.userList);
+      }
     },
     //打开修改框
     async openUpdateAlert(id) {
