@@ -105,7 +105,9 @@ export default {
   data() {
     return {
       list: [],
-      form: {},
+      form: {
+        create_date:new Date(),
+      },
       deleteItem: '',
       updateForm: {
         gender: -1,
