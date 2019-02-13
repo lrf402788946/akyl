@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Index from './views/example/example.vue';
+import lz from './views/lz/lz.vue';
+import zx from './views/zx/zx.vue';
 
 Vue.use(Router);
 
@@ -12,6 +14,16 @@ const router = new Router({
       path: '/',
       name: 'Index',
       component: Index,
+    },
+    {
+      path: '/lz',
+      name: 'lz',
+      component: lz,
+    },
+    {
+      path: '/zx',
+      name: 'zx',
+      component: zx,
     },
   ],
 });
