@@ -10,9 +10,6 @@
             <ul class="submenu">
               <div class="expand-triangle"></div>
               <router-link :to="{name:'Index'}"><li><span>干部信息</span></li></router-link>
-              <router-link :to="{name:'lz'}"><li><span>裸针库表</span></li></router-link>
-              <router-link :to="{name:'zx'}"><li><span>针芯库表</span></li></router-link>
-
             </ul>
             <!-- <li>
               <span><i class="fa-stack fa fa-area-chart"></i>预警与统计分析</span>
@@ -35,6 +32,8 @@
               <router-link :to="{name:'post'}"><li><span> 岗位表</span></li></router-link>
               <router-link :to="{name:'work'}"><li><span> 工序管理</span></li></router-link>
               <router-link :to="{name:'set'}"><li><span>基础设置管理</span></li></router-link>
+              <router-link :to="{name:'lz'}"><li><span>裸针库表</span></li></router-link>
+              <router-link :to="{name:'zx'}"><li><span>针芯库表</span></li></router-link>
             </ul>
 
           </ul>
