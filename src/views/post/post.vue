@@ -81,12 +81,14 @@ export default {
   components: {},
   data() {
     return {
-      list: [{name:'aaa',money:'666'}],
+      list: [],
       form: {},
       deleteItem: '',
       updateForm: {
         id: 'default',
       },
+      skip: 0,
+      limit: 10, //每页信息数量
     };
   },
   computed: {},
@@ -96,12 +98,12 @@ export default {
   methods: {
     async search() {
       //查询方法
-    //   let result = await this.$axios.get('');
-    //   this.$set(this, 'list', result.data.postList);
+      let result = await this.$axios.get(`/akyl/post/post_list?skip=${this.skip}&limit=${this.limit}`);
+      this.$set(this, 'list', result.data.postList);
     },
     async toUpdate() {
       //修改方法
-      let result = await this.$axios.post('', { data: this.updateForm });
+      let result = await this.$axios.post(`/akyl/post/post_edit`, { data: this.updateForm });
       this.closeAlert('update');
       this.updateForm = {};
       this.search();
@@ -113,14 +115,14 @@ export default {
     },
     //删除
     async toDelete() {
-      let result = await this.$axios.post('', { data: { id: this.deleteItem } });
+      let result = await this.$axios.post(`/akyl/post/post_delete`, { data: { id: this.deleteItem } });
       this.search();
       this.deleteItem = '';
       this.$refs.deleteAlert.hide();
     },
     //添加
     async toAdd() {
-      let result = await this.$axios.post('', { data: this.form });
+      let result = await this.$axios.post(`/akyl/post/post_save`, { data: this.form });
       this.form = {};
       this.search();
       this.$refs.toAdd.hide();
