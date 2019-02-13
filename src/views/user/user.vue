@@ -45,19 +45,16 @@
             </tr>
           </tbody>
         </table>
+        <el-pagination
+          layout="total, prev, pager, next"
+          :background="true"
+          :page-size="10"
+          prev-text="上一页"
+          next-text="下一页"
+          @current-change="toSearch"
+          :total="totalRow">
+        </el-pagination>  
       </div>
-
-      <!-- <b-pagination size="md" :total-rows="toatalRow" v-model="currentPage" :per-page="limit" 
-      first-text="首页" prev-text="上一页" next-text="下一页" last-text="尾页" align="center" :change="toSearch()"></b-pagination> -->
-      <el-pagination
-        layout="total, prev, pager, next"
-        :background="true"
-        :page-size="10"
-        prev-text="上一页"
-        next-text="下一页"
-        @current-change="toSearch"
-        :total="totalRow">
-      </el-pagination>
     </div>
       <!--添加弹框-->
         <b-modal id="addAlert" title="添加用户" ref="addAlert" hide-footer> 
@@ -248,7 +245,6 @@ export default {
     //添加
     async toAdd() {
       let result = await this.$axios.post('/akyl/user/user_save', { data: this.addForm });
-      this.currentPage = 1;
       this.$refs.addAlert.hide();
       this.addForm = {};
       this.search();

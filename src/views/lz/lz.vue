@@ -108,7 +108,7 @@ export default {
   },
   computed: {},
   created() {
-     this.search();
+    this.search();
   },
   methods: {
     //整体逻辑:已有数据的修改直接=>提交=>请求=>刷新视图;添加数据则弹出框添加
@@ -117,8 +117,6 @@ export default {
       //查询方法
       let result = await this.$axios.get('http://10.16.11.186:80/lz/lz_list?skip=0&limit=10');
       this.$set(this, 'list', result.data.lzList);
-      
-      
     },
     async toUpdate() {
       let result = await this.$axios.post('/akyl/lz/lz_edit', { data: this.updateForm });

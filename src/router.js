@@ -8,6 +8,7 @@ import role from './views/role/role.vue';
 import user_role from './views/user_role/user_role.vue';
 import post from './views/post/post.vue';
 import dept from './views/dept/dept.vue';
+import kind from './views/kind/kind.vue';
 import akyl_set from './views/set/set.vue';
 import akyl_work from './views/work/work.vue';
 
@@ -55,6 +56,11 @@ const router = new Router({
       path: '/dept',
       name: 'dept',
       component: dept,
+    },
+    {
+      path: '/kind',
+      name: 'kind',
+      component: kind,
     },
     {
       path: '/akyl_set',
