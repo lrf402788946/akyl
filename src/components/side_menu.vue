@@ -4,35 +4,33 @@
         <div class="base-sidebar-menu">
           <span class="title">操作面板</span>
           <ul class="mainmenu">
-            <li>
-              <span><i class="fa-stack fa fa-user"></i>档案管理</span>
-            </li>
-            <ul class="submenu">
-              <div class="expand-triangle"></div>
-              <router-link :to="{name:'Index'}"><li><span>干部信息</span></li></router-link>
-
-            </ul>
             <!-- <li>
-              <span><i class="fa-stack fa fa-area-chart"></i>预警与统计分析</span>
+              <span><i class="fa-stack fa fa-user"></i>针管理</span>
             </li>
             <ul class="submenu">
               <div class="expand-triangle"></div>
-              <router-link :to="{name:'Details'}"><li><span>监测预警</span></li></router-link>
-              <li><span>统计分析</span></li>
-
+              <router-link :to="{name:'lz'}"><li><span>裸针库表</span></li></router-link>
+              <router-link :to="{name:'zx'}"><li><span>针芯库表</span></li></router-link>
             </ul> -->
             <li>
               <span><i class="fa-stack fa fa-cogs"></i>系统管理</span>
             </li>
             <ul class="submenu">
               <div class="expand-triangle"></div>
+              <router-link :to="{name:'user'}"><li><span> 用户管理</span></li></router-link>
+              <router-link :to="{name:'role'}"><li><span> 角色管理</span></li></router-link>
+              <router-link :to="{name:'user_role'}"><li><span> 权限分配</span></li></router-link>
+              <router-link :to="{name:'dept'}"><li><span> 部门表</span></li></router-link>
+              <router-link :to="{name:'post'}"><li><span> 岗位表</span></li></router-link>
               <router-link :to="{name:'work'}"><li><span> 工序管理</span></li></router-link>
               <router-link :to="{name:'set'}"><li><span>基础设置管理</span></li></router-link>
+              <router-link :to="{name:'lz'}"><li><span>裸针库表</span></li></router-link>
+              <router-link :to="{name:'zx'}"><li><span>针芯库表</span></li></router-link>
             </ul>
 
           </ul>
         </div>
-        <div class="base-footer"> 干部廉政档案系统 <br /> Co pyright © 2019-2020 <br /> 当前版本：1.0 </div>
+        <div class="base-footer"> akyl管理系统 <br /> Co pyright © 2019-2020 <br /> 当前版本：1.0 </div>
       </div>
   </div>
 </template>
