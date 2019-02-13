@@ -25,8 +25,8 @@
               <router-link :to="{name:'post'}"><li><span> 岗位管理</span></li></router-link>
               <router-link :to="{name:'work'}"><li><span> 工序管理</span></li></router-link>
               <router-link :to="{name:'set'}"><li><span>基础设置管理</span></li></router-link>
-              <router-link :to="{name:'lz'}"><li><span>裸针库</span></li></router-link>
-              <router-link :to="{name:'zx'}"><li><span>针芯库</span></li></router-link>
+              <router-link :to="{name:'lz'}"><li><span>裸针管理</span></li></router-link>
+              <router-link :to="{name:'zx'}"><li><span>针芯管理</span></li></router-link>
               <router-link :to="{name:'kind'}"><li><span>类型管理</span></li></router-link>
             </ul>
 

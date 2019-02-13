@@ -87,7 +87,7 @@
                     <b-form-input v-model="updateForm.num"></b-form-input>
                 </div>
                 <div class="col-lg-12 marginBot">
-                    <p class="marginBot4">创建日期</p>
+            <p class="marginBot4">创建日期</p>
                     <el-date-picker  style="width:100%;" v-model="updateForm.create_date" type="date" placeholder="选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
                 </div>
           <div class="col-lg-12 marginBot4">
@@ -104,7 +104,8 @@
               style="font-size:16px !important;
               margin-top:35px; 
               float:right; 
-              padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;">保&nbsp;&nbsp;存</b-button
+              padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+              >保&nbsp;&nbsp;存</b-button
             >
           </div>
         </div>
