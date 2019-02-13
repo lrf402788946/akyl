@@ -82,41 +82,49 @@ export default {
         },
       ],
       operateId: '',
+      toatalPage: 0,
+      currentPage: 1,
+      limit: 10,
     };
   },
   computed: {},
   created() {
-    // this.search();
+    this.search();
   },
   methods: {
     async search() {
       //查询方法
-      let result = await this.$axios.get('role/role_list');
-      let result2 = await this.$axios.get('user/user_list');
-      this.userList = result2.data.userList;
-      let newList = result.data.roleList.map(item => {
-        let newObject = { text: item.role_name, value: item.id };
-        return newObject;
-      });
-      this.$set(this, 'roleList', newList);
-      this.$set(this, 'userList', result2.data.userList);
-      this.$set(this, 'origin', result2.data.userList);
+      let result = await this.$axios.get('/akyl/role/role_list?skip=0&limit=100');
+      let result2 = await this.$axios.get('/akyl/user/user_list?skip=0&limit=10');
+      let newList;
+      if (result2.data.msg === '成功') {
+        this.userList = result2.data.userList;
+        newList = result.data.roleList.map(item => {
+          let newObject = { text: item.role_name, value: item.id };
+          return newObject;
+        });
+      }
+      if (result.data.msg === '成功') {
+        this.$set(this, 'roleList', newList);
+        this.$set(this, 'userList', result2.data.userList);
+        this.$set(this, 'origin', result2.data.userList);
+      }
     },
     //打开修改框
     async openUpdateAlert(id) {
       this.$refs.updateAlert.show();
       this.operateId = id;
-      // let result = await this.$axios.get(`user/user_role_sel?id=${id}`);
-      // let newList = [];
-      // for (const item of result.data.userRoleList) {
-      //   newList.push(item.role_id);
-      // }
-      // this.$set(this.form, 'role_id', newList);
+      let result = await this.$axios.get(`/akyl/user/user_role_sel?id=${id}`);
+      let newList = [];
+      for (const item of result.data.userRoleList) {
+        newList.push(item.role_id);
+      }
+      this.$set(this.form, 'role_id', newList);
     },
     //修改
     async toSave() {
       this.form['id'] = this.operateId;
-      let result = await this.$axios.post('user/user_role', { data: this.form });
+      let result = await this.$axios.post('/akyl/user/user_role', { data: this.form });
       this.form = {};
       this.search();
       this.$refs.updateAlert.hide();

@@ -46,6 +46,18 @@
           </tbody>
         </table>
       </div>
+
+      <!-- <b-pagination size="md" :total-rows="toatalRow" v-model="currentPage" :per-page="limit" 
+      first-text="首页" prev-text="上一页" next-text="下一页" last-text="尾页" align="center" :change="toSearch()"></b-pagination> -->
+      <el-pagination
+        layout="total, prev, pager, next"
+        :background="true"
+        :page-size="10"
+        prev-text="上一页"
+        next-text="下一页"
+        @current-change="toSearch"
+        :total="totalRow">
+      </el-pagination>
     </div>
       <!--添加弹框-->
         <b-modal id="addAlert" title="添加用户" ref="addAlert" hide-footer> 
@@ -192,74 +204,8 @@ export default {
   components: {},
   data() {
     return {
-      origin: [
-        {
-          login_id: 'test',
-          user_name: 'test_user_name',
-          gender: 0,
-          office_tell: '13012345678',
-          phone_no: '0431-98273821',
-          home_address: '长春市大马路',
-          emaill: 'test@qq.com',
-          birthday: '1989-01-02',
-          id_number: '220193888176253461',
-          card_no: '1111111111111026',
-          remark: '备注没什么说的',
-          dept_id: '1',
-          level: '啥都不干',
-          post_id: '岗位表',
-        },
-        {
-          login_id: 'test2',
-          user_name: 'test_user_name2',
-          gender: 1,
-          office_tell: '13012345678',
-          phone_no: '0431-98273821',
-          home_address: '长春市大马路',
-          emaill: 'test@qq.com',
-          birthday: '1989-01-02',
-          id_number: '220193888176253461',
-          card_no: '1111111111111026',
-          remark: '备注没什么说的',
-          dept_id: '1',
-          level: '啥都不干',
-          post_id: '岗位表',
-        },
-      ],
-      list: [
-        {
-          login_id: 'test',
-          user_name: 'test_user_name',
-          gender: 0,
-          office_tell: '13012345678',
-          phone_no: '0431-98273821',
-          home_address: '长春市大马路',
-          emaill: 'test@qq.com',
-          birthday: '1989-01-02',
-          id_number: '220193888176253461',
-          card_no: '1111111111111026',
-          remark: '备注没什么说的',
-          dept_id: '1',
-          level: '啥都不干',
-          post_id: '岗位表',
-        },
-        {
-          login_id: 'test2',
-          user_name: 'test_user_name2',
-          gender: 1,
-          office_tell: '13012345678',
-          phone_no: '0431-98273821',
-          home_address: '长春市大马路',
-          emaill: 'test@qq.com',
-          birthday: '1989-01-02',
-          id_number: '220193888176253461',
-          card_no: '1111111111111026',
-          remark: '备注没什么说的',
-          dept_id: '1',
-          level: '啥都不干',
-          post_id: '岗位表',
-        },
-      ],
+      origin: [],
+      list: [],
       is_update: true,
       addForm: {
         gender: -1,
@@ -273,25 +219,35 @@ export default {
       gender: [{ text: '性别', value: -1, disabled: true }, { text: '男', value: 1 }, { text: '女', value: 0 }],
       currentPage: 1,
       limit: 10,
+      totalRow: 100,
       deptList: [{ text: '请选择部门', value: 'default', disabled: true }],
     };
   },
   created() {
-    // this.search();
+    this.search();
     // this.getDeptList();
   },
   computed: {},
   methods: {
+    //分页
+    toSearch(currentPage) {
+      this.currentPage = currentPage;
+      this.search();
+    },
     //查询
     async search() {
       let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(`user/user_list?skip=${skip}&limit=${this.limit}`);
-      this.$set(this, 'list', result.data.userList);
-      this.$set(this, 'origin', result.data.userList);
+      let result = await this.$axios.get(`/akyl/user/user_list?skip=${skip}&limit=${this.limit}`);
+      console.log(result.data.userList);
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.userList);
+        this.$set(this, 'origin', result.data.userList);
+        this.$set(this, 'totalRow', result.data.totalRow);
+      }
     },
     //添加
     async toAdd() {
-      let result = await this.$axios.post('user/user_save', { data: this.addForm });
+      let result = await this.$axios.post('/akyl/user/user_save', { data: this.addForm });
       this.currentPage = 1;
       this.$refs.addAlert.hide();
       this.addForm = {};
@@ -299,7 +255,7 @@ export default {
     },
     //修改
     async toUpdate() {
-      let result = await this.$axios.post('user/user_edit', { data: this.updateForm });
+      let result = await this.$axios.post('/akyl/user/user_edit', { data: this.updateForm });
       this.closeAlert('update');
       this.updateForm = {};
       this.is_update = true;
@@ -307,13 +263,13 @@ export default {
     },
     //删除
     async toDelete() {
-      let result = await this.$axios.post('user/user_delete', { data: { id: this.operateId } });
+      let result = await this.$axios.post('/akyl/user/user_delete', { data: { id: this.operateId } });
       this.closeAlert('delete');
       this.search();
     },
     //请求部门表
     async getDeptList() {
-      let result = await this.$axios.get('dept/dept_list');
+      let result = await this.$axios.get('/akyl/dept/dept_list');
       this.deptList = result.data.deptList.map(item => {
         let newObject = { text: item.dept_name, value: item.id };
         return newObject;
