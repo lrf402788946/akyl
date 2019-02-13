@@ -41,6 +41,18 @@
               </tr>
             </tbody>
           </table>
+        </div>
+        <el-pagination
+        layout="total, prev, pager, next"
+        :background="true"
+        :page-size="15"
+        prev-text="上一页"
+        next-text="下一页"
+        @current-change="toSearch"
+        :total="totalRow">
+        </el-pagination>
+      </div>
+
           <b-modal id="toAdd" title="添加针芯" ref="toAdd" hide-footer>
             <div style="margin-bottom: 7px;">型号:</div>
             <b-form-input v-model="form.type"></b-form-input>
@@ -88,9 +100,7 @@
             </div>
           </b-modal>
           <!-- klklklkl -->
-          
-        </div>
-      </div>
+
   </div> 
 </template>
 
@@ -108,6 +118,9 @@ export default {
         gender: -1,
         dept_id: 'default',
       },
+      currentPage: 1,
+      limit: 10,
+      totalRow: 100,
     };
   },
   computed: {},
@@ -116,11 +129,19 @@ export default {
   },
   methods: {
     //整体逻辑:已有数据的修改直接=>提交=>请求=>刷新视图;添加数据则弹出框添加
+    //分页
+    toSearch(currentPage) {
+      this.currentPage = currentPage;
+      this.search();
+    },
     //查询
     async search() {
       //查询方法
-      let result = await this.$axios.get('http://10.16.11.186:80/zx/zx_list?skip=0&limit=10');
+      let skip = (this.currentPage - 1) * this.limit;
+      let result = await this.$axios.get(`/akyl/zx/zx_list?skip=${skip}&limit=${this.limit}`);
       this.$set(this, 'list', result.data.zxList);
+      this.$set(this, 'origin', result.data.zxList);
+      this.$set(this, 'totalRow', result.data.totalRow);
     },
     async toUpdate() {
       let result = await this.$axios.post('/akyl/zx/zx_edit', { data: this.updateForm });
