@@ -17,14 +17,12 @@
             <tbody>
               <tr>
                 <th>部门名称</th>
-                <th>所属单位id</th>
                 <th>部门职责</th>
                 <th>部门电话</th>
                 <th>操作</th>
               </tr>
               <tr v-for="(item,index) in list" :key="index"><!--美化下input 可以看情况使用-->
                 <td>{{item.dept_name}}</td>
-                <td>{{item.unit_id}}</td>
                 <td>{{item.dept_duty}}</td>
                 <td>{{item.dept_tell}}</td>
                 <td>
@@ -37,8 +35,6 @@
           <b-modal id="toAdd" title="添加部门" ref="toAdd" hide-footer>
             <div style="margin-bottom: 7px;">部门名称:</div>
             <b-form-input v-model="form.dept_name"></b-form-input>
-            <div style="margin-top:7px; margin-bottom:7px;">所属单位id:</div>
-            <b-form-input v-model="form.unit_id"></b-form-input>
             <div style="margin-top:14px; margin-bottom:7px;">部门职责:</div>
             <b-form-input v-model="form.dept_duty"></b-form-input>
             <div style="margin-top:21px; margin-bottom:7px;">部门电话:</div>
@@ -62,10 +58,6 @@
                 <div class="col-lg-12 marginBot4">
                     <p class="marginBot4">部门名称</p>
                     <b-form-input v-model="updateForm.dept_name"></b-form-input>
-                </div>
-                <div class="col-lg-12 marginBot4">
-                    <p class="marginBot4">所属单位id</p>
-                    <b-form-input v-model="updateForm.unit_id"></b-form-input>
                 </div>
                 <div class="col-lg-12 marginBot4">
                     <p class="marginBot4">部门职责</p>
@@ -97,13 +89,14 @@ export default {
   components: {},
   data() {
     return {
-      list: [{dept_name:'aaa',unit_id:'666',dept_tell:'77',dept_duty:'666'},
-            {dept_name:'aaa',unit_id:'666',dept_tell:'77',dept_duty:'666'}],
+      list: [],
       form: {},
       deleteItem: '',
       updateForm: {
         id: 'default',
       },
+      skip: 0,
+      limit: 10, //每页信息数量
     };
   },
   computed: {},
@@ -113,12 +106,12 @@ export default {
   methods: {
     async search() {
       //查询方法
-    //   let result = await this.$axios.get('');
-    //   this.$set(this, 'list', result.data.postList);
+      let result = await this.$axios.get(`/akyl/dept/dept_list?skip=${this.skip}&limit=${this.limit}`);
+      this.$set(this, 'list', result.data.deptList);
     },
     async toUpdate() {
       //修改方法
-      let result = await this.$axios.post('', { data: this.updateForm });
+      let result = await this.$axios.post(`/akyl/dept/dept_edit`, { data: this.updateForm });
       this.closeAlert('update');
       this.updateForm = {};
       this.search();
@@ -130,14 +123,14 @@ export default {
     },
     //删除
     async toDelete() {
-      let result = await this.$axios.post('', { data: { id: this.deleteItem } });
+      let result = await this.$axios.post(`/akyl/dept/dept_delete`, { data: { id: this.deleteItem } });
       this.search();
       this.deleteItem = '';
       this.$refs.deleteAlert.hide();
     },
     //添加
     async toAdd() {
-      let result = await this.$axios.post('', { data: this.form });
+      let result = await this.$axios.post(`/akyl/dept/dept_save`, { data: this.form });
       this.form = {};
       this.search();
       this.$refs.toAdd.hide();
@@ -145,7 +138,7 @@ export default {
     openAlert(type, id) {
       if (type === 'update') {
         this.$refs.updateAlert.show();
-        this.updateForm = this.list[id];
+        this.updateForm = JSON.parse(JSON.stringify(this.list[id]));
       } else if (type === 'delete') {
         this.$refs.deleteAlert.show();
         this.operateId = id;

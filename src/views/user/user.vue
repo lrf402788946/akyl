@@ -56,7 +56,7 @@
         prev-text="上一页"
         next-text="下一页"
         @current-change="toSearch"
-        :total="toatalRow">
+        :total="totalRow">
       </el-pagination>
     </div>
       <!--添加弹框-->
@@ -219,7 +219,7 @@ export default {
       gender: [{ text: '性别', value: -1, disabled: true }, { text: '男', value: 1 }, { text: '女', value: 0 }],
       currentPage: 1,
       limit: 10,
-      toatalRow: 100,
+      totalRow: 100,
       deptList: [{ text: '请选择部门', value: 'default', disabled: true }],
     };
   },
@@ -242,7 +242,7 @@ export default {
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.userList);
         this.$set(this, 'origin', result.data.userList);
-        this.$set(this, 'toatalRow', result.data.totalRow);
+        this.$set(this, 'totalRow', result.data.totalRow);
       }
     },
     //添加
