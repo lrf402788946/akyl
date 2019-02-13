@@ -30,6 +30,17 @@
               </tr>
             </tbody>
           </table>
+
+          <el-pagination
+            layout="total, prev, pager, next"
+            :background="true"
+            :page-size="10"
+            prev-text="上一页"
+            next-text="下一页"
+            @current-change="toSearch"
+            :total="totalRow">
+          </el-pagination>
+
           <b-modal id="toAdd" title="添加岗位" ref="toAdd" hide-footer>
             <div style="margin-bottom: 7px;">岗位名称:</div>
             <b-form-input v-model="form.name"></b-form-input>
@@ -87,8 +98,9 @@ export default {
       updateForm: {
         id: 'default',
       },
-      skip: 0,
-      limit: 10, //每页信息数量
+      currentPage: 1,
+      limit: 10,
+      totalRow: 0,
     };
   },
   computed: {},
@@ -96,10 +108,16 @@ export default {
     this.search();
   },
   methods: {
+    toSearch(currentPage) {
+      this.currentPage = currentPage;
+      this.search();
+    },
     async search() {
       //查询方法
-      let result = await this.$axios.get(`/akyl/post/post_list?skip=${this.skip}&limit=${this.limit}`);
+      let skip = (this.currentPage - 1) * this.limit;
+      let result = await this.$axios.get(`/akyl/post/post_list?skip=${skip}&limit=${this.limit}`);
       this.$set(this, 'list', result.data.postList);
+      this.$set(this, 'totalRow', result.data.totalRow);
     },
     async toUpdate() {
       //修改方法
