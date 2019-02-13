@@ -4,16 +4,14 @@
         <div class="base-sidebar-menu">
           <span class="title">操作面板</span>
           <ul class="mainmenu">
-            <li>
-              <span><i class="fa-stack fa fa-user"></i>档案管理</span>
+            <!-- <li>
+              <span><i class="fa-stack fa fa-user"></i>针管理</span>
             </li>
             <ul class="submenu">
               <div class="expand-triangle"></div>
-              <router-link :to="{name:'Index'}"><li><span>针管理</span></li></router-link>
               <router-link :to="{name:'lz'}"><li><span>裸针库表</span></li></router-link>
               <router-link :to="{name:'zx'}"><li><span>针芯库表</span></li></router-link>
-
-            </ul>
+            </ul> -->
             <li>
               <span><i class="fa-stack fa fa-cogs"></i>系统管理</span>
             </li>
