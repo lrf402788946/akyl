@@ -13,8 +13,10 @@
           </div>
         </div>
         <div class="base-padding-20 base-bg-fff">
+          <form id="updateForm" name="updateForm">
           <table class="table table-bordered table-striped ">
             <tbody>
+            
               <tr>
                 <th>计时定额</th>
                 <th>计件定额</th>
@@ -23,12 +25,12 @@
                 <th>加班补助定额</th>
                 </tr>
                 <tr>
-                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
-                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
-                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
-                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
-                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
-                </tr>
+                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.js_price"/></td>
+                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.jj_price"/></td>
+                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.jb_js_price"/></td>
+                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.jb_jj_price"/></td>
+                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.jb_price"/></td>
+                </tr> 
                 <tr>
                 <th>满勤奖</th>
                 <th>通勤补助</th>
@@ -37,11 +39,11 @@
                 <th>三月保险每天补贴</th>
                 </tr>
                 <tr>
-                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
-                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
-                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
-                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
-                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
+                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.mq_price"/></td>
+                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.tq_price"/></td>
+                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.yb_price"/></td>
+                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.gz_sc"/></td>
+                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.bx_price_sy"/></td>
                 </tr>
                 <tr>
                 <th>一年保险每天补贴</th>
@@ -50,9 +52,9 @@
                 <th>操作</th>
                 </tr>
                 <tr>
-                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
-                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
-                <td><input type="text" v-bind:disabled="isReadOnly" value="111"/></td>
+                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.bx_price_yn"/></td>
+                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.bx_price_ln"/></td>
+                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.gl_price"/></td>
                 <td>
                   <div v-if="isReadOnly">
                   <b-button  @click="change()" >修&nbsp;&nbsp;改</b-button>
@@ -62,30 +64,10 @@
                   <b-button  @click="fanhui()" >返&nbsp;&nbsp;回</b-button>
                   </div>
                 </td>
-                
-              </tr>
-              <!--<tr v-for="(item,index) in list" :key="index">-->
-                <!-- 进行展示的真实数据
-                <td>{{item.js_price}}</td>
-                <td>{{item.jj_price}}</td>
-                <td>{{item.jb_js_price}}</td>
-                <td>{{item.jb_jj_price}}</td>
-                <td>{{item.jb_price}}</td>
-                <td>{{item.mq_price}}</td>
-                <td>{{item.tq_price}}</td>
-                <td>{{item.yb_price}}</td>
-                <td>{{item.gz_sc}}</td>
-                <td>{{item.bx_price_sy}}</td>
-                <td>{{item.bx_price_yn}}</td>
-                <td>{{item.bx_price_ln}}</td>
-                <td>{{item.gl_price}}</td> 
-                <td>
-                  <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update',index)" >修&nbsp;&nbsp;改</b-button>
-                </td>
-                -->
-                
+              </tr>                
             </tbody>
-          </table>          
+          </table>    
+          </form>      
         </div>
       </div>
   </div> 
@@ -102,16 +84,17 @@ export default {
       list: [],
       form: {},
       deleteItem: '',
+
       isReadOnly:true,
       updateForm: {
         gender: -1,
-        dept_id: 'default',
+
       },
     };
   },
   computed: {},
   created() {
-    // this.search();
+     this.search();
   },
 
   methods: {
@@ -119,74 +102,28 @@ export default {
     //查询
     async search() {
       //查询方法
-      let result = await this.$axios.get('dept/dept_list');
-      this.$set(this, 'list', result.data.deptList);
+      let result = await this.$axios.get('/akyl/set/set_detail');
+      this.$set(this, 'list', result.data.setInfo);
     },
     async toUpdate() {
-      let result = await this.$axios.post('dept/dept_edit', { data: this.updateForm });
+      let result = await this.$axios.post('/akyl/set/set_edit', { data: this.list });
       this.closeAlert('update');
-      this.updateForm = {};
+      this.updateForm = this.list;
       this.search();
     },
-    //打开删除提示框
-    openDeleteAlert(id) {
-      this.$refs.deleteAlert.show();
-      this.deleteItem = id;
-    },
-    //删除
-    async toDelete() {
-      let result = await this.$axios.post('dept/dept_delete', { data: { id: this.deleteItem } });
-      this.search();
-      this.deleteItem = '';
-      this.$refs.deleteAlert.hide();
-    },
-    //添加
-    async toAdd() {
-      let result = await this.$axios.post('dept/dept_save', { data: this.form });
-      this.form = {};
-      this.search();
-      this.$refs.toAdd.hide();
-    },
-    openAlert(type, id) {
-      if (type === 'update') {
-        this.$refs.updateAlert.show();
-        this.updateForm = this.list[id];
-      } else if (type === 'delete') {
-        this.$refs.deleteAlert.show();
-        this.operateId = id;
-      }
-    },
-    closeAlert(type) {
-      if (type === 'update') {
-        this.$refs.updateAlert.hide();
-      } else if (type === 'delete') {
-        this.$refs.deleteAlert.hide();
-      }
-      this.operateId = '';
-      this.updateForm = {};
-    },
 
-
-
-    
     //改变文本框只读状态
     change(){
       this.isReadOnly=false
-      one = false;
-      two = true;  
     },
     tijiao(){
       this.isReadOnly=true
-      one = true;
-      two = false;  
+      this.toUpdate();
     },
     fanhui(){
       this.isReadOnly=true
-      one = true;
-      two = false;  
       this.search();
     },
-
   },
 };
 </script>
@@ -445,8 +382,6 @@ li {
   height: auto !important;
 }
 </style>
-
-
 <style scoped>
 @import '../../assets/style/Font-Awesome-master/css/font-awesome.css';
 @import '../../assets/style/layout/base-Layout-bootstrap.css';
