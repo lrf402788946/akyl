@@ -44,7 +44,7 @@
             <!--需要计算,如果是父类,正常显示,不是的话就缩进-->
             <p class="marginBot5">所属角色</p>
             <b-form-select v-model="form.p_id" class="marginBot8">
-              <option :value="0">厅长</option>
+              <option :value="0">无所属</option>
               <option v-for="(item,index) in list" :key="index" :value="item.id">{{item.role_name}}</option>
             </b-form-select>
             <p class="marginBot5">角色代码</p>
@@ -58,7 +58,7 @@
           <b-modal id="Edit" title="修改角色" ref="Edit" hide-footer> 
             <p class="marginBot5">所属角色</p>
             <b-form-select v-model="form.p_id"  class="marginBot8">
-              <option :value="0">厅长</option>
+              <option :value="0">无所属</option>
               <option v-for="(item,index) in list" :key="index" :value="item.id">{{item.role_name}}</option>
             </b-form-select>
             <p class="marginBot5">角色代码</p>
@@ -121,18 +121,20 @@ export default {
   },
   computed: {},
   created() {
-    // this.search();
+    this.search();
   },
   methods: {
     async search() {
       //查询方法
-      let result = await this.$axios.get('role/role_list');
-      this.$set(this, 'list', result.data.roleList);
-      this.$set(this, 'origin', result.data.roleList);
+      let result = await this.$axios.get('/akyl/role/role_list?skip=0&limit=100');
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.roleList);
+        this.$set(this, 'origin', result.data.roleList);
+      }
     },
     //添加
     async toAdd() {
-      let result = await this.$axios.post('role/role_save', { data: this.form });
+      let result = await this.$axios.post('/akyl/role/role_save', { data: this.form });
       this.form = {};
       this.search();
       this.$refs.toAdd.hide();
@@ -144,7 +146,7 @@ export default {
     },
     //删除
     async toDelete() {
-      let result = await this.$axios.post('role/role_delete', { data: { id: this.deleteItem } });
+      let result = await this.$axios.post('/akyl/role/role_delete', { data: { id: this.deleteItem } });
       this.search();
       this.deleteItem = '';
       this.$refs.deleteAlert.hide();
@@ -157,7 +159,7 @@ export default {
     //修改
     async toUpdate() {
       let data = this.form;
-      let result = await this.$axios.post('role/role_edit', { data: data });
+      let result = await this.$axios.post('/akyl/role/role_edit', { data: data });
       console.log(result);
       this.$refs.Edit.hide();
       this.search();

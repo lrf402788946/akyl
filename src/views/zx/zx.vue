@@ -112,7 +112,7 @@ export default {
   },
   computed: {},
   created() {
-     this.search();
+    this.search();
   },
   methods: {
     //整体逻辑:已有数据的修改直接=>提交=>请求=>刷新视图;添加数据则弹出框添加
