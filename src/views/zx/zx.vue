@@ -422,7 +422,7 @@ li {
   border-radius: 3px !important;
   height: auto !important;
 }
-.el-input__inner{
+.el-input__inner {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 </style>
