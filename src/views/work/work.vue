@@ -100,30 +100,28 @@ export default {
   components: {},
   data() {
     return {
-      list: [{id:'1',code:'666',name:'777'},
-             {id:'2',code:'666',name:'777'}],
+      list: [],
       form: {},
       deleteItem: '',
       updateForm: {
         gender: -1,
-        dept_id: 'default',
       },
     };
   },
   computed: {},
   created() {
-    // this.search();
+     this.search();
   },
   methods: {
     //整体逻辑:已有数据的修改直接=>提交=>请求=>刷新视图;添加数据则弹出框添加
     //查询
     async search() {
       //查询方法
-      let result = await this.$axios.get('dept/dept_list');
-      this.$set(this, 'list', result.data.deptList);
+      let result = await this.$axios.get('/akyl/work/work_list?skip=0&limit=10');
+      this.$set(this, 'list', result.data.workList);
     },
     async toUpdate() {
-      let result = await this.$axios.post('dept/dept_edit', { data: this.updateForm });
+      let result = await this.$axios.post('/akyl/work/work_edit', { data: this.updateForm });
       this.closeAlert('update');
       this.updateForm = {};
       this.search();
@@ -135,14 +133,14 @@ export default {
     },
     //删除
     async toDelete() {
-      let result = await this.$axios.post('dept/dept_delete', { data: { id: this.deleteItem } });
+      let result = await this.$axios.post('/akyl/work/work_delete', { data: { id: this.deleteItem } });
       this.search();
       this.deleteItem = '';
       this.$refs.deleteAlert.hide();
     },
     //添加
     async toAdd() {
-      let result = await this.$axios.post('dept/dept_save', { data: this.form });
+      let result = await this.$axios.post('/akyl/work/work_save', { data: this.form });
       this.form = {};
       this.search();
       this.$refs.toAdd.hide();
