@@ -47,7 +47,7 @@
             <div style="margin-top:7px; margin-bottom:7px;">数量:</div>
             <b-form-input v-model="form.num"></b-form-input>
             <div style="margin-top:7px; margin-bottom:7px;">创建日期:</div>
-            <el-date-picker  style="width:100%;" v-model="form.create_date" type="date" placeholder="选择日期"></el-date-picker>
+            <el-date-picker  style="width:100%;" v-model="form.create_date" type="date" placeholder="选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
             <!-- <b-form-input v-model="form.create_date"></b-form-input> -->
             <b-button variant="secondary" style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  @click="form={}" >重&nbsp;&nbsp;置</b-button>
             <b-button  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   variant="primary" @click="toAdd()" >保&nbsp;&nbsp;存</b-button>
@@ -76,7 +76,7 @@
                 </div>
                 <div class="col-lg-12 marginBot">
                     <p class="marginBot4">创建日期</p>
-                    <el-date-picker  style="width:100%;" v-model="updateForm.create_date" type="date" placeholder="选择日期"></el-date-picker>
+                    <el-date-picker  style="width:100%;" v-model="updateForm.create_date" type="date" placeholder="选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
                 </div>
                 <div class="col-lg-12 marginBot4">
                   <b-button variant="secondary" @click="closeAlert('update')" class="resetButton" style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >
@@ -112,18 +112,18 @@ export default {
   },
   computed: {},
   created() {
-    // this.search();
+     this.search();
   },
   methods: {
     //整体逻辑:已有数据的修改直接=>提交=>请求=>刷新视图;添加数据则弹出框添加
     //查询
     async search() {
       //查询方法
-      let result = await this.$axios.get('dept/dept_list');
-      this.$set(this, 'list', result.data.deptList);
+      let result = await this.$axios.get('http://10.16.11.186:80/zx/zx_list?skip=0&limit=10');
+      this.$set(this, 'list', result.data.zxList);
     },
     async toUpdate() {
-      let result = await this.$axios.post('dept/dept_edit', { data: this.updateForm });
+      let result = await this.$axios.post('/akyl/zx/zx_edit', { data: this.updateForm });
       this.closeAlert('update');
       this.updateForm = {};
       this.search();
@@ -135,14 +135,14 @@ export default {
     },
     //删除
     async toDelete() {
-      let result = await this.$axios.post('dept/dept_delete', { data: { id: this.deleteItem } });
+      let result = await this.$axios.post('/akyl/zx/zx_delete', { data: { id: this.deleteItem } });
       this.search();
       this.deleteItem = '';
       this.$refs.deleteAlert.hide();
     },
     //添加
     async toAdd() {
-      let result = await this.$axios.post('dept/dept_save', { data: this.form });
+      let result = await this.$axios.post('/akyl/zx/zx_save', { data: this.form });
       this.form = {};
       this.search();
       this.$refs.toAdd.hide();
