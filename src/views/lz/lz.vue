@@ -37,6 +37,20 @@
               </tr>
             </tbody>
           </table>
+        </div>
+
+        <el-pagination
+        layout="total, prev, pager, next"
+        :background="true"
+        :page-size="10"
+        prev-text="上一页"
+        next-text="下一页"
+        @current-change="toSearch"
+        :total="totalRow">
+        </el-pagination>
+      </div>
+
+
           <b-modal id="toAdd" title="添加裸针" ref="toAdd" hide-footer>
             <div style="margin-bottom: 7px;">型号:</div>
             <b-form-input v-model="form.type"></b-form-input>
@@ -84,9 +98,7 @@
             </div>
           </b-modal>
           <!-- klklklkl -->
-          
-        </div>
-      </div>
+              
   </div> 
 </template>
 
@@ -104,6 +116,10 @@ export default {
         gender: -1,
         dept_id: 'default',
       },
+      currentPage: 1,
+      limit: 10,
+      totalRow: 100,
+      
     };
   },
   computed: {},
@@ -112,11 +128,19 @@ export default {
   },
   methods: {
     //整体逻辑:已有数据的修改直接=>提交=>请求=>刷新视图;添加数据则弹出框添加
+    //分页
+    toSearch(currentPage) {
+      this.currentPage = currentPage;
+      this.search();
+    },
     //查询
     async search() {
       //查询方法
-      let result = await this.$axios.get('http://10.16.11.186:80/lz/lz_list?skip=0&limit=10');
+      let skip = (this.currentPage - 1) * this.limit;
+      let result = await this.$axios.get(`/akyl/lz/lz_list?skip=${skip}&limit=${this.limit}`);
       this.$set(this, 'list', result.data.lzList);
+      this.$set(this, 'origin', result.data.lzList);
+      this.$set(this, 'totalRow', result.data.totalRow);
     },
     async toUpdate() {
       let result = await this.$axios.post('/akyl/lz/lz_edit', { data: this.updateForm });
@@ -139,6 +163,7 @@ export default {
     //添加
     async toAdd() {
       let result = await this.$axios.post('/akyl/lz/lz_save', { data: this.form });
+      this.currentPage = 1;
       this.form = {};
       this.search();
       this.$refs.toAdd.hide();
@@ -420,6 +445,17 @@ li {
 }
 .el-input__inner {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+.el-pagination.is-background .btn-next, .el-pagination.is-background .btn-prev, .el-pagination.is-background .el-pager li {
+    padding: 0 10px !important;
+}
+.el-pagination {
+    margin-top: 20px !important;
+    text-align: right !important;
+    padding-right: 0 !important;
+}
+.el-pagination.is-background .btn-next{
+    margin-right: 0 !important;
 }
 </style>
 

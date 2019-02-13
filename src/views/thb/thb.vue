@@ -1,28 +1,31 @@
 <template lang='html'>
   <div id="index">
+      <!-- 表格 begin -->
       <div class="base-form">
         <div class="form-inline">
-          <div class="base-form-title" style="width:100%;"><a class="base-margin-left-20">岗位列表</a>
+          <div class="base-form-title" style="width:100%;"><a class="base-margin-left-20">弹簧柄库管理</a>
             <div class="button-table">
             </div>
           </div>
         </div>
         <div class="base-padding-20 base-bg-fff">
           <div class="base-align-right" style="margin-bottom:20px;">
-            <a class="btn btn-info base-margin-bottom" data-toggle="tooltip" style="font-size:14px !important;padding: 6px 12px !important;" title="" role="button" v-b-modal="'toAdd'">
-              <i class="base-margin-right-5 fa fa-plus-square"></i>添加岗位
+            <a class="btn btn-info base-margin-bottom" data-toggle="tooltip" style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;" title="" role="button" v-b-modal="'toAdd'">
+              <i class="base-margin-right-5 fa fa-plus-square" style=" color:#fff !important;"></i>添加弹簧柄
             </a>
           </div>
           <table class="table table-bordered table-striped ">
             <tbody>
               <tr>
-                <th>岗位名称</th>
-                <th>岗位补助</th>
+                <th>型号</th>
+                <th>数量</th>
+                <th>创建日期</th>
                 <th>操作</th>
               </tr>
               <tr v-for="(item,index) in list" :key="index"><!--美化下input 可以看情况使用-->
-                <td>{{item.name}}</td>
-                <td>{{item.money}}</td>
+                <td>{{item.type}}</td>
+                <td>{{item.num}}</td>
+                <td>{{item.create_date}}</td>
                 <td>
                   <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update',index)" >修&nbsp;&nbsp;改</b-button>
                   <b-button variant="danger" style="color:white;"  @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
@@ -41,34 +44,42 @@
             :total="totalRow">
           </el-pagination>
 
-          <b-modal id="toAdd" title="添加岗位" ref="toAdd" hide-footer>
-            <div style="margin-bottom: 7px;">岗位名称:</div>
-            <b-form-input v-model="form.name"></b-form-input>
-            <div style="margin-top:7px; margin-bottom:7px;">岗位补助:</div>
-            <b-form-input v-model="form.money"></b-form-input>
+          <b-modal id="toAdd" title="添加弹簧柄" ref="toAdd" hide-footer>
+            <div style="margin-bottom: 7px;">型号:</div>
+            <b-form-input v-model="form.type"></b-form-input>
+            <div style="margin-top:7px; margin-bottom:7px;">数量:</div>
+            <b-form-input v-model="form.num"></b-form-input>
+            <div style="margin-top:7px; margin-bottom:7px;">创建日期:</div>
+            <el-date-picker  style="width:100%;" v-model="form.create_date" type="date" placeholder="选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
+            <!-- <b-form-input v-model="form.create_date"></b-form-input> -->
             <b-button variant="secondary" style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  @click="form={}" >重&nbsp;&nbsp;置</b-button>
             <b-button  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   variant="primary" @click="toAdd()" >保&nbsp;&nbsp;存</b-button>
           </b-modal>
 
           <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer> 
             <div class="d-block text-center">
-              <b-alert variant="danger" show>删除岗位可能会有严重影响,确认删除吗?</b-alert>
+              <b-alert variant="danger" show>删除裸针可能会影响您的管理,确认删除吗?</b-alert>
             </div>
            <b-button variant="danger"   style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   @click="toDelete()">删&nbsp;&nbsp;除</b-button>
            <b-button variant="primary"   style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   @click="$refs.deleteAlert.hide(),deleteItem=''">
              返&nbsp;&nbsp;回</b-button>
           </b-modal>
 
-          <b-modal id="updateAlert" title="修改信息" ref="updateAlert" hide-footer>
+          <!-- jkjkjkjk -->
+          <b-modal id="updateAlert" title="修改弹簧柄" ref="updateAlert" hide-footer>
             <div class="d-block">
               <div class="row">
                 <div class="col-lg-12 marginBot4">
-                    <p class="marginBot4">岗位名称</p>
-                    <b-form-input v-model="updateForm.name"></b-form-input>
+                    <p class="marginBot4">型号</p>
+                    <b-form-input v-model="updateForm.type"></b-form-input>
                 </div>
                 <div class="col-lg-12 marginBot4">
-                    <p class="marginBot4">岗位补助</p>
-                    <b-form-input v-model="updateForm.money"></b-form-input>
+                    <p class="marginBot4">数量</p>
+                    <b-form-input v-model="updateForm.num"></b-form-input>
+                </div>
+                <div class="col-lg-12 marginBot">
+                    <p class="marginBot4">创建日期</p>
+                    <el-date-picker  style="width:100%;" v-model="updateForm.create_date" type="date" placeholder="选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
                 </div>
                 <div class="col-lg-12 marginBot4">
                   <b-button variant="secondary" @click="closeAlert('update')" class="resetButton" style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >
@@ -79,6 +90,7 @@
               </div>
             </div>
           </b-modal>
+          <!-- klklklkl -->
           
         </div>
       </div>
@@ -96,7 +108,8 @@ export default {
       form: {},
       deleteItem: '',
       updateForm: {
-        id: 'default',
+        gender: -1,
+        dept_id: 'default',
       },
       currentPage: 1,
       limit: 10,
@@ -105,23 +118,24 @@ export default {
   },
   computed: {},
   created() {
-    this.search();
+     this.search();
   },
   methods: {
-    toSearch(currentPage) {   //111
+    toSearch(currentPage) {
       this.currentPage = currentPage;
       this.search();
     },
+    //整体逻辑:已有数据的修改直接=>提交=>请求=>刷新视图;添加数据则弹出框添加
+    //查询
     async search() {
       //查询方法
-      let skip = (this.currentPage - 1) * this.limit;  //111
-      let result = await this.$axios.get(`/akyl/post/post_list?skip=${skip}&limit=${this.limit}`);
-      this.$set(this, 'list', result.data.postList);
-      this.$set(this, 'totalRow', result.data.totalRow);   //111
+      let skip = (this.currentPage - 1) * this.limit;
+      let result = await this.$axios.get(`http://10.16.11.186:80/thb/thb_list?skip=${skip}&limit=10`);
+      this.$set(this, 'list', result.data.thbList);
+      this.$set(this, 'totalRow', result.data.totalRow);
     },
     async toUpdate() {
-      //修改方法
-      let result = await this.$axios.post(`/akyl/post/post_edit`, { data: this.updateForm });
+      let result = await this.$axios.post('/akyl/thb/thb_edit', { data: this.updateForm });
       this.closeAlert('update');
       this.updateForm = {};
       this.search();
@@ -133,14 +147,14 @@ export default {
     },
     //删除
     async toDelete() {
-      let result = await this.$axios.post(`/akyl/post/post_delete`, { data: { id: this.deleteItem } });
+      let result = await this.$axios.post('/akyl/thb/thb_delete', { data: { id: this.deleteItem } });
       this.search();
       this.deleteItem = '';
       this.$refs.deleteAlert.hide();
     },
     //添加
     async toAdd() {
-      let result = await this.$axios.post(`/akyl/post/post_save`, { data: this.form });
+      let result = await this.$axios.post('/akyl/thb/thb_save', { data: this.form });
       this.form = {};
       this.search();
       this.$refs.toAdd.hide();
@@ -167,7 +181,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .marginBot4 {
   margin-bottom: 4px;
 }
@@ -265,7 +279,7 @@ button {
   font: 400 13.3333px Arial;
 }
 .btn-info {
-  color: #fff !important;
+  color: #fff;
   background-color: #5bc0de;
   border-color: #46b8da;
 }
@@ -419,6 +433,9 @@ li {
   border: 1px solid transparent !important;
   border-radius: 3px !important;
   height: auto !important;
+}
+.el-input__inner {
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 </style>
 

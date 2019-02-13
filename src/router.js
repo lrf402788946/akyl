@@ -11,6 +11,7 @@ import dept from './views/dept/dept.vue';
 import kind from './views/kind/kind.vue';
 import akyl_set from './views/set/set.vue';
 import akyl_work from './views/work/work.vue';
+import thb from './views/thb/thb.vue';
 
 Vue.use(Router);
 const router = new Router({
@@ -63,14 +64,19 @@ const router = new Router({
       component: kind,
     },
     {
-      path: '/akyl_set',
+      path: 'set',
       name: 'set',
       component: akyl_set,
     },
     {
-      path: '/akyl_work',
+      path: 'work',
       name: 'work',
       component: akyl_work,
+    },
+    {
+      path: '/thb',
+      name: 'thb',
+      component: thb,
     },
   ],
 });
