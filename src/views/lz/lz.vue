@@ -292,6 +292,7 @@ button {
 .btn-info {
   color: #fff;
   background-color: #5bc0de;
+  cursor: pointer;
   border-color: #46b8da;
 }
 
@@ -450,6 +451,7 @@ li {
 }
 .el-pagination.is-background .btn-next, .el-pagination.is-background .btn-prev, .el-pagination.is-background .el-pager li {
     padding: 0 10px !important;
+    margin: 0 3px !important;
 }
 .el-pagination {
     margin-top: 20px !important;
