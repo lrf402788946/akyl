@@ -124,7 +124,7 @@ export default {
   },
   computed: {},
   created() {
-     this.search();
+    this.search();
   },
   methods: {
     //整体逻辑:已有数据的修改直接=>提交=>请求=>刷新视图;添加数据则弹出框添加
@@ -141,8 +141,6 @@ export default {
       this.$set(this, 'list', result.data.lzList);
       this.$set(this, 'origin', result.data.lzList);
       this.$set(this, 'totalRow', result.data.totalRow);
-      
-      
     },
     async toUpdate() {
       let result = await this.$axios.post('/akyl/lz/lz_edit', { data: this.updateForm });

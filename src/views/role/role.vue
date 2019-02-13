@@ -29,13 +29,8 @@
                 <td>{{item.role_code}}</td>
                 <td>{{item.role_name}}</td>
                 <td>
-                  <!-- <b-button variant="primary" style="color:white;" @click="Edit(index)">修改</b-button> -->
                   <b-button variant="primary" style="color:white;" @click="openUpdateAlert(index)">修&nbsp;&nbsp;改</b-button>
                   <b-button variant="danger" @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
-                  <!-- <a class="btn btn-xs btn-info base-margin-2" data-toggle="tooltip" @click="toUpdate(index)"
-                    title="" role="button">保&nbsp;&nbsp;存</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                  <a class="btn btn-xs btn-info base-margin-2" data-toggle="tooltip" @click="toDelete(index)"
-                    title="" role="button">删&nbsp;&nbsp;除</a> -->
                 </td>
               </tr>
             </tbody>
@@ -89,30 +84,8 @@ export default {
   components: {},
   data() {
     return {
-      origin: [
-        {
-          p_id: 0,
-          role_code: 1,
-          role_name: '测试员',
-        },
-        {
-          p_id: 0,
-          role_code: 2,
-          role_name: '测试员2',
-        },
-      ],
-      list: [
-        {
-          p_id: 0,
-          role_code: 1,
-          role_name: '测试员',
-        },
-        {
-          p_id: 0,
-          role_code: 2,
-          role_name: '测试员2',
-        },
-      ],
+      origin: [],
+      list: [],
       form: {
         p_id: 0,
       },
@@ -168,7 +141,6 @@ export default {
     closeAlert() {
       this.$refs.Edit.hide();
       this.list = JSON.parse(JSON.stringify(this.origin));
-      this.list = this.origin;
       this.operateId = '';
       this.form = {};
     },
