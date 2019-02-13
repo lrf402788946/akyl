@@ -58,12 +58,12 @@ const router = new Router({
       component: dept,
     },
     {
-      path: '/akyl_set',
+      path: 'set',
       name: 'set',
       component: akyl_set,
     },
     {
-      path: '/akyl_work',
+      path: 'work',
       name: 'work',
       component: akyl_work,
     },
