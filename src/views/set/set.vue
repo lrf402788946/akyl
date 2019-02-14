@@ -25,11 +25,11 @@
                 <th>加班补助定额</th>
                 </tr>
                 <tr>
-                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.js_price"/></td>
-                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.jj_price"/></td>
-                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.jb_js_price"/></td>
-                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.jb_jj_price"/></td>
-                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.jb_price"/></td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.js_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.jj_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.jb_js_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.jb_jj_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.jb_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
                 </tr> 
                 <tr>
                 <th>满勤奖</th>
@@ -39,11 +39,11 @@
                 <th>三月保险每天补贴</th>
                 </tr>
                 <tr>
-                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.mq_price"/></td>
-                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.tq_price"/></td>
-                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.yb_price"/></td>
-                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.gz_sc"/></td>
-                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.bx_price_sy"/></td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.mq_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.tq_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.yb_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.gz_sc" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.bx_price_sy" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
                 </tr>
                 <tr>
                 <th>一年保险每天补贴</th>
@@ -52,15 +52,15 @@
                 <th>操作</th>
                 </tr>
                 <tr>
-                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.bx_price_yn"/></td>
-                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.bx_price_ln"/></td>
-                <td><input type="text" v-bind:disabled="isReadOnly"  v-model="list.gl_price"/></td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.bx_price_yn" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.bx_price_ln" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.gl_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
                 <td>
                   <div v-if="isReadOnly">
                   <b-button  @click="change()" >修&nbsp;&nbsp;改</b-button>
                   </div>
                   <div v-if="!isReadOnly">
-                  <b-button  @click="tijiao()" >提&nbsp;&nbsp;交</b-button>
+                  <b-button  @click="toValidate()" >提&nbsp;&nbsp;交</b-button>
                   <b-button  @click="fanhui()" >返&nbsp;&nbsp;回</b-button>
                   </div>
                 </td>
@@ -76,6 +76,7 @@
 
 <script>
 import _ from 'lodash';
+import Validator from 'async-validator';
 export default {
   name: 'index',
   components: {},
@@ -84,12 +85,26 @@ export default {
       list: [],
       form: {},
       deleteItem: '',
-
       isReadOnly:true,
       updateForm: {
         gender: -1,
 
       },
+      roleValidator:new Validator({
+        js_price:{type:'string',required:true,message:'请填写计时金额'},
+        jj_price:{type:'string',required:true,message:'请填写计件金额'},
+        jb_js_price:{type:'string',required:true,message:'请填写加班计时金额'},
+        jb_jj_price:{type:'string',required:true,message:'请填写加班计价金额'},
+        jb_price:{type:'string',required:true,message:'请填写加班补助金额'},
+        mq_price:{type:'string',required:true,message:'请填写满勤奖'},
+        tq_price:{type:'string',required:true,message:'请填写通勤补助'},
+        yb_price:{type:'string',required:true,message:'请填写夜班补助'},
+        gz_sc:{type:'string',required:true,message:'请填写工作时长'},
+        bx_price_sy:{type:'string',required:true,message:'请填写三月保险每天补贴'},
+        bx_price_yn:{type:'string',required:true,message:'请填写一年保险每天补贴'},
+        bx_price_ln:{type:'string',required:true,message:'请填写两年以上保险每天补贴'},
+        gl_price:{type:'string',required:true,message:'请填写工龄工资按月累加'},
+      }),
     };
   },
   computed: {},
@@ -124,6 +139,28 @@ export default {
       this.isReadOnly=true
       this.search();
     },
+     //验证
+      toValidate(type){
+      this.roleValidator.validate(this.list, (errors, fields) => {
+      if(errors){
+        return this.handleErrors(errors,fields);
+      }
+        return this.tijiao();
+      
+    });
+    },
+    //验证错误
+    handleErrors(errors, fields) {
+      this.$message.error(errors[0].message);
+      this.errors = errors.reduce((p, c) => {
+        // eslint-disable-next-line no-param-reassign
+        p[c.field] = 'error';
+        return p;
+      }, {});
+      // eslint-disable-next-line no-console
+      console.debug(errors, fields);
+    },
+
   },
 };
 </script>
