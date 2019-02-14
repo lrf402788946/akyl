@@ -52,14 +52,12 @@
           </el-pagination>
 
           <b-modal id="toAdd" title="添加工序" ref="toAdd" hide-footer>
-            <div style="margin-bottom: 7px;">工序编号:</div>
-            <b-form-input v-model="form.id"></b-form-input>
             <div style="margin-top:7px; margin-bottom:7px;">工序代码:</div>
-            <b-form-input v-model="form.code"></b-form-input>
+            <b-form-input v-model="form.code" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
             <div style="margin-top:7px; margin-bottom:7px;">工序名称:</div>
-            <b-form-input v-model="form.name"></b-form-input>
+            <b-form-input v-model="form.name" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
             <b-button variant="secondary" style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  @click="form={}" >重&nbsp;&nbsp;置</b-button>
-            <b-button  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   variant="primary" @click="toAdd()" >保&nbsp;&nbsp;存</b-button>
+            <b-button  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   variant="primary" @click="toValidate('add')" >保&nbsp;&nbsp;存</b-button>
           </b-modal>
 
           <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer> 
@@ -77,7 +75,7 @@
               <div class="row">
                 <div class="col-lg-12 marginBot4">
                     <p class="marginBot4">工序编号</p>
-                    <b-form-input v-model="updateForm.id"></b-form-input>
+                    <b-form-input v-model="updateForm.id" disabled="true"></b-form-input>
                 </div>
                 <div class="col-lg-12 marginBot4">
                     <p class="marginBot4">工序代码</p>
@@ -90,7 +88,7 @@
                 <div class="col-lg-12 marginBot4">
                   <b-button variant="secondary" @click="closeAlert('update')" class="resetButton" style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >
                     返&nbsp;&nbsp;回</b-button>
-                  <b-button variant="primary" @click="toUpdate()" class="resetButton"  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;" >
+                  <b-button variant="primary" @click="toValidate('update')" class="resetButton"  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;" >
                     保&nbsp;&nbsp;存</b-button>
                 </div>
               </div>
@@ -105,6 +103,7 @@
 
 <script>
 import _ from 'lodash';
+import Validator from 'async-validator';
 export default {
   name: 'index',
   components: {},
@@ -119,6 +118,10 @@ export default {
       currentPage: 1,
       limit: 15,
       totalRow: 0,
+         roleValidator:new Validator({
+        code:{type:'string',required:true,message:'请填写工序编号'},
+        name:{type:'string',required:true,message:'请填写工序名称'},
+      }),
     };
   },
   computed: {},
@@ -181,6 +184,45 @@ export default {
       }
       this.operateId = '';
       this.updateForm = {};
+    },
+     //验证
+      toValidate(type){
+      
+  
+      if(type==='add'){
+        this.roleValidator.validate(this.form, (errors, fields) => {
+       if(errors){
+        return this.handleErrors(errors,fields);
+        }else{
+        return this.toAdd();
+      }
+        
+        });
+      }else{
+        this.roleValidator.validate(this.form, (errors, fields) => {
+          if(errors){
+        return this.handleErrors(errors,fields);
+        }else{
+        return this.toUpdate();
+      }
+        
+        });
+        
+      }
+    
+      
+    
+    },
+    //验证错误
+    handleErrors(errors, fields) {
+      this.$message.error(errors[0].message);
+      this.errors = errors.reduce((p, c) => {
+        // eslint-disable-next-line no-param-reassign
+        p[c.field] = 'error';
+        return p;
+      }, {});
+      // eslint-disable-next-line no-console
+      console.debug(errors, fields);
     },
   },
 };
