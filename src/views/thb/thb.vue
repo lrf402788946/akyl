@@ -37,7 +37,7 @@
           <el-pagination
             layout="total, prev, pager, next"
             :background="true"
-            :page-size="10"
+            :page-size="15"
             prev-text="上一页"
             next-text="下一页"
             @current-change="toSearch"
@@ -114,7 +114,7 @@ export default {
         dept_id: 'default',
       },
       currentPage: 1,
-      limit: 10,
+      limit: 15,
       totalRow: 0,
     };
   },
