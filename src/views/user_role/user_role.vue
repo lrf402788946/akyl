@@ -1,5 +1,5 @@
 <template lang='html'>
-  <div id="index">
+  <div id="user_role">
      <!-- 位置导航 begin  -->
       <b-breadcrumb>
         <b-breadcrumb-item :to="{name:'user_role'}">权限分配</b-breadcrumb-item>
@@ -32,7 +32,7 @@
            <el-pagination
             layout="total, prev, pager, next"
             :background="true"
-            :page-size="10"
+            :page-size="15"
             prev-text="上一页"
             next-text="下一页"
             @current-change="toSearch"
@@ -56,7 +56,10 @@
 
 <script>
 export default {
-  name: 'index',
+  name: 'user_role',
+  metaInfo: {
+    title: '权限管理',
+  },
   components: {},
   data() {
     return {
@@ -70,7 +73,7 @@ export default {
       operateId: '',
       totalRow: 0,
       currentPage: 1,
-      limit: 10,
+      limit: 15,
     };
   },
   computed: {},

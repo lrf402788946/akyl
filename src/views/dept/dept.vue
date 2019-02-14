@@ -97,12 +97,12 @@ export default {
         id: 'default',
       },
       skip: 0,
-      limit: 10, //每页信息数量
       addValidator: new Validator({
         dept_name: [{ type: 'string', required: true, message: '请填写部门名称' }],
         dept_duty: [{ type: 'string', required: true, message: '请填写部门职责' }],
         dept_tell: [{ type: 'string', required: true, message: '请填写部门电话' }],
       }),
+      limit: 15, //每页信息数量
     };
   },
   computed: {},

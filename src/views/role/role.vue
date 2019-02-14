@@ -1,5 +1,5 @@
 <template lang='html'>
-  <div id="index">
+  <div id="role">
      <!-- 位置导航 begin  -->
       <b-breadcrumb>
         <b-breadcrumb-item :to="{name:'role'}">角色管理</b-breadcrumb-item>
@@ -14,7 +14,7 @@
         </div>
         <div class="base-padding-20 base-bg-fff">
           <div class="base-align-right" style="margin-bottom:20px;">
-            <a class="btn btn-info base-margin-bottom" data-toggle="tooltip" style="font-size:14px !important;padding: 6px 12px !important;" title="" role="button" v-b-modal="'toAdd'">
+            <a class="btn btn-info base-margin-bottom" data-toggle="tooltip" style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;" title="" role="button" v-b-modal="'toAdd'">
               <i class="base-margin-right-5 fa fa-plus-square"></i>添加角色    
             </a>
           </div>
@@ -47,7 +47,7 @@
             <p class="marginBot5">角色名称</p>
             <b-form-input v-model="form.role_name" class="marginBot20"></b-form-input>
             <b-button variant="secondary" @click="form={p_id: 0}" style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >重&nbsp;&nbsp;置</b-button>
-            <b-button variant="primary" @click="toAdd()"  style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >保&nbsp;&nbsp;存</b-button>
+            <b-button variant="primary" @click="toValidate('add')"  style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >保&nbsp;&nbsp;存</b-button>
           </b-modal>
 
           <b-modal id="Edit" title="修改角色" ref="Edit" hide-footer> 
@@ -61,7 +61,7 @@
             <p class="marginBot5">角色名称</p>
             <b-form-input v-model="form.role_name"  class="marginBot20"></b-form-input>
             <b-button variant="secondary" @click="closeAlert()"  style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;" >返&nbsp;&nbsp;回</b-button>
-            <b-button variant="primary" @click="toUpdate()"  style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >修&nbsp;&nbsp;改</b-button>
+            <b-button variant="primary" @click="toValidate('update')"  style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >修&nbsp;&nbsp;改</b-button>
           </b-modal>
 
           <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer> 
@@ -79,8 +79,12 @@
 </template>
 
 <script>
+import Validator from 'async-validator';
 export default {
-  name: 'index',
+  name: 'role',
+  metaInfo: {
+    title: '角色管理',
+  },
   components: {},
   data() {
     return {
@@ -90,6 +94,10 @@ export default {
         p_id: 0,
       },
       deleteItem: '',
+      roleValidator: new Validator({
+        role_code: [{ type: 'string', required: true, message: '请填写角色代码' }],
+        role_name: { type: 'string', required: true, message: '请填写角色名称' },
+      }),
     };
   },
   computed: {},
@@ -105,8 +113,22 @@ export default {
         this.$set(this, 'origin', result.data.roleList);
       }
     },
+    //验证,因为添加和修改的验证内容都是一样的,所以用一个方法
+    toValidate(type) {
+      this.roleValidator.validate(this.form, (errors, fields) => {
+        if (errors) {
+          return this.handleErrors(errors, fields);
+        }
+        if (type === 'add') {
+          return this.add();
+        } else {
+          return this.update();
+        }
+      });
+    },
     //添加
-    async toAdd() {
+    async add() {
+      console.log(1);
       let result = await this.$axios.post('/akyl/role/role_save', { data: this.form });
       this.form = {};
       this.search();
@@ -130,7 +152,7 @@ export default {
       this.form = JSON.parse(JSON.stringify(this.list[index]));
     },
     //修改
-    async toUpdate() {
+    async update() {
       let data = this.form;
       let result = await this.$axios.post('/akyl/role/role_edit', { data: data });
       console.log(result);
@@ -143,6 +165,17 @@ export default {
       this.list = JSON.parse(JSON.stringify(this.origin));
       this.operateId = '';
       this.form = {};
+    },
+    //验证错误
+    handleErrors(errors, fields) {
+      this.$message.error(errors[0].message);
+      this.errors = errors.reduce((p, c) => {
+        // eslint-disable-next-line no-param-reassign
+        p[c.field] = 'error';
+        return p;
+      }, {});
+      // eslint-disable-next-line no-console
+      console.debug(errors, fields);
     },
   },
 };

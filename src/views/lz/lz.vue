@@ -37,17 +37,16 @@
               </tr>
             </tbody>
           </table>
+          <el-pagination
+            layout="total, prev, pager, next"
+            :background="true"
+            :page-size="15"
+            prev-text="上一页"
+            next-text="下一页"
+            @current-change="toSearch"
+            :total="totalRow">
+            </el-pagination>
         </div>
-
-        <el-pagination
-        layout="total, prev, pager, next"
-        :background="true"
-        :page-size="10"
-        prev-text="上一页"
-        next-text="下一页"
-        @current-change="toSearch"
-        :total="totalRow">
-        </el-pagination>
       </div>
 
 
@@ -117,9 +116,8 @@ export default {
         dept_id: 'default',
       },
       currentPage: 1,
-      limit: 10,
+      limit: 15,
       totalRow: 100,
-      
     };
   },
   computed: {},
@@ -447,17 +445,19 @@ li {
 .el-input__inner {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
-.el-pagination.is-background .btn-next, .el-pagination.is-background .btn-prev, .el-pagination.is-background .el-pager li {
-    padding: 0 10px !important;
-    margin: 0 3px !important;
+.el-pagination.is-background .btn-next,
+.el-pagination.is-background .btn-prev,
+.el-pagination.is-background .el-pager li {
+  padding: 0 10px !important;
+  margin: 0 3px !important;
 }
 .el-pagination {
-    margin-top: 20px !important;
-    text-align: right !important;
-    padding-right: 0 !important;
+  margin-top: 20px !important;
+  text-align: right !important;
+  padding-right: 0 !important;
 }
-.el-pagination.is-background .btn-next{
-    margin-right: 0 !important;
+.el-pagination.is-background .btn-next {
+  margin-right: 0 !important;
 }
 </style>
 
