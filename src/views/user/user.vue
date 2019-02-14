@@ -67,7 +67,7 @@
                   <b-form-input v-model="addForm.login_id" placeholder="登录账号" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
               </div>
               <div class="col-lg-6">
-                  <b-form-input v-model="addForm.password" placeholder="登录密码" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
+                  <b-form-input v-model="addForm.password" placeholder="登录密码" type="password" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
               </div>
               <div class="col-lg-6">
                   <b-form-select v-model="addForm.gender" :options="gender" class="marginBot" />
@@ -233,7 +233,7 @@ export default {
         user_name: [{ type: 'string', required: true, message: '请填写姓名' }], //{ pattern: /[0-9a-zA-Z]/, message: '输入非空字符'}
         login_id: [{ type: 'string', required: true, message: '请填写登录账号' }],
         password: [{ type: 'string', required: true, message: '请填写登录密码' }],
-        gender: [{ type: 'number', required: true, message: '请选择性别' }],
+        gender: [{ required: true, message: '请选择性别' }],
         office_tell: [{ type: 'string', required: true, message: '请填写办公室电话' }],
         phone_no: [{ type: 'string', required: true, message: '请填写个人电话' }],
         home_address: [{ type: 'string', required: true, message: '请填写家庭住址' }],
@@ -241,13 +241,13 @@ export default {
         birthday: [{ type: 'string', required: true, message: '请选择出生日期' }],
         id_number: [{ type: 'string', required: true, message: '请填写身份证号' }],
         card_no: [{ type: 'string', required: true, message: '请填写卡号' }],
-        dept_id: [{ type: 'number', required: true, message: '请选择部门' }],
-        level: [{ type: 'string', required: true, message: '请选择职务' }],
-        post_id: [{ type: 'number', required: true, message: '请选择岗位' }],
+        dept_id: [{ required: true, message: '请选择部门' }],
+        level: [{ type: 'string', required: true, message: '请填写职务' }],
+        post_id: [{ required: true, message: '请选择岗位' }],
       }),
       updateUserValidator: new Validator({
         user_name: [{ type: 'string', required: true, message: '请填写姓名' }],
-        gender: [{ type: 'number', required: true, message: '请选择性别' }],
+        gender: [{ required: true, message: '请选择性别' }],
         office_tell: [{ type: 'string', required: true, message: '请填写办公室电话' }],
         phone_no: [{ type: 'string', required: true, message: '请填写个人电话' }],
         home_address: [{ type: 'string', required: true, message: '请填写家庭住址' }],
@@ -255,9 +255,9 @@ export default {
         birthday: [{ type: 'string', required: true, message: '请选择出生日期' }],
         id_number: [{ type: 'string', required: true, message: '请填写身份证号' }],
         card_no: [{ type: 'string', required: true, message: '请填写卡号' }],
-        dept_id: [{ type: 'number', required: true, message: '请选择部门' }],
-        level: [{ type: 'string', required: true, message: '请选择职务' }],
-        post_id: [{ type: 'number', required: true, message: '请选择岗位' }],
+        dept_id: [{ required: true, message: '请选择部门' }],
+        level: [{ type: 'string', required: true, message: '请填写职务' }],
+        post_id: [{ required: true, message: '请选择岗位' }],
       }),
     };
   },
