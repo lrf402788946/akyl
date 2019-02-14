@@ -14,7 +14,7 @@
       </div>
       <div class="base-padding-20 base-bg-fff">
         <div class="base-align-right" style="margin-bottom: 20px;">
-          <a class="btn btn-info base-margin-bottom" style="font-size:14px !important;padding: 6px 12px !important;" data-toggle="tooltip" title="" role="button" v-b-modal="'addAlert'">
+          <a class="btn btn-info base-margin-bottom" style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;" data-toggle="tooltip" title="" role="button" v-b-modal="'addAlert'">
             <i class="base-margin-right-5 fa fa-plus-square"></i>添加用户    
           </a>
         </div>
@@ -48,7 +48,7 @@
         <el-pagination
           layout="total, prev, pager, next"
           :background="true"
-          :page-size="10"
+          :page-size="15"
           prev-text="上一页"
           next-text="下一页"
           @current-change="toSearch"
@@ -217,7 +217,7 @@ export default {
       operateId: {},
       gender: [{ text: '性别', value: -1, disabled: true }, { text: '男', value: 1 }, { text: '女', value: 0 }],
       currentPage: 1,
-      limit: 10,
+      limit: 15,
       totalRow: 100,
       deptList: [{ text: '请选择部门', value: 'default', disabled: true }],
       postList: [{ text: '请选择岗位', value: 'default', disabled: true }],

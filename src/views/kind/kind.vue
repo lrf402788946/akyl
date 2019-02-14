@@ -14,7 +14,7 @@
       </div>
       <div class="base-padding-20 base-bg-fff">
         <div class="base-align-right" style="margin-bottom:20px;">
-          <a class="btn btn-info base-margin-bottom" data-toggle="tooltip" style="font-size:14px !important;padding: 6px 12px !important;" title="" role="button" v-b-modal="'toAdd'">
+          <a class="btn btn-info base-margin-bottom" data-toggle="tooltip" style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;" title="" role="button" v-b-modal="'toAdd'">
             <i class="base-margin-right-5 fa fa-plus-square"></i>添加型号    
           </a>
         </div>
@@ -80,7 +80,7 @@ export default {
       form: {},
       deleteItem: '',
       currentPage: 1,
-      limit: 10,
+      limit: 15,
       totalRow: 100,
     };
   },

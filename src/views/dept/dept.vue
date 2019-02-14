@@ -96,7 +96,7 @@ export default {
         id: 'default',
       },
       skip: 0,
-      limit: 10, //每页信息数量
+      limit: 15, //每页信息数量
     };
   },
   computed: {},
