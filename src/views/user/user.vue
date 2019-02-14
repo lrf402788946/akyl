@@ -73,10 +73,10 @@
                   <b-form-select v-model="addForm.gender" :options="gender" class="marginBot" />
               </div>
               <div class="col-lg-6">
-                  <b-form-input v-model="addForm.office_tell" placeholder="办公室电话" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
+                  <b-form-input v-model="addForm.office_tell" placeholder="办公室电话" class="marginBot" onkeypress="return (/[0-9\\-]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
               </div>
               <div class="col-lg-6">
-                  <b-form-input v-model="addForm.phone_no" placeholder="个人电话" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
+                  <b-form-input v-model="addForm.phone_no" placeholder="个人电话" class="marginBot" onkeypress="return (/[0-9\\-]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
               </div>
               <div class="col-lg-6">
                   <b-form-input v-model="addForm.home_address" placeholder="家庭住址" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
