@@ -120,7 +120,7 @@ export default {
   },
   computed: {},
   created() {
-     this.search();
+    this.search();
   },
   methods: {
     toSearch(currentPage) {

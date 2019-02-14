@@ -123,22 +123,21 @@ export default {
   },
   computed: {},
   created() {
-     this.search();
+    this.search();
   },
-  
   methods: {
     //整体逻辑:已有数据的修改直接=>提交=>请求=>刷新视图;添加数据则弹出框添加
-       toSearch(currentPage) {   
+    toSearch(currentPage) {
       this.currentPage = currentPage;
       this.search();
     },
     //查询
     async search() {
       //查询方法
-      let skip = (this.currentPage - 1) * this.limit; 
+      let skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(`/akyl/work/work_list?skip=${skip}&limit=${this.limit}`);
       this.$set(this, 'list', result.data.workList);
-      this.$set(this, 'totalRow', result.data.totalRow); 
+      this.$set(this, 'totalRow', result.data.totalRow);
     },
     async toUpdate() {
       let result = await this.$axios.post('/akyl/work/work_edit', { data: this.updateForm });

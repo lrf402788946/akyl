@@ -1,8 +1,8 @@
 <template lang='html'>
-  <div id="index">
+  <div id="lz">
      <!-- 位置导航 begin  -->
       <b-breadcrumb>
-        <b-breadcrumb-item :to="{name:'DeptIndex'}">裸针管理</b-breadcrumb-item>
+        <b-breadcrumb-item :to="{name:'lz'}">裸针管理</b-breadcrumb-item>
       </b-breadcrumb>
       <!-- 表格 begin -->
       <div class="base-form">
@@ -54,12 +54,12 @@
             <div style="margin-bottom: 7px;">型号:</div>
             <b-form-input v-model="form.type"></b-form-input>
             <div style="margin-top:7px; margin-bottom:7px;">数量:</div>
-            <b-form-input v-model="form.num"></b-form-input>
+            <b-form-input v-model="form.num" type="number"></b-form-input>
             <div style="margin-top:7px; margin-bottom:7px;">创建日期:</div>
             <el-date-picker  style="width:100%;" v-model="form.create_date" type="date" placeholder="选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
-            <!-- <b-form-input v-model="form.create_date"></b-form-input> -->
-            <b-button variant="secondary" style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  @click="form={}" >重&nbsp;&nbsp;置</b-button>
-            <b-button  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   variant="primary" @click="toAdd()" >保&nbsp;&nbsp;存</b-button>
+            <b-button variant="secondary" 
+            style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  @click="form={ create_date: create_date_today }" >重&nbsp;&nbsp;置</b-button>
+            <b-button  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   variant="primary" @click="toValidate('add')" >保&nbsp;&nbsp;存</b-button>
           </b-modal>
 
           <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer> 
@@ -81,7 +81,7 @@
                 </div>
                 <div class="col-lg-12 marginBot4">
                     <p class="marginBot4">数量</p>
-                    <b-form-input v-model="updateForm.num"></b-form-input>
+                    <b-form-input v-model="updateForm.num" type="number"></b-form-input>
                 </div>
                 <div class="col-lg-12 marginBot">
                     <p class="marginBot4">创建日期</p>
@@ -90,7 +90,7 @@
                 <div class="col-lg-12 marginBot4">
                   <b-button variant="secondary" @click="closeAlert('update')" class="resetButton" style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >
                     返&nbsp;&nbsp;回</b-button>
-                  <b-button variant="primary" @click="toUpdate()" class="resetButton"  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;" >
+                  <b-button variant="primary" @click="toValidate('update')" class="resetButton"  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;" >
                     保&nbsp;&nbsp;存</b-button>
                 </div>
               </div>
@@ -102,14 +102,21 @@
 </template>
 
 <script>
+import Validator from 'async-validator';
 import _ from 'lodash';
 export default {
-  name: 'index',
+  name: 'lz',
+  metaInfo: {
+    title: '裸针管理',
+  },
   components: {},
   data() {
     return {
       list: [],
-      form: {},
+      create_date_today: new Date().getYear() + 1900 + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate(),
+      form: {
+        create_date: new Date().getYear() + 1900 + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate(),
+      },
       deleteItem: '',
       updateForm: {
         gender: -1,
@@ -118,6 +125,11 @@ export default {
       currentPage: 1,
       limit: 15,
       totalRow: 100,
+      lzValidator: new Validator({
+        type: { type: 'string', required: true, message: '请填写型号' },
+        num: { required: true, message: '请填写数量' },
+        create_date: { type: 'string', required: true, message: '请选择创建日期' },
+      }),
     };
   },
   computed: {},
@@ -137,7 +149,6 @@ export default {
       let skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(`/akyl/lz/lz_list?skip=${skip}&limit=${this.limit}`);
       this.$set(this, 'list', result.data.lzList);
-      this.$set(this, 'origin', result.data.lzList);
       this.$set(this, 'totalRow', result.data.totalRow);
     },
     async toUpdate() {
@@ -162,14 +173,14 @@ export default {
     async toAdd() {
       let result = await this.$axios.post('/akyl/lz/lz_save', { data: this.form });
       this.currentPage = 1;
-      this.form = {};
+      this.form = { create_date: this.create_date_today };
       this.search();
       this.$refs.toAdd.hide();
     },
     openAlert(type, id) {
       if (type === 'update') {
         this.$refs.updateAlert.show();
-        this.updateForm = this.list[id];
+        this.updateForm = JSON.parse(JSON.stringify(this.list[id]));
       } else if (type === 'delete') {
         this.$refs.deleteAlert.show();
         this.operateId = id;
@@ -183,6 +194,35 @@ export default {
       }
       this.operateId = '';
       this.updateForm = {};
+    },
+    //验证,因为添加和修改的验证内容都是一样的,所以用一个方法
+    toValidate(type) {
+      if (type === 'add') {
+        this.lzValidator.validate(this.form, (errors, fields) => {
+          if (errors) {
+            return this.handleErrors(errors, fields);
+          }
+          return this.toAdd();
+        });
+      } else {
+        this.lzValidator.validate(this.updateForm, (errors, fields) => {
+          if (errors) {
+            return this.handleErrors(errors, fields);
+          }
+          return this.toUpdate();
+        });
+      }
+    },
+    //验证错误
+    handleErrors(errors, fields) {
+      this.$message.error(errors[0].message);
+      this.errors = errors.reduce((p, c) => {
+        // eslint-disable-next-line no-param-reassign
+        p[c.field] = 'error';
+        return p;
+      }, {});
+      // eslint-disable-next-line no-console
+      console.debug(errors, fields);
     },
   },
 };
