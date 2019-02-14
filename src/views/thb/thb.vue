@@ -101,7 +101,10 @@
 import _ from 'lodash';
 import Validator from 'async-validator';
 export default {
-  name: 'index',
+  name: 'thb',
+  metaInfo: {
+    title: '弹簧柄管理',
+  },
   components: {},
   data() {
     return {

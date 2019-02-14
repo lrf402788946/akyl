@@ -86,7 +86,10 @@
 import _ from 'lodash';
 import Validator from 'async-validator';
 export default {
-  name: 'index',
+  name: 'dept',
+  metaInfo: {
+    title: '部门管理',
+  },
   components: {},
   data() {
     return {

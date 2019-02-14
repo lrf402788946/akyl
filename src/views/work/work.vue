@@ -101,7 +101,10 @@
 import _ from 'lodash';
 import Validator from 'async-validator';
 export default {
-  name: 'index',
+  name: 'work',
+  metaInfo: {
+    title: '工序管理',
+  },
   components: {},
   data() {
     return {

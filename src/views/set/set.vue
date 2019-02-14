@@ -78,7 +78,10 @@
 import _ from 'lodash';
 import Validator from 'async-validator';
 export default {
-  name: 'index',
+  name: 'set',
+  metaInfo: {
+    title: '基础设置管理',
+  },
   components: {},
   data() {
     return {
