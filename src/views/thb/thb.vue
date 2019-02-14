@@ -106,7 +106,7 @@ export default {
     return {
       list: [],
       form: {
-        create_date:new Date(),
+        create_date: new Date(),
       },
       deleteItem: '',
       updateForm: {

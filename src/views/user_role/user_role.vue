@@ -1,5 +1,5 @@
 <template lang='html'>
-  <div id="index">
+  <div id="user_role">
      <!-- 位置导航 begin  -->
       <b-breadcrumb>
         <b-breadcrumb-item :to="{name:'user_role'}">权限分配</b-breadcrumb-item>
@@ -56,7 +56,10 @@
 
 <script>
 export default {
-  name: 'index',
+  name: 'user_role',
+  metaInfo: {
+    title: '权限管理',
+  },
   components: {},
   data() {
     return {
