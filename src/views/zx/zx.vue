@@ -1,9 +1,5 @@
 <template lang='html'>
   <div id="zx">
-    <!-- 位置导航 begin  -->
-    <b-breadcrumb>
-      <b-breadcrumb-item :to="{ name: 'zx' }">针芯管理</b-breadcrumb-item>
-    </b-breadcrumb>
     <!-- 表格 begin -->
     <div class="base-form">
       <div class="form-inline">

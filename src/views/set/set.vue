@@ -1,9 +1,5 @@
 <template lang='html'>
   <div id="index">
-     <!-- 位置导航 begin  -->
-      <b-breadcrumb>
-        <b-breadcrumb-item :to="{name:'DeptIndex'}">基础设置管理</b-breadcrumb-item>
-      </b-breadcrumb>
       <!-- 表格 begin -->
       <div class="base-form">
         <div class="form-inline">

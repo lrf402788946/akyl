@@ -1,9 +1,5 @@
 <template lang='html'>
   <div id="kind"><!--选工序填型号-->
-    <!-- 位置导航 begin  -->
-    <b-breadcrumb>
-      <b-breadcrumb-item :to="{name:'role'}">型号管理</b-breadcrumb-item>
-    </b-breadcrumb>
     <!-- 表格 begin -->
     <div class="base-form">
       <div class="form-inline">

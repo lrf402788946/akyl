@@ -1,9 +1,5 @@
 <template lang='html'>
   <div id="user">
-    <!-- 位置导航 begin  -->
-    <b-breadcrumb>
-      <b-breadcrumb-item :to="{name:'user'}">用户列表</b-breadcrumb-item>
-    </b-breadcrumb>
     <!-- 表格 begin -->
     <div class="base-form">
       <div class="form-inline">
