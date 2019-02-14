@@ -108,16 +108,16 @@ export default {
     this.search();
   },
   methods: {
-    toSearch(currentPage) {   //111
+    toSearch(currentPage) {
       this.currentPage = currentPage;
       this.search();
     },
     async search() {
       //查询方法
-      let skip = (this.currentPage - 1) * this.limit;  //111
+      let skip = (this.currentPage - 1) * this.limit; //111
       let result = await this.$axios.get(`/akyl/post/post_list?skip=${skip}&limit=${this.limit}`);
       this.$set(this, 'list', result.data.postList);
-      this.$set(this, 'totalRow', result.data.totalRow);   //111
+      this.$set(this, 'totalRow', result.data.totalRow); //111
     },
     async toUpdate() {
       //修改方法
