@@ -33,7 +33,7 @@
             </tr>
           </tbody>
         </table>
-        <b-modal id="toAdd" title="添加型号" ref="toAdd" hide-footer> 
+        <b-modal id="toAdd" title="添加型号" ref="toAdd" hide-footer > 
           <!--需要计算,如果是父类,正常显示,不是的话就缩进-->
           <p class="marginBot5">工序</p>
           <b-form-select v-model="form.work_id"  :options="workList"/>
@@ -45,7 +45,7 @@
           <b-button variant="primary" @click="toValidate('add')"  style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >保&nbsp;&nbsp;存</b-button>
         </b-modal>
 
-        <b-modal id="Edit" title="修改型号" ref="Edit" hide-footer> 
+        <b-modal id="Edit" title="修改型号" ref="Edit" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> 
           <p class="marginBot5">工序</p>
           <b-form-select v-model="form.work_id"  :options="workList"/>
           <p class="marginBot5">型号代码</p>
@@ -56,7 +56,7 @@
           <b-button variant="primary" @click="toValidate('update')"  style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >修&nbsp;&nbsp;改</b-button>
         </b-modal>
 
-        <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer> 
+        <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> 
           <div class="d-block text-center">
             <b-alert variant="danger" show>确定删除该型号?</b-alert>
           </div>
@@ -180,7 +180,7 @@ export default {
       this.$refs.Edit.hide();
       this.list = JSON.parse(JSON.stringify(this.origin));
       this.deleteItem = '';
-      this.form = {};
+      this.form = { work_id: null };
     },
     //验证错误
     handleErrors(errors, fields) {

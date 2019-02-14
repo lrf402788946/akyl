@@ -56,7 +56,7 @@
             <b-button  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   variant="primary" @click="toValidate('add')" >保&nbsp;&nbsp;存</b-button>
           </b-modal>
 
-          <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer> 
+          <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> 
             <div class="d-block text-center">
               <b-alert variant="danger" show>删除裸针可能会影响您的管理,确认删除吗?</b-alert>
             </div>
@@ -66,7 +66,7 @@
           </b-modal>
 
           <!-- jkjkjkjk -->
-          <b-modal id="updateAlert" title="修改弹簧柄" ref="updateAlert" hide-footer>
+          <b-modal id="updateAlert" title="修改弹簧柄" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
             <div class="d-block">
               <div class="row">
                 <div class="col-lg-12 marginBot4">
