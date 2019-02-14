@@ -126,17 +126,16 @@ export default {
       this.updateForm = this.list;
       this.search();
     },
-
     //改变文本框只读状态
     change(){
-      this.isReadOnly=false
+      this.isReadOnly = false;
     },
     tijiao(){
-      this.isReadOnly=true
+      this.isReadOnly = true;
       this.toUpdate();
     },
     fanhui(){
-      this.isReadOnly=true
+      this.isReadOnly = true;
       this.search();
     },
      //验证

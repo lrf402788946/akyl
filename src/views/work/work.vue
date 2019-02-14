@@ -14,7 +14,7 @@
         </div>
         <div class="base-padding-20 base-bg-fff">
           <div class="base-align-right" style="margin-bottom:20px;">
-            <a class="btn btn-info base-margin-bottom" data-toggle="tooltip" style="font-size:14px !important;padding: 6px 12px !important;" title="" role="button" v-b-modal="'toAdd'">
+            <a class="btn btn-info base-margin-bottom" data-toggle="tooltip" style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;" title="" role="button" v-b-modal="'toAdd'">
               <i class="base-margin-right-5 fa fa-plus-square"></i>添加工序
             </a>
           </div>
@@ -44,7 +44,7 @@
             <el-pagination
             layout="total, prev, pager, next"
             :background="true"
-            :page-size="10"
+            :page-size="15"
             prev-text="上一页"
             next-text="下一页"
             @current-change="toSearch"
@@ -116,7 +116,7 @@ export default {
         gender: -1,
       },
       currentPage: 1,
-      limit: 10,
+      limit: 15,
       totalRow: 0,
          roleValidator:new Validator({
         code:{type:'string',required:true,message:'请填写工序编号'},
@@ -126,22 +126,21 @@ export default {
   },
   computed: {},
   created() {
-     this.search();
+    this.search();
   },
-  
   methods: {
     //整体逻辑:已有数据的修改直接=>提交=>请求=>刷新视图;添加数据则弹出框添加
-       toSearch(currentPage) {   
+    toSearch(currentPage) {
       this.currentPage = currentPage;
       this.search();
     },
     //查询
     async search() {
       //查询方法
-      let skip = (this.currentPage - 1) * this.limit; 
+      let skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(`/akyl/work/work_list?skip=${skip}&limit=${this.limit}`);
       this.$set(this, 'list', result.data.workList);
-      this.$set(this, 'totalRow', result.data.totalRow); 
+      this.$set(this, 'totalRow', result.data.totalRow);
     },
     async toUpdate() {
       let result = await this.$axios.post('/akyl/work/work_edit', { data: this.updateForm });

@@ -1,113 +1,185 @@
 <template lang='html'>
-  <div id="index">
-     <!-- 位置导航 begin  -->
-      <b-breadcrumb>
-        <b-breadcrumb-item :to="{name:'DeptIndex'}">针芯管理</b-breadcrumb-item>
-      </b-breadcrumb>
-      <!-- 表格 begin -->
-      <div class="base-form">
-        <div class="form-inline">
-          <div class="base-form-title" style="width:100%;"><a class="base-margin-left-20">针芯列表</a>
-            <div class="button-table">
-            </div>
-          </div>
-        </div>
-        <div class="base-padding-20 base-bg-fff">
-          <div class="base-align-right" style="margin-bottom:20px;">
-            <a class="btn btn-info base-margin-bottom" data-toggle="tooltip" style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;" title="" role="button" v-b-modal="'toAdd'">
-              <i class="base-margin-right-5 fa fa-plus-square" style=" color:#fff !important;"></i>添加针芯
-            </a>
-          </div>
-          <table class="table table-bordered table-striped ">
-            <tbody>
-              <tr>
-                <th>型号</th>
-                <th>数量</th>
-                <th>创建日期</th>
-                <th>操作</th>
-              </tr>
-              <tr v-for="(item,index) in list" :key="index"><!--美化下input 可以看情况使用-->
-                <td>{{item.type}}</td>
-                <td>{{item.num}}</td>
-                <td>{{item.create_date}}</td>
-                <td>
-                  <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update',index)" >修&nbsp;&nbsp;改</b-button>
-                  <b-button variant="danger" style="color:white;"  @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
-                  <!-- <a class="btn btn-xs btn-info base-margin-2" data-toggle="tooltip" @click="toUpdate(index)"
-                    title="" role="button">保&nbsp;&nbsp;存</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                  <a class="btn btn-xs btn-info base-margin-2" data-toggle="tooltip" @click="toDelete(index)"
-                    title="" role="button">删&nbsp;&nbsp;除</a> -->
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <b-modal id="toAdd" title="添加针芯" ref="toAdd" hide-footer>
-            <div style="margin-bottom: 7px;">型号:</div>
-            <b-form-input v-model="form.type"></b-form-input>
-            <div style="margin-top:7px; margin-bottom:7px;">数量:</div>
-            <b-form-input v-model="form.num"></b-form-input>
-            <div style="margin-top:7px; margin-bottom:7px;">创建日期:</div>
-            <el-date-picker  style="width:100%;" v-model="form.create_date" type="date" placeholder="选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
-            <!-- <b-form-input v-model="form.create_date"></b-form-input> -->
-            <b-button variant="secondary" style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  @click="form={}" >重&nbsp;&nbsp;置</b-button>
-            <b-button  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   variant="primary" @click="toAdd()" >保&nbsp;&nbsp;存</b-button>
-          </b-modal>
-
-          <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer> 
-            <div class="d-block text-center">
-              <b-alert variant="danger" show>删除针芯可能会影响您的管理,确认删除吗?</b-alert>
-            </div>
-           <b-button variant="danger"   style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   @click="toDelete()">删&nbsp;&nbsp;除</b-button>
-           <b-button variant="primary"   style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   @click="$refs.deleteAlert.hide(),deleteItem=''">
-             返&nbsp;&nbsp;回</b-button>
-          </b-modal>
-
-          <!-- jkjkjkjk -->
-          <b-modal id="updateAlert" title="修改针芯" ref="updateAlert" hide-footer>
-            <div class="d-block">
-              <div class="row">
-                <div class="col-lg-12 marginBot4">
-                    <p class="marginBot4">型号</p>
-                    <b-form-input v-model="updateForm.type"></b-form-input>
-                </div>
-                <div class="col-lg-12 marginBot4">
-                    <p class="marginBot4">数量</p>
-                    <b-form-input v-model="updateForm.num"></b-form-input>
-                </div>
-                <div class="col-lg-12 marginBot">
-                    <p class="marginBot4">创建日期</p>
-                    <el-date-picker  style="width:100%;" v-model="updateForm.create_date" type="date" placeholder="选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
-                </div>
-                <div class="col-lg-12 marginBot4">
-                  <b-button variant="secondary" @click="closeAlert('update')" class="resetButton" style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >
-                    返&nbsp;&nbsp;回</b-button>
-                  <b-button variant="primary" @click="toUpdate()" class="resetButton"  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;" >
-                    保&nbsp;&nbsp;存</b-button>
-                </div>
-              </div>
-            </div>
-          </b-modal>
-          <!-- klklklkl -->
-          
+  <div id="zx">
+    <!-- 位置导航 begin  -->
+    <b-breadcrumb>
+      <b-breadcrumb-item :to="{ name: 'zx' }">针芯管理</b-breadcrumb-item>
+    </b-breadcrumb>
+    <!-- 表格 begin -->
+    <div class="base-form">
+      <div class="form-inline">
+        <div class="base-form-title" style="width:100%;">
+          <a class="base-margin-left-20">针芯列表</a>
+          <div class="button-table"></div>
         </div>
       </div>
-  </div> 
+      <div class="base-padding-20 base-bg-fff">
+        <div class="base-align-right" style="margin-bottom:20px;">
+          <a
+            class="btn btn-info base-margin-bottom"
+            data-toggle="tooltip"
+            style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;"
+            title=""
+            role="button"
+            v-b-modal="'toAdd'"
+          >
+            <i class="base-margin-right-5 fa fa-plus-square" style=" color:#fff !important;"></i>添加针芯
+          </a>
+        </div>
+        <table class="table table-bordered table-striped ">
+          <tbody>
+            <tr>
+              <th>型号</th>
+              <th>数量</th>
+              <th>创建日期</th>
+              <th>操作</th>
+            </tr>
+            <tr v-for="(item, index) in list" :key="index">
+              <td>{{ item.type }}</td>
+              <td>{{ item.num }}</td>
+              <td>{{ item.create_date }}</td>
+              <td>
+                <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update', index)">修&nbsp;&nbsp;改</b-button>
+                <b-button variant="danger" style="color:white;" @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <el-pagination
+          layout="total, prev, pager, next"
+          :background="true"
+          :page-size="15"
+          prev-text="上一页"
+          next-text="下一页"
+          @current-change="toSearch"
+          :total="totalRow"
+        >
+        </el-pagination>
+      </div>
+    </div>
+
+    <b-modal id="toAdd" title="添加针芯" ref="toAdd" hide-footer>
+      <div style="margin-bottom: 7px;">型号:</div>
+      <b-form-input v-model="form.type"></b-form-input>
+      <div style="margin-top:7px; margin-bottom:7px;">数量:</div>
+      <b-form-input v-model="form.num" type="number"></b-form-input>
+      <div style="margin-top:7px; margin-bottom:7px;">创建日期:</div>
+      <el-date-picker
+        style="width:100%;"
+        v-model="form.create_date"
+        type="date"
+        placeholder="选择日期"
+        value-format="yyyy-MM-dd"
+        format="yyyy-MM-dd"
+      ></el-date-picker>
+      <b-button
+        variant="secondary"
+        style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+        @click="form = { create_date: create_date_today }"
+        >重&nbsp;&nbsp;置</b-button
+      >
+      <b-button
+        style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+        variant="primary"
+        @click="toValidate('add')"
+        >保&nbsp;&nbsp;存</b-button
+      >
+    </b-modal>
+
+    <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer>
+      <div class="d-block text-center">
+        <b-alert variant="danger" show>删除针芯可能会影响您的管理,确认删除吗?</b-alert>
+      </div>
+      <b-button
+        variant="danger"
+        style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+        @click="toDelete()"
+      >
+        删&nbsp;&nbsp;除</b-button
+      >
+      <b-button
+        variant="primary"
+        style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+        @click="$refs.deleteAlert.hide(), deleteItem = ''"
+      >
+        返&nbsp;&nbsp;回</b-button
+      >
+    </b-modal>
+
+    <!-- jkjkjkjk -->
+    <b-modal id="updateAlert" title="修改针芯" ref="updateAlert" hide-footer>
+      <div class="d-block">
+        <div class="row">
+          <div class="col-lg-12 marginBot4">
+            <p class="marginBot4">型号</p>
+            <b-form-input v-model="updateForm.type"></b-form-input>
+          </div>
+          <div class="col-lg-12 marginBot4">
+            <p class="marginBot4">数量</p>
+            <b-form-input v-model="updateForm.num" type="number"></b-form-input>
+          </div>
+          <div class="col-lg-12 marginBot">
+            <p class="marginBot4">创建日期</p>
+            <el-date-picker
+              style="width:100%;"
+              v-model="updateForm.create_date"
+              type="date"
+              placeholder="选择日期"
+              value-format="yyyy-MM-dd"
+              format="yyyy-MM-dd"
+            ></el-date-picker>
+          </div>
+          <div class="col-lg-12 marginBot4">
+            <b-button
+              variant="secondary"
+              @click="closeAlert('update')"
+              class="resetButton"
+              style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+            >
+              返&nbsp;&nbsp;回</b-button
+            >
+            <b-button
+              variant="primary"
+              @click="toValidate('update')"
+              class="resetButton"
+              style="font-size:16px !important;
+              margin-top:35px; 
+              float:right; 
+              padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+              >保&nbsp;&nbsp;存</b-button
+            >
+          </div>
+        </div>
+      </div></b-modal
+    >
+  </div>
 </template>
 
 <script>
+import Validator from 'async-validator';
 import _ from 'lodash';
 export default {
-  name: 'index',
+  name: 'zx',
+  metaInfo: {
+    title: '针芯管理',
+  },
   components: {},
   data() {
     return {
       list: [],
-      form: {},
-      deleteItem: '',
-      updateForm: {
-        gender: -1,
-        dept_id: 'default',
+      create_date_today: new Date().getYear() + 1900 + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate(),
+      form: {
+        create_date: new Date().getYear() + 1900 + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate(),
       },
+      deleteItem: '',
+      updateForm: {},
+      currentPage: 1,
+      limit: 15,
+      totalRow: 100,
+      zxValidator: new Validator({
+        type: { type: 'string', required: true, message: '请填写型号' },
+        num: { required: true, message: '请填写数量' },
+        create_date: { type: 'string', required: true, message: '请选择创建日期' },
+      }),
     };
   },
   computed: {},
@@ -116,11 +188,18 @@ export default {
   },
   methods: {
     //整体逻辑:已有数据的修改直接=>提交=>请求=>刷新视图;添加数据则弹出框添加
+    //分页
+    toSearch(currentPage) {
+      this.currentPage = currentPage;
+      this.search();
+    },
     //查询
     async search() {
       //查询方法
-      let result = await this.$axios.get('http://10.16.11.186:80/zx/zx_list?skip=0&limit=10');
+      let skip = (this.currentPage - 1) * this.limit;
+      let result = await this.$axios.get(`/akyl/zx/zx_list?skip=${skip}&limit=${this.limit}`);
       this.$set(this, 'list', result.data.zxList);
+      this.$set(this, 'totalRow', result.data.totalRow);
     },
     async toUpdate() {
       let result = await this.$axios.post('/akyl/zx/zx_edit', { data: this.updateForm });
@@ -150,7 +229,7 @@ export default {
     openAlert(type, id) {
       if (type === 'update') {
         this.$refs.updateAlert.show();
-        this.updateForm = this.list[id];
+        this.updateForm = JSON.parse(JSON.stringify(this.list[id]));
       } else if (type === 'delete') {
         this.$refs.deleteAlert.show();
         this.operateId = id;
@@ -164,6 +243,35 @@ export default {
       }
       this.operateId = '';
       this.updateForm = {};
+    },
+    //验证,因为添加和修改的验证内容都是一样的,所以用一个方法
+    toValidate(type) {
+      if (type === 'add') {
+        this.zxValidator.validate(this.form, (errors, fields) => {
+          if (errors) {
+            return this.handleErrors(errors, fields);
+          }
+          return this.toAdd();
+        });
+      } else {
+        this.zxValidator.validate(this.updateForm, (errors, fields) => {
+          if (errors) {
+            return this.handleErrors(errors, fields);
+          }
+          return this.toUpdate();
+        });
+      }
+    },
+    //验证错误
+    handleErrors(errors, fields) {
+      this.$message.error(errors[0].message);
+      this.errors = errors.reduce((p, c) => {
+        // eslint-disable-next-line no-param-reassign
+        p[c.field] = 'error';
+        return p;
+      }, {});
+      // eslint-disable-next-line no-console
+      console.debug(errors, fields);
     },
   },
 };
@@ -426,7 +534,6 @@ li {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 </style>
-
 
 <style scoped>
 @import '../../assets/style/Font-Awesome-master/css/font-awesome.css';

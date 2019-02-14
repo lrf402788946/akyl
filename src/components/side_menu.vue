@@ -4,33 +4,36 @@
         <div class="base-sidebar-menu">
           <span class="title">操作面板</span>
           <ul class="mainmenu">
-            <!-- <li>
-              <span><i class="fa-stack fa fa-user"></i>针管理</span>
-            </li>
-            <ul class="submenu">
-              <div class="expand-triangle"></div>
-              <router-link :to="{name:'lz'}"><li><span>裸针库表</span></li></router-link>
-              <router-link :to="{name:'zx'}"><li><span>针芯库表</span></li></router-link>
-            </ul> -->
             <li>
-              <span><i class="fa-stack fa fa-cogs"></i>系统管理</span>
+              <span><i class="fa-stack fa fa-user"></i>用户管理</span>
             </li>
             <ul class="submenu">
               <div class="expand-triangle"></div>
               <router-link :to="{name:'user'}"><li><span> 用户管理</span></li></router-link>
               <router-link :to="{name:'role'}"><li><span> 角色管理</span></li></router-link>
               <router-link :to="{name:'user_role'}"><li><span> 权限分配</span></li></router-link>
-              <router-link :to="{name:'dept'}"><li><span> 部门表</span></li></router-link>
-              <router-link :to="{name:'post'}"><li><span> 岗位表</span></li></router-link>
+            </ul>
+            <li>
+              <span><i class="fa-stack fa fa-cogs"></i>系统管理</span>
+            </li>
+            <ul class="submenu">
+              <div class="expand-triangle"></div>
+              <router-link :to="{name:'thb'}"><li><span>弹簧柄库管理</span></li></router-link>
+              
+              <router-link :to="{name:'dept'}"><li><span> 部门管理</span></li></router-link>
+              <router-link :to="{name:'post'}"><li><span> 岗位管理</span></li></router-link>
               <router-link :to="{name:'work'}"><li><span> 工序管理</span></li></router-link>
               <router-link :to="{name:'set'}"><li><span>基础设置管理</span></li></router-link>
-              <router-link :to="{name:'lz'}"><li><span>裸针库表</span></li></router-link>
-              <router-link :to="{name:'zx'}"><li><span>针芯库表</span></li></router-link>
+              <router-link :to="{name:'lz'}"><li><span>裸针管理</span></li></router-link>
+              <router-link :to="{name:'zx'}"><li><span>针芯管理</span></li></router-link>
+              <router-link :to="{name:'kind'}"><li><span>类型管理</span></li></router-link>
             </ul>
+            
 
           </ul>
+          <div class="base-footer"> 爱康管理平台 <br /> Co pyright © 2019-2020 <br /> 当前版本：1.0 </div>
         </div>
-        <div class="base-footer"> akyl管理系统 <br /> Co pyright © 2019-2020 <br /> 当前版本：1.0 </div>
+        
       </div>
   </div>
 </template>

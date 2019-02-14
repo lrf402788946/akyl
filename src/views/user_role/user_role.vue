@@ -1,5 +1,5 @@
 <template lang='html'>
-  <div id="index">
+  <div id="user_role">
      <!-- 位置导航 begin  -->
       <b-breadcrumb>
         <b-breadcrumb-item :to="{name:'user_role'}">权限分配</b-breadcrumb-item>
@@ -29,16 +29,25 @@
               </tr>
             </tbody>
           </table>
+           <el-pagination
+            layout="total, prev, pager, next"
+            :background="true"
+            :page-size="15"
+            prev-text="上一页"
+            next-text="下一页"
+            @current-change="toSearch"
+            :total="totalRow">
+          </el-pagination>
           <b-modal id="updateAlert" title="修改权限" ref="updateAlert" hide-footer>
-            <label>请选择权限</label> 
+            <!-- <label>请选择权限</label> 
             <el-checkbox-group v-model="form.role_id">
               <el-checkbox v-for="(item,index) in roleList" :key="index" :label="item.value">{{item.text}}</el-checkbox>
-            </el-checkbox-group>
+            </el-checkbox-group> -->
+            <el-transfer v-model="form.role_id" :data="roleList" :titles="['所有权限', '已有权限']" :button-texts="['移除', '添加']"></el-transfer>
               <b-button variant="secondary"  style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  @click="closeAlert()" >返&nbsp;&nbsp;回</b-button>
               <b-button variant="primary"  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  @click="toSave()" >保&nbsp;&nbsp;存</b-button>
             <!-- <b-button variant="secondary" @click="form={}" >重置</b-button><b-button variant="primary" @click="toAdd()" >保存</b-button> -->
           </b-modal>
-
         </div>
       </div>
   </div> 
@@ -47,44 +56,24 @@
 
 <script>
 export default {
-  name: 'index',
+  name: 'user_role',
+  metaInfo: {
+    title: '权限管理',
+  },
   components: {},
   data() {
     return {
       list: [],
-      origin: [
-        {
-          user_name: 'test',
-          role_id: [0, 1],
-        },
-      ],
+      origin: [],
       form: {
         role_id: [],
       },
-      userList: [
-        {
-          user_name: 'test',
-          role_id: [0, 1],
-        },
-      ],
-      roleList: [
-        {
-          value: 0,
-          text: '厅长',
-        },
-        {
-          value: 1,
-          text: '测试员',
-        },
-        {
-          value: 2,
-          text: '测试员2',
-        },
-      ],
+      userList: [],
+      roleList: [],
       operateId: '',
-      toatalPage: 0,
+      totalRow: 0,
       currentPage: 1,
-      limit: 10,
+      limit: 15,
     };
   },
   computed: {},
@@ -92,15 +81,21 @@ export default {
     this.search();
   },
   methods: {
+    //分页
+    toSearch(currentPage) {
+      this.currentPage = currentPage;
+      this.search();
+    },
     async search() {
       //查询方法
       let result = await this.$axios.get('/akyl/role/role_list?skip=0&limit=100');
-      let result2 = await this.$axios.get('/akyl/user/user_list?skip=0&limit=10');
+      let skip = (this.currentPage - 1) * this.limit;
+      let result2 = await this.$axios.get(`/akyl/user/user_list?skip=${skip}&limit=${this.limit}`);
       let newList;
       if (result2.data.msg === '成功') {
         this.userList = result2.data.userList;
         newList = result.data.roleList.map(item => {
-          let newObject = { text: item.role_name, value: item.id };
+          let newObject = { label: item.role_name, key: item.id };
           return newObject;
         });
       }
@@ -108,6 +103,7 @@ export default {
         this.$set(this, 'roleList', newList);
         this.$set(this, 'userList', result2.data.userList);
         this.$set(this, 'origin', result2.data.userList);
+        this.$set(this, 'totalRow', result2.data.totalRow);
       }
     },
     //打开修改框
