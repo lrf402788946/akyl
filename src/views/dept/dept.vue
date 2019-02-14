@@ -112,32 +112,31 @@ export default {
   methods: {
     handleErrors(errors, fields) {
       this.$message.error(errors[0].message);
-      this.errors = errors.reduce((p,c) => {
+      this.errors = errors.reduce((p, c) => {
         p[c.field] = 'error';
         return p;
       }, {});
-      console.debug(errors,fields);
+      console.debug(errors, fields);
     },
     toValidate(type) {
-      if(type === 'add') {
-        this.addValidator.validate(this.form,(errors,fields) => {
+      if (type === 'add') {
+        this.addValidator.validate(this.form, (errors, fields) => {
           if (errors) {
-            return this.handleErrors(errors,fields);
-          }else{
+            return this.handleErrors(errors, fields);
+          } else {
             return this.toAdd();
           }
-        })
-      };
-      if(type === 'update') {
-        this.addValidator.validate(this.updateForm,(errors,fields) => {
+        });
+      }
+      if (type === 'update') {
+        this.addValidator.validate(this.updateForm, (errors, fields) => {
           if (errors) {
-            return this.handleErrors(errors,fields);
-          }
-          else{
+            return this.handleErrors(errors, fields);
+          } else {
             return this.toUpdate();
           }
-        })
-      };
+        });
+      }
     },
     async search() {
       //查询方法
@@ -194,7 +193,7 @@ export default {
 
 <style scoped>
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+  -webkit-appearance: none;
 }
 .marginBot4 {
   margin-bottom: 4px;
