@@ -150,7 +150,7 @@ export default {
     openAlert(type, id) {
       if (type === 'update') {
         this.$refs.updateAlert.show();
-        this.updateForm = this.list[id];
+        this.updateForm = JSON.parse(JSON.stringify(this.list[id]));
       } else if (type === 'delete') {
         this.$refs.deleteAlert.show();
         this.operateId = id;

@@ -46,7 +46,7 @@
 
           <b-modal id="toAdd" title="添加弹簧柄" ref="toAdd" hide-footer>
             <div style="margin-bottom: 7px;">型号:</div>
-            <b-form-input v-model="form.type" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+            <b-form-input v-model="form.type" onkeypress="return (/[^ ]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
             <div style="margin-top:7px; margin-bottom:7px;">数量:</div>
             <b-form-input v-model="form.num" type="number" autocomplete="off" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))" style="ime-mode:Disabled"></b-form-input>
             <div style="margin-top:7px; margin-bottom:7px;">创建日期:</div>
@@ -71,7 +71,7 @@
               <div class="row">
                 <div class="col-lg-12 marginBot4">
                     <p class="marginBot4">型号</p>
-                    <b-form-input v-model="updateForm.type" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+                    <b-form-input v-model="updateForm.type" onkeypress="return (/[^ ]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
                 </div>
                 <div class="col-lg-12 marginBot4">
                     <p class="marginBot4">数量</p>
@@ -197,7 +197,7 @@ export default {
     openAlert(type, id) {
       if (type === 'update') {
         this.$refs.updateAlert.show();
-        this.updateForm = this.list[id];
+        this.updateForm = JSON.parse(JSON.stringify(this.list[id]));
       } else if (type === 'delete') {
         this.$refs.deleteAlert.show();
         this.operateId = id;
