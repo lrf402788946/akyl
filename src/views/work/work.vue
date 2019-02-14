@@ -74,16 +74,12 @@
             <div class="d-block">
               <div class="row">
                 <div class="col-lg-12 marginBot4">
-                    <p class="marginBot4">工序编号</p>
-                    <b-form-input v-model="updateForm.id" disabled="true"></b-form-input>
-                </div>
-                <div class="col-lg-12 marginBot4">
                     <p class="marginBot4">工序代码</p>
-                    <b-form-input v-model="updateForm.code"></b-form-input>
+                    <b-form-input v-model="updateForm.code" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
                 </div>
                 <div class="col-lg-12 marginBot">
                     <p class="marginBot4">工序名称</p>
-                    <b-form-input v-model="updateForm.name"></b-form-input>
+                    <b-form-input v-model="updateForm.name" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
                 </div>
                 <div class="col-lg-12 marginBot4">
                   <b-button variant="secondary" @click="closeAlert('update')" class="resetButton" style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >
@@ -119,7 +115,7 @@ export default {
       limit: 15,
       totalRow: 0,
          roleValidator:new Validator({
-        code:{type:'string',required:true,message:'请填写工序编号'},
+        code:{type:'string',required:true,message:'请填写工序代码'},
         name:{type:'string',required:true,message:'请填写工序名称'},
       }),
     };
@@ -198,8 +194,8 @@ export default {
       }
         
         });
-      }else{
-        this.roleValidator.validate(this.form, (errors, fields) => {
+      }else if(type==='update'){
+        this.roleValidator.validate(this.updateForm, (errors, fields) => {
           if(errors){
         return this.handleErrors(errors,fields);
         }else{
