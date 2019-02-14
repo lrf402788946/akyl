@@ -100,7 +100,7 @@
                  <b-form-input v-model="addForm.level" placeholder="职务" class="marginBot"></b-form-input>
               </div>
               <div class="col-lg-6"><!--岗位需要调用其他表-->
-                 <b-form-input v-model="addForm.post_id" placeholder="岗位" class="marginBot"></b-form-input>
+                 <b-form-select v-model="addForm.post_id" placeholder="岗位"  :options="postList" class="marginBot" />
               </div>
             </div>
             <textarea v-model="addForm.remark" class="form-control" rows="3" style="height: 100px !important;" placeholder="备注"></textarea><br/>
@@ -164,7 +164,7 @@
               </div>
               <div class="col-lg-6 marginBot4">
                   <p class="marginBot4">岗位</p>
-                  <b-form-input v-model="updateForm.post_id" :disabled="is_update"></b-form-input>
+                  <b-form-select v-model="updateForm.post_id" :options="postList" :disabled="is_update"></b-form-select>
               </div>
               <div class="col-lg-12 marginBot">
                   <p class="marginBot4">备注</p>
@@ -207,10 +207,12 @@ export default {
       addForm: {
         gender: -1,
         dept_id: 'default',
+        post_id: 'default',
       },
       updateForm: {
         gender: -1,
         dept_id: 'default',
+        post_id: 'default',
       },
       operateId: {},
       gender: [{ text: '性别', value: -1, disabled: true }, { text: '男', value: 1 }, { text: '女', value: 0 }],
@@ -218,11 +220,12 @@ export default {
       limit: 10,
       totalRow: 100,
       deptList: [{ text: '请选择部门', value: 'default', disabled: true }],
+      postList: [{ text: '请选择岗位', value: 'default', disabled: true }],
     };
   },
   created() {
     this.search();
-    // this.getDeptList();
+    this.getOtherList();
   },
   computed: {},
   methods: {
@@ -264,14 +267,23 @@ export default {
       this.search();
     },
     //请求部门表
-    async getDeptList() {
-      let result = await this.$axios.get('/akyl/dept/dept_list');
+    async getOtherList() {
+      //请求部门表
+      let result = await this.$axios.get('/akyl/dept/dept_list?skip=0&limit=100');
       this.deptList = result.data.deptList.map(item => {
         let newObject = { text: item.dept_name, value: item.id };
         return newObject;
       });
-      let defalut = { text: '部门', value: 'default', disabled: true };
+      let defalut = { text: '请选择部门', value: 'default', disabled: true };
       this.deptList.unshift(defalut);
+      //请求岗位表
+      result = await this.$axios.get('/akyl/post/post_list?skip=0&limit=100');
+      this.postList = result.data.postList.map(item => {
+        let newObject = { text: item.name, value: item.id };
+        return newObject;
+      });
+      defalut = { text: '请选择岗位', value: 'default', disabled: true };
+      this.postList.unshift(defalut);
     },
     //打开与关闭修改和删除的弹框,现在关闭添加弹框自己点x
     openAlert(type, id) {

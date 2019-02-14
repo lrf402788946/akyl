@@ -39,10 +39,11 @@
             :total="totalRow">
           </el-pagination>
           <b-modal id="updateAlert" title="修改权限" ref="updateAlert" hide-footer>
-            <label>请选择权限</label> 
+            <!-- <label>请选择权限</label> 
             <el-checkbox-group v-model="form.role_id">
               <el-checkbox v-for="(item,index) in roleList" :key="index" :label="item.value">{{item.text}}</el-checkbox>
-            </el-checkbox-group>
+            </el-checkbox-group> -->
+            <el-transfer v-model="form.role_id" :data="roleList" :titles="['所有权限', '已有权限']" :button-texts="['移除', '添加']"></el-transfer>
               <b-button variant="secondary"  style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  @click="closeAlert()" >返&nbsp;&nbsp;回</b-button>
               <b-button variant="primary"  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  @click="toSave()" >保&nbsp;&nbsp;存</b-button>
             <!-- <b-button variant="secondary" @click="form={}" >重置</b-button><b-button variant="primary" @click="toAdd()" >保存</b-button> -->
@@ -91,7 +92,7 @@ export default {
       if (result2.data.msg === '成功') {
         this.userList = result2.data.userList;
         newList = result.data.roleList.map(item => {
-          let newObject = { text: item.role_name, value: item.id };
+          let newObject = { label: item.role_name, key: item.id };
           return newObject;
         });
       }

@@ -7,7 +7,7 @@
     <!-- 表格 begin -->
     <div class="base-form">
       <div class="form-inline">
-        <div class="base-form-title" style="width:100%;"><a class="base-margin-left-20">角色列表</a>
+        <div class="base-form-title" style="width:100%;"><a class="base-margin-left-20">型号列表</a>
           <div class="button-table">
           </div>
         </div>
@@ -38,9 +38,9 @@
         <b-modal id="toAdd" title="添加型号" ref="toAdd" hide-footer> 
           <!--需要计算,如果是父类,正常显示,不是的话就缩进-->
           <p class="marginBot5">型号代码</p>
-          <b-form-input v-model="form.code" class="marginBot8"></b-form-input>
+          <b-form-input v-model="addForm.code" class="marginBot8"></b-form-input>
           <p class="marginBot5">型号名称</p>
-          <b-form-input v-model="form.name" class="marginBot20"></b-form-input>
+          <b-form-input v-model="addForm.name" class="marginBot20"></b-form-input>
           <b-button variant="secondary" @click="form={}" style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >重&nbsp;&nbsp;置</b-button>
           <b-button variant="primary" @click="toAdd()"  style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >保&nbsp;&nbsp;存</b-button>
         </b-modal>
@@ -76,6 +76,7 @@ export default {
     return {
       origin: [],
       list: [],
+      addForm: {},
       form: {},
       deleteItem: '',
       currentPage: 1,
@@ -121,10 +122,20 @@ export default {
     },
     //删除
     async toDelete() {
-      let result = await this.$axios.post('/akyl/kind/kind_delete', { data: { id: this.operateId } });
+      let result = await this.$axios.post('/akyl/kind/kind_delete', { data: { id: this.deleteItem } });
       this.$refs.deleteAlert.hide();
       this.search();
       this.deleteItem = '';
+    },
+    //打开修改提示框
+    openUpdateAlert(index) {
+      this.$refs.Edit.show();
+      this.form = JSON.parse(JSON.stringify(this.list[index]));
+    },
+    //打开删除提示框
+    openDeleteAlert(id) {
+      this.$refs.deleteAlert.show();
+      this.deleteItem = id;
     },
     //关闭弹框
     closeAlert() {
