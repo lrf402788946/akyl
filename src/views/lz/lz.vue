@@ -118,7 +118,6 @@ export default {
       currentPage: 1,
       limit: 15,
       totalRow: 100,
-      
     };
   },
   computed: {},
@@ -446,17 +445,19 @@ li {
 .el-input__inner {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
-.el-pagination.is-background .btn-next, .el-pagination.is-background .btn-prev, .el-pagination.is-background .el-pager li {
-    padding: 0 10px !important;
-    margin: 0 3px !important;
+.el-pagination.is-background .btn-next,
+.el-pagination.is-background .btn-prev,
+.el-pagination.is-background .el-pager li {
+  padding: 0 10px !important;
+  margin: 0 3px !important;
 }
 .el-pagination {
-    margin-top: 20px !important;
-    text-align: right !important;
-    padding-right: 0 !important;
+  margin-top: 20px !important;
+  text-align: right !important;
+  padding-right: 0 !important;
 }
-.el-pagination.is-background .btn-next{
-    margin-right: 0 !important;
+.el-pagination.is-background .btn-next {
+  margin-right: 0 !important;
 }
 </style>
 

@@ -105,9 +105,11 @@
             </div>
             <textarea v-model="addForm.remark" class="form-control" rows="3" style="height: 100px !important;" placeholder="备注"></textarea><br/>
           </div>
-          <b-button variant="secondary" @click="addForm={gender: null,dept_id: null,post_id: null}" class="resetButton" style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;">
+          <b-button variant="secondary" @click="addForm={gender: null,dept_id: null,post_id: null}" class="resetButton" 
+          style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;">
             重&nbsp;&nbsp;置</b-button>
-          <b-button variant="primary" @click="toValidate('add')" class="resetButton" style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+          <b-button variant="primary" @click="toValidate('add')" class="resetButton" 
+          style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
            >保&nbsp;&nbsp;存</b-button>
         </b-modal>
       <!--修改弹框-->
@@ -173,11 +175,14 @@
               </div>
             </div>
           </div>
-          <b-button variant="secondary" @click="closeAlert('update')" class="resetButton" style="font-size:16px !important; margin-top:25px;  padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;" 
+          <b-button variant="secondary" @click="closeAlert('update')" class="resetButton" 
+          style="font-size:16px !important; margin-top:25px;  padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;" 
           >返&nbsp;&nbsp;回</b-button>
-          <b-button v-if="is_update" variant="primary" @click="is_update=false" class="resetButton"  style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+          <b-button v-if="is_update" variant="primary" @click="is_update=false" class="resetButton"  
+          style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
           >修&nbsp;&nbsp;改</b-button>
-          <b-button v-if="!is_update" variant="primary" @click="toValidate('update')" class="resetButton"  style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+          <b-button v-if="!is_update" variant="primary" @click="toValidate('update')" class="resetButton"  
+          style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
           >保&nbsp;&nbsp;存</b-button>
          </b-modal>
       <!--删除弹框-->
