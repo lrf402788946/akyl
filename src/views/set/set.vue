@@ -10,149 +10,164 @@
       </div>
       <div class="base-padding-20 base-bg-fff">
         <form id="updateForm" name="updateForm">
-          <table class="table table-bordered table-striped ">
-            <tbody>
-              <tr>
-                <th>计时定额</th>
-                <th>计件定额</th>
-                <th>加班计时定额</th>
-                <th>加班计件定额</th>
-                <th>加班补助定额</th>
-              </tr>
-              <tr>
-                <td>
+          <div class="row">
+            <div class="col-lg-12">
+                <div class="col-lg-6">
+                  <div class="li38">计时定额(元):</div>
                   <input
                     type="number"
+                    class="col-lg-11 form-control"
                     v-bind:disabled="isReadOnly"
                     v-model="list.js_price"
                     onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
-                  />元
-                </td>
-                <td>
+                  />
+                </div>
+                <div class="col-lg-6">
+                  <div class="li38">计件定额(元):</div>
                   <input
                     type="number"
+                    class="col-lg-11 form-control"
                     v-bind:disabled="isReadOnly"
                     v-model="list.jj_price"
                     onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
-                  />元
-                </td>
-                <td>
+                  />
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="col-lg-6">
+                  <div class="li38">工作时长(小时):</div>
                   <input
                     type="number"
-                    v-bind:disabled="isReadOnly"
-                    v-model="list.jb_js_price"
-                    onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
-                  />元
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    v-bind:disabled="isReadOnly"
-                    v-model="list.jb_jj_price"
-                    onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
-                  />元
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    v-bind:disabled="isReadOnly"
-                    v-model="list.jb_price"
-                    onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
-                  />元
-                </td>
-              </tr>
-              <tr>
-                <th>满勤奖</th>
-                <th>通勤补助</th>
-                <th>夜班补助</th>
-                <th>工作时长</th>
-                <th>三月保险每天补贴</th>
-              </tr>
-              <tr>
-                <td>
-                  <input
-                    type="number"
-                    v-bind:disabled="isReadOnly"
-                    v-model="list.mq_price"
-                    onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
-                  />元
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    v-bind:disabled="isReadOnly"
-                    v-model="list.tq_price"
-                    onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
-                  />元
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    v-bind:disabled="isReadOnly"
-                    v-model="list.yb_price"
-                    onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
-                  />元
-                </td>
-                <td>
-                  <input
-                    type="number"
+                    class="col-lg-11 form-control"
                     v-bind:disabled="isReadOnly"
                     v-model="list.gz_sc"
                     onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
-                  />小时
-                </td>
-                <td>
+                  />
+                </div>
+                <div class="col-lg-6">
+                  <div class="li38">夜班补助(元):</div>
                   <input
                     type="number"
+                    class="col-lg-11 form-control"
+                    v-bind:disabled="isReadOnly"
+                    v-model="list.yb_price"
+                    onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+                  />
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="col-lg-6">
+                  <div class="li38">满勤奖金(元):</div>
+                  <input
+                    type="number"
+                    class="col-lg-11 form-control"
+                    v-bind:disabled="isReadOnly"
+                    v-model="list.mq_price"
+                    onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+                  />
+                </div>
+                <div class="col-lg-6">
+                  <div class="li38">通勤补助(元):</div>
+                  <input
+                    type="number"
+                    class="col-lg-11 form-control"
+                    v-bind:disabled="isReadOnly"
+                    v-model="list.tq_price"
+                    onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+                  />
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="col-lg-6">
+                  <div class="li38">加班计时定额(元):</div>
+                  <input
+                    type="number"
+                    class="col-lg-11 form-control"
+                    v-bind:disabled="isReadOnly"
+                    v-model="list.jb_js_price"
+                    onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+                  />
+                </div>
+                <div class="col-lg-6">
+                  <div class="li38">加班计件定额(元):</div>
+                  <input
+                    type="number"
+                    class="col-lg-11 form-control"
+                    v-bind:disabled="isReadOnly"
+                    v-model="list.jb_jj_price"
+                    onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+                  />
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="col-lg-6">
+                  <div class="li38">加班补助定额(元):</div>
+                  <input
+                    type="number"
+                    class="col-lg-11 form-control"
+                    v-bind:disabled="isReadOnly"
+                    v-model="list.jb_price"
+                    onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+                  />
+                </div>
+                <div class="col-lg-6">
+                  <div class="li38">三月保险每天补贴(元):</div>
+                  <input
+                    type="number"
+                    class="col-lg-11 form-control"
                     v-bind:disabled="isReadOnly"
                     v-model="list.bx_price_sy"
                     onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
-                  />元
-                </td>
-              </tr>
-              <tr>
-                <th>一年保险每天补贴</th>
-                <th>两年以上保险每天补贴</th>
-                <th>工龄工资按月累加</th>
-                <th>操作</th>
-              </tr>
-              <tr>
-                <td>
+                  />
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="col-lg-6">
+                  <div class="li38">一年保险每天补贴(元):</div>
                   <input
                     type="number"
+                    class="col-lg-11 form-control"
                     v-bind:disabled="isReadOnly"
                     v-model="list.bx_price_yn"
                     onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
-                  />元
-                </td>
-                <td>
+                  />
+                </div>
+                <div class="col-lg-6">
+                  <div class="li38">两年以上保险每天补贴(元):</div>
                   <input
                     type="number"
+                    class="col-lg-11 form-control"
                     v-bind:disabled="isReadOnly"
                     v-model="list.bx_price_ln"
                     onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
-                  />元
-                </td>
-                <td>
+                  />
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="col-lg-6">
+                  <div class="li38">工龄工资按月累加(元):</div>
                   <input
                     type="number"
+                    class="col-lg-11 form-control"
                     v-bind:disabled="isReadOnly"
                     v-model="list.gl_price"
                     onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
-                  />元
-                </td>
-                <td>
-                  <div v-if="isReadOnly">
-                    <b-button @click="change()">修&nbsp;&nbsp;改</b-button>
+                  />
+                </div>
+              </div>
+              <div class="col-lg-12" style="margin-top:20px;">
+                <div class="col-lg-6"></div>
+                <div class="col-lg-6">
+                  <div v-if="isReadOnly" style="text-align:right;">
+                    <b-button class="btn-info" style=" color:#fff !important; font-size: 14px !important; padding:6px 12px !important;"  @click="change()" ><i class="base-margin-right-5 fa fa-hand-o-left "></i>修&nbsp;&nbsp;改</b-button>
                   </div>
-                  <div v-if="!isReadOnly">
-                    <b-button @click="toValidate()" >提&nbsp;&nbsp;交</b-button>
-                    <b-button @click="fanhui()" >返&nbsp;&nbsp;回</b-button>
+                  <div v-if="!isReadOnly" style="text-align:right;">
+                    <b-button class="btn-info" style=" color:#fff !important; font-size: 14px !important; padding:6px 12px !important;"  @click="tijiao()" ><i class="base-margin-right-5 fa fa-hand-o-right "></i>提&nbsp;&nbsp;交</b-button>
+                    <b-button class="btn-info" style=" color:#fff !important; font-size: 14px !important; padding:6px 12px !important;"  @click="fanhui()" ><i class="base-margin-right-5 fa fa-hand-o-left "></i>返&nbsp;&nbsp;回</b-button>
                   </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                </div>
+              </div>
+          </div>
         </form>
       </div>
     </div>
@@ -501,6 +516,18 @@ li {
   border: 1px solid transparent !important;
   border-radius: 3px !important;
   height: auto !important;
+}
+.col-lg-6,.col-lg-4,.col-lg-8,.col-lg-3,.col-lg-7,.col-lg-5 {
+  float: left;
+}
+.col-lg-6 {
+  margin-bottom: 10px;
+}
+.li38 {
+  height: 38px;
+  line-height: 38px;
+  font-weight: bold;
+  margin-bottom: 2px;
 }
 </style>
 <style scoped>
