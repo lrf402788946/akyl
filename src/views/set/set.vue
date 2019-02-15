@@ -25,11 +25,11 @@
                 <th>加班补助定额</th>
                 </tr>
                 <tr>
-                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.js_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
-                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.jj_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
-                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.jb_js_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
-                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.jb_jj_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
-                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.jb_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.js_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" />元</td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.jj_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" />元</td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.jb_js_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" />元</td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.jb_jj_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" />元</td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.jb_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" />元</td>
                 </tr> 
                 <tr>
                 <th>满勤奖</th>
@@ -39,11 +39,11 @@
                 <th>三月保险每天补贴</th>
                 </tr>
                 <tr>
-                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.mq_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
-                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.tq_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
-                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.yb_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
-                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.gz_sc" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
-                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.bx_price_sy" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.mq_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" />元</td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.tq_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" />元</td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.yb_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" />元</td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.gz_sc" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" />小时</td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.bx_price_sy" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" />元</td>
                 </tr>
                 <tr>
                 <th>一年保险每天补贴</th>
@@ -52,9 +52,9 @@
                 <th>操作</th>
                 </tr>
                 <tr>
-                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.bx_price_yn" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
-                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.bx_price_ln" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
-                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.gl_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" /></td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.bx_price_yn" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" />元</td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.bx_price_ln" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" />元</td>
+                <td><input type="number" v-bind:disabled="isReadOnly"  v-model="list.gl_price" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" />元</td>
                 <td>
                   <div v-if="isReadOnly">
                   <b-button  @click="change()" >修&nbsp;&nbsp;改</b-button>
