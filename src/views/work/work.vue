@@ -1,9 +1,5 @@
 <template lang='html'>
   <div id="index">
-     <!-- 位置导航 begin  -->
-      <b-breadcrumb>
-        <b-breadcrumb-item :to="{name:'DeptIndex'}">工序管理</b-breadcrumb-item>
-      </b-breadcrumb>
       <!-- 表格 begin -->
       <div class="base-form">
         <div class="form-inline">
@@ -51,7 +47,7 @@
             :total="totalRow">
           </el-pagination>
 
-          <b-modal id="toAdd" title="添加工序" ref="toAdd" hide-footer>
+          <b-modal id="toAdd" title="添加工序" ref="toAdd" hide-footer >
             <div style="margin-top:7px; margin-bottom:7px;">工序代码:</div>
             <b-form-input v-model="form.code" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
             <div style="margin-top:7px; margin-bottom:7px;">工序名称:</div>
@@ -60,7 +56,7 @@
             <b-button  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   variant="primary" @click="toValidate('add')" >保&nbsp;&nbsp;存</b-button>
           </b-modal>
 
-          <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer> 
+          <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> 
             <div class="d-block text-center">
               <b-alert variant="danger" show>删除工序可能会影响您的管理,确认删除吗?</b-alert>
             </div>
@@ -70,7 +66,7 @@
           </b-modal>
 
           <!-- jkjkjkjk -->
-          <b-modal id="updateAlert" title="修改信息" ref="updateAlert" hide-footer>
+          <b-modal id="updateAlert" title="修改信息" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
             <div class="d-block">
               <div class="row">
                 <div class="col-lg-12 marginBot4">
@@ -101,7 +97,10 @@
 import _ from 'lodash';
 import Validator from 'async-validator';
 export default {
-  name: 'index',
+  name: 'work',
+  metaInfo: {
+    title: '工序管理',
+  },
   components: {},
   data() {
     return {

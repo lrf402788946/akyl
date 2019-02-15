@@ -1,9 +1,5 @@
 <template lang='html'>
   <div id="index">
-     <!-- 位置导航 begin  -->
-      <b-breadcrumb>
-        <b-breadcrumb-item :to="{name:'DeptIndex'}">基础设置管理</b-breadcrumb-item>
-      </b-breadcrumb>
       <!-- 表格 begin -->
       <div class="base-form">
         <div class="form-inline">
@@ -78,7 +74,10 @@
 import _ from 'lodash';
 import Validator from 'async-validator';
 export default {
-  name: 'index',
+  name: 'set',
+  metaInfo: {
+    title: '基础设置管理',
+  },
   components: {},
   data() {
     return {

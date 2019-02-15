@@ -1,9 +1,5 @@
 <template lang='html'>
   <div id="role">
-     <!-- 位置导航 begin  -->
-      <b-breadcrumb>
-        <b-breadcrumb-item :to="{name:'role'}">角色管理</b-breadcrumb-item>
-      </b-breadcrumb>
       <!-- 表格 begin -->
       <div class="base-form">
         <div class="form-inline">
@@ -50,7 +46,7 @@
             <b-button variant="primary" @click="toValidate('add')"  style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >保&nbsp;&nbsp;存</b-button>
           </b-modal>
 
-          <b-modal id="Edit" title="修改角色" ref="Edit" hide-footer> 
+          <b-modal id="Edit" title="修改角色" ref="Edit" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> 
             <p class="marginBot5">所属角色</p>
             <b-form-select v-model="form.p_id"  class="marginBot8">
               <option :value="0">无所属</option>
@@ -64,7 +60,7 @@
             <b-button variant="primary" @click="toValidate('update')"  style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >修&nbsp;&nbsp;改</b-button>
           </b-modal>
 
-          <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer> 
+          <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> 
             <div class="d-block text-center">
               <b-alert variant="danger" show>确定删除该角色?</b-alert>
             </div>

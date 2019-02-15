@@ -1,9 +1,5 @@
 <template lang='html'>
   <div id="zx">
-    <!-- 位置导航 begin  -->
-    <b-breadcrumb>
-      <b-breadcrumb-item :to="{ name: 'zx' }">针芯管理</b-breadcrumb-item>
-    </b-breadcrumb>
     <!-- 表格 begin -->
     <div class="base-form">
       <div class="form-inline">
@@ -85,7 +81,7 @@
       >
     </b-modal>
 
-    <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer>
+    <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
       <div class="d-block text-center">
         <b-alert variant="danger" show>删除针芯可能会影响您的管理,确认删除吗?</b-alert>
       </div>
@@ -106,7 +102,7 @@
     </b-modal>
 
     <!-- jkjkjkjk -->
-    <b-modal id="updateAlert" title="修改针芯" ref="updateAlert" hide-footer>
+    <b-modal id="updateAlert" title="修改针芯" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
       <div class="d-block">
         <div class="row">
           <div class="col-lg-12 marginBot4">

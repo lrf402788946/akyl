@@ -1,9 +1,5 @@
 <template lang='html'>
   <div id="user">
-    <!-- 位置导航 begin  -->
-    <b-breadcrumb>
-      <b-breadcrumb-item :to="{name:'user'}">用户列表</b-breadcrumb-item>
-    </b-breadcrumb>
     <!-- 表格 begin -->
     <div class="base-form">
       <div class="form-inline">
@@ -113,7 +109,7 @@
            >保&nbsp;&nbsp;存</b-button>
         </b-modal>
       <!--修改弹框-->
-        <b-modal id="updateAlert" title="修改信息" ref="updateAlert" hide-footer> 
+        <b-modal id="updateAlert" title="修改信息" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> 
           <div class="d-block">
             <div class="row">
               <div class="col-lg-6 marginBot4">
@@ -186,7 +182,7 @@
           >保&nbsp;&nbsp;存</b-button>
          </b-modal>
       <!--删除弹框-->
-        <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer> 
+        <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> 
           <div class="d-block text-center">
             <b-alert variant="danger" show>删除部门可能会影响您的管理,确认删除吗?</b-alert>
           </div>

@@ -32,7 +32,7 @@
               </tr>
             </tbody>
           </table>
-          <b-modal id="toAdd" title="添加部门" ref="toAdd" hide-footer>
+          <b-modal id="toAdd" title="添加部门" ref="toAdd" hide-footer >
             <div style="margin-bottom: 7px;">部门名称:</div>
             <b-form-input onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" v-model="form.dept_name"></b-form-input>
             <div style="margin-top:14px; margin-bottom:7px;">部门职责:</div>
@@ -43,7 +43,7 @@
             <b-button style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   variant="primary" @click="toValidate('add')" >保&nbsp;&nbsp;存</b-button>
           </b-modal>
 
-          <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer> 
+          <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> 
             <div class="d-block text-center">
               <b-alert variant="danger" show>删除部门可能会有严重影响,确认删除吗?</b-alert>
             </div>
@@ -52,7 +52,7 @@
              返&nbsp;&nbsp;回</b-button>
           </b-modal>
 
-          <b-modal id="updateAlert" title="修改信息" ref="updateAlert" hide-footer>
+          <b-modal id="updateAlert" title="修改信息" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
             <div class="d-block">
               <div class="row">
                 <div class="col-lg-12 marginBot4">
@@ -86,7 +86,10 @@
 import _ from 'lodash';
 import Validator from 'async-validator';
 export default {
-  name: 'index',
+  name: 'dept',
+  metaInfo: {
+    title: '部门管理',
+  },
   components: {},
   data() {
     return {
