@@ -205,7 +205,6 @@ export default {
   components: {},
   data() {
     return {
-      origin: [],
       list: [],
       is_update: true,
       addForm: {
@@ -275,7 +274,6 @@ export default {
       console.log(result.data.userList);
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.userList);
-        this.$set(this, 'origin', result.data.userList);
         this.$set(this, 'totalRow', result.data.totalRow);
       }
     },
@@ -288,7 +286,6 @@ export default {
           }
           return this.add();
         });
-        // const vali = new P
       } else {
         this.updateUserValidator.validate(this.updateForm, (errors, fields) => {
           if (errors) {
@@ -297,27 +294,6 @@ export default {
           return this.update();
         });
       }
-    },
-    //添加
-    async add() {
-      let result = await this.$axios.post('/akyl/user/user_save', { data: this.addForm });
-      this.$refs.addAlert.hide();
-      this.addForm = {};
-      this.search();
-    },
-    //修改
-    async update() {
-      let result = await this.$axios.post('/akyl/user/user_edit', { data: this.updateForm });
-      this.closeAlert('update');
-      this.updateForm = {};
-      this.is_update = true;
-      this.search();
-    },
-    //删除
-    async toDelete() {
-      let result = await this.$axios.post('/akyl/user/user_delete', { data: { id: this.operateId } });
-      this.closeAlert('delete');
-      this.search();
     },
     //请求各表
     async getOtherList() {
@@ -338,7 +314,7 @@ export default {
       defalut = { text: '请选择岗位', value: null, disabled: true };
       this.postList.unshift(defalut);
     },
-    //打开与关闭修改和删除的弹框,现在关闭添加弹框自己点x
+    //打开与关闭修改和删除的弹框
     openAlert(type, id) {
       if (type === 'update') {
         this.$refs.updateAlert.show();
@@ -355,7 +331,6 @@ export default {
       } else if (type === 'delete') {
         this.$refs.deleteAlert.hide();
       }
-      this.list = JSON.parse(JSON.stringify(this.origin));
       this.is_update = true;
       this.operateId = '';
       this.updateForm = {};
