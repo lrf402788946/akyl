@@ -9,7 +9,14 @@
         </div>
         <div class="base-padding-20 base-bg-fff">
           <div class="base-align-right" style="margin-bottom:20px;">
-            <a class="btn btn-info base-margin-bottom" data-toggle="tooltip" style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;" title="" role="button" v-b-modal="'toAdd'">
+            <a
+              class="btn btn-info base-margin-bottom"
+              data-toggle="tooltip"
+              style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;"
+              title=""
+              role="button"
+              v-b-modal="'toAdd'"
+            >
               <i class="base-margin-right-5 fa fa-plus-square"></i>添加工序
             </a>
           </div>
@@ -21,13 +28,14 @@
                 <th>工序名称</th>
                 <th>操作</th>
               </tr>
-              <tr v-for="(item,index) in list" :key="index"><!--美化下input 可以看情况使用-->
-                <td>{{item.id}}</td>
-                <td>{{item.code}}</td>
-                <td>{{item.name}}</td>
+              <tr v-for="(item, index) in list" :key="index">
+                <!--美化下input 可以看情况使用-->
+                <td>{{ item.id }}</td>
+                <td>{{ item.code }}</td>
+                <td>{{ item.name }}</td>
                 <td>
-                  <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update',index)" >修&nbsp;&nbsp;改</b-button>
-                  <b-button variant="danger" style="color:white;"  @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
+                  <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update', index)">修&nbsp;&nbsp;改</b-button>
+                  <b-button variant="danger" style="color:white;" @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
                   <!-- <a class="btn btn-xs btn-info base-margin-2" data-toggle="tooltip" @click="toUpdate(index)"
                     title="" role="button">保&nbsp;&nbsp;存</a>&nbsp;&nbsp;&nbsp;&nbsp;
                   <a class="btn btn-xs btn-info base-margin-2" data-toggle="tooltip" @click="toDelete(index)"
@@ -36,32 +44,53 @@
               </tr>
             </tbody>
           </table>
-            <el-pagination
+          <el-pagination
             layout="total, prev, pager, next"
             :background="true"
             :page-size="15"
             prev-text="上一页"
             next-text="下一页"
             @current-change="toSearch"
-            :total="totalRow">
+            :total="totalRow"
+          >
           </el-pagination>
 
-          <b-modal id="toAdd" title="添加工序" ref="toAdd" hide-footer >
+          <b-modal id="toAdd" title="添加工序" ref="toAdd" hide-footer>
             <div style="margin-top:7px; margin-bottom:7px;">工序代码:</div>
             <b-form-input v-model="form.code" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
             <div style="margin-top:7px; margin-bottom:7px;">工序名称:</div>
             <b-form-input v-model="form.name" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
-            <b-button variant="secondary" style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  @click="form={}" >重&nbsp;&nbsp;置</b-button>
-            <b-button  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   variant="primary" @click="toValidate('add')" >保&nbsp;&nbsp;存</b-button>
+            <b-button
+              variant="secondary"
+              style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+              @click="form = {}"
+              >重&nbsp;&nbsp;置</b-button
+            >
+            <b-button
+              style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+              variant="primary"
+              @click="toValidate('add')"
+              >保&nbsp;&nbsp;存</b-button
+            >
           </b-modal>
 
-          <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> 
+          <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
             <div class="d-block text-center">
               <b-alert variant="danger" show>删除工序可能会影响您的管理,确认删除吗?</b-alert>
             </div>
-           <b-button variant="danger"   style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   @click="toDelete()">删&nbsp;&nbsp;除</b-button>
-           <b-button variant="primary"   style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   @click="$refs.deleteAlert.hide(),deleteItem=''">
-             返&nbsp;&nbsp;回</b-button>
+            <b-button
+              variant="danger"
+              style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+              @click="toDelete()"
+              >删&nbsp;&nbsp;除</b-button
+            >
+            <b-button
+              variant="primary"
+              style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+              @click="$refs.deleteAlert.hide(), (deleteItem = '')"
+            >
+              返&nbsp;&nbsp;回</b-button
+            >
           </b-modal>
 
           <!-- jkjkjkjk -->
@@ -69,27 +98,38 @@
             <div class="d-block">
               <div class="row">
                 <div class="col-lg-12 marginBot4">
-                    <p class="marginBot4">工序代码</p>
-                    <b-form-input v-model="updateForm.code" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+                  <p class="marginBot4">工序代码</p>
+                  <b-form-input v-model="updateForm.code" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
                 </div>
                 <div class="col-lg-12 marginBot">
-                    <p class="marginBot4">工序名称</p>
-                    <b-form-input v-model="updateForm.name" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+                  <p class="marginBot4">工序名称</p>
+                  <b-form-input v-model="updateForm.name" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
                 </div>
                 <div class="col-lg-12 marginBot4">
-                  <b-button variant="secondary" @click="closeAlert('update')" class="resetButton" style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >
-                    返&nbsp;&nbsp;回</b-button>
-                  <b-button variant="primary" @click="toValidate('update')" class="resetButton"  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;" >
-                    保&nbsp;&nbsp;存</b-button>
+                  <b-button
+                    variant="secondary"
+                    @click="closeAlert('update')"
+                    class="resetButton"
+                    style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+                  >
+                    返&nbsp;&nbsp;回</b-button
+                  >
+                  <b-button
+                    variant="primary"
+                    @click="toValidate('update')"
+                    class="resetButton"
+                    style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+                  >
+                    保&nbsp;&nbsp;存</b-button
+                  >
                 </div>
               </div>
             </div>
           </b-modal>
           <!-- klklklkl -->
-          
         </div>
       </div>
-  </div> 
+    </div>
   </div>
 </template>
 
@@ -114,8 +154,8 @@ export default {
       limit: 15,
       totalRow: 0,
       roleValidator: new Validator({
-        code: { type: 'string', required: true, message:'请填写工序代码'},
-        name:{type:'string',required:true,message:'请填写工序名称'},
+        code: { type: 'string', required: true, message: '请填写工序代码' },
+        name: { type: 'string', required: true, message: '请填写工序名称' },
       }),
     };
   },
@@ -180,28 +220,25 @@ export default {
       this.operateId = '';
       this.updateForm = {};
     },
-     //验证
-      toValidate(type){
-      
-  
-      if(type==='add'){
+    //验证
+    toValidate(type) {
+      if (type === 'add') {
         this.roleValidator.validate(this.form, (errors, fields) => {
-       if(errors){
-        return this.handleErrors(errors,fields);
-        }else{
-        return this.toAdd();
-      }
-        
+          if (errors) {
+            return this.handleErrors(errors, fields);
+          } else {
+            return this.toAdd();
+          }
         });
-      }else if(type==='update'){
+      } else if (type === 'update') {
         this.roleValidator.validate(this.updateForm, (errors, fields) => {
-          if(errors){
-        return this.handleErrors(errors,fields);
-        } else {
-          return this.toUpdate();
-        }
+          if (errors) {
+            return this.handleErrors(errors, fields);
+          } else {
+            return this.toUpdate();
+          }
         });
-      };
+      }
     },
     //验证错误
     handleErrors(errors, fields) {
@@ -472,7 +509,6 @@ li {
   height: auto !important;
 }
 </style>
-
 
 <style scoped>
 @import '../../assets/style/Font-Awesome-master/css/font-awesome.css';
