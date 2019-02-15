@@ -1,55 +1,63 @@
 <template lang='html'>
   <div id="user_role">
-      <!-- 表格 begin -->
-      <div class="base-form">
-        <div class="form-inline">
-          <div class="base-form-title" style="width:100%;"><a class="base-margin-left-20">列表</a>
-            <div class="button-table">
-            </div>
-          </div>
+    <!-- 表格 begin -->
+    <div class="base-form">
+      <div class="form-inline">
+        <div class="base-form-title" style="width:100%;">
+          <a class="base-margin-left-20">列表</a>
+          <div class="button-table"></div>
         </div>
-        <div class="base-padding-20 base-bg-fff">
-          <div class="base-align-right">
-          </div>
-          <table class="table table-bordered table-striped ">
-            <tbody>
-              <tr>
-                <th>用户名</th>
-                <th>权限</th>
-              </tr>
-              <tr v-for="(item,index) in userList" :key="index"><!--美化下input 可以看情况使用-->
-                <td>{{item.user_name}}</td>
-                <td>
-                  <b-button variant="primary" style="color:white;" @click="openUpdateAlert(item.id)">查&nbsp;&nbsp;看</b-button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-           <el-pagination
-            layout="total, prev, pager, next"
-            :background="true"
-            :page-size="15"
-            prev-text="上一页"
-            next-text="下一页"
-            @current-change="toSearch"
-            :total="totalRow">
-          </el-pagination>
-          <b-modal id="updateAlert" title="修改权限" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
-            <!-- <label>请选择权限</label> 
+      </div>
+      <div class="base-padding-20 base-bg-fff">
+        <div class="base-align-right"></div>
+        <table class="table table-bordered table-striped ">
+          <tbody>
+            <tr>
+              <th>用户名</th>
+              <th>权限</th>
+            </tr>
+            <tr v-for="(item, index) in userList" :key="index">
+              <!--美化下input 可以看情况使用-->
+              <td>{{ item.user_name }}</td>
+              <td>
+                <b-button variant="primary" style="color:white;" @click="openUpdateAlert(item.id)">查&nbsp;&nbsp;看</b-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <el-pagination
+          layout="total, prev, pager, next"
+          :background="true"
+          :page-size="15"
+          prev-text="上一页"
+          next-text="下一页"
+          @current-change="toSearch"
+          :total="totalRow"
+        ></el-pagination>
+        <b-modal id="updateAlert" title="修改权限" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
+          <!-- <label>请选择权限</label> 
             <el-checkbox-group v-model="form.role_id">
               <el-checkbox v-for="(item,index) in roleList" :key="index" :label="item.value">{{item.text}}</el-checkbox>
             </el-checkbox-group> -->
-            <el-transfer v-model="form.role_id" :data="roleList" :titles="['所有权限', '已有权限']" :button-texts="['移除', '添加']"></el-transfer>
-              <b-button variant="secondary"  style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  @click="closeAlert()" >返&nbsp;&nbsp;回</b-button>
-              <b-button variant="primary"  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  @click="toSave()" >保&nbsp;&nbsp;存</b-button>
-            <!-- <b-button variant="secondary" @click="form={}" >重置</b-button><b-button variant="primary" @click="toAdd()" >保存</b-button> -->
-          </b-modal>
-        </div>
+          <el-transfer v-model="form.role_id" :data="roleList" :titles="['所有权限', '已有权限']" :button-texts="['移除', '添加']"></el-transfer>
+          <b-button
+            variant="secondary"
+            style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+            @click="closeAlert()"
+            >返&nbsp;&nbsp;回</b-button
+          >
+          <b-button
+            variant="primary"
+            style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+            @click="toSave()"
+            >保&nbsp;&nbsp;存</b-button
+          >
+          <!-- <b-button variant="secondary" @click="form={}" >重置</b-button><b-button variant="primary" @click="toAdd()" >保存</b-button> -->
+        </b-modal>
       </div>
-  </div> 
+    </div>
+  </div>
 </template>
-
-
 <script>
 export default {
   name: 'user_role',
@@ -133,6 +141,4 @@ export default {
 };
 </script>
 
-<style lang='css' scoped>
-
-</style>
+<style lang="css" scoped></style>

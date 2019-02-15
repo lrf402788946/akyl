@@ -1,4 +1,4 @@
-<template lang='html'>
+<template lang="html">
   <div id="zx">
     <!-- 表格 begin -->
     <div class="base-form">
