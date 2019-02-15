@@ -90,6 +90,7 @@
         </div>
       </div>
   </div> 
+  </div>
 </template>
 
 <script>
@@ -112,8 +113,8 @@ export default {
       currentPage: 1,
       limit: 15,
       totalRow: 0,
-         roleValidator:new Validator({
-        code:{type:'string',required:true,message:'请填写工序代码'},
+      roleValidator: new Validator({
+        code: { type: 'string', required: true, message:'请填写工序代码'},
         name:{type:'string',required:true,message:'请填写工序名称'},
       }),
     };
@@ -196,16 +197,11 @@ export default {
         this.roleValidator.validate(this.updateForm, (errors, fields) => {
           if(errors){
         return this.handleErrors(errors,fields);
-        }else{
-        return this.toUpdate();
-      }
-        
+        } else {
+          return this.toUpdate();
+        }
         });
-        
-      }
-    
-      
-    
+      };
     },
     //验证错误
     handleErrors(errors, fields) {

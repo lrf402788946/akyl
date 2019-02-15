@@ -12,6 +12,7 @@ import kind from './views/kind/kind.vue';
 import akyl_set from './views/set/set.vue';
 import akyl_work from './views/work/work.vue';
 import thb from './views/thb/thb.vue';
+import bg from './views/bg/bg.vue';
 
 Vue.use(Router);
 const router = new Router({
@@ -77,6 +78,11 @@ const router = new Router({
       path: '/thb',
       name: 'thb',
       component: thb,
+    },
+    {
+      path: '/bg',
+      name: 'bg',
+      component: bg,
     },
   ],
 });
