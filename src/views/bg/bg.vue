@@ -133,6 +133,9 @@ export default {
     };
   },
   computed: {},
+  created() {
+    this.search();
+  },
   methods: {
     //分页
     toSearch(currentPage) {
@@ -142,7 +145,7 @@ export default {
     //查询
     async search() {
       let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(`/akyl/bg/bg_list?skip=${skip}&limit=${this.limit}`);
+      let result = await this.$axios.get(`/akyl/bg/job_report_list?skip=${skip}&limit=${this.limit}`);
       console.log(result.data.userList);
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.bgList);
