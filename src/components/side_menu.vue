@@ -12,6 +12,7 @@
               <router-link :to="{name:'user'}"><li><span> 用户管理</span></li></router-link>
               <router-link :to="{name:'role'}"><li><span> 角色管理</span></li></router-link>
               <router-link :to="{name:'user_role'}"><li><span> 权限分配</span></li></router-link>
+              <router-link :to="{name:'staff'}"><li><span> 员工管理</span></li></router-link>
             </ul>
             <li>
               <span><i class="fa-stack fa fa-cogs"></i>系统管理</span>
