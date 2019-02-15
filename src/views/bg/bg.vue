@@ -50,13 +50,13 @@
           <div class="d-block text-center">
             <div class="row">
               <div class="col-lg-6">
-                  <b-form-input v-model="form.user_name" placeholder="工号" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
+                  <b-form-input v-model="form.job_num" placeholder="工号" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
               </div>
               <div class="col-lg-6">
-                  <b-form-input v-model="form.login_id" placeholder="总工时" class="marginBot" onkeypress="return (/[0-9a-zA-Z.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
+                  <b-form-input v-model="form.all_time" placeholder="总工时" class="marginBot" onkeypress="return (/[0-9a-zA-Z.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
               </div>
               <div class="col-lg-6">
-                  <b-form-input v-model="form.password" placeholder="请假时间" type="password" class="marginBot" onkeypress="return (/[0-9a-zA-Z.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
+                  <b-form-input v-model="form.leave_time" placeholder="请假时间" type="password" class="marginBot" onkeypress="return (/[0-9a-zA-Z.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
               </div>
               <br/>
               <table class="table table-bordered table-striped ">
@@ -74,37 +74,20 @@
                   <td><b-form-select v-model="item.work_id" :options="workList" class="marginBot" /></td>
                   <td><b-form-select v-model="item.kind_id" :options="kindList" class="marginBot" /></td>
                   <td><b-form-input v-model="item.num" type="number" class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
-                  <td><b-form-input v-model="item.time" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
+                  <td><b-form-input v-model="item.work_time" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
                   <td><b-form-checkbox
                         :id="'checkbox'+index"
                         v-model="item.is_night"
                         :options="is_night_or_not"
                       >
                       </b-form-checkbox></td>
-                  <td><b-form-input v-model="item.addTime" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
+                  <td><b-form-input v-model="item.add_time" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
                   <td><textarea v-model="item.remark" class="form-control" rows="3" style="height: 100px !important;" placeholder="备注"></textarea><br/></td>
                 </tr>
                 <b-button variant="primary" @click="addSubForm()" class="resetButton" >添&nbsp;&nbsp;加</b-button>
                 </tbody>
               </table>
-              <!-- <div class="col-lg-6">
-                    <b-form-select v-model="form.work_id"  placeholder="工序"  :options="workList" class="marginBot" />
-              </div>
-              <div class="col-lg-6">
-                 <b-form-select v-model="form.kind_id" placeholder="类型"  :options="kindList" class="marginBot" />
-              </div>
-              <div class="col-lg-6">
-                  <b-form-input v-model="form.num" placeholder="数量" class="marginBot" onkeypress="return (/[0-9\\-]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
-              </div>
-              <div class="col-lg-6">
-                  <b-form-input v-model="form.time" placeholder="工时" class="marginBot" onkeypress="return (/[0-9\\-]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
-              </div>
-              <div class="col-lg-6">
-                  <b-form-input v-model="form.is_night" placeholder="夜班" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
-              </div> -->
-              
             </div>
-            <!-- <textarea v-model="form.remark" class="form-control" rows="3" style="height: 100px !important;" placeholder="备注"></textarea><br/> -->
           </div>
           <b-button variant="secondary" @click="form={gender: null,dept_id: null,post_id: null}" class="resetButton" 
           style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;">
@@ -131,9 +114,9 @@ export default {
         work_id: null,
         kind_id: null,
         num: 0,
-        time: 0,
-        is_night: false,
-        addTime: 0,
+        work_time: 0,
+        is_night: 0,
+        add_time: 0,
       },
       is_night_or_not: { text: '夜班', value: true },
       is_update: true,
