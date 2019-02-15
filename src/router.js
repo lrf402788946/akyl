@@ -13,6 +13,7 @@ import akyl_set from './views/set/set.vue';
 import akyl_work from './views/work/work.vue';
 import thb from './views/thb/thb.vue';
 import staff from './views/staff/staff.vue';
+import bg from './views/bg/bg.vue';
 
 Vue.use(Router);
 const router = new Router({
@@ -83,6 +84,9 @@ const router = new Router({
       path: '/staff',
       name: 'staff',
       component: staff,
+      path: '/bg',
+      name: 'bg',
+      component: bg,
     },
   ],
 });
