@@ -49,14 +49,27 @@
         <b-modal id="addAlert" title="新添报工单" ref="addAlert" size="xl" hide-footer> 
           <div class="d-block text-center">
             <div class="row">
-              <div class="col-lg-6">
+              <div class="col-lg-4">
                   <b-form-input v-model="form.job_num" placeholder="工号" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
               </div>
-              <div class="col-lg-6">
+              <div class="col-lg-4">
+                  <b-form-select v-model="form.dept_id" :options="deptList" class="marginBot" />
+              </div>
+              <div class="col-lg-4">
                   <b-form-input v-model="form.all_time" placeholder="总工时" class="marginBot" onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>小时
               </div>
-              <div class="col-lg-6">
+              <div class="col-lg-5">
                   <b-form-input v-model="form.leave_time" placeholder="请假时间"  class="marginBot" onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>小时
+              </div>
+              <div class="col-lg-5">
+              <el-date-picker
+                style="width:100%;"
+                v-model="form.create_date"
+                type="date"
+                placeholder="选择日期"
+                value-format="yyyy-MM-dd"
+                format="yyyy-MM-dd"
+              ></el-date-picker>
               </div>
               <br/>
               <table class="table table-bordered table-striped ">
@@ -72,7 +85,7 @@
                   <td>操作</td>
                 </tr>
                 <tr v-for="(item,index) in subForm" :key="index">
-                  <td><b-form-select v-model="item.work_id" :options="deptList" class="marginBot" /></td>
+                  <td><b-form-select v-model="item.work_id" :options="workList" class="marginBot" /></td>
                   <td><b-form-select v-model="item.kind_id" :options="kindList" class="marginBot" /></td>
                   <td><b-form-input v-model="item.num" type="number" class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
                   <td><b-form-input v-model="item.work_time" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
@@ -110,14 +123,27 @@
         <b-modal id="updateAlert" title="修改报工单" ref="updateAlert" size="xl" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> 
           <div class="d-block text-center">
             <div class="row">
-              <div class="col-lg-6">
+              <div class="col-lg-4">
                   <b-form-input v-model="updateForm.job_num" :disabled="is_update" placeholder="工号" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
               </div>
-              <div class="col-lg-6">
+              <div class="col-lg-4">
+                  <b-form-select v-model="updateForm.dept_id" :options="deptList" :disabled="is_update" class="marginBot" />
+              </div>
+              <div class="col-lg-4">
                   <b-form-input v-model="updateForm.all_time" :disabled="is_update" placeholder="总工时" class="marginBot" onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>小时
               </div>
-              <div class="col-lg-6">
+              <div class="col-lg-5">
                   <b-form-input v-model="updateForm.leave_time" :disabled="is_update" placeholder="请假时间"  class="marginBot" onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>小时
+              </div>
+              <div class="col-lg-5">
+              <el-date-picker
+                style="width:100%;"
+                v-model="updateForm.create_date"
+                type="date"
+                placeholder="选择日期"
+                value-format="yyyy-MM-dd"
+                format="yyyy-MM-dd"
+              ></el-date-picker>
               </div>
               <br/>
               <table class="table table-bordered table-striped ">
@@ -133,7 +159,7 @@
                   <td>操作</td>
                 </tr>
                 <tr v-for="(item,index) in subForm" :key="index">
-                  <td><b-form-select v-model="item.work_id" :disabled="is_update" :options="deptList" class="marginBot" /></td>
+                  <td><b-form-select v-model="item.work_id" :disabled="is_update" :options="workList" class="marginBot" /></td>
                   <td><b-form-select v-model="item.kind_id" :disabled="is_update" :options="kindList" class="marginBot" /></td>
                   <td><b-form-input v-model="item.num" :disabled="is_update" type="number" class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
                   <td><b-form-input v-model="item.work_time" :disabled="is_update" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
@@ -195,6 +221,7 @@ export default {
     return {
       updateForm: new Array(),
       list: [],
+      login_id: 'login_id',
       subForm: [],
       subFormContent: {
         dept_id: null,
@@ -210,8 +237,9 @@ export default {
       limit: 15,
       totalRow: 0,
       form: {},
-      kindList: [],
       deptList: [],
+      kindList: [],
+      workList: [],
       mainValidator: new Validator({
         job_num: [{ required: true, message: '请填写工号' }],
         all_time: [{ required: true, message: '请填写总工时' }],
@@ -249,6 +277,14 @@ export default {
       });
       let defalut = { text: '请选择部门', value: null, disabled: true };
       this.deptList.unshift(defalut);
+      //请求部门表
+      result = await this.$axios.get('/akyl/work/work_list?skip=0&limit=100');
+      this.workList = result.data.workList.map(item => {
+        let newObject = { text: item.name, value: item.id };
+        return newObject;
+      });
+      defalut = { text: '请选择工序', value: null, disabled: true };
+      this.workList.unshift(defalut);
       //请求类型表
       result = await this.$axios.get('/akyl/kind/kind_list?skip=0&limit=100');
       this.kindList = result.data.kindList.map(item => {
