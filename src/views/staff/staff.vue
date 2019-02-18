@@ -37,7 +37,7 @@
               <td>{{{data: deptList, searchItem: 'value',value: item.dept_id,label:'text'}|getName}}</td>
               <td>{{item.level}}</td>
               <td>{{item.status === 0?'在职':(item.status===1?'离职':'退休')}}</td>
-              <td>{{item.tq === 0?'通勤':'不通勤'}}</td>
+              <td>{{item.tq === '0'?'通勤':'不通勤'}}</td>
               <td>
                 <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update',index)">详&nbsp;&nbsp;情</b-button>
                 <b-button variant="danger" style="color:white;"  @click="openAlert('delete',item.id)">删&nbsp;&nbsp;除</b-button>
