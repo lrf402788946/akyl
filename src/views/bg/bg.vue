@@ -18,14 +18,14 @@
           <tbody>
             <tr>
               <th>工号</th>
-              <th>总工时</th>
-              <th>请假时间</th>
+              <th>总工时(h)</th>
+              <th>请假时间(h)</th>
               <th>操作</th>
             </tr>
             <tr v-for="(item,index) in list" :key="index">
-              <td>{{item.work_num}}</td>
-              <td>{{item.work_time}}</td>
-              <td>{{item.break_time}}</td>
+              <td>{{item.job_num}}</td>
+              <td>{{item.all_time}}</td>
+              <td>{{item.leave_time}}</td>
               <td>
                 <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update',index)">详&nbsp;&nbsp;情</b-button>
                 <b-button variant="danger" style="color:white;"  @click="openAlert('delete',item.id)">删&nbsp;&nbsp;除</b-button>
@@ -50,13 +50,13 @@
           <div class="d-block text-center">
             <div class="row">
               <div class="col-lg-6">
-                  <b-form-input v-model="form.user_name" placeholder="工号" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
+                  <b-form-input v-model="form.job_num" placeholder="工号" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
               </div>
               <div class="col-lg-6">
-                  <b-form-input v-model="form.login_id" placeholder="总工时" class="marginBot" onkeypress="return (/[0-9a-zA-Z.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
+                  <b-form-input v-model="form.all_time" placeholder="总工时" class="marginBot" onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>小时
               </div>
               <div class="col-lg-6">
-                  <b-form-input v-model="form.password" placeholder="请假时间" type="password" class="marginBot" onkeypress="return (/[0-9a-zA-Z.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
+                  <b-form-input v-model="form.leave_time" placeholder="请假时间"  class="marginBot" onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>小时
               </div>
               <br/>
               <table class="table table-bordered table-striped ">
@@ -65,8 +65,8 @@
                   <td>工序</td>
                   <td>类型</td>
                   <td>数量</td>
-                  <td>工时</td>
-                  <td>夜班</td>
+                  <td>工时(小时)</td>
+                  <td>上班时段</td>
                   <td>加班</td>
                   <td>备注</td>
                 </tr>
@@ -74,53 +74,113 @@
                   <td><b-form-select v-model="item.work_id" :options="workList" class="marginBot" /></td>
                   <td><b-form-select v-model="item.kind_id" :options="kindList" class="marginBot" /></td>
                   <td><b-form-input v-model="item.num" type="number" class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
-                  <td><b-form-input v-model="item.time" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
-                  <td><b-form-checkbox
-                        :id="'checkbox'+index"
+                  <td><b-form-input v-model="item.work_time" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
+                  <td>
+                    <b-form-group>
+                      <b-form-radio-group
+                        id="btnradios1"
+                        buttons
+                        stacked
+                        button-variant="outline-primary"
                         v-model="item.is_night"
-                        :options="is_night_or_not"
-                      >
-                      </b-form-checkbox></td>
-                  <td><b-form-input v-model="item.addTime" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
+                        :options="[{ text: '夜班', value: '1'}, { text: '白班', value: '0', checked: true }]"
+                        name="radiosBtnDefault"
+                      />
+                    </b-form-group>
+                  </td> 
+                  <td><b-form-input v-model="item.add_time" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
                   <td><textarea v-model="item.remark" class="form-control" rows="3" style="height: 100px !important;" placeholder="备注"></textarea><br/></td>
                 </tr>
                 <b-button variant="primary" @click="addSubForm()" class="resetButton" >添&nbsp;&nbsp;加</b-button>
                 </tbody>
               </table>
-              <!-- <div class="col-lg-6">
-                    <b-form-select v-model="form.work_id"  placeholder="工序"  :options="workList" class="marginBot" />
-              </div>
-              <div class="col-lg-6">
-                 <b-form-select v-model="form.kind_id" placeholder="类型"  :options="kindList" class="marginBot" />
-              </div>
-              <div class="col-lg-6">
-                  <b-form-input v-model="form.num" placeholder="数量" class="marginBot" onkeypress="return (/[0-9\\-]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
-              </div>
-              <div class="col-lg-6">
-                  <b-form-input v-model="form.time" placeholder="工时" class="marginBot" onkeypress="return (/[0-9\\-]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
-              </div>
-              <div class="col-lg-6">
-                  <b-form-input v-model="form.is_night" placeholder="夜班" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
-              </div> -->
-              
             </div>
-            <!-- <textarea v-model="form.remark" class="form-control" rows="3" style="height: 100px !important;" placeholder="备注"></textarea><br/> -->
           </div>
-          <b-button variant="secondary" @click="form={gender: null,dept_id: null,post_id: null}" class="resetButton" 
+          <b-button variant="secondary" @click="reset()" class="resetButton" 
           style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;">
             重&nbsp;&nbsp;置</b-button>
           <b-button variant="primary" @click="toValidate('add')" class="resetButton" 
           style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
            >保&nbsp;&nbsp;存</b-button>
         </b-modal>
+
+      <!--修改弹框-->
+        <b-modal id="updateAlert" title="修改报工单" ref="updateAlert" size="xl" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> 
+          <div class="d-block text-center">
+            <div class="row">
+              <div class="col-lg-6">
+                  <b-form-input v-model="form.job_num" placeholder="工号" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
+              </div>
+              <div class="col-lg-6">
+                  <b-form-input v-model="form.all_time" placeholder="总工时" class="marginBot" onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>小时
+              </div>
+              <div class="col-lg-6">
+                  <b-form-input v-model="form.leave_time" placeholder="请假时间"  class="marginBot" onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>小时
+              </div>
+              <br/>
+              <table class="table table-bordered table-striped ">
+                <tbody>
+                <tr>
+                  <td>工序</td>
+                  <td>类型</td>
+                  <td>数量</td>
+                  <td>工时(小时)</td>
+                  <td>上班时段</td>
+                  <td>加班</td>
+                  <td>备注</td>
+                </tr>
+                <tr v-for="(item,index) in subForm" :key="index">
+                  <td><b-form-select v-model="item.work_id" :options="workList" class="marginBot" /></td>
+                  <td><b-form-select v-model="item.kind_id" :options="kindList" class="marginBot" /></td>
+                  <td><b-form-input v-model="item.num" type="number" class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
+                  <td><b-form-input v-model="item.work_time" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
+                  <td>
+                    <b-form-group>
+                      <b-form-radio-group
+                        id="btnradios1"
+                        buttons
+                        stacked
+                        button-variant="outline-primary"
+                        v-model="item.is_night"
+                        :options="[{ text: '夜班', value: '1'}, { text: '白班', value: '0', checked: true }]"
+                        name="radiosBtnDefault"
+                      />
+                    </b-form-group>
+                  </td> 
+                  <td><b-form-input v-model="item.add_time" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
+                  <td><textarea v-model="item.remark" class="form-control" rows="3" style="height: 100px !important;" placeholder="备注"></textarea><br/></td>
+                </tr>
+                <b-button variant="primary" @click="addSubForm()" class="resetButton" >添&nbsp;&nbsp;加</b-button>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <b-button variant="secondary" @click="reset()" class="resetButton" 
+          style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;">
+            重&nbsp;&nbsp;置</b-button>
+          <b-button variant="primary" @click="toValidate('add')" class="resetButton" 
+          style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+           >保&nbsp;&nbsp;存</b-button>
+        </b-modal>
+
+      <!--删除弹框-->
+        <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> 
+          <div class="d-block text-center">
+            <b-alert variant="danger" show>删除部门可能会影响您的管理,确认删除吗?</b-alert>
+          </div>
+          <b-button variant="danger"  style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;" @click="toDelete()">删&nbsp;&nbsp;除</b-button>
+          <b-button variant="primary" style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;" class="resetButton"  
+          @click="closeAlert('delete'),$refs.deleteAlert.hide(),deleteItem=''">返&nbsp;&nbsp;回</b-button>
+        </b-modal>
   </div>
 </template>
 
 <script>
+import Validator from 'async-validator';
 export default {
   name: 'bg',
   metaInfo: {
-    title: '用户管理',
+    title: '报工单管理',
   },
   components: {},
   data() {
@@ -131,25 +191,31 @@ export default {
         work_id: null,
         kind_id: null,
         num: 0,
-        time: 0,
-        is_night: false,
-        addTime: 0,
+        work_time: 0,
+        is_night: 0,
+        add_time: 0,
       },
-      is_night_or_not: { text: '夜班', value: true },
+      is_night_or_not: [{ text: '夜班', value: 1 }],
       is_update: true,
       operateId: {},
       currentPage: 1,
       limit: 15,
-      totalRow: 100,
-      form: {
-        kind_id: null,
-        work_id: null,
-      },
+      totalRow: 0,
+      form: {},
       kindList: [{ text: '请选择类型', value: null }, { text: 'kind1', value: 1 }, { text: 'kind2', value: 2 }],
       workList: [{ text: '请选择工序', value: null }, { text: 'work1', value: 1 }, { text: 'work2', value: 2 }],
+      mainValidator: new Validator({
+        job_num: [{ required: true, message: '请填写工号' }],
+        all_time: [{ required: true, message: '请填写总工时' }],
+        leave_time: [{ required: true, message: '请填写请假时间' }],
+      }),
     };
   },
   computed: {},
+  created() {
+    this.search();
+    this.getOtherList();
+  },
   methods: {
     //分页
     toSearch(currentPage) {
@@ -159,29 +225,10 @@ export default {
     //查询
     async search() {
       let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(`/akyl/bg/bg_list?skip=${skip}&limit=${this.limit}`);
-      console.log(result.data.userList);
+      let result = await this.$axios.get(`/akyl/bg/job_report_list?skip=${skip}&limit=${this.limit}`);
       if (result.data.msg === '成功') {
-        this.$set(this, 'list', result.data.bgList);
+        this.$set(this, 'list', result.data.jobReportList);
         this.$set(this, 'totalRow', result.data.totalRow);
-      }
-    },
-    //验证,因为添加和修改内容不一致,所以需要分2个验证器去分别验证
-    toValidate(type) {
-      if (type === 'add') {
-        this.addUserValidator.validate(this.form, (errors, fields) => {
-          if (errors) {
-            return this.handleErrors(errors, fields);
-          }
-          return this.add();
-        });
-      } else {
-        this.updateUserValidator.validate(this.updateForm, (errors, fields) => {
-          if (errors) {
-            return this.handleErrors(errors, fields);
-          }
-          return this.update();
-        });
       }
     },
     //请求各表
@@ -202,6 +249,59 @@ export default {
       });
       defalut = { text: '请选择岗位', value: null, disabled: true };
       this.kindList.unshift(defalut);
+    },
+    //查询子表
+    async searchSubForm(id) {
+      let result = await this.$axios.get(`/akyl/bg/job_report_sub_info?id=${id}`);
+      if (result.data.msg === '成功') {
+        this.$set(this, 'subForm', result.data.jobReportSubList);
+      }
+    },
+    //验证
+    toValidate(type) {
+      this.mainValidator.validate(this.form, (errors, fields) => {
+        if (errors) {
+          return this.handleErrors(errors, fields);
+        }
+        if (type === 'add') {
+          return this.add();
+        } else {
+          return this.update();
+        }
+      });
+    },
+    //添加
+    async add() {
+      let result = await this.$axios.post('/akyl/bg/job_report_main_save', { data: this.form });
+      if (result.data.msg === '成功') {
+        let id = result.data.id;
+        result = await this.$axios.post('/akyl/bg/job_report_sub_save', { data: { subForm: this.subForm, id: id } });
+        if (result.data.msg === '成功') {
+          this.$refs.addAlert.hide();
+          this.form = {};
+          this.subForm = [];
+          this.search();
+        }
+      }
+    },
+    //修改
+    async update() {
+      let result = await this.$axios.post('/akyl/bg/job_report_main_edit', { data: this.form });
+      if (result.data.msg === '成功') {
+        result = await this.$axios.post('/akyl/bg/job_report_sub_edit', { data: { subForm: this.subForm, id: this.form.id } });
+        if (result.data.msg === '成功') {
+          this.closeAlert('update');
+          this.form = {};
+          this.is_update = true;
+          this.search();
+        }
+      }
+    },
+    //删除
+    async toDelete() {
+      let result = await this.$axios.post('/akyl/bg/job_report_delete', { data: { id: this.operateId } });
+      this.closeAlert('delete');
+      this.search();
     },
     //打开与关闭修改和删除的弹框
     openAlert(type, id) {
@@ -241,6 +341,11 @@ export default {
     //添加字表数据
     addSubForm() {
       this.subForm.push(JSON.parse(JSON.stringify(this.subFormContent)));
+    },
+    reset() {
+      this.form = {};
+      this.subForm = [];
+      this.subForm.push(this.subFormContent);
     },
   },
 };
