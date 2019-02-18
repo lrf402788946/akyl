@@ -108,90 +108,118 @@
           style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
            >保&nbsp;&nbsp;存</b-button>
         </b-modal>
-      <!--修改弹框-->
-        <b-modal id="updateAlert" title="修改信息" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> 
-          <div class="d-block">
-            <div class="row">
-              <div class="col-lg-6 marginBot4">
-                  <p class="marginBot4">姓名</p>
-                  <b-form-input v-model="updateForm.user_name" :disabled="is_update" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
-              </div>
-              <div class="col-lg-6 marginBot4">
-                  <p class="marginBot4">登录ID</p>
-                  <b-form-input v-model="updateForm.login_id" :disabled="true" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
-              </div>
-              <div class="col-lg-6 marginBot4">
-                  <p class="marginBot4">性别</p>
-                  <b-form-select v-model="updateForm.gender" :options="gender" :disabled="is_update" />
-              </div>
-              <div class="col-lg-6 marginBot4">
-                  <p class="marginBot4">办公室电话</p>
-                  <b-form-input v-model="updateForm.office_tell" :disabled="is_update" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
-              </div>
-              <div class="col-lg-6 marginBot4">
-                  <p class="marginBot4">个人电话</p>
-                  <b-form-input v-model="updateForm.phone_no" :disabled="is_update" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
-              </div>
-              <div class="col-lg-12 marginBot4">
-                  <p class="marginBot4">家庭住址</p>
-                  <b-form-input v-model="updateForm.home_address" :disabled="is_update" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
-              </div>
-              <div class="col-lg-6 marginBot4">
-                  <p class="marginBot4">电子信箱</p>
-                  <b-form-input v-model="updateForm.emaill" :disabled="is_update" onkeypress="return (/[0-9a-zA-Z@.]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
-              </div>
-              <div class="col-lg-6 marginBot4">
-                  <p class="marginBot4">出生日期</p>
-                  <el-date-picker v-model="updateForm.birthday" type="date" placeholder="选择日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd" :disabled="is_update" ></el-date-picker>
-                  <!-- <input v-model="updateForm.birthday" type="text" class="form-control tyx-cursor" id="updateBirthday" data-date-format="yyyy-mm-dd"/> -->
-              </div>
-              <div class="col-lg-6 marginBot4">
-                  <p class="marginBot4">身份证号</p>
-                  <b-form-input v-model="updateForm.id_number" maxlength="18" :disabled="is_update" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
-              </div>
-              <div class="col-lg-6 marginBot4">
-                  <p class="marginBot4">卡号</p>
-                  <b-form-input v-model="updateForm.card_no" :disabled="is_update" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
-              </div>
-              <div class="col-lg-6 marginBot4">
-                  <p class="marginBot4">部门</p>
-                  <b-form-select v-model="updateForm.dept_id"  :options="deptList" :disabled="is_update"/>
-              </div>
-              <div class="col-lg-6 marginBot4">
-                  <p class="marginBot4">职务</p>
-                  <b-form-input v-model="updateForm.level" :disabled="is_update" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
-              </div>
-              <div class="col-lg-6 marginBot4">
-                  <p class="marginBot4">岗位</p>
-                  <b-form-select v-model="updateForm.post_id" :options="postList" :disabled="is_update"></b-form-select>
-              </div>
-              <div class="col-lg-12 marginBot">
-                  <p class="marginBot4">备注</p>
-                  <textarea v-model="updateForm.remark" class="form-control"  style="height: 100px !important;"  rows="4" :disabled="is_update"></textarea>
-              </div>
-            </div>
+    <!--修改弹框-->
+    <b-modal id="updateAlert" title="修改信息" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> 
+      <div class="d-block">
+        <div class="row">
+          <div class="col-lg-6 marginBot4">
+            <p class="marginBot4">姓名</p>
+            <b-form-input v-model="updateForm.user_name" :disabled="is_update" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
           </div>
-          <b-button variant="secondary" @click="closeAlert('update')" class="resetButton" 
-          style="font-size:16px !important; margin-top:25px;  padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;" 
-          >返&nbsp;&nbsp;回</b-button>
-          <b-button v-if="is_update" variant="primary" @click="is_update=false" class="resetButton"  
-          style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
-          >修&nbsp;&nbsp;改</b-button>
-          <b-button v-if="!is_update" variant="primary" @click="toValidate('update')" class="resetButton"  
-          style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
-          >保&nbsp;&nbsp;存</b-button>
-         </b-modal>
-      <!--删除弹框-->
-        <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> 
-          <div class="d-block text-center">
-            <b-alert variant="danger" show>删除部门可能会影响您的管理,确认删除吗?</b-alert>
+          <div class="col-lg-6 marginBot4">
+            <p class="marginBot4">登录ID</p>
+            <b-form-input v-model="updateForm.login_id" :disabled="true" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
           </div>
-          <b-button variant="danger"  style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;" @click="toDelete()">删&nbsp;&nbsp;除</b-button>
-          <b-button variant="primary" style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;" class="resetButton"  
-          @click="closeAlert('delete'),$refs.deleteAlert.hide(),deleteItem=''">返&nbsp;&nbsp;回</b-button>
-          
-          
-        </b-modal>
+          <div class="col-lg-6 marginBot4">
+            <p class="marginBot4">性别</p>
+            <b-form-select v-model="updateForm.gender" :options="gender" :disabled="is_update" />
+          </div>
+          <div class="col-lg-6 marginBot4">
+            <p class="marginBot4">办公室电话</p>
+            <b-form-input v-model="updateForm.office_tell" :disabled="is_update" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+          </div>
+          <div class="col-lg-6 marginBot4">
+            <p class="marginBot4">个人电话</p>
+            <b-form-input v-model="updateForm.phone_no" :disabled="is_update" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+          </div>
+          <div class="col-lg-12 marginBot4">
+            <p class="marginBot4">家庭住址</p>
+            <b-form-input v-model="updateForm.home_address" :disabled="is_update" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+          </div>
+          <div class="col-lg-6 marginBot4">
+            <p class="marginBot4">电子信箱</p>
+            <b-form-input v-model="updateForm.emaill" :disabled="is_update" onkeypress="return (/[0-9a-zA-Z@.]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+          </div>
+          <div class="col-lg-6 marginBot4">
+            <p class="marginBot4">出生日期</p>
+            <el-date-picker v-model="updateForm.birthday" type="date" placeholder="选择日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd" :disabled="is_update" ></el-date-picker>
+            <!-- <input v-model="updateForm.birthday" type="text" class="form-control tyx-cursor" id="updateBirthday" data-date-format="yyyy-mm-dd"/> -->
+          </div>
+          <div class="col-lg-6 marginBot4">
+            <p class="marginBot4">身份证号</p>
+            <b-form-input v-model="updateForm.id_number" maxlength="18" :disabled="is_update" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+          </div>
+          <div class="col-lg-6 marginBot4">
+            <p class="marginBot4">卡号</p>
+            <b-form-input v-model="updateForm.card_no" :disabled="is_update" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+          </div>
+          <div class="col-lg-6 marginBot4">
+            <p class="marginBot4">部门</p>
+            <b-form-select v-model="updateForm.dept_id"  :options="deptList" :disabled="is_update"/>
+          </div>
+          <div class="col-lg-6 marginBot4">
+            <p class="marginBot4">职务</p>
+            <b-form-input
+              v-model="updateForm.level"
+              :disabled="is_update"
+              onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
+          </div>
+          <div class="col-lg-6 marginBot4">
+            <p class="marginBot4">岗位</p>
+            <b-form-select v-model="updateForm.post_id" :options="postList" :disabled="is_update"></b-form-select>
+          </div>
+          <div class="col-lg-12 marginBot">
+            <p class="marginBot4">备注</p>
+            <textarea
+ v-model="updateForm.remark" class="form-control" style="height: 100px !important;" rows="4" :disabled="is_update">
+            </textarea>
+          </div>
+        </div>
+      </div>
+      <b-button
+        variant="secondary"
+        @click="closeAlert('update')"
+        class="resetButton"
+        style="font-size:16px !important; margin-top:25px;  padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+        >返&nbsp;&nbsp;回</b-button
+      >
+      <b-button
+        v-if="is_update"
+        variant="primary"
+        @click="is_update = false"
+        class="resetButton"
+        style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+        >修&nbsp;&nbsp;改</b-button
+      >
+      <b-button
+        v-if="!is_update"
+        variant="primary"
+        @click="toValidate('update')"
+        class="resetButton"
+        style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+        >保&nbsp;&nbsp;存</b-button
+      >
+    </b-modal>
+    <!--删除弹框-->
+    <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
+      <div class="d-block text-center">
+        <b-alert variant="danger" show>删除部门可能会影响您的管理,确认删除吗?</b-alert>
+      </div>
+      <b-button
+        variant="danger"
+        style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+        @click="toDelete()"
+        >删&nbsp;&nbsp;除</b-button
+      >
+      <b-button
+        variant="primary"
+        style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+        class="resetButton"
+        @click="closeAlert('delete'), $refs.deleteAlert.hide(), deleteItem = ''"
+        >返&nbsp;&nbsp;回</b-button
+      >
+    </b-modal>
   </div>
 </template>
 
@@ -546,8 +574,6 @@ li {
   }
 }
 </style>
-
-
 <style scoped>
 @import '../../assets/style/Font-Awesome-master/css/font-awesome.css';
 @import '../../assets/style/layout/base-Layout-bootstrap.css';
