@@ -25,6 +25,7 @@
               <th>部门</th>
               <th>职务</th>
               <th>工作状态</th>
+              <th>是否通勤</th>
               <th>操作</th>
             </tr>
             <tr v-for="(item,index) in list" :key="index">
@@ -36,6 +37,7 @@
               <td>{{{data: deptList, searchItem: 'value',value: item.dept_id,label:'text'}|getName}}</td>
               <td>{{item.level}}</td>
               <td>{{item.status === 0?'在职':(item.status===1?'离职':'退休')}}</td>
+              <td>{{item.tq === 0?'通勤':'不通勤'}}</td>
               <td>
                 <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update',index)">详&nbsp;&nbsp;情</b-button>
                 <b-button variant="danger" style="color:white;"  @click="openAlert('delete',item.id)">删&nbsp;&nbsp;除</b-button>
@@ -97,10 +99,13 @@
               <div class="col-lg-6">
                   <b-form-select v-model="addForm.status" :options="status" class="marginBot" />
               </div>
+              <div class="col-lg-6">
+                  <b-form-select v-model="addForm.tq" :options="tq" class="marginBot" />
+              </div>
             </div>
-            <textarea v-model="addForm.remark" class="form-control" rows="3" style="height: 100px !important;" placeholder="备注"></textarea><br/>
-          </div>
-          <b-button variant="secondary" @click="addForm={gender: null,dept_id: null,post_id: null}" class="resetButton" 
+              <textarea v-model="addForm.remark" class="form-control" rows="3" style="height: 100px !important;" placeholder="备注"></textarea><br/>
+            </div>
+          <b-button variant="secondary" @click="addForm={gender: null,dept_id: null,post_id: null,tq: null,}" class="resetButton" 
           style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;">
             重&nbsp;&nbsp;置</b-button>
           <b-button variant="primary" @click="toValidate('add')" class="resetButton" 
@@ -164,6 +169,10 @@
                   <p class="marginBot4">工作状态</p>
                   <b-form-select v-model="updateForm.status" :options="status" :disabled="is_update" />
               </div>
+              <div class="col-lg-6 marginBot4">
+                  <p class="marginBot4">是否通勤</p>
+                  <b-form-select v-model="updateForm.tq" :options="tq" :disabled="is_update" />
+              </div>
               <div class="col-lg-12 marginBot">
                   <p class="marginBot4">备注</p>
                   <textarea v-model="updateForm.remark" class="form-control"  style="height: 100px !important;"  rows="4" :disabled="is_update"></textarea>
@@ -212,16 +221,19 @@ export default {
         dept_id: null,
         post_id: null,
         status: null,
+        tq: null,
       },
       updateForm: {
         gender: null,
         dept_id: null,
         post_id: null,
         status: null,
+        tq: null,
       },
       operateId: {},
       gender: [{ text: '请选择性别', value: null, disabled: true }, { text: '男', value: 1 }, { text: '女', value: 0 }],
       status: [{ text: '工作状态', value: null, disabled: true }, { text: '在职', value: 0 }, { text: '离职', value: 1 }, { text: '退休', value: 2 }],
+      tq: [{ text: '是否通勤', value: null, disabled: true }, { text: '通勤', value: '0' }, { text: '不通勤', value: '1' }],
       currentPage: 1,
       limit: 15,
       totalRow: 100,
@@ -241,6 +253,7 @@ export default {
         level: [{ type: 'string', required: true, message: '请填写职务' }],
         post_id: [{ required: true, message: '请选择岗位' }],
         status: [{ required: true, message: '请选择工作状态' }],
+        tq: [{ required: true, message: '请选择是否通勤' }],
       }),
       updateUserValidator: new Validator({
         job_num: [{ type: 'string', required: true, message: '请填写工号' }],
@@ -256,6 +269,7 @@ export default {
         level: [{ type: 'string', required: true, message: '请填写职务' }],
         post_id: [{ required: true, message: '请选择岗位' }],
         status: [{ required: true, message: '请选择工作状态' }],
+        tq: [{ required: true, message: '请选择是否通勤' }],
       }),
     };
   },
@@ -274,7 +288,6 @@ export default {
     async search() {
       let skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(`/akyl/staff/staff_list?skip=${skip}&limit=${this.limit}`);
-      console.log(result.data.staffList);
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.staffList);
         this.$set(this, 'origin', result.data.staffList);

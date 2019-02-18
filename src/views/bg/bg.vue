@@ -90,6 +90,7 @@
                   </td> 
                   <td><b-form-input v-model="item.add_time" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
                   <td><textarea v-model="item.remark" class="form-control" rows="3" style="height: 100px !important;" placeholder="备注"></textarea><br/></td>
+                <b-button variant="primary" @click="closeSubForm(index)" class="resetButton" >删&nbsp;&nbsp;除</b-button>
                 </tr>
                 <b-button variant="primary" @click="addSubForm()" class="resetButton" >添&nbsp;&nbsp;加</b-button>
                 </tbody>
@@ -109,13 +110,13 @@
           <div class="d-block text-center">
             <div class="row">
               <div class="col-lg-6">
-                  <b-form-input v-model="form.job_num" placeholder="工号" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
+                  <b-form-input v-model="updateForm.job_num" :disabled="is_update" placeholder="工号" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
               </div>
               <div class="col-lg-6">
-                  <b-form-input v-model="form.all_time" placeholder="总工时" class="marginBot" onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>小时
+                  <b-form-input v-model="updateForm.all_time" :disabled="is_update" placeholder="总工时" class="marginBot" onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>小时
               </div>
               <div class="col-lg-6">
-                  <b-form-input v-model="form.leave_time" placeholder="请假时间"  class="marginBot" onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>小时
+                  <b-form-input v-model="updateForm.leave_time" :disabled="is_update" placeholder="请假时间"  class="marginBot" onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>小时
               </div>
               <br/>
               <table class="table table-bordered table-striped ">
@@ -130,12 +131,12 @@
                   <td>备注</td>
                 </tr>
                 <tr v-for="(item,index) in subForm" :key="index">
-                  <td><b-form-select v-model="item.work_id" :options="workList" class="marginBot" /></td>
-                  <td><b-form-select v-model="item.kind_id" :options="kindList" class="marginBot" /></td>
-                  <td><b-form-input v-model="item.num" type="number" class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
-                  <td><b-form-input v-model="item.work_time" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
+                  <td><b-form-select v-model="item.work_id" :disabled="is_update" :options="workList" class="marginBot" /></td>
+                  <td><b-form-select v-model="item.kind_id" :disabled="is_update" :options="kindList" class="marginBot" /></td>
+                  <td><b-form-input v-model="item.num" :disabled="is_update" type="number" class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
+                  <td><b-form-input v-model="item.work_time" :disabled="is_update" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
                   <td>
-                    <b-form-group>
+                    <b-form-group :disabled="is_update">
                       <b-form-radio-group
                         id="btnradios1"
                         buttons
@@ -147,20 +148,24 @@
                       />
                     </b-form-group>
                   </td> 
-                  <td><b-form-input v-model="item.add_time" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
-                  <td><textarea v-model="item.remark" class="form-control" rows="3" style="height: 100px !important;" placeholder="备注"></textarea><br/></td>
+                  <td><b-form-input v-model="item.add_time" :disabled="is_update" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
+                  <td><textarea v-model="item.remark" :disabled="is_update" class="form-control" rows="3" style="height: 100px !important;" placeholder="备注"></textarea><br/></td>
+                <b-button variant="primary" v-if="!is_update" @click="closeSubForm(index)" class="resetButton" >删&nbsp;&nbsp;除</b-button>
                 </tr>
-                <b-button variant="primary" @click="addSubForm()" class="resetButton" >添&nbsp;&nbsp;加</b-button>
+                <b-button variant="primary" v-if="!is_update" @click="addSubForm()" class="resetButton" >添&nbsp;&nbsp;加</b-button>
                 </tbody>
               </table>
             </div>
           </div>
-          <b-button variant="secondary" @click="reset()" class="resetButton" 
-          style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;">
-            重&nbsp;&nbsp;置</b-button>
-          <b-button variant="primary" @click="toValidate('add')" class="resetButton" 
+          <b-button variant="secondary" @click="closeAlert('update')" class="resetButton" 
+          style="font-size:16px !important; margin-top:25px;  padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;" 
+          >返&nbsp;&nbsp;回</b-button>
+          <b-button v-if="is_update" variant="primary" @click="is_update=false" class="resetButton"  
           style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
-           >保&nbsp;&nbsp;存</b-button>
+          >修&nbsp;&nbsp;改</b-button>
+          <b-button v-if="!is_update" variant="primary" @click="toValidate('update')" class="resetButton"  
+          style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+          >保&nbsp;&nbsp;存</b-button>
         </b-modal>
 
       <!--删除弹框-->
@@ -185,6 +190,7 @@ export default {
   components: {},
   data() {
     return {
+      updateForm:[],
       list: [],
       subForm: [],
       subFormContent: {
@@ -307,7 +313,9 @@ export default {
     openAlert(type, id) {
       if (type === 'update') {
         this.$refs.updateAlert.show();
+        this.search();
         this.updateForm = JSON.parse(JSON.stringify(this.list[id]));
+        this.searchSubForm(this.updateForm.id);
       } else if (type === 'delete') {
         this.$refs.deleteAlert.show();
         this.operateId = id;
@@ -325,7 +333,7 @@ export default {
       }
       this.is_update = true;
       this.operateId = '';
-      this.updateForm = {};
+      this.updateForm = [];
     },
     //验证错误
     handleErrors(errors, fields) {
@@ -341,6 +349,9 @@ export default {
     //添加字表数据
     addSubForm() {
       this.subForm.push(JSON.parse(JSON.stringify(this.subFormContent)));
+    },
+    closeSubForm(i) {
+      this.subForm.splice(index,i);
     },
     reset() {
       this.form = {};
