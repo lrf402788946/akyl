@@ -69,9 +69,10 @@
                   <td>上班时段</td>
                   <td>加班</td>
                   <td>备注</td>
+                  <td>操作</td>
                 </tr>
                 <tr v-for="(item,index) in subForm" :key="index">
-                  <td><b-form-select v-model="item.work_id" :options="workList" class="marginBot" /></td>
+                  <td><b-form-select v-model="item.work_id" :options="deptList" class="marginBot" /></td>
                   <td><b-form-select v-model="item.kind_id" :options="kindList" class="marginBot" /></td>
                   <td><b-form-input v-model="item.num" type="number" class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
                   <td><b-form-input v-model="item.work_time" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
@@ -129,9 +130,10 @@
                   <td>上班时段</td>
                   <td>加班</td>
                   <td>备注</td>
+                  <td>操作</td>
                 </tr>
                 <tr v-for="(item,index) in subForm" :key="index">
-                  <td><b-form-select v-model="item.work_id" :disabled="is_update" :options="workList" class="marginBot" /></td>
+                  <td><b-form-select v-model="item.work_id" :disabled="is_update" :options="deptList" class="marginBot" /></td>
                   <td><b-form-select v-model="item.kind_id" :disabled="is_update" :options="kindList" class="marginBot" /></td>
                   <td><b-form-input v-model="item.num" :disabled="is_update" type="number" class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
                   <td><b-form-input v-model="item.work_time" :disabled="is_update" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
@@ -145,6 +147,7 @@
                         v-model="item.is_night"
                         :options="[{ text: '夜班', value: '1'}, { text: '白班', value: '0', checked: true }]"
                         name="radiosBtnDefault"
+                        :disabled="is_update"
                       />
                     </b-form-group>
                   </td> 
@@ -190,16 +193,15 @@ export default {
   components: {},
   data() {
     return {
-      updateForm:[],
+      updateForm: new Array(),
       list: [],
       subForm: [],
       subFormContent: {
-        work_id: null,
+        dept_id: null,
         kind_id: null,
         num: 0,
         work_time: 0,
         is_night: 0,
-        add_time: 0,
       },
       is_night_or_not: [{ text: '夜班', value: 1 }],
       is_update: true,
@@ -208,8 +210,8 @@ export default {
       limit: 15,
       totalRow: 0,
       form: {},
-      kindList: [{ text: '请选择类型', value: null }, { text: 'kind1', value: 1 }, { text: 'kind2', value: 2 }],
-      workList: [{ text: '请选择工序', value: null }, { text: 'work1', value: 1 }, { text: 'work2', value: 2 }],
+      kindList: [],
+      deptList: [],
       mainValidator: new Validator({
         job_num: [{ required: true, message: '请填写工号' }],
         all_time: [{ required: true, message: '请填写总工时' }],
@@ -239,14 +241,14 @@ export default {
     },
     //请求各表
     async getOtherList() {
-      //请求工序表
-      let result = await this.$axios.get('/akyl/work/work_list?skip=0&limit=100');
-      this.workList = result.data.workList.map(item => {
+      //请求部门表
+      let result = await this.$axios.get('/akyl/dept/dept_list?skip=0&limit=100');
+      this.deptList = result.data.deptList.map(item => {
         let newObject = { text: item.name, value: item.id };
         return newObject;
       });
-      let defalut = { text: '请选择工序', value: null, disabled: true };
-      this.workList.unshift(defalut);
+      let defalut = { text: '请选择部门', value: null, disabled: true };
+      this.deptList.unshift(defalut);
       //请求类型表
       result = await this.$axios.get('/akyl/kind/kind_list?skip=0&limit=100');
       this.kindList = result.data.kindList.map(item => {
@@ -260,7 +262,9 @@ export default {
     async searchSubForm(id) {
       let result = await this.$axios.get(`/akyl/bg/job_report_sub_info?id=${id}`);
       if (result.data.msg === '成功') {
-        this.$set(this, 'subForm', result.data.jobReportSubList);
+        if (typeof result.data.jobReportSubList === Array) {
+          this.$set(this, 'subForm', result.data.jobReportSubList);
+        }
       }
     },
     //验证
@@ -333,7 +337,7 @@ export default {
       }
       this.is_update = true;
       this.operateId = '';
-      this.updateForm = [];
+      this.subForm.splice(0, this.subForm.length);
     },
     //验证错误
     handleErrors(errors, fields) {
@@ -346,12 +350,13 @@ export default {
       // eslint-disable-next-line no-console
       console.debug(errors, fields);
     },
+    //删除表单中内容
+    closeSubForm(i) {
+      this.subForm.splice(i, 1);
+    },
     //添加字表数据
     addSubForm() {
       this.subForm.push(JSON.parse(JSON.stringify(this.subFormContent)));
-    },
-    closeSubForm(i) {
-      this.subForm.splice(index,i);
     },
     reset() {
       this.form = {};
