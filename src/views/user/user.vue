@@ -1,17 +1,24 @@
-<template lang='html'>
+<template lang="html">
   <div id="user">
     <!-- 表格 begin -->
     <div class="base-form">
       <div class="form-inline">
-        <div class="base-form-title" style="width:100%;"><a class="base-margin-left-20">用户列表</a>
-          <div class="button-table">
-          </div>
+        <div class="base-form-title" style="width:100%;">
+          <a class="base-margin-left-20">用户列表</a>
+          <div class="button-table"></div>
         </div>
       </div>
       <div class="base-padding-20 base-bg-fff">
         <div class="base-align-right" style="margin-bottom: 20px;">
-          <a class="btn btn-info base-margin-bottom" style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;" data-toggle="tooltip" title="" role="button" v-b-modal="'addAlert'">
-            <i class="base-margin-right-5 fa fa-plus-square"></i>添加用户    
+          <a
+            class="btn btn-info base-margin-bottom"
+            style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;"
+            data-toggle="tooltip"
+            title=""
+            role="button"
+            v-b-modal="'addAlert'"
+          >
+            <i class="base-margin-right-5 fa fa-plus-square"></i>添加用户
           </a>
         </div>
         <table class="table table-bordered table-striped ">
@@ -26,17 +33,18 @@
               <th>电子信箱</th>
               <th>操作</th>
             </tr>
-            <tr v-for="(item,index) in list" :key="index"><!--美化下input 可以看情况使用-->
-              <td>{{item.user_name}}</td>
-              <td>{{item.login_id}}</td>
-              <td>{{item.gender === 1?'男':'女'}}</td>
-              <td>{{item.office_tell}}</td>
-              <td>{{item.phone_no}}</td>
-              <td>{{item.home_address}}</td>
-              <td>{{item.emaill}}</td>
+            <tr v-for="(item, index) in list" :key="index">
+              <!--美化下input 可以看情况使用-->
+              <td>{{ item.user_name }}</td>
+              <td>{{ item.login_id }}</td>
+              <td>{{ item.gender === 1 ? '男' : '女' }}</td>
+              <td>{{ item.office_tell }}</td>
+              <td>{{ item.phone_no }}</td>
+              <td>{{ item.home_address }}</td>
+              <td>{{ item.emaill }}</td>
               <td>
-                <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update',index)">详&nbsp;&nbsp;情</b-button>
-                <b-button variant="danger" style="color:white;"  @click="openAlert('delete',item.id)">删&nbsp;&nbsp;除</b-button>
+                <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update', index)">详&nbsp;&nbsp;情</b-button>
+                <b-button variant="danger" style="color:white;" @click="openAlert('delete', item.id)">删&nbsp;&nbsp;除</b-button>
               </td>
             </tr>
           </tbody>
@@ -48,77 +56,147 @@
           prev-text="上一页"
           next-text="下一页"
           @current-change="toSearch"
-          :total="totalRow">
-        </el-pagination>  
+          :total="totalRow"
+        ></el-pagination>
       </div>
     </div>
-      <!--添加弹框-->
-        <b-modal id="addAlert" title="添加用户" ref="addAlert" hide-footer> 
-          <div class="d-block text-center">
-            <div class="row">
-              <div class="col-lg-6">
-                  <b-form-input v-model="addForm.user_name" placeholder="姓名" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
-              </div>
-              <div class="col-lg-6">
-                  <b-form-input v-model="addForm.login_id" placeholder="登录账号" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
-              </div>
-              <div class="col-lg-6">
-                  <b-form-input v-model="addForm.password" placeholder="登录密码" type="password" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
-              </div>
-              <div class="col-lg-6">
-                  <b-form-select v-model="addForm.gender" :options="gender" class="marginBot" />
-              </div>
-              <div class="col-lg-6">
-                  <b-form-input v-model="addForm.office_tell" placeholder="办公室电话" class="marginBot" onkeypress="return (/[0-9\\-]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
-              </div>
-              <div class="col-lg-6">
-                  <b-form-input v-model="addForm.phone_no" placeholder="个人电话" class="marginBot" onkeypress="return (/[0-9\\-]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
-              </div>
-              <div class="col-lg-6">
-                  <b-form-input v-model="addForm.home_address" placeholder="家庭住址" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
-              </div>
-              <div class="col-lg-6">
-                  <b-form-input v-model="addForm.emaill" placeholder="电子信箱" class="marginBot" onkeypress="return (/[0-9a-zA-Z@.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
-              </div>
-              <div class="col-lg-6">
-                  <el-date-picker v-model="addForm.birthday" type="date" placeholder="出生日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd" ></el-date-picker>
-              </div>
-              <div class="col-lg-6">
-                   <b-form-input v-model="addForm.id_number" placeholder="身份证号" maxlength="18" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
-              </div>
-              <div class="col-lg-6">
-                  <b-form-input v-model="addForm.card_no" placeholder="卡号" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
-              </div>
-              <div class="col-lg-6"><!--部门需要调用其他表-->
-                    <b-form-select v-model="addForm.dept_id"  :options="deptList" class="marginBot" />
-              </div>
-              <div class="col-lg-6">
-                 <b-form-input v-model="addForm.level" placeholder="职务" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
-              </div>
-              <div class="col-lg-6"><!--岗位需要调用其他表-->
-                 <b-form-select v-model="addForm.post_id" placeholder="岗位"  :options="postList" class="marginBot" />
-              </div>
-            </div>
-            <textarea v-model="addForm.remark" class="form-control" rows="3" style="height: 100px !important;" placeholder="备注"></textarea><br/>
+    <!--添加弹框-->
+    <b-modal id="addAlert" title="添加用户" ref="addAlert" hide-footer>
+      <div class="d-block text-center">
+        <div class="row">
+          <div class="col-lg-6">
+            <b-form-input
+              v-model="addForm.user_name"
+              placeholder="姓名"
+              class="marginBot"
+              onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
           </div>
-          <b-button variant="secondary" @click="addForm={gender: null,dept_id: null,post_id: null}" class="resetButton" 
-          style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;">
-            重&nbsp;&nbsp;置</b-button>
-          <b-button variant="primary" @click="toValidate('add')" class="resetButton" 
-          style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
-           >保&nbsp;&nbsp;存</b-button>
-        </b-modal>
+          <div class="col-lg-6">
+            <b-form-input
+              v-model="addForm.login_id"
+              placeholder="登录账号"
+              class="marginBot"
+              onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
+          </div>
+          <div class="col-lg-6">
+            <b-form-input
+              v-model="addForm.password"
+              placeholder="登录密码"
+              type="password"
+              class="marginBot"
+              onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
+          </div>
+          <div class="col-lg-6">
+            <b-form-select v-model="addForm.gender" :options="gender" class="marginBot" />
+          </div>
+          <div class="col-lg-6">
+            <b-form-input
+              v-model="addForm.office_tell"
+              placeholder="办公室电话"
+              class="marginBot"
+              onkeypress="return (/[0-9\\-]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
+          </div>
+          <div class="col-lg-6">
+            <b-form-input
+              v-model="addForm.phone_no"
+              placeholder="个人电话"
+              class="marginBot"
+              onkeypress="return (/[0-9\\-]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
+          </div>
+          <div class="col-lg-6">
+            <b-form-input
+              v-model="addForm.home_address"
+              placeholder="家庭住址"
+              class="marginBot"
+              onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
+          </div>
+          <div class="col-lg-6">
+            <b-form-input
+              v-model="addForm.emaill"
+              placeholder="电子信箱"
+              class="marginBot"
+              onkeypress="return (/[0-9a-zA-Z@.]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
+          </div>
+          <div class="col-lg-6">
+            <el-date-picker v-model="addForm.birthday" type="date" placeholder="出生日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd"></el-date-picker>
+          </div>
+          <div class="col-lg-6">
+            <b-form-input
+              v-model="addForm.id_number"
+              placeholder="身份证号"
+              maxlength="18"
+              class="marginBot"
+              onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
+          </div>
+          <div class="col-lg-6">
+            <b-form-input
+              v-model="addForm.card_no"
+              placeholder="卡号"
+              class="marginBot"
+              onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
+          </div>
+          <div class="col-lg-6">
+            <!--部门需要调用其他表-->
+            <b-form-select v-model="addForm.dept_id" :options="deptList" class="marginBot" />
+          </div>
+          <div class="col-lg-6">
+            <b-form-input
+              v-model="addForm.level"
+              placeholder="职务"
+              class="marginBot"
+              onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
+          </div>
+          <div class="col-lg-6">
+            <!--岗位需要调用其他表-->
+            <b-form-select v-model="addForm.post_id" placeholder="岗位" :options="postList" class="marginBot" />
+          </div>
+        </div>
+        <textarea v-model="addForm.remark" class="form-control" rows="3" style="height: 100px !important;" placeholder="备注"></textarea><br />
+      </div>
+      <b-button
+        variant="secondary"
+        @click="addForm = { gender: null, dept_id: null, post_id: null }"
+        class="resetButton"
+        style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+        >重&nbsp;&nbsp;置</b-button
+      >
+      <b-button
+        variant="primary"
+        @click="toValidate('add')"
+        class="resetButton"
+        style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+        >保&nbsp;&nbsp;存</b-button
+      ></b-modal
+    >
     <!--修改弹框-->
-    <b-modal id="updateAlert" title="修改信息" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> 
+    <b-modal id="updateAlert" title="修改信息" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
       <div class="d-block">
         <div class="row">
           <div class="col-lg-6 marginBot4">
             <p class="marginBot4">姓名</p>
-            <b-form-input v-model="updateForm.user_name" :disabled="is_update" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+            <b-form-input
+              v-model="updateForm.user_name"
+              :disabled="is_update"
+              onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
           </div>
           <div class="col-lg-6 marginBot4">
             <p class="marginBot4">登录ID</p>
-            <b-form-input v-model="updateForm.login_id" :disabled="true" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+            <b-form-input
+              v-model="updateForm.login_id"
+              :disabled="true"
+              onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
           </div>
           <div class="col-lg-6 marginBot4">
             <p class="marginBot4">性别</p>
@@ -126,36 +204,68 @@
           </div>
           <div class="col-lg-6 marginBot4">
             <p class="marginBot4">办公室电话</p>
-            <b-form-input v-model="updateForm.office_tell" :disabled="is_update" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+            <b-form-input
+              v-model="updateForm.office_tell"
+              :disabled="is_update"
+              onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
           </div>
           <div class="col-lg-6 marginBot4">
             <p class="marginBot4">个人电话</p>
-            <b-form-input v-model="updateForm.phone_no" :disabled="is_update" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+            <b-form-input
+              v-model="updateForm.phone_no"
+              :disabled="is_update"
+              onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
           </div>
           <div class="col-lg-12 marginBot4">
             <p class="marginBot4">家庭住址</p>
-            <b-form-input v-model="updateForm.home_address" :disabled="is_update" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+            <b-form-input
+              v-model="updateForm.home_address"
+              :disabled="is_update"
+              onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
           </div>
           <div class="col-lg-6 marginBot4">
             <p class="marginBot4">电子信箱</p>
-            <b-form-input v-model="updateForm.emaill" :disabled="is_update" onkeypress="return (/[0-9a-zA-Z@.]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+            <b-form-input
+              v-model="updateForm.emaill"
+              :disabled="is_update"
+              onkeypress="return (/[0-9a-zA-Z@.]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
           </div>
           <div class="col-lg-6 marginBot4">
             <p class="marginBot4">出生日期</p>
-            <el-date-picker v-model="updateForm.birthday" type="date" placeholder="选择日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd" :disabled="is_update" ></el-date-picker>
+            <el-date-picker
+              v-model="updateForm.birthday"
+              type="date"
+              placeholder="选择日期"
+              format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd"
+              :disabled="is_update"
+            ></el-date-picker>
             <!-- <input v-model="updateForm.birthday" type="text" class="form-control tyx-cursor" id="updateBirthday" data-date-format="yyyy-mm-dd"/> -->
           </div>
           <div class="col-lg-6 marginBot4">
             <p class="marginBot4">身份证号</p>
-            <b-form-input v-model="updateForm.id_number" maxlength="18" :disabled="is_update" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+            <b-form-input
+              v-model="updateForm.id_number"
+              maxlength="18"
+              :disabled="is_update"
+              onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
           </div>
           <div class="col-lg-6 marginBot4">
             <p class="marginBot4">卡号</p>
-            <b-form-input v-model="updateForm.card_no" :disabled="is_update" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+            <b-form-input
+              v-model="updateForm.card_no"
+              :disabled="is_update"
+              onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
           </div>
           <div class="col-lg-6 marginBot4">
             <p class="marginBot4">部门</p>
-            <b-form-select v-model="updateForm.dept_id"  :options="deptList" :disabled="is_update"/>
+            <b-form-select v-model="updateForm.dept_id" :options="deptList" :disabled="is_update" />
           </div>
           <div class="col-lg-6 marginBot4">
             <p class="marginBot4">职务</p>
@@ -172,7 +282,11 @@
           <div class="col-lg-12 marginBot">
             <p class="marginBot4">备注</p>
             <textarea
- v-model="updateForm.remark" class="form-control" style="height: 100px !important;" rows="4" :disabled="is_update">
+              v-model="updateForm.remark"
+              class="form-control"
+              style="height: 100px !important;"
+              rows="4"
+              :disabled="is_update">
             </textarea>
           </div>
         </div>
