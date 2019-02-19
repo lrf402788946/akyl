@@ -36,6 +36,13 @@
               <div class="expand-triangle"></div>
               <router-link :to="{name:'bg'}"><li><span> 报工单管理</span></li></router-link>
             </ul>
+            <li>
+              <span><i class="fa-stack fa fa-user"></i>统计管理</span>
+            </li>
+            <ul class="submenu">
+              <div class="expand-triangle"></div>
+              <router-link :to="{name:'pdt'}"><li><span> 生产统计</span></li></router-link>
+            </ul>
 
           </ul>
           <div class="base-footer"> 爱康管理平台 <br /> Co pyright © 2019-2020 <br /> 当前版本：1.0 </div>
