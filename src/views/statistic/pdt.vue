@@ -29,7 +29,7 @@
         <table class="table table-bordered table-striped ">
           <tbody>
             <tr>
-              <th>工号</th>
+              <th>工号test</th>
               <th>姓名</th>
               <th>型号</th>
               <th>工作量</th>
