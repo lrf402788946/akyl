@@ -15,7 +15,8 @@
           type="daterange"
           range-separator="-"
           start-placeholder="开始日期"
-          end-placeholder="结束日期">
+          end-placeholder="结束日期"
+          unlink-panels>
         </el-date-picker>
       </div>
       <div class="col-lg-3">
