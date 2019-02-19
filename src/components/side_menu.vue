@@ -41,7 +41,7 @@
             </li>
             <ul class="submenu">
               <div class="expand-triangle"></div>
-              <router-link :to="{name:'pdt'}"><li><span> 生产统计</span></li></router-link>
+              <router-link :to="{name:'pdt'}"><li><span>统计一</span></li></router-link>
             </ul>
 
           </ul>

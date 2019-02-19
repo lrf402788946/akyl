@@ -64,7 +64,7 @@
               <div class="col-lg-5">
               <el-date-picker
                 style="width:100%;"
-                v-model="form.create_date"
+                v-model="form.create_time"
                 type="date"
                 placeholder="创建日期"
                 value-format="yyyy-MM-dd"
@@ -138,8 +138,9 @@
               <div class="col-lg-5">
               <el-date-picker
                 style="width:100%;"
-                v-model="updateForm.create_date"
+                v-model="updateForm.create_time"
                 type="date"
+                :disabled="is_update"
                 placeholder="选择日期"
                 value-format="yyyy-MM-dd"
                 format="yyyy-MM-dd"
@@ -245,7 +246,7 @@ export default {
         all_time: [{ required: true, message: '请填写总工时' }],
         leave_time: [{ required: true, message: '请填写请假时间' }],
         dept_id: [{ required: true, message: '请选择部门' }],
-        create_date: [{ required: true, message: '请选择创建日期' }],
+        create_time: [{ required: true, message: '请选择创建日期' }],
       }),
     };
   },
@@ -274,12 +275,12 @@ export default {
       //请求部门表
       let result = await this.$axios.get('/akyl/dept/dept_list?skip=0&limit=100');
       this.deptList = result.data.deptList.map(item => {
-        let newObject = { text: item.name, value: item.id };
+        let newObject = { text: item.dept_name, value: item.id };
         return newObject;
       });
       let defalut = { text: '请选择部门', value: null, disabled: true };
       this.deptList.unshift(defalut);
-      //请求部门表
+      //请求工序表
       result = await this.$axios.get('/akyl/work/work_list?skip=0&limit=100');
       this.workList = result.data.workList.map(item => {
         let newObject = { text: item.name, value: item.id };
@@ -287,20 +288,20 @@ export default {
       });
       defalut = { text: '请选择工序', value: null, disabled: true };
       this.workList.unshift(defalut);
-      //请求类型表
+      //请求类型表(应该是二级联动工序表)
       result = await this.$axios.get('/akyl/kind/kind_list?skip=0&limit=100');
       this.kindList = result.data.kindList.map(item => {
         let newObject = { text: item.name, value: item.id };
         return newObject;
       });
-      defalut = { text: '请选择岗位', value: null, disabled: true };
+      defalut = { text: '请选择类型', value: null, disabled: true };
       this.kindList.unshift(defalut);
     },
     //查询子表
     async searchSubForm(id) {
       let result = await this.$axios.get(`/akyl/bg/job_report_sub_info?id=${id}`);
       if (result.data.msg === '成功') {
-        if (typeof result.data.jobReportSubList === Array) {
+        if (result.data.jobReportSubList.length > 0) {
           this.$set(this, 'subForm', result.data.jobReportSubList);
         }
       }
@@ -334,9 +335,9 @@ export default {
     },
     //修改
     async update() {
-      let result = await this.$axios.post('/akyl/bg/job_report_main_edit', { data: this.form });
+      let result = await this.$axios.post('/akyl/bg/job_report_main_edit', { data: this.updateForm });
       if (result.data.msg === '成功') {
-        result = await this.$axios.post('/akyl/bg/job_report_sub_edit', { data: { subForm: this.subForm, id: this.form.id } });
+        result = await this.$axios.post('/akyl/bg/job_report_sub_edit', { data: { subForm: this.subForm, id: this.updateForm.id } });
         if (result.data.msg === '成功') {
           this.closeAlert('update');
           this.form = {};
