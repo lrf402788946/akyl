@@ -41,7 +41,9 @@
             </li>
             <ul class="submenu">
               <div class="expand-triangle"></div>
-              <router-link :to="{name:'pdt'}"><li><span>统计一</span></li></router-link>
+              <router-link :to="{name:'pdt'}"><li><span> 每人每天每型号数量</span></li></router-link>
+              <router-link :to="{name:'gtx'}"><li><span> 每工序每天每型号数量</span></li></router-link>
+              <router-link :to="{name:'td'}"><li><span> 每型号每天数量</span></li></router-link>
             </ul>
 
           </ul>
