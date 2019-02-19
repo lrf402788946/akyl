@@ -49,14 +49,27 @@
         <b-modal id="addAlert" title="新添报工单" ref="addAlert" size="xl" hide-footer> 
           <div class="d-block text-center">
             <div class="row">
-              <div class="col-lg-6">
+              <div class="col-lg-4">
                   <b-form-input v-model="form.job_num" placeholder="工号" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
               </div>
-              <div class="col-lg-6">
+              <div class="col-lg-4">
+                  <b-form-select v-model="form.dept_id" :options="deptList" class="marginBot" />
+              </div>
+              <div class="col-lg-4">
                   <b-form-input v-model="form.all_time" placeholder="总工时" class="marginBot" onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>小时
               </div>
-              <div class="col-lg-6">
+              <div class="col-lg-5">
                   <b-form-input v-model="form.leave_time" placeholder="请假时间"  class="marginBot" onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>小时
+              </div>
+              <div class="col-lg-5">
+              <el-date-picker
+                style="width:100%;"
+                v-model="form.create_time"
+                type="date"
+                placeholder="创建日期"
+                value-format="yyyy-MM-dd"
+                format="yyyy-MM-dd"
+              ></el-date-picker>
               </div>
               <br/>
               <table class="table table-bordered table-striped ">
@@ -69,6 +82,7 @@
                   <td>上班时段</td>
                   <td>加班</td>
                   <td>备注</td>
+                  <td>操作</td>
                 </tr>
                 <tr v-for="(item,index) in subForm" :key="index">
                   <td><b-form-select v-model="item.work_id" :options="workList" class="marginBot" /></td>
@@ -90,6 +104,7 @@
                   </td> 
                   <td><b-form-input v-model="item.add_time" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
                   <td><textarea v-model="item.remark" class="form-control" rows="3" style="height: 100px !important;" placeholder="备注"></textarea><br/></td>
+                <b-button variant="primary" @click="closeSubForm(index)" class="resetButton" >删&nbsp;&nbsp;除</b-button>
                 </tr>
                 <b-button variant="primary" @click="addSubForm()" class="resetButton" >添&nbsp;&nbsp;加</b-button>
                 </tbody>
@@ -108,14 +123,28 @@
         <b-modal id="updateAlert" title="修改报工单" ref="updateAlert" size="xl" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> 
           <div class="d-block text-center">
             <div class="row">
-              <div class="col-lg-6">
-                  <b-form-input v-model="form.job_num" placeholder="工号" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
+              <div class="col-lg-4">
+                  <b-form-input v-model="updateForm.job_num" :disabled="is_update" placeholder="工号" class="marginBot" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>
               </div>
-              <div class="col-lg-6">
-                  <b-form-input v-model="form.all_time" placeholder="总工时" class="marginBot" onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>小时
+              <div class="col-lg-4">
+                  <b-form-select v-model="updateForm.dept_id" :options="deptList" :disabled="is_update" class="marginBot" />
               </div>
-              <div class="col-lg-6">
-                  <b-form-input v-model="form.leave_time" placeholder="请假时间"  class="marginBot" onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>小时
+              <div class="col-lg-4">
+                  <b-form-input v-model="updateForm.all_time" :disabled="is_update" placeholder="总工时" class="marginBot" onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>小时
+              </div>
+              <div class="col-lg-5">
+                  <b-form-input v-model="updateForm.leave_time" :disabled="is_update" placeholder="请假时间"  class="marginBot" onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input>小时
+              </div>
+              <div class="col-lg-5">
+              <el-date-picker
+                style="width:100%;"
+                v-model="updateForm.create_time"
+                type="date"
+                :disabled="is_update"
+                placeholder="选择日期"
+                value-format="yyyy-MM-dd"
+                format="yyyy-MM-dd"
+              ></el-date-picker>
               </div>
               <br/>
               <table class="table table-bordered table-striped ">
@@ -128,14 +157,15 @@
                   <td>上班时段</td>
                   <td>加班</td>
                   <td>备注</td>
+                  <td>操作</td>
                 </tr>
                 <tr v-for="(item,index) in subForm" :key="index">
-                  <td><b-form-select v-model="item.work_id" :options="workList" class="marginBot" /></td>
-                  <td><b-form-select v-model="item.kind_id" :options="kindList" class="marginBot" /></td>
-                  <td><b-form-input v-model="item.num" type="number" class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
-                  <td><b-form-input v-model="item.work_time" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
+                  <td><b-form-select v-model="item.work_id" :disabled="is_update" :options="workList" class="marginBot" /></td>
+                  <td><b-form-select v-model="item.kind_id" :disabled="is_update" :options="kindList" class="marginBot" /></td>
+                  <td><b-form-input v-model="item.num" :disabled="is_update" type="number" class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
+                  <td><b-form-input v-model="item.work_time" :disabled="is_update" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
                   <td>
-                    <b-form-group>
+                    <b-form-group :disabled="is_update">
                       <b-form-radio-group
                         id="btnradios1"
                         buttons
@@ -144,23 +174,28 @@
                         v-model="item.is_night"
                         :options="[{ text: '夜班', value: '1'}, { text: '白班', value: '0', checked: true }]"
                         name="radiosBtnDefault"
+                        :disabled="is_update"
                       />
                     </b-form-group>
                   </td> 
-                  <td><b-form-input v-model="item.add_time" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
-                  <td><textarea v-model="item.remark" class="form-control" rows="3" style="height: 100px !important;" placeholder="备注"></textarea><br/></td>
+                  <td><b-form-input v-model="item.add_time" :disabled="is_update" type="number"  class="marginBot" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))" ></b-form-input></td>
+                  <td><textarea v-model="item.remark" :disabled="is_update" class="form-control" rows="3" style="height: 100px !important;" placeholder="备注"></textarea><br/></td>
+                <b-button variant="primary" v-if="!is_update" @click="closeSubForm(index)" class="resetButton" >删&nbsp;&nbsp;除</b-button>
                 </tr>
-                <b-button variant="primary" @click="addSubForm()" class="resetButton" >添&nbsp;&nbsp;加</b-button>
+                <b-button variant="primary" v-if="!is_update" @click="addSubForm()" class="resetButton" >添&nbsp;&nbsp;加</b-button>
                 </tbody>
               </table>
             </div>
           </div>
-          <b-button variant="secondary" @click="reset()" class="resetButton" 
-          style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;">
-            重&nbsp;&nbsp;置</b-button>
-          <b-button variant="primary" @click="toValidate('add')" class="resetButton" 
+          <b-button variant="secondary" @click="closeAlert('update')" class="resetButton" 
+          style="font-size:16px !important; margin-top:25px;  padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;" 
+          >返&nbsp;&nbsp;回</b-button>
+          <b-button v-if="is_update" variant="primary" @click="is_update=false" class="resetButton"  
           style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
-           >保&nbsp;&nbsp;存</b-button>
+          >修&nbsp;&nbsp;改</b-button>
+          <b-button v-if="!is_update" variant="primary" @click="toValidate('update')" class="resetButton"  
+          style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+          >保&nbsp;&nbsp;存</b-button>
         </b-modal>
 
       <!--删除弹框-->
@@ -185,15 +220,16 @@ export default {
   components: {},
   data() {
     return {
+      updateForm: new Array(),
       list: [],
+      login_id: 'login_id',
       subForm: [],
       subFormContent: {
-        work_id: null,
+        dept_id: null,
         kind_id: null,
         num: 0,
         work_time: 0,
         is_night: 0,
-        add_time: 0,
       },
       is_night_or_not: [{ text: '夜班', value: 1 }],
       is_update: true,
@@ -202,12 +238,15 @@ export default {
       limit: 15,
       totalRow: 0,
       form: {},
-      kindList: [{ text: '请选择类型', value: null }, { text: 'kind1', value: 1 }, { text: 'kind2', value: 2 }],
-      workList: [{ text: '请选择工序', value: null }, { text: 'work1', value: 1 }, { text: 'work2', value: 2 }],
+      deptList: [],
+      kindList: [],
+      workList: [],
       mainValidator: new Validator({
         job_num: [{ required: true, message: '请填写工号' }],
         all_time: [{ required: true, message: '请填写总工时' }],
         leave_time: [{ required: true, message: '请填写请假时间' }],
+        dept_id: [{ required: true, message: '请选择部门' }],
+        create_time: [{ required: true, message: '请选择创建日期' }],
       }),
     };
   },
@@ -233,33 +272,43 @@ export default {
     },
     //请求各表
     async getOtherList() {
+      //请求部门表
+      let result = await this.$axios.get('/akyl/dept/dept_list?skip=0&limit=100');
+      this.deptList = result.data.deptList.map(item => {
+        let newObject = { text: item.dept_name, value: item.id };
+        return newObject;
+      });
+      let defalut = { text: '请选择部门', value: null, disabled: true };
+      this.deptList.unshift(defalut);
       //请求工序表
-      let result = await this.$axios.get('/akyl/work/work_list?skip=0&limit=100');
+      result = await this.$axios.get('/akyl/work/work_list?skip=0&limit=100');
       this.workList = result.data.workList.map(item => {
         let newObject = { text: item.name, value: item.id };
         return newObject;
       });
-      let defalut = { text: '请选择工序', value: null, disabled: true };
+      defalut = { text: '请选择工序', value: null, disabled: true };
       this.workList.unshift(defalut);
-      //请求类型表
+      //请求类型表(应该是二级联动工序表)
       result = await this.$axios.get('/akyl/kind/kind_list?skip=0&limit=100');
       this.kindList = result.data.kindList.map(item => {
         let newObject = { text: item.name, value: item.id };
         return newObject;
       });
-      defalut = { text: '请选择岗位', value: null, disabled: true };
+      defalut = { text: '请选择类型', value: null, disabled: true };
       this.kindList.unshift(defalut);
     },
     //查询子表
     async searchSubForm(id) {
       let result = await this.$axios.get(`/akyl/bg/job_report_sub_info?id=${id}`);
       if (result.data.msg === '成功') {
-        this.$set(this, 'subForm', result.data.jobReportSubList);
+        if (result.data.jobReportSubList.length > 0) {
+          this.$set(this, 'subForm', result.data.jobReportSubList);
+        }
       }
     },
     //验证
     toValidate(type) {
-      this.mainValidator.validate(this.form, (errors, fields) => {
+      this.mainValidator.validate(type === 'add' ? this.form : this.updateForm, (errors, fields) => {
         if (errors) {
           return this.handleErrors(errors, fields);
         }
@@ -286,9 +335,9 @@ export default {
     },
     //修改
     async update() {
-      let result = await this.$axios.post('/akyl/bg/job_report_main_edit', { data: this.form });
+      let result = await this.$axios.post('/akyl/bg/job_report_main_edit', { data: this.updateForm });
       if (result.data.msg === '成功') {
-        result = await this.$axios.post('/akyl/bg/job_report_sub_edit', { data: { subForm: this.subForm, id: this.form.id } });
+        result = await this.$axios.post('/akyl/bg/job_report_sub_edit', { data: { subForm: this.subForm, id: this.updateForm.id } });
         if (result.data.msg === '成功') {
           this.closeAlert('update');
           this.form = {};
@@ -307,7 +356,9 @@ export default {
     openAlert(type, id) {
       if (type === 'update') {
         this.$refs.updateAlert.show();
+        this.search();
         this.updateForm = JSON.parse(JSON.stringify(this.list[id]));
+        this.searchSubForm(this.updateForm.id);
       } else if (type === 'delete') {
         this.$refs.deleteAlert.show();
         this.operateId = id;
@@ -325,7 +376,7 @@ export default {
       }
       this.is_update = true;
       this.operateId = '';
-      this.updateForm = {};
+      this.subForm.splice(0, this.subForm.length);
     },
     //验证错误
     handleErrors(errors, fields) {
@@ -337,6 +388,10 @@ export default {
       }, {});
       // eslint-disable-next-line no-console
       console.debug(errors, fields);
+    },
+    //删除表单中内容
+    closeSubForm(i) {
+      this.subForm.splice(i, 1);
     },
     //添加字表数据
     addSubForm() {

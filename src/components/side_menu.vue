@@ -36,6 +36,15 @@
               <div class="expand-triangle"></div>
               <router-link :to="{name:'bg'}"><li><span> 报工单管理</span></li></router-link>
             </ul>
+            <li>
+              <span><i class="fa-stack fa fa-user"></i>统计管理</span>
+            </li>
+            <ul class="submenu">
+              <div class="expand-triangle"></div>
+              <router-link :to="{name:'pdt'}"><li><span> 每人每天每型号数量</span></li></router-link>
+              <router-link :to="{name:'gtx'}"><li><span> 每工序每天每型号数量</span></li></router-link>
+              <router-link :to="{name:'td'}"><li><span> 每型号每天数量</span></li></router-link>
+            </ul>
 
           </ul>
           <div class="base-footer"> 爱康管理平台 <br /> Co pyright © 2019-2020 <br /> 当前版本：1.0 </div>
