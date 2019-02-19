@@ -66,7 +66,7 @@
                 style="width:100%;"
                 v-model="form.create_date"
                 type="date"
-                placeholder="选择日期"
+                placeholder="创建日期"
                 value-format="yyyy-MM-dd"
                 format="yyyy-MM-dd"
               ></el-date-picker>
@@ -244,6 +244,8 @@ export default {
         job_num: [{ required: true, message: '请填写工号' }],
         all_time: [{ required: true, message: '请填写总工时' }],
         leave_time: [{ required: true, message: '请填写请假时间' }],
+        dept_id: [{ required: true, message: '请选择部门' }],
+        create_date: [{ required: true, message: '请选择创建日期' }],
       }),
     };
   },
@@ -305,7 +307,7 @@ export default {
     },
     //验证
     toValidate(type) {
-      this.mainValidator.validate(this.form, (errors, fields) => {
+      this.mainValidator.validate(type === 'add' ? this.form : this.updateForm, (errors, fields) => {
         if (errors) {
           return this.handleErrors(errors, fields);
         }
