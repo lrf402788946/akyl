@@ -1,5 +1,5 @@
 <template lang='html'>
-  <div id="gtx">
+  <div id="gtx" class="base-padding-20 base-bg-fff">
     <div class="form-inline">
       <div class="base-form-title" style="width:100%;">
         <a class="base-margin-left-20">统计二</a>
@@ -67,7 +67,7 @@ export default {
         workList: [],
         kindList: [],
         work_id: null,
-        kind_id: null,
+        kind_id: '',
     };
   },
   computed: {},
