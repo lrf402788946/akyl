@@ -15,7 +15,8 @@
           type="daterange"
           range-separator="-"
           start-placeholder="开始日期"
-          end-placeholder="结束日期">
+          end-placeholder="结束日期"
+          unlink-panels>
         </el-date-picker>
       </div>
       <div class="col-lg-3">
@@ -28,7 +29,7 @@
         <table class="table table-bordered table-striped ">
           <tbody>
             <tr>
-              <th>工号</th>
+              <th>工号test</th>
               <th>姓名</th>
               <th>型号</th>
               <th>工作量</th>
