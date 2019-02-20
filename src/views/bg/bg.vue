@@ -437,6 +437,7 @@ export default {
     async getKindList(index) {
       this.kindList = [];
       let subFormKindList = [];
+      console.log('in function:');
       let result = await this.$axios.get(`/akyl/kind/kind_list?skip=0&limit=1000&work_id=${this.subForm[index].work_id}`);
       if (result.data.totalRow > 0) {
         subFormKindList = result.data.kindList.map(item => {
@@ -562,7 +563,6 @@ export default {
     },
     //添加字表数据
     addSubForm() {
-      this.temporaryList = [];
       this.subForm.push(JSON.parse(JSON.stringify(this.subFormContent)));
     },
     reset() {
