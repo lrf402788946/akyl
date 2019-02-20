@@ -7,59 +7,63 @@
       </div>
       <div class="base-padding-20 base-bg-fff">
         <!-- <div class="block"> -->
-          <div class="row">
-            <div class="col-lg-3 mb25">
-              <div class="lh44">月份查询：</div>
-              <!-- <span class="demonstration">月份查询</span> -->
-              <el-date-picker
-                v-model="value1"
-                type="month"
-                value-format="yyyy-MM"
-                format="yyyy-MM"
-                placeholder="选择月份"
-                :picker-options="pickerOptions0"
-              ></el-date-picker>
+        <div class="row">
+          <div class="col-lg-3 mb25">
+            <div class="lh44">月份查询：</div>
+            <!-- <span class="demonstration">月份查询</span> -->
+            <el-date-picker
+              v-model="value1"
+              type="month"
+              value-format="yyyy-MM"
+              format="yyyy-MM"
+              placeholder="选择月份"
+              :picker-options="pickerOptions0"
+            ></el-date-picker>
+          </div>
+          <div class="col-lg-3 mb25">
+            <div class="lh44">部门查询：</div>
+            <!-- <span class="demonstration">部门查询:</span> -->
+            <b-form-select style="height:40px !important" v-model="cdeptid" :options="deptList" class="marginBot" />
+          </div>
+          <div class="col-lg-3 mb25">
+            <div class="lh44">工号查询：</div>
+            <!-- <span class="demonstration">工号查询:</span> -->
+            <b-form-input
+              style="height:40px !important"
+              v-model="cjobnum"
+              onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
+          </div>
+          <div class="col-lg-3 mb25">
+            <div class="col-lg-4" style="padding-left:10px !important; padding-right:10px !important;">
+              <b-button
+                variant="primary"
+                @click="toValidate(value1)"
+                style="font-size:14px !important; color:#fff !important; width: 100% !important; margin-top:38px;  padding: 6px 0 !important;margin-right:0 !important;"
+              >
+                查&nbsp;&nbsp;询</b-button
+              >
             </div>
-            <div class="col-lg-3 mb25">
-              <div class="lh44">部门查询：</div>
-                <!-- <span class="demonstration">部门查询:</span> -->
-                <b-form-select style="height:40px !important" v-model="cdeptid" :options="deptList" class="marginBot" />
+            <div class="col-lg-4" style="padding-left:10px !important; padding-right:10px !important;">
+              <b-button
+                variant="primary"
+                @click="toValidate(value1)"
+                style="font-size:14px !important; color:#fff !important; width: 100% !important; margin-top:38px;  padding: 6px 0 !important; margin-right:0 !important;"
+              >
+                打&nbsp;&nbsp;印</b-button
+              >
             </div>
-            <div class="col-lg-3 mb25">
-              <div class="lh44">工号查询：</div>
-                <!-- <span class="demonstration">工号查询:</span> -->
-                <b-form-input style="height:40px !important" v-model="cjobnum" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
-            </div>
-            <div class="col-lg-3 mb25">
-              <div class="col-lg-4" style="padding-left:10px !important; padding-right:10px !important;">
-                <b-button
-                  variant="primary"
-                  @click="search()"
-                  style="font-size:14px !important; color:#fff !important; width: 100% !important; margin-top:38px;  padding: 6px 0 !important;margin-right:0 !important;"
-                >
-                  查&nbsp;&nbsp;询</b-button
-                >
-              </div>
-              <div class="col-lg-4" style="padding-left:10px !important; padding-right:10px !important;">
-                <b-button
-                  variant="primary"
-                  @click="search()"
-                  style="font-size:14px !important; color:#fff !important; width: 100% !important; margin-top:38px;  padding: 6px 0 !important; margin-right:0 !important;"
-                >
-                  打&nbsp;&nbsp;印</b-button
-                >
-              </div>
-              <div class="col-lg-4" style="padding-left:10px !important; padding-right:10px !important;">
-                <b-button
-                  variant="primary"
-                  @click="search()"
-                  style="font-size:14px !important; color:#fff !important; margin-top:38px; width: 100% !important; padding: 6px 0 !important; margin-right:0 !important;"
-                >
-                  导&nbsp;&nbsp;出</b-button
-                >
-              </div>
+            <div class="col-lg-4" style="padding-left:10px !important; padding-right:10px !important;">
+              <b-button
+                variant="primary"
+                @click="search()"
+                style="font-size:14px !important; color:#fff !important; margin-top:38px; width: 100% !important; padding: 6px 0 !important; margin-right:0 !important;"
+              >
+                导&nbsp;&nbsp;出</b-button
+              >
             </div>
           </div>
+        </div>
         <table class="table table-bordered table-striped ">
           <tbody>
             <tr>
@@ -154,7 +158,6 @@ export default {
     },
     //查询  部门下拉列表，工号选填，月份日期不可为空
     async search() {
-      console.log(111);
       let skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(
         `/akyl/wages/wages_list?skip=${skip}&limit=${this.limit}&create_time=${this.value1}&dept_id=${this.cdeptid}&job_num=${this.cjobnum}`
