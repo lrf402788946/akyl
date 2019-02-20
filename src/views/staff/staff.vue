@@ -102,6 +102,9 @@
               <div class="col-lg-6">
                   <b-form-select v-model="addForm.tq" :options="tq" class="marginBot" />
               </div>
+              <div class="col-lg-6">
+                  <el-date-picker v-model="addForm.in_time" type="date" placeholder="入职时间" format="yyyy-MM-dd" value-format="yyyy-MM-dd" ></el-date-picker>
+              </div>
             </div>
               <textarea v-model="addForm.remark" class="form-control" rows="3" style="height: 100px !important;" placeholder="备注"></textarea><br/>
             </div>
@@ -143,7 +146,6 @@
               <div class="col-lg-6 marginBot4">
                   <p class="marginBot4">出生日期</p>
                   <el-date-picker v-model="updateForm.birthday" type="date" placeholder="选择日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd" :disabled="is_update" ></el-date-picker>
-                  <!-- <input v-model="updateForm.birthday" type="text" class="form-control tyx-cursor" id="updateBirthday" data-date-format="yyyy-mm-dd"/> -->
               </div>
               <div class="col-lg-6 marginBot4">
                   <p class="marginBot4">身份证号</p>
@@ -172,6 +174,10 @@
               <div class="col-lg-6 marginBot4">
                   <p class="marginBot4">是否通勤</p>
                   <b-form-select v-model="updateForm.tq" :options="tq" :disabled="is_update" />
+              </div>
+              <div class="col-lg-6 marginBot4">
+                  <p class="marginBot4">入职时间</p>
+                  <el-date-picker v-model="updateForm.in_time" type="date" placeholder="选择日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd" :disabled="is_update" ></el-date-picker>
               </div>
               <div class="col-lg-12 marginBot">
                   <p class="marginBot4">备注</p>
@@ -254,6 +260,7 @@ export default {
         post_id: [{ required: true, message: '请选择岗位' }],
         status: [{ required: true, message: '请选择工作状态' }],
         tq: [{ required: true, message: '请选择是否通勤' }],
+        in_time: [{ type: 'string', required: true, message: '请选择入职时间' }],
       }),
       updateUserValidator: new Validator({
         job_num: [{ type: 'string', required: true, message: '请填写工号' }],
@@ -270,6 +277,7 @@ export default {
         post_id: [{ required: true, message: '请选择岗位' }],
         status: [{ required: true, message: '请选择工作状态' }],
         tq: [{ required: true, message: '请选择是否通勤' }],
+        in_time: [{ type: 'string', required: true, message: '请选择入职时间' }],
       }),
     };
   },

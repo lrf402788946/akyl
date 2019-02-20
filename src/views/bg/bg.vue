@@ -104,7 +104,7 @@
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
                 <td>
-                  <b-form-select v-model="item.work_id" :options="workList" />
+                  <b-form-select v-model="item.work_id" :options="workList"  @change='getKindList(index)'/>
                 </td>
                 <td>
                   <b-form-select v-model="item.kind_id" :options="kindList" />
@@ -231,9 +231,9 @@
                 <td>操作</td>
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
-                <td><b-form-select v-model="item.work_id" :disabled="is_update" :options="workList" /></td>
+                <td><b-form-select v-model="item.work_id" :disabled="is_update" :options="workList" @change='getKindList(index)' /></td>
                 <td>
-                  <b-form-select v-model="item.kind_id" :disabled="is_update" :options="kindList" />
+                  <b-form-select v-model="item.kind_id" :disabled="is_update" :options="kindList" @change='saveKindListKind_id(index)' />
                 </td>
                 <td>
                   <b-form-input
@@ -382,6 +382,7 @@ export default {
       deptList: [],
       kindList: [],
       workList: [],
+      temporaryList: [],
       mainValidator: new Validator({
         job_num: [{ required: true, message: '请填写工号' }],
         all_time: [{ required: true, message: '请填写总工时' }],
@@ -395,6 +396,7 @@ export default {
   created() {
     this.search();
     this.getOtherList();
+    this.getWorkList();
   },
   methods: {
     //分页
@@ -421,22 +423,30 @@ export default {
       });
       let defalut = { text: '请选择部门', value: null, disabled: true };
       this.deptList.unshift(defalut);
-      //请求工序表
-      result = await this.$axios.get('/akyl/work/work_list?skip=0&limit=100');
+    },
+    //请求工序表
+    async getWorkList() {
+      let result = await this.$axios.get('/akyl/work/work_list?skip=0&limit=100');
       this.workList = result.data.workList.map(item => {
         let newObject = { text: item.name, value: item.id };
         return newObject;
       });
-      defalut = { text: '请选择工序', value: null, disabled: true };
+      let defalut = { text: '请选择工序', value: null, disabled: true };
       this.workList.unshift(defalut);
-      //请求类型表(应该是二级联动工序表)
-      result = await this.$axios.get('/akyl/kind/kind_list?skip=0&limit=100');
+    },
+    //请求类型表(应该是二级联动工序表)
+    async getKindList(index) {
+      this.kindList= [];
+      let result = await this.$axios.get(`/akyl/kind/kind_list?skip=0&limit=1000&work_id=${this.subForm[index].work_id}`);
       this.kindList = result.data.kindList.map(item => {
         let newObject = { text: item.name, value: item.id };
         return newObject;
       });
-      defalut = { text: '请选择类型', value: null, disabled: true };
+      let defalut = { text: '请选择类型', value: null, disabled: true };
       this.kindList.unshift(defalut);
+    },
+    saveKindListKind_id(index) {
+      this.temporaryList[index].kind_id=this.subForm[index].kind_id;
     },
     //查询子表
     async searchSubForm(id) {
@@ -536,6 +546,7 @@ export default {
     },
     //添加字表数据
     addSubForm() {
+      this.temporaryList= [];
       this.subForm.push(JSON.parse(JSON.stringify(this.subFormContent)));
     },
     reset() {
