@@ -281,13 +281,7 @@
           </div>
           <div class="col-lg-12 marginBot">
             <p class="marginBot4">备注</p>
-            <textarea
-              v-model="updateForm.remark"
-              class="form-control"
-              style="height: 100px !important;"
-              rows="4"
-              :disabled="is_update">
-            </textarea>
+            <textarea v-model="updateForm.remark" class="form-control" style="height: 100px !important;" rows="4" :disabled="is_update"></textarea>
           </div>
         </div>
       </div>

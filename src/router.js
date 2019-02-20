@@ -15,6 +15,9 @@ import thb from './views/thb/thb.vue';
 import staff from './views/staff/staff.vue';
 import bg from './views/bg/bg.vue';
 import gongxin from './views/gongxin/gongxin.vue';
+import pdt from './views/statistic/pdt.vue';
+import gtx from './views/statistic/gtx.vue';
+import td from './views/statistic/td.vue';
 
 Vue.use(Router);
 const router = new Router({
@@ -67,12 +70,12 @@ const router = new Router({
       component: kind,
     },
     {
-      path: 'set',
+      path: '/set',
       name: 'set',
       component: akyl_set,
     },
     {
-      path: 'work',
+      path: '/work',
       name: 'work',
       component: akyl_work,
     },
@@ -95,6 +98,22 @@ const router = new Router({
       path: '/gongxin',
       name: 'gongxin',
       component: gongxin,
+     },
+      
+    {
+      path: '/pdt',
+      name: 'pdt',
+      component: pdt,
+    },
+    {
+      path: '/gtx',
+      name: 'gtx',
+      component: gtx,
+    },
+    {
+      path: '/td',
+      name: 'td',
+      component: td,
     },
   ],
 });
