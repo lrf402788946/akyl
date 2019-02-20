@@ -35,6 +35,7 @@
             <ul class="submenu">
               <div class="expand-triangle"></div>
               <router-link :to="{name:'bg'}"><li><span> 报工单管理</span></li></router-link>
+              <router-link :to="{name:'gongxin'}"><li><span> 工资管理</span></li></router-link>
             </ul>
             <li>
               <span><i class="fa-stack fa fa-user"></i>统计管理</span>

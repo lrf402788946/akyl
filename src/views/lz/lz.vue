@@ -1,100 +1,153 @@
-<template lang='html'>
+<template lang="html">
   <div id="lz">
-      <!-- 表格 begin -->
-      <div class="base-form">
-        <div class="form-inline">
-          <div class="base-form-title" style="width:100%;"><a class="base-margin-left-20">裸针列表</a>
-            <div class="button-table">
-            </div>
-          </div>
-        </div>
-        <div class="base-padding-20 base-bg-fff">
-          <div class="base-align-right" style="margin-bottom:20px;">
-            <a class="btn btn-info base-margin-bottom" data-toggle="tooltip" style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;" title="" role="button" v-b-modal="'toAdd'">
-              <i class="base-margin-right-5 fa fa-plus-square" style=" color:#fff !important;"></i>添加裸针
-            </a>
-          </div>
-          <table class="table table-bordered table-striped ">
-            <tbody>
-              <tr>
-                <th>型号</th>
-                <th>数量</th>
-                <th>创建日期</th>
-                <th>操作</th>
-              </tr>
-              <tr v-for="(item,index) in list" :key="index"><!--美化下input 可以看情况使用-->
-                <td>{{item.type}}</td>
-                <td>{{item.num}}</td>
-                <td>{{item.create_date}}</td>
-                <td>
-                  <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update',index)" >修&nbsp;&nbsp;改</b-button>
-                  <b-button variant="danger" style="color:white;"  @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <el-pagination
-            layout="total, prev, pager, next"
-            :background="true"
-            :page-size="15"
-            prev-text="上一页"
-            next-text="下一页"
-            @current-change="toSearch"
-            :total="totalRow">
-            </el-pagination>
+    <!-- 表格 begin -->
+    <div class="base-form">
+      <div class="form-inline">
+        <div class="base-form-title" style="width:100%;">
+          <a class="base-margin-left-20">裸针列表</a>
+          <div class="button-table"></div>
         </div>
       </div>
+      <div class="base-padding-20 base-bg-fff">
+        <div class="base-align-right" style="margin-bottom:20px;">
+          <a
+            class="btn btn-info base-margin-bottom"
+            data-toggle="tooltip"
+            style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;"
+            title=""
+            role="button"
+            v-b-modal="'toAdd'"
+          >
+            <i class="base-margin-right-5 fa fa-plus-square" style=" color:#fff !important;"></i>添加裸针
+          </a>
+        </div>
+        <table class="table table-bordered table-striped ">
+          <tbody>
+            <tr>
+              <th>型号</th>
+              <th>数量</th>
+              <th>创建日期</th>
+              <th>操作</th>
+            </tr>
+            <tr v-for="(item, index) in list" :key="index">
+              <!--美化下input 可以看情况使用-->
+              <td>{{ item.type }}</td>
+              <td>{{ item.num }}</td>
+              <td>{{ item.create_date }}</td>
+              <td>
+                <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update', index)">修&nbsp;&nbsp;改</b-button>
+                <b-button variant="danger" style="color:white;" @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <el-pagination
+          layout="total, prev, pager, next"
+          :background="true"
+          :page-size="15"
+          prev-text="上一页"
+          next-text="下一页"
+          @current-change="toSearch"
+          :total="totalRow"
+        ></el-pagination>
+      </div>
+    </div>
+    <b-modal id="toAdd" title="添加裸针" ref="toAdd" hide-footer>
+      <div style="margin-bottom: 7px;">型号:</div>
+      <b-form-input v-model="form.type"></b-form-input>
+      <div style="margin-top:7px; margin-bottom:7px;">数量:</div>
+      <b-form-input v-model="form.num" type="number"></b-form-input>
+      <div style="margin-top:7px; margin-bottom:7px;">创建日期:</div>
+      <el-date-picker
+        style="width:100%;"
+        v-model="form.create_date"
+        type="date"
+        placeholder="选择日期"
+        value-format="yyyy-MM-dd"
+        format="yyyy-MM-dd"
+      ></el-date-picker>
+      <b-button
+        variant="secondary"
+        style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+        @click="form = { create_date: create_date_today }"
+      >
+        重&nbsp;&nbsp;置</b-button
+      >
+      <b-button
+        style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+        variant="primary"
+        @click="toValidate('add')"
+      >
+        保&nbsp;&nbsp;存</b-button
+      ></b-modal
+    >
 
+    <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
+      <div class="d-block text-center">
+        <b-alert variant="danger" show>删除裸针可能会影响您的管理,确认删除吗?</b-alert>
+      </div>
+      <b-button
+        variant="danger"
+        style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+        @click="toDelete()"
+      >
+        删&nbsp;&nbsp;除</b-button
+      >
+      <b-button
+        variant="primary"
+        style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+        @click="$refs.deleteAlert.hide(), deleteItem = ''"
+      >
+        返&nbsp;&nbsp;回</b-button
+      ></b-modal
+    >
 
-          <b-modal id="toAdd" title="添加裸针" ref="toAdd" hide-footer>
-            <div style="margin-bottom: 7px;">型号:</div>
-            <b-form-input v-model="form.type"></b-form-input>
-            <div style="margin-top:7px; margin-bottom:7px;">数量:</div>
-            <b-form-input v-model="form.num" type="number"></b-form-input>
-            <div style="margin-top:7px; margin-bottom:7px;">创建日期:</div>
-            <el-date-picker  style="width:100%;" v-model="form.create_date" type="date" placeholder="选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
-            <b-button variant="secondary" 
-            style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  @click="form={ create_date: create_date_today }" >重&nbsp;&nbsp;置</b-button>
-            <b-button  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   variant="primary" @click="toValidate('add')" >保&nbsp;&nbsp;存</b-button>
-          </b-modal>
-
-          <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> 
-            <div class="d-block text-center">
-              <b-alert variant="danger" show>删除裸针可能会影响您的管理,确认删除吗?</b-alert>
-            </div>
-           <b-button variant="danger"   style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   @click="toDelete()">删&nbsp;&nbsp;除</b-button>
-           <b-button variant="primary"   style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   @click="$refs.deleteAlert.hide(),deleteItem=''">
-             返&nbsp;&nbsp;回</b-button>
-          </b-modal>
-
-          <!-- jkjkjkjk -->
-          <b-modal id="updateAlert" title="修改裸针" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
-            <div class="d-block">
-              <div class="row">
-                <div class="col-lg-12 marginBot4">
-                    <p class="marginBot4">型号</p>
-                    <b-form-input v-model="updateForm.type"></b-form-input>
-                </div>
-                <div class="col-lg-12 marginBot4">
-                    <p class="marginBot4">数量</p>
-                    <b-form-input v-model="updateForm.num" type="number"></b-form-input>
-                </div>
-                <div class="col-lg-12 marginBot">
-                    <p class="marginBot4">创建日期</p>
-                    <el-date-picker  style="width:100%;" v-model="updateForm.create_date" type="date" placeholder="选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
-                </div>
-                <div class="col-lg-12 marginBot4">
-                  <b-button variant="secondary" @click="closeAlert('update')" class="resetButton" style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >
-                    返&nbsp;&nbsp;回</b-button>
-                  <b-button variant="primary" @click="toValidate('update')" class="resetButton"  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;" >
-                    保&nbsp;&nbsp;存</b-button>
-                </div>
-              </div>
-            </div>
-          </b-modal>
-          <!-- klklklkl -->
-              
-  </div> 
+    <!-- jkjkjkjk -->
+    <b-modal id="updateAlert" title="修改裸针" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
+      <div class="d-block">
+        <div class="row">
+          <div class="col-lg-12 marginBot4">
+            <p class="marginBot4">型号</p>
+            <b-form-input v-model="updateForm.type"></b-form-input>
+          </div>
+          <div class="col-lg-12 marginBot4">
+            <p class="marginBot4">数量</p>
+            <b-form-input v-model="updateForm.num" type="number"></b-form-input>
+          </div>
+          <div class="col-lg-12 marginBot">
+            <p class="marginBot4">创建日期</p>
+            <el-date-picker
+              style="width:100%;"
+              v-model="updateForm.create_date"
+              type="date"
+              placeholder="选择日期"
+              value-format="yyyy-MM-dd"
+              format="yyyy-MM-dd"
+            ></el-date-picker>
+          </div>
+          <div class="col-lg-12 marginBot4">
+            <b-button
+              variant="secondary"
+              @click="closeAlert('update')"
+              class="resetButton"
+              style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+            >
+              返&nbsp;&nbsp;回</b-button
+            >
+            <b-button
+              variant="primary"
+              @click="toValidate('update')"
+              class="resetButton"
+              style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+            >
+              保&nbsp;&nbsp;存</b-button
+            >
+          </div>
+        </div>
+      </div></b-modal
+    >
+    <!-- klklklkl -->
+  </div>
 </template>
 
 <script>
@@ -496,8 +549,6 @@ li {
   margin-right: 0 !important;
 }
 </style>
-
-
 <style scoped>
 @import '../../assets/style/Font-Awesome-master/css/font-awesome.css';
 @import '../../assets/style/layout/base-Layout-bootstrap.css';
