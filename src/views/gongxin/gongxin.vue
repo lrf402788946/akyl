@@ -28,7 +28,7 @@
         <div>
           <b-button
             variant="primary"
-            @click="search()"
+            @click="toValidate(value1)"
             style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
           >
             查&nbsp;&nbsp;询</b-button
@@ -101,6 +101,8 @@
 
 <script>
 import _ from 'lodash';
+import Validator from 'async-validator';
+
 export default {
   name: 'gongxin',
   metaInfo: {
@@ -127,6 +129,9 @@ export default {
       cjobnum: '',
       value1: '',
       deptList: [{ text: '请选择部门', value: null }],
+      roleValidator: new Validator({
+        value1: { type: 'string', required: true, message: '请填写查询日期！' },
+      }),
     };
   },
   computed: {},
@@ -141,6 +146,7 @@ export default {
     },
     //查询  部门下拉列表，工号选填，月份日期不可为空
     async search() {
+      console.log(111);
       let skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(
         `/akyl/wages/wages_list?skip=${skip}&limit=${this.limit}&create_time=${this.value1}&dept_id=${this.cdeptid}&job_num=${this.cjobnum}`
@@ -159,6 +165,30 @@ export default {
       });
       let defalut = { text: '请选择部门', value: null, disabled: false };
       this.deptList.unshift(defalut);
+    },
+    //验证
+    toValidate(value1) {
+      console.log(value1);
+      if (value1 === '') {
+        this.roleValidator.validate(this.form, (errors, fields) => {
+          if (errors) {
+            return this.handleErrors(errors, fields);
+          }
+        });
+      } else {
+        return this.search();
+      }
+    },
+    //验证错误
+    handleErrors(errors, fields) {
+      this.$message.error(errors[0].message);
+      this.errors = errors.reduce((p, c) => {
+        // eslint-disable-next-line no-param-reassign
+        p[c.field] = 'error';
+        return p;
+      }, {});
+      // eslint-disable-next-line no-console
+      console.debug(errors, fields);
     },
   },
 };
