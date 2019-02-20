@@ -7,7 +7,7 @@
           <a class="base-margin-left-20">工序列表</a>
           <div class="button-table"></div>
         </div>
-        <div class="base-padding-20 base-bg-fff">
+        <div class="base-padding-20 base-bg-fff" style="width:100%;">
           <div class="base-align-right" style="margin-bottom:20px;">
             <a
               class="btn btn-info base-margin-bottom"
