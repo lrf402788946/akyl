@@ -6,52 +6,60 @@
         <div class="base-form-title" style="width:100%;"><a class="base-margin-left-20">工资管理</a></div>
       </div>
       <div class="base-padding-20 base-bg-fff">
-        <div class="block">
-          <span class="demonstration">日期查询</span>
-          <el-date-picker
-            v-model="value1"
-            type="month"
-            value-format="yyyy-MM"
-            format="yyyy-MM"
-            placeholder="选择月份"
-            :picker-options="pickerOptions0"
-          ></el-date-picker>
-        </div>
-        <div style="margin-top:7px; margin-bottom:7px;">
-          <span class="demonstration">部门查询:</span>
-          <b-form-select v-model="cdeptid" :options="deptList" class="marginBot" />
-        </div>
-        <div style="margin-top:7px; margin-bottom:7px;">
-          工号查询:
-          <b-form-input v-model="cjobnum" style="width:200px" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
-        </div>
-        <div>
-          <b-button
-            variant="primary"
-            @click="toValidate(value1)"
-            style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
-          >
-            查&nbsp;&nbsp;询</b-button
-          >
-        </div>
-        <div>
-          <b-button
-            variant="primary"
-            @click="search()"
-            style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
-          >
-            打&nbsp;&nbsp;印</b-button
-          >
-        </div>
-        <div>
-          <b-button
-            variant="primary"
-            @click="search()"
-            style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
-          >
-            导&nbsp;&nbsp;出</b-button
-          >
-        </div>
+        <!-- <div class="block"> -->
+          <div class="row">
+            <div class="col-lg-3 mb25">
+              <div class="lh44">月份查询：</div>
+              <!-- <span class="demonstration">月份查询</span> -->
+              <el-date-picker
+                v-model="value1"
+                type="month"
+                value-format="yyyy-MM"
+                format="yyyy-MM"
+                placeholder="选择月份"
+                :picker-options="pickerOptions0"
+              ></el-date-picker>
+            </div>
+            <div class="col-lg-3 mb25">
+              <div class="lh44">部门查询：</div>
+                <!-- <span class="demonstration">部门查询:</span> -->
+                <b-form-select style="height:40px !important" v-model="cdeptid" :options="deptList" class="marginBot" />
+            </div>
+            <div class="col-lg-3 mb25">
+              <div class="lh44">工号查询：</div>
+                <!-- <span class="demonstration">工号查询:</span> -->
+                <b-form-input style="height:40px !important" v-model="cjobnum" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+            </div>
+            <div class="col-lg-3 mb25">
+              <div class="col-lg-4" style="padding-left:10px !important; padding-right:10px !important;">
+                <b-button
+                  variant="primary"
+                  @click="search()"
+                  style="font-size:14px !important; color:#fff !important; width: 100% !important; margin-top:38px;  padding: 6px 0 !important;margin-right:0 !important;"
+                >
+                  查&nbsp;&nbsp;询</b-button
+                >
+              </div>
+              <div class="col-lg-4" style="padding-left:10px !important; padding-right:10px !important;">
+                <b-button
+                  variant="primary"
+                  @click="search()"
+                  style="font-size:14px !important; color:#fff !important; width: 100% !important; margin-top:38px;  padding: 6px 0 !important; margin-right:0 !important;"
+                >
+                  打&nbsp;&nbsp;印</b-button
+                >
+              </div>
+              <div class="col-lg-4" style="padding-left:10px !important; padding-right:10px !important;">
+                <b-button
+                  variant="primary"
+                  @click="search()"
+                  style="font-size:14px !important; color:#fff !important; margin-top:38px; width: 100% !important; padding: 6px 0 !important; margin-right:0 !important;"
+                >
+                  导&nbsp;&nbsp;出</b-button
+                >
+              </div>
+            </div>
+          </div>
         <table class="table table-bordered table-striped ">
           <tbody>
             <tr>
@@ -389,6 +397,25 @@ li {
     margin: 1.75rem auto;
   }
 }
+.lh44 {
+  text-align: left;
+  line-height: 35px;
+}
+.mb25 {
+  margin-bottom: 10px;
+}
+.mb20 {
+  margin-bottom: 20px;
+}
+.el-date-editor.el-input {
+  width: 100% !important;
+}
+.btn-primary:hover {
+    background-color: #17a2b8 !important;
+}
+/* .el-input--prefix .el-input__inner {
+  height: 44px !important;
+} */
 </style>
 
 <style scoped>
