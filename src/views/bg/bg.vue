@@ -445,12 +445,12 @@ export default {
         });
         let defalut = { text: '请选择类型', value: null, disabled: true };
         subFormKindList.unshift(defalut);
-        this.temporaryList[index] = subFormKindList;
+        this.$set(this.temporaryList, `${index}`, subFormKindList);
       } else {
         let defalut = { text: '没有类型', value: null, disabled: true };
         this.subForm[index].kind_id = null;
         subFormKindList.unshift(defalut);
-        this.temporaryList[index] = subFormKindList;
+        this.$set(this.temporaryList, `${index}`, subFormKindList);
       }
     },
     //查询子表
@@ -463,7 +463,15 @@ export default {
       }
     },
     getOptions(index) {
-      console.log(this.temporaryList[index], index);
+      let result = [];
+      for (let i = 0; i < this.temporaryList.length; i++) {
+        console.log(this.temporaryList[i], index);
+        if (i === index) {
+          result = JSON.parse(JSON.stringify(this.temporaryList[i]));
+          break;
+        }
+      }
+      return result;
     },
     //验证
     toValidate(type) {
