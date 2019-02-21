@@ -10,8 +10,8 @@
       <div class="col-lg-4">
         <el-date-picker
           v-model="search_time"
-          value-format="yyyy-MM"
-          format="yyyy-MM"
+          value-format="yyyy-MM-dd"
+          format="yyyy-MM-dd"
           type="daterange"
           range-separator="-"
           start-placeholder="开始日期"
@@ -36,13 +36,10 @@
             <th>工作量</th>
           </tr>
           <tr v-for="(item, index) in list" :key="index">
+            <td>{{ item.code }}</td>
+            <td>{{ item.name }}</td>
             <td>{{ item.job_num }}</td>
-            <td>{{ item.all_time }}</td>
-            <td>{{ item.leave_time }}</td>
-            <td>
-              <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update', index)">详&nbsp;&nbsp;情</b-button>
-              <b-button variant="danger" style="color:white;" @click="openAlert('delete', item.id)">删&nbsp;&nbsp;除</b-button>
-            </td>
+            <td>{{ item.num }}</td>
           </tr>
         </tbody>
       </table>
@@ -53,6 +50,9 @@
 <script>
 export default {
   name: 'pdt',
+  metaInfo: {
+    title: '每人每天每型号数量',
+  },
   components: {},
   data() {
     return {
@@ -94,10 +94,15 @@ export default {
         this.$message.error('请选择时间范围');
         return false;
       }
-      let result = this.$axios.get(
+      let result = await this.$axios.get(
         `/akyl/count/count_per?dept_id=${this.dept_id}&start_time=${this.search_time[0]}&end_time=${this.search_time[1]}&kind_id=${this.kind_id}`
       );
-      console.log(result);
+      if (result.data.msg === "成功") {
+        this.$set(this, 'list', result.data.dataList);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list='';
+      }
     },
   },
 };
