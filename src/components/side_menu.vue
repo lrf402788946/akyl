@@ -154,9 +154,6 @@ a:hover{
   border-left: solid 6px #325671 !important;
 	color:#fff !important;
 }
-
-
-
 </style>
 
 <style scoped>

@@ -35,10 +35,6 @@
           :total="totalRow"
         ></el-pagination>
         <b-modal id="updateAlert" size="lg" title="修改权限" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
-          <!-- <label>请选择权限</label> 
-            <el-checkbox-group v-model="form.role_id">
-              <el-checkbox v-for="(item,index) in roleList" :key="index" :label="item.value">{{item.text}}</el-checkbox>
-            </el-checkbox-group> -->
           <el-transfer v-model="form.role_id" :data="roleList" :titles="['所有权限', '已有权限']" :button-texts="['移除', '添加']"></el-transfer>
           <b-button
             variant="secondary"
@@ -52,7 +48,6 @@
             @click="toSave()"
             >保&nbsp;&nbsp;存</b-button
           >
-          <!-- <b-button variant="secondary" @click="form={}" >重置</b-button><b-button variant="primary" @click="toAdd()" >保存</b-button> -->
         </b-modal>
       </div>
     </div>
