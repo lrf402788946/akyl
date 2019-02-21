@@ -5,38 +5,23 @@
         <span class="title">操作面板</span>
         <ul class="mainmenu">
           <span v-for="(item, index) in menu" :key="index">
-            <b-button @click="openMenuList(index)" variant="primary" class="title">{{ item.name }}</b-button>
-            <br />
-            <b-collapse id="collapse1" class="mainmenu" ref="collapse">
-              <b-card class="mainmenu" style="background-color:#1c2b36;">
+            <div @click="openMenuList(index)" class="tit"><i class="fa-stack fa fa-cogs"></i>{{ item.name }}</div>
+            <b-collapse id="collapse" class="mainmenu" ref="collapse">
+              <b-card style="background-color:#1c2b36;">
                 <b-list-group>
                   <div class="expand-triangle"></div>
-                  <b-list-group-item v-for="(menu_item, menu_index) in item.menu" :key="menu_index" style="background-color:#1c2b36;color: #46687f">
+                  <b-list-group-item v-for="(menu_item, menu_index) in item.menu" :key="menu_index">
                     <router-link :to="{ name: menu_item.router_name }"
                       ><li>
                         <span> {{ menu_item.name }}</span>
-                      </li></router-link
-                    ></b-list-group-item
-                  >
+                      </li>
+                    </router-link>
+                  </b-list-group-item>
                 </b-list-group>
               </b-card>
             </b-collapse>
+            <br />
           </span>
-          <!-- <div class="mainmain" v-for="(item, index) in menu" :key="index">
-            <li>
-              <span><i class="fa-stack fa fa-cogs"></i>{{ item.name }}</span>
-            </li>
-            <ul class="submenu">
-              <div class="expand-triangle"></div>
-              <div class="sp" v-for="(menu_item, menu_index) in item.menu" :key="menu_index">
-                <router-link :to="{ name: menu_item.router_name }"
-                  ><li>
-                    <span> {{ menu_item.name }}</span>
-                  </li></router-link
-                >
-              </div>
-            </ul>
-          </div> -->
         </ul>
         <div class="base-footer">
           爱康管理平台 <br />
@@ -63,58 +48,6 @@ export default {
     ...mapState({
       userRoleList: state => state.userRoleList,
     }),
-  },
-  mounted() {
-    var $submenu = $('.submenu');
-    var $mainmenu = $('.mainmenu');
-    var $sp = $('.sp');
-    var $mainmain = $('.mainmain');
-
-    $submenu.hide();
-
-    $submenu
-      .first()
-      .delay(400)
-      .slideDown(700);
-
-    $submenu.on('click', 'li', function() {
-      $submenu
-        .siblings()
-        .find('li')
-        .removeClass('chosen');
-      $(this).addClass('chosen');
-    });
-
-    $sp.on('click', 'li', function() {
-      $sp
-        .siblings()
-        .find('li')
-        .removeClass('chosen');
-      $(this).addClass('chosen');
-    });
-
-    // $mainmain.on('click', 'li', function() {
-    //   $(this)
-    //     .next('.submenu')
-    //     .slideToggle()
-    //     .siblings('.submenu')
-    //     .slideUp();
-    // });
-
-    $mainmenu.on('click', 'li', function() {
-      $(this)
-        .next('.submenu')
-        .slideToggle()
-        .siblings('.submenu')
-        .slideUp();
-    });
-
-    $mainmenu.children('li:last-child').on('click', function() {
-      $mainmenu
-        .fadeOut()
-        .delay(500)
-        .fadeIn();
-    });
   },
   created() {
     this.menuList();
@@ -193,6 +126,37 @@ a:hover{
 .mainmenu {
   margin-bottom: 0 !important;
 }
+.tit {
+  color:#7ba0bb;
+  display: block;
+  line-height: 50px;
+  font-size: 14px;
+  padding-left: 40px;
+  border-bottom: 1px solid #161e25;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.card-body{
+  padding:0 !important;
+}
+.list-group-item{
+    line-height: 20px !important;
+    height: 40px !important;
+    padding-top: 11px !important;
+    margin-left: 0px !important;
+    background-color: #161e25 !important;
+    border-left: solid 6px #161e25 !important;
+    color: #7ba0bb !important;
+}
+.list-group-item:hover{
+  border-left: solid 6px #325671 !important;
+	color:#fff !important;
+}
+
+
+
 </style>
 
 <style scoped>
