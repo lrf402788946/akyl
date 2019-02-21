@@ -1,5 +1,11 @@
 <template lang='html'>
   <div id="gtx">
+    <div class="form-inline">
+      <div class="base-form-title" style="width:100%;">
+        <a class="base-margin-left-20">统计二</a>
+        <div class="button-table"></div>
+      </div>
+    </div>
     <div class="col-lg-3">
         <label for="exampleInputName2">工序选择:</label>
         <select class="form-control" v-model="work_id" @change='getKindList()'>
@@ -60,8 +66,8 @@ export default {
         form1: new Array(),
         workList: [],
         kindList: [],
-        work_id:'',
-        kind_id:'',
+        work_id: null,
+        kind_id: null,
     };
   },
   computed: {},
@@ -89,9 +95,20 @@ export default {
       this.kindList.unshift(defalut);
     },
     async search() {
+      if (this.work_id == null) {
+        this.$message.error('请选择工序');
+        return false;
+      }
+      if (!this.form1.length > 0) {
+        this.$message.error('请选择时间范围');
+        return false;
+      }
       let result = await this.$axios.get(`/akyl/count/count_work?work_id=${this.work_id}&kind_id=${this.kind_id}&start_time=${this.form1[0]}&end_time=${this.form1[1]}`);
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.dataList);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list='';
       }
     },
   },
