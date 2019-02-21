@@ -19,6 +19,7 @@ import gtx from './views/statistic/gtx.vue';
 import login from './views/login_page.vue';
 import update_pw from './views/user/update_pw.vue';
 import index from './views/index.vue';
+import index_contant from './views/index_contant.vue';
 
 Vue.use(Router);
 const router = new Router({
@@ -26,99 +27,106 @@ const router = new Router({
   // mode: 'history',
   routes: [
     {
-      path: '/lz',
-      name: 'lz',
-      component: lz,
-    },
-    {
-      path: '/zx',
-      name: 'zx',
-      component: zx,
-    },
-    {
-      path: '/user',
-      name: 'user',
-      component: user,
-    },
-    {
-      path: '/role',
-      name: 'role',
-      component: role,
-    },
-    {
-      path: '/user_role',
-      name: 'user_role',
-      component: user_role,
-    },
-    {
-      path: '/post',
-      name: 'post',
-      component: post,
-    },
-    {
-      path: '/dept',
-      name: 'dept',
-      component: dept,
-    },
-    {
-      path: '/kind',
-      name: 'kind',
-      component: kind,
-    },
-    {
-      path: '/set',
-      name: 'set',
-      component: akyl_set,
-    },
-    {
-      path: '/work',
-      name: 'work',
-      component: akyl_work,
-    },
-    {
-      path: '/thb',
-      name: 'thb',
-      component: thb,
-    },
-    {
-      path: '/staff',
-      name: 'staff',
-      component: staff,
-    },
-    {
-      path: '/bg',
-      name: 'bg',
-      component: bg,
-    },
-    {
-      path: '/gongxin',
-      name: 'gongxin',
-      component: gongxin,
-    },
-    {
-      path: '/pdt',
-      name: 'pdt',
-      component: pdt,
-    },
-    {
-      path: '/gtx',
-      name: 'gtx',
-      component: gtx,
-    },
-    {
       path: '/login',
       name: 'login',
       component: login,
     },
     {
-      path: '/update_pw',
-      name: 'update_pw',
-      component: update_pw,
-    },
-    {
       path: '/',
       name: 'index',
       component: index,
+      children: [
+        {
+          path: '/',
+          name: 'index_contant',
+          component: index_contant,
+        },
+        {
+          path: '/lz',
+          name: 'lz',
+          component: lz,
+        },
+        {
+          path: '/zx',
+          name: 'zx',
+          component: zx,
+        },
+        {
+          path: '/user',
+          name: 'user',
+          component: user,
+        },
+        {
+          path: '/role',
+          name: 'role',
+          component: role,
+        },
+        {
+          path: '/user_role',
+          name: 'user_role',
+          component: user_role,
+        },
+        {
+          path: '/post',
+          name: 'post',
+          component: post,
+        },
+        {
+          path: '/dept',
+          name: 'dept',
+          component: dept,
+        },
+        {
+          path: '/kind',
+          name: 'kind',
+          component: kind,
+        },
+        {
+          path: '/set',
+          name: 'set',
+          component: akyl_set,
+        },
+        {
+          path: '/work',
+          name: 'work',
+          component: akyl_work,
+        },
+        {
+          path: '/thb',
+          name: 'thb',
+          component: thb,
+        },
+        {
+          path: '/staff',
+          name: 'staff',
+          component: staff,
+        },
+        {
+          path: '/bg',
+          name: 'bg',
+          component: bg,
+        },
+        {
+          path: '/gongxin',
+          name: 'gongxin',
+          component: gongxin,
+        },
+        {
+          path: '/pdt',
+          name: 'pdt',
+          component: pdt,
+        },
+        {
+          path: '/gtx',
+          name: 'gtx',
+          component: gtx,
+        },
+        {
+          path: '/update_pw',
+          name: 'update_pw',
+          component: update_pw,
+        },
+      ],
     },
   ],
 });

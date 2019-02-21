@@ -1,20 +1,12 @@
 <template>
   <div>
-    <div class="base-wrapper">
-      <Header></Header>
-      <div class="base-main" id="base-main">
-        <sideMenu style="float:left;"></sideMenu>
-        <div id="base-main-right" class="base-main-right">
-          <router-view />
-        </div>
-      </div>
+    <div class="ind">
+      欢迎使用爱康管理平台
     </div>
   </div>
 </template>
 
 <script>
-import Header from '@/components/header.vue';
-import sideMenu from '@/components/side_menu.vue';
 export default {
   data() {
     return {
@@ -22,35 +14,7 @@ export default {
       form: {},
     };
   },
-  components: {
-    Header,
-    sideMenu,
-  },
-  mounted() {
-    $('#base-main').height($(window).height() - 60);
-    $(window).resize(function() {
-      $('#base-main').height($(window).height() - 60);
-    });
-    $('#base-main-right').width($(window).width() - 241);
-    $(window).resize(function() {
-      $('#base-main-right').width($(window).width() - 241);
-    });
-  },
-  methods: {
-    isLogin() {
-      let routerPath = this.$route.name;
-      console.log(routerPath);
-      if (routerPath != null) {
-        if (routerPath.includes('login')) {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        return false;
-      }
-    },
-  },
+  methods: {},
 };
 </script>
 <style>
