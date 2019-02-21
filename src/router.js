@@ -18,6 +18,7 @@ import pdt from './views/statistic/pdt.vue';
 import gtx from './views/statistic/gtx.vue';
 import login from './views/login_page.vue';
 import update_pw from './views/user/update_pw.vue';
+import index from './views/index.vue';
 
 Vue.use(Router);
 const router = new Router({
@@ -113,6 +114,11 @@ const router = new Router({
       path: '/update_pw',
       name: 'update_pw',
       component: update_pw,
+    },
+    {
+      path: '/',
+      name: 'index',
+      component: index,
     },
   ],
 });
