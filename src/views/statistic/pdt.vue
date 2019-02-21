@@ -97,11 +97,11 @@ export default {
       let result = await this.$axios.get(
         `/akyl/count/count_per?dept_id=${this.dept_id}&start_time=${this.search_time[0]}&end_time=${this.search_time[1]}&kind_id=${this.kind_id}`
       );
-      if (result.data.msg === "成功") {
+      if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.dataList);
       }
       if (result.data.msg === '没有数据') {
-        this.list='';
+        this.list = '';
       }
     },
   },
