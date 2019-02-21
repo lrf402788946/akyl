@@ -104,10 +104,10 @@
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
                 <td>
-                  <b-form-select v-model="item.work_id" :options="workList"  @change='getKindList(index)'/>
+                  <b-form-select v-model="item.work_id" :options="workList" @change="getKindList(index)" />
                 </td>
                 <td>
-                  <b-form-select v-model="item.kind_id" :options="kindList" />
+                  <b-form-select v-model="item.kind_id" :options="getOptions(index)" />
                 </td>
                 <td>
                   <b-form-input v-model="item.num" type="number" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
@@ -142,7 +142,6 @@
                   >删&nbsp;&nbsp;除</b-button
                 >
               </tr>
-              <!-- <b-button variant="primary" @click="addSubForm()" class="resetButton" >添&nbsp;&nbsp;加</b-button> -->
             </tbody>
           </table>
         </div>
@@ -231,9 +230,9 @@
                 <td>操作</td>
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
-                <td><b-form-select v-model="item.work_id" :disabled="is_update" :options="workList" @change='getKindList(index)' /></td>
+                <td><b-form-select v-model="item.work_id" :disabled="is_update" :options="workList" @change="getKindList(index)" /></td>
                 <td>
-                  <b-form-select v-model="item.kind_id" :disabled="is_update" :options="kindList" @change='saveKindListKind_id(index)' />
+                  <b-form-select v-model="item.kind_id" :disabled="is_update" :options="kindList" />
                 </td>
                 <td>
                   <b-form-input
@@ -366,7 +365,7 @@ export default {
       login_id: 'login_id',
       subForm: [],
       subFormContent: {
-        dept_id: null,
+        work_id: null,
         kind_id: null,
         num: 0,
         work_time: 0,
@@ -436,17 +435,24 @@ export default {
     },
     //请求类型表(应该是二级联动工序表)
     async getKindList(index) {
-      this.kindList= [];
+      this.kindList = [];
+      let subFormKindList = [];
+      console.log('in function:');
       let result = await this.$axios.get(`/akyl/kind/kind_list?skip=0&limit=1000&work_id=${this.subForm[index].work_id}`);
-      this.kindList = result.data.kindList.map(item => {
-        let newObject = { text: item.name, value: item.id };
-        return newObject;
-      });
-      let defalut = { text: '请选择类型', value: null, disabled: true };
-      this.kindList.unshift(defalut);
-    },
-    saveKindListKind_id(index) {
-      this.temporaryList[index].kind_id=this.subForm[index].kind_id;
+      if (result.data.totalRow > 0) {
+        subFormKindList = result.data.kindList.map(item => {
+          let newObject = { text: item.name, value: item.id };
+          return newObject;
+        });
+        let defalut = { text: '请选择类型', value: null, disabled: true };
+        subFormKindList.unshift(defalut);
+        this.$set(this.temporaryList, `${index}`, subFormKindList);
+      } else {
+        let defalut = { text: '没有类型', value: null, disabled: true };
+        this.subForm[index].kind_id = null;
+        subFormKindList.unshift(defalut);
+        this.$set(this.temporaryList, `${index}`, subFormKindList);
+      }
     },
     //查询子表
     async searchSubForm(id) {
@@ -456,6 +462,17 @@ export default {
           this.$set(this, 'subForm', result.data.jobReportSubList);
         }
       }
+    },
+    getOptions(index) {
+      let result = [];
+      for (let i = 0; i < this.temporaryList.length; i++) {
+        console.log(this.temporaryList[i], index);
+        if (i === index) {
+          result = JSON.parse(JSON.stringify(this.temporaryList[i]));
+          break;
+        }
+      }
+      return result;
     },
     //验证
     toValidate(type) {
@@ -546,7 +563,6 @@ export default {
     },
     //添加字表数据
     addSubForm() {
-      this.temporaryList= [];
       this.subForm.push(JSON.parse(JSON.stringify(this.subFormContent)));
     },
     reset() {
