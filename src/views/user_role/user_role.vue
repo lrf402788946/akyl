@@ -34,7 +34,7 @@
           @current-change="toSearch"
           :total="totalRow"
         ></el-pagination>
-        <b-modal style="padding: 2rem 8rem !important;" id="updateAlert" size="lg" title="修改权限" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
+        <b-modal class="userrole" id="updateAlert" size="lg" title="修改权限" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
           <el-transfer v-model="form.role_id" :data="roleList" :titles="['所有权限', '已有权限']" :button-texts="['移除', '添加']"></el-transfer>
           <b-button
             variant="secondary"
@@ -137,7 +137,7 @@ export default {
 </script>
 
 <style lang="css">
-.modal-body {
+.userrole .modal-body {
     padding: 2rem 8rem !important;
 }
 </style>
