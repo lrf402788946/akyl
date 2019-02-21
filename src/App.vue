@@ -38,8 +38,13 @@ export default {
   methods: {
     isLogin() {
       let routerPath = this.$route.name;
-      if (routerPath.includes('login')) {
-        return true;
+      console.log(routerPath);
+      if (routerPath != null) {
+        if (routerPath.includes('login')) {
+          return true;
+        } else {
+          return false;
+        }
       } else {
         return false;
       }

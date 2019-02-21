@@ -10,12 +10,17 @@
         </ul>
         <div id="base-user">
           <a href="#" class="user-name" @mouseover="mopen('m1')" @mouseout="mclose()">
-            {{ userInfo.user_name }}
+            {{ getName() }}
             <span class="button-down fa fa-caret-down"></span>
           </a>
           <div id="m1" style="z-index:999;" @mouseover="mopen('m1')" @mouseout="mclose()">
-            <a @click="$router.push({ name: 'update_pw' })"><i class="fa fa-lock base-margin-right-5"></i>修改密码</a>
-            <a @click="logout()"><i class="fa fa-sign-out base-margin-right-5"></i>安全退出</a>
+            <span v-if="loginOrNot()">
+              <a @click="$router.push({ name: 'update_pw' })"><i class="fa fa-lock base-margin-right-5"></i>修改密码</a>
+              <a @click="logout()"><i class="fa fa-sign-out base-margin-right-5"></i>安全退出</a>
+            </span>
+            <span v-else>
+              <a @click="$router.push({ name: 'login' })"><i class="fa fa-lock base-margin-right-5"></i>登录</a>
+            </span>
           </div>
         </div>
       </div>
@@ -62,6 +67,20 @@ export default {
       // sessionStorage.removeItem('userInfo');
       this.isLogout();
       this.$router.push({ path: '/login' });
+    },
+    loginOrNot() {
+      if (this.userInfo) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    getName() {
+      if (this.userInfo) {
+        return this.userInfo.user_name ? `欢迎${this.userInfo.user_name}` : '用户';
+      } else {
+        return '您未登录';
+      }
     },
   },
 };
