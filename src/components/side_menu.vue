@@ -20,6 +20,20 @@
             </ul>
           </span>
         </ul>
+        <b-button v-b-toggle.collapse1 variant="primary" class="title">Toggle Collapse</b-button>
+        <br />
+        <b-collapse id="collapse1" class="mainmenu">
+          <b-card class="mainmenu" style="background-color:#1c2b36;">
+            <b-list-group>
+              <div class="expand-triangle"></div>
+              <b-list-group-item style="background-color:#1c2b36;color: #46687f">Cras justo odio</b-list-group-item>
+              <b-list-group-item style="background-color:#1c2b36;color: #46687f">Dapibus ac facilisis in</b-list-group-item>
+              <b-list-group-item style="background-color:#1c2b36;color: #46687f">Morbi leo risus</b-list-group-item>
+              <b-list-group-item style="background-color:#1c2b36;color: #46687f">Porta ac consectetur ac</b-list-group-item>
+              <b-list-group-item style="background-color:#1c2b36;color: #46687f">Vestibulum at eros</b-list-group-item>
+            </b-list-group>
+          </b-card>
+        </b-collapse>
         <div class="base-footer">
           爱康管理平台 <br />
           Co pyright © 2019-2020 <br />
