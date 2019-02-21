@@ -8,30 +8,34 @@
     </div>
     <div class="base-padding-20 base-bg-fff">
       <div class="row">
-      <div class="col-lg-4 mb25">
-        <el-date-picker
-          style="width: 100%;"
-          v-model="search_time"
-          value-format="yyyy-MM-dd"
-          format="yyyy-MM-dd"
-          type="daterange"
-          range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          unlink-panels
-        >
-        </el-date-picker>
-      </div>
-      <div class="col-lg-3 mb25">
-        <b-form-select style="height:40px !important" v-model="dept_id" :options="deptList" class="marginBot" />
-      </div>
-      <div class="col-lg-3 mb25">
-        <b-form-select style="height:40px !important" v-model="kind_id" :options="kindList" class="marginBot" />
-      </div>
-      <div class="col-lg-2 mb25">
-        <b-button variant="primary" style="font-size:14px !important; color:#fff !important; width: 60% !important; margin-top:3px;  padding: 6px 0 !important; margin-right:0 !important;" @click="search()">查&nbsp;&nbsp;询</b-button>
-      </div>
-      
+        <div class="col-lg-4 mb25">
+          <el-date-picker
+            style="width: 100%;"
+            v-model="search_time"
+            value-format="yyyy-MM-dd"
+            format="yyyy-MM-dd"
+            type="daterange"
+            range-separator="-"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            unlink-panels
+          >
+          </el-date-picker>
+        </div>
+        <div class="col-lg-3 mb25">
+          <b-form-select style="height:40px !important" v-model="dept_id" :options="deptList" class="marginBot" />
+        </div>
+        <div class="col-lg-3 mb25">
+          <b-form-select style="height:40px !important" v-model="kind_id" :options="kindList" class="marginBot" />
+        </div>
+        <div class="col-lg-2 mb25">
+          <b-button
+            variant="primary"
+            style="font-size:14px !important; color:#fff !important; width: 60% !important; margin-top:3px;  padding: 6px 0 !important; margin-right:0 !important;"
+            @click="search()"
+            >查&nbsp;&nbsp;询</b-button
+          >
+        </div>
       </div>
       <table class="table table-bordered table-striped ">
         <tbody>

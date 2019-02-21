@@ -33,7 +33,7 @@ export default {
 };
 </script>
 <style>
-.ind{
+.ind {
   text-align: center;
   font-size: 60px;
   margin-top: 200px;

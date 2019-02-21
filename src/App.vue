@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <body>
-      <div v-show="isLogin()">
+      <div v-if="isLogin()">
         <router-view />
       </div>
-      <div class="base-wrapper" v-show="!isLogin()">
+      <div class="base-wrapper" v-if="!isLogin()">
         <Header></Header>
         <div class="base-main" id="base-main">
           <sideMenu style="float:left;"></sideMenu>

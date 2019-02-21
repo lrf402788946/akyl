@@ -435,9 +435,7 @@ export default {
     },
     //请求类型表(应该是二级联动工序表)
     async getKindList(index) {
-      this.kindList = [];
       let subFormKindList = [];
-      console.log('in function:');
       let result = await this.$axios.get(`/akyl/kind/kind_list?skip=0&limit=1000&work_id=${this.subForm[index].work_id}`);
       if (result.data.totalRow > 0) {
         subFormKindList = result.data.kindList.map(item => {
@@ -533,6 +531,7 @@ export default {
         this.$refs.deleteAlert.show();
         this.operateId = id;
       } else if (type === 'add') {
+        this.temporaryList.splice(0, this.temporaryList.length);
         this.addSubForm();
         this.$refs.addAlert.show();
       }
@@ -566,6 +565,11 @@ export default {
     //添加字表数据
     addSubForm() {
       this.subForm.push(JSON.parse(JSON.stringify(this.subFormContent)));
+      let defalut = { text: '请先选择工序', value: null, disabled: true };
+      let subFormKindList = [];
+      subFormKindList.unshift(defalut);
+      let lengths = this.subForm.length - 1 > 0 ? this.subForm.length - 1 : 0;
+      this.$set(this.temporaryList, `${lengths}`, subFormKindList);
     },
     reset() {
       this.form = {};
