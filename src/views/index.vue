@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
 export default {
   data() {
     return {
@@ -15,21 +14,7 @@ export default {
       form: {},
     };
   },
-  methods: {
-    ...mapMutations(['isLogin']),
-    async login() {
-      if (this.form.login_id && this.form.password) {
-        let result = await this.$axios.post('/akyl/user/login', { data: this.form });
-        if (result.data.rescode === '0') {
-          sessionStorage.setItem('userInfo', JSON.stringify(result.data.user));
-          this.isLogin();
-          this.$router.push('/');
-        } else {
-          this.$message.error(result.data.msg);
-        }
-      }
-    },
-  },
+  methods: {},
 };
 </script>
 <style>

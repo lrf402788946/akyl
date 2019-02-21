@@ -4,7 +4,7 @@
       <div v-if="isLogin()">
         <router-view />
       </div>
-      <div class="base-wrapper" v-if="!isLogin()">
+      <div class="base-wrapper" v-else>
         <Header></Header>
         <div class="base-main" id="base-main">
           <sideMenu style="float:left;"></sideMenu>
@@ -38,6 +38,7 @@ export default {
   methods: {
     isLogin() {
       let routerPath = this.$route.name;
+      console.log(routerPath);
       if (routerPath != null) {
         if (routerPath.includes('login')) {
           return true;
