@@ -1,55 +1,13 @@
 <template>
   <div id="app">
     <body>
-      <div v-show="isLogin()">
-        <router-view />
-      </div>
-      <div class="base-wrapper" v-show="!isLogin()">
-        <Header></Header>
-        <div class="base-main" id="base-main">
-          <sideMenu style="float:left;"></sideMenu>
-          <div id="base-main-right" class="base-main-right">
-            <router-view />
-          </div>
-        </div>
-      </div>
+      <router-view />
     </body>
   </div>
 </template>
 
 <script>
-import Header from '@/components/header.vue';
-import sideMenu from '@/components/side_menu.vue';
-export default {
-  components: {
-    Header,
-    sideMenu,
-  },
-  mounted() {
-    $('#base-main').height($(window).height() - 60);
-    $(window).resize(function() {
-      $('#base-main').height($(window).height() - 60);
-    });
-    $('#base-main-right').width($(window).width() - 241);
-    $(window).resize(function() {
-      $('#base-main-right').width($(window).width() - 241);
-    });
-  },
-  methods: {
-    isLogin() {
-      let routerPath = this.$route.name;
-      if (routerPath != null) {
-        if (routerPath.includes('login')) {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        return false;
-      }
-    },
-  },
-};
+export default {};
 </script>
 
 <style lang="less">
