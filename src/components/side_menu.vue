@@ -20,7 +20,7 @@
                 </b-list-group>
               </b-card>
             </b-collapse>
-            <br />
+            
           </span>
         </ul>
         <div class="base-footer">

@@ -34,7 +34,7 @@
           @current-change="toSearch"
           :total="totalRow"
         ></el-pagination>
-        <b-modal id="updateAlert" size="lg" title="修改权限" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
+        <b-modal style="padding: 2rem 8rem !important;" id="updateAlert" size="lg" title="修改权限" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
           <el-transfer v-model="form.role_id" :data="roleList" :titles="['所有权限', '已有权限']" :button-texts="['移除', '添加']"></el-transfer>
           <b-button
             variant="secondary"
@@ -44,7 +44,7 @@
           >
           <b-button
             variant="primary"
-            style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+            style="font-size:16px !important; margin-top:35px; margin-left:122px !important; padding:6px 79px !important;margin-bottom:30px !important;margin-right:0 !important;"
             @click="toSave()"
             >保&nbsp;&nbsp;存</b-button
           >
@@ -136,4 +136,8 @@ export default {
 };
 </script>
 
-<style lang="css" scoped></style>
+<style lang="css">
+.modal-body {
+    padding: 2rem 8rem !important;
+}
+</style>
