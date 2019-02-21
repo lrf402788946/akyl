@@ -4,79 +4,21 @@
       <div class="base-sidebar-menu">
         <span class="title">操作面板</span>
         <ul class="mainmenu">
-          <li>
-            <span><i class="fa-stack fa fa-user"></i>用户管理</span>
-          </li>
-          <ul class="submenu">
-            <div class="expand-triangle"></div>
-            <router-link :to="{ name: 'user' }"
-              ><li><span> 用户管理</span></li></router-link
-            >
-            <router-link :to="{ name: 'role' }"
-              ><li><span> 角色管理</span></li></router-link
-            >
-            <router-link :to="{ name: 'user_role' }"
-              ><li><span> 权限分配</span></li></router-link
-            >
-            <router-link :to="{ name: 'staff' }"
-              ><li><span> 员工管理</span></li></router-link
-            >
-          </ul>
-          <li>
-            <span><i class="fa-stack fa fa-cogs"></i>系统管理</span>
-          </li>
-          <ul class="submenu">
-            <div class="expand-triangle"></div>
-            <router-link :to="{ name: 'thb' }"
-              ><li><span>弹簧柄库管理</span></li></router-link
-            >
-
-            <router-link :to="{ name: 'dept' }"
-              ><li><span> 部门管理</span></li></router-link
-            >
-            <router-link :to="{ name: 'post' }"
-              ><li><span> 岗位管理</span></li></router-link
-            >
-            <router-link :to="{ name: 'work' }"
-              ><li><span> 工序管理</span></li></router-link
-            >
-            <router-link :to="{ name: 'set' }"
-              ><li><span>基础设置管理</span></li></router-link
-            >
-            <router-link :to="{ name: 'lz' }"
-              ><li><span>裸针管理</span></li></router-link
-            >
-            <router-link :to="{ name: 'zx' }"
-              ><li><span>针芯管理</span></li></router-link
-            >
-            <router-link :to="{ name: 'kind' }"
-              ><li><span>类型管理</span></li></router-link
-            >
-          </ul>
-          <li>
-            <span><i class="fa-stack fa fa-user"></i>工作管理</span>
-          </li>
-          <ul class="submenu">
-            <div class="expand-triangle"></div>
-            <router-link :to="{ name: 'bg' }"
-              ><li><span> 报工单管理</span></li></router-link
-            >
-            <router-link :to="{ name: 'gongxin' }"
-              ><li><span> 工资管理</span></li></router-link
-            >
-          </ul>
-          <li>
-            <span><i class="fa-stack fa fa-user"></i>统计管理</span>
-          </li>
-          <ul class="submenu">
-            <div class="expand-triangle"></div>
-            <router-link :to="{ name: 'pdt' }"
-              ><li><span> 每人每天每型号数量</span></li></router-link
-            >
-            <router-link :to="{ name: 'gtx' }"
-              ><li><span> 每工序每天每型号数量</span></li></router-link
-            >
-          </ul>
+          <span v-for="(item, index) in menu" :key="index">
+            <li>
+              <span><i class="fa-stack fa fa-cogs"></i>{{ item.name }}</span>
+            </li>
+            <ul class="submenu">
+              <span v-for="(menu_item, menu_index) in item.menu" :key="menu_index">
+                <div class="expand-triangle"></div>
+                <router-link :to="{ name: menu_item.router_name }"
+                  ><li>
+                    <span> {{ menu_item.name }}</span>
+                  </li></router-link
+                >
+              </span>
+            </ul>
+          </span>
         </ul>
         <div class="base-footer">
           爱康管理平台 <br />
@@ -89,13 +31,21 @@
 </template>
 
 <script>
+import { YH, XT, YW, CW, TJ } from '@/util/role_menu.js';
+import { mapState } from 'vuex';
 export default {
   name: 'sideMenu',
   components: {},
   data() {
-    return {};
+    return {
+      menu: [],
+    };
   },
-  computed: {},
+  computed: {
+    ...mapState({
+      userRoleList: state => state.userRoleList,
+    }),
+  },
   mounted() {
     var $submenu = $('.submenu');
     var $mainmenu = $('.mainmenu');
@@ -125,7 +75,43 @@ export default {
         .fadeIn();
     });
   },
-  methods: {},
+  created() {
+    this.menuList();
+  },
+  methods: {
+    menuList() {
+      let newMenu = [];
+      if (this.userRoleList) {
+        for (const item of this.userRoleList) {
+          if (item.role_code !== 'ROLE_ADMIN') {
+            switch (item.role_code) {
+              case 'ROLE_ZZ':
+                newMenu.push(YW);
+                break;
+              case 'ROLE_CW':
+                newMenu.push(CW);
+                break;
+              case 'ROLE_LD':
+                newMenu.push(TJ);
+                break;
+              default:
+                break;
+            }
+          } else {
+            newMenu.splice(0, newMenu.length);
+            newMenu.push(YH);
+            newMenu.push(XT);
+            newMenu.push(YW);
+            newMenu.push(CW);
+            newMenu.push(TJ);
+            break;
+          }
+        }
+        this.$set(this, 'menu', newMenu);
+        console.log(this.menu);
+      }
+    },
+  },
 };
 </script>
 

@@ -48,6 +48,7 @@ export default {
         let result = await this.$axios.post('/akyl/user/login', { data: this.form });
         if (result.data.rescode === '0') {
           sessionStorage.setItem('userInfo', JSON.stringify(result.data.user));
+          sessionStorage.setItem('userRoleList', JSON.stringify(result.data.userRoleList));
           this.isLogin();
           this.$router.push('/');
         } else {

@@ -469,7 +469,6 @@ export default {
     getOptions(index) {
       let result = [];
       for (let i = 0; i < this.temporaryList.length; i++) {
-        console.log(this.temporaryList[i], index);
         if (i === index) {
           result = JSON.parse(JSON.stringify(this.temporaryList[i]));
           break;
