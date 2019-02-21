@@ -4,21 +4,21 @@
       <div class="base-sidebar-menu">
         <span class="title">操作面板</span>
         <ul class="mainmenu">
-          <span v-for="(item, index) in menu" :key="index">
+          <div class="mainmain" v-for="(item, index) in menu" :key="index">
             <li>
               <span><i class="fa-stack fa fa-cogs"></i>{{ item.name }}</span>
             </li>
             <ul class="submenu">
-              <span v-for="(menu_item, menu_index) in item.menu" :key="menu_index">
-                <div class="expand-triangle"></div>
+              <div class="expand-triangle"></div>
+              <div class="sp" v-for="(menu_item, menu_index) in item.menu" :key="menu_index">
                 <router-link :to="{ name: menu_item.router_name }"
                   ><li>
                     <span> {{ menu_item.name }}</span>
                   </li></router-link
                 >
-              </span>
+              </div>
             </ul>
-          </span>
+          </div>
         </ul>
         <div class="base-footer">
           爱康管理平台 <br />
@@ -49,11 +49,16 @@ export default {
   mounted() {
     var $submenu = $('.submenu');
     var $mainmenu = $('.mainmenu');
+    var $sp = $('.sp');
+    var $mainmain = $('.mainmain');
+    
     $submenu.hide();
+
     $submenu
       .first()
       .delay(400)
       .slideDown(700);
+
     $submenu.on('click', 'li', function() {
       $submenu
         .siblings()
@@ -61,19 +66,42 @@ export default {
         .removeClass('chosen');
       $(this).addClass('chosen');
     });
+
+    $sp.on('click', 'li', function() {
+      $sp
+        .siblings()
+        .find('li')
+        .removeClass('chosen');
+      $(this).addClass('chosen');
+    });
+
+    // $mainmain.on('click', 'li', function() {
+    //   $(this)
+    //     .next('.submenu')
+    //     .slideToggle()
+    //     .siblings('.submenu')
+    //     .slideUp();
+    // });
+
     $mainmenu.on('click', 'li', function() {
       $(this)
+        
         .next('.submenu')
         .slideToggle()
         .siblings('.submenu')
-        .slideUp();
+        .slideUp()
+        
     });
+
+
+
     $mainmenu.children('li:last-child').on('click', function() {
       $mainmenu
         .fadeOut()
         .delay(500)
         .fadeIn();
     });
+
   },
   created() {
     this.menuList();
@@ -143,4 +171,14 @@ a {
 a:hover{
   text-decoration: none !important;
 }
+.mainmenu {
+  margin-bottom: 0 !important;
+}
 </style>
+
+<style scoped>
+@import '../assets/style/Font-Awesome-master/css/font-awesome.css';
+@import '../assets/style/layout/base-Layout-bootstrap.css';
+@import '../assets/style/base-style-bootstrap.css';
+</style>
+
