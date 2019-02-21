@@ -2,7 +2,7 @@
   <div id="Header">
     <div class="base-header">
       <div class="base-header-left" id="menuHead">
-        <img src="../assets/img/logo.png" alt="..." class="img-rounded">
+        <img src="../assets/img/logo.png" alt="..." class="img-rounded" />
       </div>
       <div class="base-nav" id="base-nav">
         <ul class="top-nav-ul">

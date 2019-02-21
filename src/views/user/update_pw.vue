@@ -12,7 +12,7 @@
       </div>
       <div class="base-padding-20 base-bg-fff" style="padding-top: 50px;">
         <div class="d-block text-center">
-        <div class="row">
+          <div class="row">
             <div class="col-lg-4" style="text-align: end; line-height: 35px;">原密码</div>
             <div class="col-lg-3" style="margin-bottom:30px;">
               <b-form-input type="password" v-model="form.password" placeholder="请输入原密码"></b-form-input>
@@ -30,8 +30,8 @@
             <div class="col-lg-5"></div>
             <div class="col-lg-4"></div>
             <div class="col-lg-3" style="margin-bottom:50px;">
-              <button variant="secondary" @click="(form = {}), (comfirm = '')" class="chongBtn" style="float:left;" >重&nbsp;&nbsp;置</button>
-              <button variant="primary" @click="toSave()" class="chongBtn" style="float:right;" >保&nbsp;&nbsp;存</button>
+              <button variant="secondary" @click="(form = {}), (comfirm = '')" class="chongBtn" style="float:left;">重&nbsp;&nbsp;置</button>
+              <button variant="primary" @click="toSave()" class="chongBtn" style="float:right;">保&nbsp;&nbsp;存</button>
             </div>
             <div class="col-lg-5"></div>
           </div>
