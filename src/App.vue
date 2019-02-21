@@ -38,7 +38,6 @@ export default {
   methods: {
     isLogin() {
       let routerPath = this.$route.name;
-      console.log(routerPath);
       if (routerPath != null) {
         if (routerPath.includes('login')) {
           return true;
