@@ -1,34 +1,8 @@
 <template>
   <div>
-    <body :style="'overflow-y: auto;background-image: url(' + img + '); background-repeat:no-repeat; background-size:auto;'">
-      <div class="page-container">
-        <div>
-          <h1 style="letter-spacing:4px; padding-bottom:20px; font-weight:bold; color:#fff;">爱康管理系统</h1>
-        </div>
-        <div class="form-container">
-          <form style="margin:20px auto; width:300px;">
-            <div style="text-align:left;" class="form-group">
-              <label for="exampleInputuser1">用户名：</label>
-              <input type="text" v-model="form.login_id" class="form-control" placeholder="" />
-            </div>
-            <div style="text-align:left;" class="form-group">
-              <label for="exampleInputPassword1">密&nbsp;&nbsp;&nbsp;码：</label>
-              <input type="password" v-model="form.password" class="form-control" placeholder="" />
-            </div>
-            <div class="form-group">
-              <div class="row">
-                <div class="col-lg-6">
-                  <button variant="primary" @click.prevent="login()" style=" margin-top:10px;" class="dengBtn">登&nbsp;&nbsp;录</button>
-                </div>
-                <div class="col-lg-6">
-                  <button variant="primary" @click="form = {}" style=" margin-top:10px;" class="dengBtn">重&nbsp;&nbsp;置</button>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </body>
+    <div class="ind">
+      欢迎使用爱康管理平台
+    </div>
   </div>
 </template>
 
@@ -48,7 +22,6 @@ export default {
         let result = await this.$axios.post('/akyl/user/login', { data: this.form });
         if (result.data.rescode === '0') {
           sessionStorage.setItem('userInfo', JSON.stringify(result.data.user));
-          sessionStorage.setItem('userRoleList', JSON.stringify(result.data.userRoleList));
           this.isLogin();
           this.$router.push('/');
         } else {
@@ -60,6 +33,13 @@ export default {
 };
 </script>
 <style>
+.ind{
+  text-align: center;
+  font-size: 60px;
+  margin-top: 200px;
+  line-height: 50px;
+  color: #17a2b8;
+}
 body {
   padding: 0;
   margin: 0;
@@ -96,10 +76,6 @@ label {
   font-weight: bold;
   font-size: 14px;
 }
-/* .btn {
-  margin-left: 0 !important;
-  height: 46px !important;
-} */
 .btn-info {
   background-color: #5bc0de !important;
   border-color: #46b8da !important;

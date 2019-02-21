@@ -7,8 +7,10 @@
       </div>
     </div>
     <div class="base-padding-20 base-bg-fff">
-      <div class="col-lg-4">
+      <div class="row">
+      <div class="col-lg-4 mb25">
         <el-date-picker
+          style="width: 100%;"
           v-model="form1"
           value-format="yyyy-MM-dd"
           format="yyyy-MM-dd"
@@ -20,14 +22,17 @@
         >
         </el-date-picker>
       </div>
-      <div class="col-lg-3">
-        <b-form-select v-model="work_id" :options="workList" class="marginBot" @change="getKindList()" />
+      <div class="col-lg-3 mb25">
+        <b-form-select style="height:40px !important" v-model="work_id" :options="workList" class="marginBot" @change="getKindList()" />
       </div>
-      <div class="col-lg-3">
-        <b-form-select v-model="kind_id" :options="kindList" class="marginBot" />
+      <div class="col-lg-3 mb25">
+        <b-form-select style="height:40px !important" v-model="kind_id" :options="kindList" class="marginBot" />
+      </div>
+      <div class="col-lg-2 mb25">
+        <b-button variant="primary" style="font-size:14px !important; color:#fff !important; width: 60% !important; margin-top:3px;  padding: 6px 0 !important; margin-right:0 !important;" @click="search()">查&nbsp;&nbsp;询</b-button>
+      </div>
       </div>
 
-      <b-button variant="primary" style="width:100px !important;height:44px !important;" @click="search()">查询</b-button>
       <table class="table table-bordered table-striped ">
         <tbody>
           <tr>
@@ -301,6 +306,12 @@ li {
     max-width: 700px !important;
     margin: 1.75rem auto;
   }
+}
+.mb25 {
+  margin-bottom: 10px;
+}
+.btn-primary:hover {
+  background-color: #17a2b8 !important;
 }
 </style>
 
