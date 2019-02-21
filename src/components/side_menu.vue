@@ -4,7 +4,25 @@
       <div class="base-sidebar-menu">
         <span class="title">操作面板</span>
         <ul class="mainmenu">
-          <div class="mainmain" v-for="(item, index) in menu" :key="index">
+          <span v-for="(item, index) in menu" :key="index">
+            <b-button @click="openMenuList(index)" variant="primary" class="title">{{ item.name }}</b-button>
+            <br />
+            <b-collapse id="collapse1" class="mainmenu" ref="collapse">
+              <b-card class="mainmenu" style="background-color:#1c2b36;">
+                <b-list-group>
+                  <div class="expand-triangle"></div>
+                  <b-list-group-item v-for="(menu_item, menu_index) in item.menu" :key="menu_index" style="background-color:#1c2b36;color: #46687f">
+                    <router-link :to="{ name: menu_item.router_name }"
+                      ><li>
+                        <span> {{ menu_item.name }}</span>
+                      </li></router-link
+                    ></b-list-group-item
+                  >
+                </b-list-group>
+              </b-card>
+            </b-collapse>
+          </span>
+          <!-- <div class="mainmain" v-for="(item, index) in menu" :key="index">
             <li>
               <span><i class="fa-stack fa fa-cogs"></i>{{ item.name }}</span>
             </li>
@@ -18,22 +36,8 @@
                 >
               </div>
             </ul>
-          </div>
+          </div> -->
         </ul>
-        <b-button v-b-toggle.collapse1 variant="primary" class="title">Toggle Collapse</b-button>
-        <br />
-        <b-collapse id="collapse1" class="mainmenu">
-          <b-card class="mainmenu" style="background-color:#1c2b36;">
-            <b-list-group>
-              <div class="expand-triangle"></div>
-              <b-list-group-item style="background-color:#1c2b36;color: #46687f">Cras justo odio</b-list-group-item>
-              <b-list-group-item style="background-color:#1c2b36;color: #46687f">Dapibus ac facilisis in</b-list-group-item>
-              <b-list-group-item style="background-color:#1c2b36;color: #46687f">Morbi leo risus</b-list-group-item>
-              <b-list-group-item style="background-color:#1c2b36;color: #46687f">Porta ac consectetur ac</b-list-group-item>
-              <b-list-group-item style="background-color:#1c2b36;color: #46687f">Vestibulum at eros</b-list-group-item>
-            </b-list-group>
-          </b-card>
-        </b-collapse>
         <div class="base-footer">
           爱康管理平台 <br />
           Co pyright © 2019-2020 <br />
@@ -65,7 +69,7 @@ export default {
     var $mainmenu = $('.mainmenu');
     var $sp = $('.sp');
     var $mainmain = $('.mainmain');
-    
+
     $submenu.hide();
 
     $submenu
@@ -99,15 +103,11 @@ export default {
 
     $mainmenu.on('click', 'li', function() {
       $(this)
-        
         .next('.submenu')
         .slideToggle()
         .siblings('.submenu')
-        .slideUp()
-        
+        .slideUp();
     });
-
-
 
     $mainmenu.children('li:last-child').on('click', function() {
       $mainmenu
@@ -115,7 +115,6 @@ export default {
         .delay(500)
         .fadeIn();
     });
-
   },
   created() {
     this.menuList();
@@ -150,8 +149,14 @@ export default {
           }
         }
         this.$set(this, 'menu', newMenu);
-        console.log(this.menu);
       }
+    },
+    openMenuList(index) {
+      console.log(this.$refs.collapse[index].show);
+      this.$refs.collapse.forEach(item => {
+        item.show = false;
+      });
+      this.$refs.collapse[index].show = true;
     },
   },
 };
@@ -195,4 +200,3 @@ a:hover{
 @import '../assets/style/layout/base-Layout-bootstrap.css';
 @import '../assets/style/base-style-bootstrap.css';
 </style>
-

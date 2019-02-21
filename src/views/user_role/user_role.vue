@@ -34,7 +34,7 @@
           @current-change="toSearch"
           :total="totalRow"
         ></el-pagination>
-        <b-modal id="updateAlert" title="修改权限" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
+        <b-modal id="updateAlert" size="lg" title="修改权限" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
           <!-- <label>请选择权限</label> 
             <el-checkbox-group v-model="form.role_id">
               <el-checkbox v-for="(item,index) in roleList" :key="index" :label="item.value">{{item.text}}</el-checkbox>

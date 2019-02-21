@@ -2,19 +2,68 @@
   <div>
     <div class="ind">
       欢迎使用爱康管理平台
+      <v-chart :forceFit="true" :height="height" :data="data" :scale="scale">
+        <v-tooltip :showTitle="false" dataKey="year*sales" />
+        <v-axis />
+        <v-legend dataKey="item" />
+        <v-pie position="percent" color="item" :vStyle="pieStyle" :label="labelConfig" />
+        <v-coord type="theta" :radius="0.75" :innerRadius="0.6" />
+      </v-chart>
     </div>
   </div>
 </template>
 
 <script>
+const DataSet = require('@antv/data-set');
 export default {
   data() {
     return {
       img: require('@/assets/img/blurred.jpg'),
-      form: {},
+      data: [],
+      height: 400,
+      sourceData: [
+        { item: '事例一', count: 40 },
+        { item: '事例二', count: 21 },
+        { item: '事例三', count: 17 },
+        { item: '事例四', count: 13 },
+        { item: '事例五', count: 9 },
+      ],
+      scale: [
+        {
+          dataKey: 'percent',
+          min: 0,
+          formatter: '.0%',
+        },
+      ],
+      pieStyle: {
+        stroke: '#fff',
+        lineWidth: 1,
+      },
+      labelConfig: [
+        'percent',
+        {
+          formatter: (val, item) => {
+            return item.point.item + ': ' + val;
+          },
+        },
+      ],
     };
   },
-  methods: {},
+  created() {
+    this.test();
+  },
+  methods: {
+    test() {
+      const dv = new DataSet.View().source(this.sourceData);
+      dv.transform({
+        type: 'percent',
+        field: 'count',
+        dimension: 'item',
+        as: 'percent',
+      });
+      this.data = dv.rows;
+    },
+  },
 };
 </script>
 <style>
