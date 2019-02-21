@@ -140,6 +140,7 @@ export default {
       cdeptid: '',
       cjobnum: '',
       value1: '',
+      selected: null,
       deptList: [{ text: '请选择部门', value: null }],
       roleValidator: new Validator({
         value1: { type: 'string', required: true, message: '请填写查询日期！' },

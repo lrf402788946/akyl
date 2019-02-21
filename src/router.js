@@ -18,6 +18,8 @@ import gongxin from './views/gongxin/gongxin.vue';
 import pdt from './views/statistic/pdt.vue';
 import gtx from './views/statistic/gtx.vue';
 import td from './views/statistic/td.vue';
+import login from './views/login_page.vue';
+import update_pw from './views/user/update_pw.vue';
 
 Vue.use(Router);
 const router = new Router({
@@ -94,12 +96,11 @@ const router = new Router({
       name: 'bg',
       component: bg,
     },
-     {
+    {
       path: '/gongxin',
       name: 'gongxin',
       component: gongxin,
-     },
-      
+    },
     {
       path: '/pdt',
       name: 'pdt',
@@ -115,6 +116,16 @@ const router = new Router({
       name: 'td',
       component: td,
     },
+    {
+      path: '/login',
+      name: 'login',
+      component: login,
+    },
+    {
+      path: '/update_pw',
+      name: 'update_pw',
+      component: update_pw,
+    },
   ],
 });
 // router.beforeEach((to, from, next) => {
@@ -123,8 +134,8 @@ const router = new Router({
 //   if (is_login) {
 //     next();
 //   } else {
-//     if (to.path.includes('Login')) next();
-//     else next('/LoginPage');
+//     if (to.path.includes('login')) next();
+//     else next('/login');
 //   }
 // });
 export default router;

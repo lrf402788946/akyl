@@ -1,22 +1,25 @@
-<template lang='html'>
+<template lang="html">
   <div id="Header">
-      <div class="base-header">
-        <div class="base-header-left" id="menuHead">
-          <img src="../assets/img/logo.png" alt="..." class="img-rounded">
-        </div>
-        <div class="base-nav" id="base-nav">
-          <ul class="top-nav-ul">
-            <li><a @click="$router.push('/')">首 &nbsp;&nbsp; 页</a></li>
-          </ul>
-          <div id="base-user">
-            <a href="#" class="user-name" @mouseover="mopen('m1')" @mouseout="mclose()">{{userName}}<span class="button-down fa fa-caret-down"></span></a>
-            <div id="m1" style="z-index:999;" @mouseover="mopen('m1')" @mouseout="mclose()">
-              <a @click="$router.push({name:'UpdatePW'})"><i class="fa fa-lock base-margin-right-5"></i>修改密码</a>
-              <a @click="logout()"><i class="fa fa-sign-out base-margin-right-5"></i>安全退出</a>
-            </div>
+    <div class="base-header">
+      <div class="base-header-left" id="menuHead">
+        <img src="../assets/img/logo.png" alt="..." class="img-rounded" />
+      </div>
+      <div class="base-nav" id="base-nav">
+        <ul class="top-nav-ul">
+          <li><a @click="$router.push('/')">首 &nbsp;&nbsp; 页</a></li>
+        </ul>
+        <div id="base-user">
+          <a href="#" class="user-name" @mouseover="mopen('m1')" @mouseout="mclose()">
+            {{ userInfo.user_name }}
+            <span class="button-down fa fa-caret-down"></span>
+          </a>
+          <div id="m1" style="z-index:999;" @mouseover="mopen('m1')" @mouseout="mclose()">
+            <a @click="$router.push({ name: 'update_pw' })"><i class="fa fa-lock base-margin-right-5"></i>修改密码</a>
+            <a @click="logout()"><i class="fa fa-sign-out base-margin-right-5"></i>安全退出</a>
           </div>
         </div>
       </div>
+    </div>
   </div>
 </template>
 
@@ -32,7 +35,7 @@ export default {
   },
   computed: {
     ...mapState({
-      userName: state => state.userName,
+      userInfo: state => state.userInfo,
     }),
   },
   mounted() {
@@ -58,13 +61,13 @@ export default {
     logout() {
       // sessionStorage.removeItem('userInfo');
       this.isLogout();
-      this.$router.push({ path: '/LoginPage' });
+      this.$router.push({ path: '/login' });
     },
   },
 };
 </script>
 
-<style lang='css' scoped>
+<style lang="css" scoped>
 .base-nav ul.top-nav-ul li a {
     color: #4f5151 !important;
 }

@@ -232,7 +232,7 @@
               <tr v-for="(item, index) in subForm" :key="index">
                 <td><b-form-select v-model="item.work_id" :disabled="is_update" :options="workList" @change="getKindList(index)" /></td>
                 <td>
-                  <b-form-select v-model="item.kind_id" :disabled="is_update" :options="kindList" />
+                  <b-form-select v-model="item.kind_id" :disabled="is_update" :options="getOptions(index)" />
                 </td>
                 <td>
                   <b-form-input
@@ -343,7 +343,7 @@
         variant="primary"
         style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
         class="resetButton"
-        @click="closeAlert('delete'), $refs.deleteAlert.hide(), deleteItem = ''"
+        @click="closeAlert('delete'), $refs.deleteAlert.hide(), (deleteItem = '')"
         >返&nbsp;&nbsp;回</b-button
       >
     </b-modal>
@@ -460,6 +460,9 @@ export default {
       if (result.data.msg === '成功') {
         if (result.data.jobReportSubList.length > 0) {
           this.$set(this, 'subForm', result.data.jobReportSubList);
+          for (let i = 0; i < this.subForm.length; i++) {
+            this.getKindList(i);
+          }
         }
       }
     },
