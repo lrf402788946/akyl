@@ -1,15 +1,15 @@
 <template>
   <div id="app">
     <body>
-      <!-- <div v-show="isLogin()">
-        <router-view/>
-      </div> -->
-      <div class="base-wrapper"><!-- v-show="!isLogin()"-->
+      <div v-show="isLogin()">
+        <router-view />
+      </div>
+      <div class="base-wrapper" v-show="!isLogin()">
         <Header></Header>
         <div class="base-main" id="base-main">
           <sideMenu style="float:left;"></sideMenu>
           <div id="base-main-right" class="base-main-right">
-            <router-view/>
+            <router-view />
           </div>
         </div>
       </div>
@@ -38,7 +38,7 @@ export default {
   methods: {
     isLogin() {
       let routerPath = this.$route.name;
-      if (routerPath.includes('Login')) {
+      if (routerPath.includes('login')) {
         return true;
       } else {
         return false;
@@ -47,7 +47,6 @@ export default {
   },
 };
 </script>
-
 
 <style lang="less">
 body {

@@ -232,7 +232,7 @@
               <tr v-for="(item, index) in subForm" :key="index">
                 <td><b-form-select v-model="item.work_id" :disabled="is_update" :options="workList" @change="getKindList(index)" /></td>
                 <td>
-                  <b-form-select v-model="item.kind_id" :disabled="is_update" :options="kindList" />
+                  <b-form-select v-model="item.kind_id" :disabled="is_update" :options="getOptions(index)" />
                 </td>
                 <td>
                   <b-form-input
@@ -460,6 +460,9 @@ export default {
       if (result.data.msg === '成功') {
         if (result.data.jobReportSubList.length > 0) {
           this.$set(this, 'subForm', result.data.jobReportSubList);
+          for (let i = 0; i < this.subForm.length; i++) {
+            this.getKindList(i);
+          }
         }
       }
     },
