@@ -348,7 +348,7 @@ body {
 .expand-triangle {
 	background: url(../img/expand.gif) top left no-repeat;
 	height: 10px;
-	width: 240px;
+	width: 239px;
 	content: " ";
 	margin-left:0;
 }

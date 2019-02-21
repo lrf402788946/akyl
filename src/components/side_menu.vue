@@ -20,17 +20,16 @@
             </ul>
           </div>
         </ul>
-        <b-button v-b-toggle.collapse1 variant="primary" class="title">Toggle Collapse</b-button>
-        <br />
+        <div v-b-toggle.collapse1 class="tit"><i class="fa-stack fa fa-cogs"></i>Toggle Collapse</div>
         <b-collapse id="collapse1" class="mainmenu">
-          <b-card class="mainmenu" style="background-color:#1c2b36;">
+          <b-card style="background-color:#1c2b36;">
             <b-list-group>
               <div class="expand-triangle"></div>
-              <b-list-group-item style="background-color:#1c2b36;color: #46687f">Cras justo odio</b-list-group-item>
-              <b-list-group-item style="background-color:#1c2b36;color: #46687f">Dapibus ac facilisis in</b-list-group-item>
-              <b-list-group-item style="background-color:#1c2b36;color: #46687f">Morbi leo risus</b-list-group-item>
-              <b-list-group-item style="background-color:#1c2b36;color: #46687f">Porta ac consectetur ac</b-list-group-item>
-              <b-list-group-item style="background-color:#1c2b36;color: #46687f">Vestibulum at eros</b-list-group-item>
+              <b-list-group-item>Cras justo odio</b-list-group-item>
+              <b-list-group-item>Dapibus ac facilisis in</b-list-group-item>
+              <b-list-group-item>Morbi leo risus</b-list-group-item>
+              <b-list-group-item>Porta ac consectetur ac</b-list-group-item>
+              <b-list-group-item>Vestibulum at eros</b-list-group-item>
             </b-list-group>
           </b-card>
         </b-collapse>
@@ -188,6 +187,37 @@ a:hover{
 .mainmenu {
   margin-bottom: 0 !important;
 }
+.tit {
+  color:#7ba0bb;
+  display: block;
+  line-height: 50px;
+  font-size: 14px;
+  padding-left: 40px;
+  border-bottom: 1px solid #161e25;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.card-body{
+  padding:0 !important;
+}
+.list-group-item{
+    line-height: 20px !important;
+    height: 40px !important;
+    padding-top: 11px !important;
+    margin-left: 0px !important;
+    background-color: #161e25 !important;
+    border-left: solid 6px #161e25 !important;
+    color: #7ba0bb !important;
+}
+.list-group-item:hover{
+  border-left: solid 6px #325671 !important;
+	color:#fff !important;
+}
+
+
+
 </style>
 
 <style scoped>
