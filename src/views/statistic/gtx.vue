@@ -1,59 +1,48 @@
 <template lang='html'>
-  <div id="gtx" class="base-padding-20 base-bg-fff">
+  <div id="gtx">
     <div class="form-inline">
       <div class="base-form-title" style="width:100%;">
         <a class="base-margin-left-20">统计二</a>
         <div class="button-table"></div>
       </div>
     </div>
-    <div class="col-lg-3">
-        <label for="exampleInputName2">工序选择:</label>
-        <select class="form-control" v-model="work_id" @change='getKindList()'>
-            <option v-for="(item,index) in workList" :key="index" v-bind:value="item.value">
-                {{item.text}}
-            </option>
-        </select>
-    </div>
-    <div class="col-lg-3">
-        <label for="exampleInputName2">型号选择:</label>
-        <select class="form-control" v-model="kind_id">
-            <option v-for="(item,index) in kindList" :key="index" v-bind:value="item.value">
-                {{item.text}}
-            </option>
-        </select>
-    </div>
-    <div class="col-lg-3">
-        <label for="exampleInputName2">日期选择:</label>
+    <div class="base-padding-20 base-bg-fff">
+      <div class="col-lg-4">
         <el-date-picker
-            v-model="form1"
-            value-format="yyyy-MM-dd"
-            format="yyyy-MM-dd"
-            type="daterange"
-            range-separator="-"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            unlink-panels>
+          v-model="form1"
+          value-format="yyyy-MM-dd"
+          format="yyyy-MM-dd"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          unlink-panels>
         </el-date-picker>
-    </div>
-    <div class="col-lg-4">
-        <b-button variant="primary" @click="search()" class="resetButton" style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;" >查&nbsp;&nbsp;询</b-button>
-    </div>
-    <table class="table table-bordered table-striped ">
+      </div>
+      <div class="col-lg-3">
+        <b-form-select v-model="work_id" :options="workList" class="marginBot"  @change='getKindList()'/>
+      </div>
+      <div class="col-lg-3">
+        <b-form-select v-model="kind_id" :options="kindList" class="marginBot" />
+      </div>
+      
+      <b-button variant="primary" style="width:100px !important;height:44px !important;" @click="search()">查询</b-button>
+      <table class="table table-bordered table-striped ">
         <tbody>
-            <tr>
-                <td>型号</td>
-                <td>数量</td>
-            </tr>
-            <tr v-for="(item,index) in list" :key="index">
-                <td>{{item.name}}</td>
-                <td>{{item.nums}}</td>
-            </tr>
+          <tr>
+            <th>型号</th>
+            <th>数量</th>
+          </tr>
+          <tr v-for="(item,index) in list" :key="index">
+            <td>{{item.name}}</td>
+            <td>{{item.nums}}</td>
+          </tr>
         </tbody>
-    </table>
+      </table>
+    </div>
   </div>
 </template>
 <script>
-import Validator from 'async-validator';
 export default {
   name: 'gtx',
   metaInfo: {
@@ -115,7 +104,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 .marginBot4 {
   margin-bottom: 4px;
 }
@@ -311,7 +300,6 @@ li {
   }
 }
 </style>
-
 
 <style scoped>
 @import '../../assets/style/Font-Awesome-master/css/font-awesome.css';
