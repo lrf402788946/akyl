@@ -7,59 +7,63 @@
       </div>
       <div class="base-padding-20 base-bg-fff">
         <!-- <div class="block"> -->
-          <div class="row">
-            <div class="col-lg-3 mb25">
-              <div class="lh44">月份查询：</div>
-              <!-- <span class="demonstration">月份查询</span> -->
-              <el-date-picker
-                v-model="value1"
-                type="month"
-                value-format="yyyy-MM"
-                format="yyyy-MM"
-                placeholder="选择月份"
-                :picker-options="pickerOptions0"
-              ></el-date-picker>
+        <div class="row">
+          <div class="col-lg-3 mb25">
+            <div class="lh44">月份查询：</div>
+            <!-- <span class="demonstration">月份查询</span> -->
+            <el-date-picker
+              v-model="value1"
+              type="month"
+              value-format="yyyy-MM"
+              format="yyyy-MM"
+              placeholder="选择月份"
+              :picker-options="pickerOptions0"
+            ></el-date-picker>
+          </div>
+          <div class="col-lg-3 mb25">
+            <div class="lh44">部门查询：</div>
+            <!-- <span class="demonstration">部门查询:</span> -->
+            <b-form-select style="height:40px !important" v-model="cdeptid" :options="deptList" class="marginBot" />
+          </div>
+          <div class="col-lg-3 mb25">
+            <div class="lh44">工号查询：</div>
+            <!-- <span class="demonstration">工号查询:</span> -->
+            <b-form-input
+              style="height:40px !important"
+              v-model="cjobnum"
+              onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
+          </div>
+          <div class="col-lg-3 mb25">
+            <div class="col-lg-4" style="padding-left:10px !important; padding-right:10px !important;">
+              <b-button
+                variant="primary"
+                @click="toValidate(value1)"
+                style="font-size:14px !important; color:#fff !important; width: 100% !important; margin-top:38px;  padding: 6px 0 !important;margin-right:0 !important;"
+              >
+                查&nbsp;&nbsp;询</b-button
+              >
             </div>
-            <div class="col-lg-3 mb25">
-              <div class="lh44">部门查询：</div>
-                <!-- <span class="demonstration">部门查询:</span> -->
-                <b-form-select style="height:40px !important" v-model="cdeptid" :options="deptList" class="marginBot" />
+            <div class="col-lg-4" style="padding-left:10px !important; padding-right:10px !important;">
+              <b-button
+                variant="primary"
+                @click="toValidate(value1)"
+                style="font-size:14px !important; color:#fff !important; width: 100% !important; margin-top:38px;  padding: 6px 0 !important; margin-right:0 !important;"
+              >
+                打&nbsp;&nbsp;印</b-button
+              >
             </div>
-            <div class="col-lg-3 mb25">
-              <div class="lh44">工号查询：</div>
-                <!-- <span class="demonstration">工号查询:</span> -->
-                <b-form-input style="height:40px !important" v-model="cjobnum" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
-            </div>
-            <div class="col-lg-3 mb25">
-              <div class="col-lg-4" style="padding-left:10px !important; padding-right:10px !important;">
-                <b-button
-                  variant="primary"
-                  @click="search()"
-                  style="font-size:14px !important; color:#fff !important; width: 100% !important; margin-top:38px;  padding: 6px 0 !important;margin-right:0 !important;"
-                >
-                  查&nbsp;&nbsp;询</b-button
-                >
-              </div>
-              <div class="col-lg-4" style="padding-left:10px !important; padding-right:10px !important;">
-                <b-button
-                  variant="primary"
-                  @click="search()"
-                  style="font-size:14px !important; color:#fff !important; width: 100% !important; margin-top:38px;  padding: 6px 0 !important; margin-right:0 !important;"
-                >
-                  打&nbsp;&nbsp;印</b-button
-                >
-              </div>
-              <div class="col-lg-4" style="padding-left:10px !important; padding-right:10px !important;">
-                <b-button
-                  variant="primary"
-                  @click="search()"
-                  style="font-size:14px !important; color:#fff !important; margin-top:38px; width: 100% !important; padding: 6px 0 !important; margin-right:0 !important;"
-                >
-                  导&nbsp;&nbsp;出</b-button
-                >
-              </div>
+            <div class="col-lg-4" style="padding-left:10px !important; padding-right:10px !important;">
+              <b-button
+                variant="primary"
+                @click="search()"
+                style="font-size:14px !important; color:#fff !important; margin-top:38px; width: 100% !important; padding: 6px 0 !important; margin-right:0 !important;"
+              >
+                导&nbsp;&nbsp;出</b-button
+              >
             </div>
           </div>
+        </div>
         <table class="table table-bordered table-striped ">
           <tbody>
             <tr>
@@ -109,6 +113,8 @@
 
 <script>
 import _ from 'lodash';
+import Validator from 'async-validator';
+
 export default {
   name: 'gongxin',
   metaInfo: {
@@ -134,7 +140,11 @@ export default {
       cdeptid: '',
       cjobnum: '',
       value1: '',
+      selected: null,
       deptList: [{ text: '请选择部门', value: null }],
+      roleValidator: new Validator({
+        value1: { type: 'string', required: true, message: '请填写查询日期！' },
+      }),
     };
   },
   computed: {},
@@ -167,6 +177,30 @@ export default {
       });
       let defalut = { text: '请选择部门', value: null, disabled: false };
       this.deptList.unshift(defalut);
+    },
+    //验证
+    toValidate(value1) {
+      console.log(value1);
+      if (value1 === '') {
+        this.roleValidator.validate(this.form, (errors, fields) => {
+          if (errors) {
+            return this.handleErrors(errors, fields);
+          }
+        });
+      } else {
+        return this.search();
+      }
+    },
+    //验证错误
+    handleErrors(errors, fields) {
+      this.$message.error(errors[0].message);
+      this.errors = errors.reduce((p, c) => {
+        // eslint-disable-next-line no-param-reassign
+        p[c.field] = 'error';
+        return p;
+      }, {});
+      // eslint-disable-next-line no-console
+      console.debug(errors, fields);
     },
   },
 };
@@ -381,7 +415,7 @@ li {
   width: 100% !important;
 }
 .btn-primary:hover {
-    background-color: #17a2b8 !important;
+  background-color: #17a2b8 !important;
 }
 /* .el-input--prefix .el-input__inner {
   height: 44px !important;

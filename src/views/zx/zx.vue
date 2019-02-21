@@ -95,7 +95,7 @@
       <b-button
         variant="primary"
         style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
-        @click="$refs.deleteAlert.hide(), deleteItem = ''"
+        @click="$refs.deleteAlert.hide(), (deleteItem = '')"
       >
         返&nbsp;&nbsp;回</b-button
       >

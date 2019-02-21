@@ -1,20 +1,19 @@
 <template>
   <div>
-
-    <body :style="'overflow-y: auto;background-image: url('+img+'); background-repeat:no-repeat; background-size:auto;'">
+    <body :style="'overflow-y: auto;background-image: url(' + img + '); background-repeat:no-repeat; background-size:auto;'">
       <div class="page-container">
         <div>
-          <h1 style="letter-spacing:4px; padding-bottom:20px; font-weight:bold; color:#fff;">干部廉政档案系统</h1>
+          <h1 style="letter-spacing:4px; padding-bottom:20px; font-weight:bold; color:#fff;">爱康管理系统</h1>
         </div>
         <div class="form-container">
           <form style="margin:20px auto; width:300px;">
             <div style="text-align:left;" class="form-group">
               <label for="exampleInputuser1">用户名：</label>
-              <input type="text" v-model="form.login_id" class="form-control" placeholder="">
+              <input type="text" v-model="form.login_id" class="form-control" placeholder="" />
             </div>
             <div style="text-align:left;" class="form-group">
               <label for="exampleInputPassword1">密&nbsp;&nbsp;&nbsp;码：</label>
-              <input type="password" v-model="form.password" class="form-control" placeholder="">
+              <input type="password" v-model="form.password" class="form-control" placeholder="" />
             </div>
             <div class="form-group">
               <div class="row">
@@ -22,7 +21,7 @@
                   <button variant="primary" @click.prevent="login()" style=" margin-top:10px;" class="dengBtn">登&nbsp;&nbsp;录</button>
                 </div>
                 <div class="col-lg-6">
-                  <button variant="primary" @click="form={}" style=" margin-top:10px;" class="dengBtn">重&nbsp;&nbsp;置</button>
+                  <button variant="primary" @click="form = {}" style=" margin-top:10px;" class="dengBtn">重&nbsp;&nbsp;置</button>
                 </div>
               </div>
             </div>
@@ -46,17 +45,14 @@ export default {
     ...mapMutations(['isLogin']),
     async login() {
       if (this.form.login_id && this.form.password) {
-        let result = await this.$axios.post('/user/login', { data: this.form });
-        console.log(result);
+        let result = await this.$axios.post('/akyl/user/login', { data: this.form });
         if (result.data.rescode === '0') {
-          sessionStorage.setItem('userInfo', this.form.login_id);
+          sessionStorage.setItem('userInfo', JSON.stringify(result.data.user));
+          this.isLogin();
+          this.$router.push('/');
         } else {
-          alert(result.data.msg);
+          this.$message.error(result.data.msg);
         }
-        this.isLogin();
-        //存入sessionStorage
-        // sessionStorage.setItem('userInfo', JSON.stringify(this.form));
-        this.$router.push('/');
       }
     },
   },

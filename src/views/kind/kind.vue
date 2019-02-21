@@ -1,17 +1,24 @@
-<template lang='html'>
-  <div id="kind"><!--选工序填型号-->
+<template lang="html">
+  <div id="kind">
     <!-- 表格 begin -->
     <div class="base-form">
       <div class="form-inline">
-        <div class="base-form-title" style="width:100%;"><a class="base-margin-left-20">型号列表</a>
-          <div class="button-table">
-          </div>
+        <div class="base-form-title" style="width:100%;">
+          <a class="base-margin-left-20">型号列表</a>
+          <div class="button-table"></div>
         </div>
       </div>
       <div class="base-padding-20 base-bg-fff">
         <div class="base-align-right" style="margin-bottom:20px;">
-          <a class="btn btn-info base-margin-bottom" data-toggle="tooltip" style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;" title="" role="button" v-b-modal="'toAdd'">
-            <i class="base-margin-right-5 fa fa-plus-square"></i>添加型号    
+          <a
+            class="btn btn-info base-margin-bottom"
+            data-toggle="tooltip"
+            style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;"
+            title=""
+            role="button"
+            v-b-modal="'toAdd'"
+          >
+            <i class="base-margin-right-5 fa fa-plus-square"></i>添加型号
           </a>
         </div>
         <table class="table table-bordered table-striped ">
@@ -22,10 +29,10 @@
               <th>型号名称</th>
               <th>操作</th>
             </tr>
-            <tr v-for="(item,index) in list" :key="index"><!--美化下input 可以看情况使用-->
-              <td>{{{data: workList, searchItem: 'value',value: item.work_id, label:'text'}|getName}}</td>
-              <td>{{item.code}}</td>
-              <td>{{item.name}}</td>
+            <tr v-for="(item, index) in list" :key="index">
+              <td>{{ { data: workList, searchItem: 'value', value: item.work_id, label: 'text' } | getName }}</td>
+              <td>{{ item.code }}</td>
+              <td>{{ item.name }}</td>
               <td>
                 <b-button variant="primary" style="color:white;" @click="openUpdateAlert(index)">修&nbsp;&nbsp;改</b-button>
                 <b-button variant="danger" @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
@@ -33,38 +40,72 @@
             </tr>
           </tbody>
         </table>
-        <b-modal id="toAdd" title="添加型号" ref="toAdd" hide-footer > 
+        <b-modal id="toAdd" title="添加型号" ref="toAdd" hide-footer>
           <!--需要计算,如果是父类,正常显示,不是的话就缩进-->
           <p class="marginBot5">工序</p>
-          <b-form-select v-model="form.work_id"  :options="workList"/>
+          <b-form-select v-model="form.work_id" :options="workList" />
           <p class="marginBot5">型号代码</p>
           <b-form-input v-model="form.code" class="marginBot8"></b-form-input>
           <p class="marginBot5">型号名称</p>
           <b-form-input v-model="form.name" class="marginBot20"></b-form-input>
-          <b-button variant="secondary" @click="form={}" style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >重&nbsp;&nbsp;置</b-button>
-          <b-button variant="primary" @click="toValidate('add')"  style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >保&nbsp;&nbsp;存</b-button>
+          <b-button
+            variant="secondary"
+            @click="form = {}"
+            style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+          >
+            重&nbsp;&nbsp;置
+          </b-button>
+          <b-button
+            variant="primary"
+            @click="toValidate('add')"
+            style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+          >
+            保&nbsp;&nbsp;存
+          </b-button>
         </b-modal>
 
-        <b-modal id="Edit" title="修改型号" ref="Edit" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> 
+        <b-modal id="Edit" title="修改型号" ref="Edit" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
           <p class="marginBot5">工序</p>
-          <b-form-select v-model="form.work_id"  :options="workList"/>
+          <b-form-select v-model="form.work_id" :options="workList" />
           <p class="marginBot5">型号代码</p>
-          <b-form-input v-model="form.code"  class="marginBot8"></b-form-input>
+          <b-form-input v-model="form.code" class="marginBot8"></b-form-input>
           <p class="marginBot5">型号名称</p>
-          <b-form-input v-model="form.name"  class="marginBot20"></b-form-input>
-          <b-button variant="secondary" @click="closeAlert()"  style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;" >返&nbsp;&nbsp;回</b-button>
-          <b-button variant="primary" @click="toValidate('update')"  style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >修&nbsp;&nbsp;改</b-button>
+          <b-form-input v-model="form.name" class="marginBot20"></b-form-input>
+          <b-button
+            variant="secondary"
+            @click="closeAlert()"
+            style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+          >
+            返&nbsp;&nbsp;回
+          </b-button>
+          <b-button
+            variant="primary"
+            @click="toValidate('update')"
+            style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+          >
+            修&nbsp;&nbsp;改
+          </b-button>
         </b-modal>
 
-        <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> 
+        <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
           <div class="d-block text-center">
             <b-alert variant="danger" show>确定删除该型号?</b-alert>
           </div>
-          <b-button variant="danger"  style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  @click="toDelete()">删&nbsp;&nbsp;除</b-button>
-          <b-button variant="primary"  style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;" 
-          @click="$refs.deleteAlert.hide(),deleteItem=''">返&nbsp;&nbsp;回</b-button>
+          <b-button
+            variant="danger"
+            style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+            @click="toDelete()"
+          >
+            删&nbsp;&nbsp;除
+          </b-button>
+          <b-button
+            variant="primary"
+            style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+            @click="$refs.deleteAlert.hide(), (deleteItem = '')"
+          >
+            返&nbsp;&nbsp;回
+          </b-button>
         </b-modal>
-        
       </div>
     </div>
   </div>
@@ -197,6 +238,4 @@ export default {
 };
 </script>
 
-<style lang='css' scoped>
-
-</style>
+<style lang="css" scoped></style>

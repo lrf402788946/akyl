@@ -1,9 +1,9 @@
-<template lang='html'>
+<template lang="html">
   <div id="pdt">
     <div class="form-inline">
-      <div class="base-form-title" style="width:100%;"><a class="base-margin-left-20">统计一</a>
-        <div class="button-table">
-        </div>
+      <div class="base-form-title" style="width:100%;">
+        <a class="base-margin-left-20">统计一</a>
+        <div class="button-table"></div>
       </div>
     </div>
     <div class="base-padding-20 base-bg-fff">
@@ -16,7 +16,8 @@
           range-separator="-"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
-          unlink-panels>
+          unlink-panels
+        >
         </el-date-picker>
       </div>
       <div class="col-lg-3">
@@ -25,26 +26,23 @@
       <div class="col-lg-3">
         <b-form-select v-model="kind_id" :options="kindList" class="marginBot" />
       </div>
-      <b-button variant="primary" style="width:100px !important;height:44px !important;" @click="search()" >查询</b-button>
-        <table class="table table-bordered table-striped ">
-          <tbody>
-            <tr>
-              <th>工号test</th>
-              <th>姓名</th>
-              <th>型号</th>
-              <th>工作量</th>
-            </tr>
-            <tr v-for="(item,index) in list" :key="index">
-              <td>{{item.job_num}}</td>
-              <td>{{item.all_time}}</td>
-              <td>{{item.leave_time}}</td>
-              <td>
-                <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update',index)">详&nbsp;&nbsp;情</b-button>
-                <b-button variant="danger" style="color:white;"  @click="openAlert('delete',item.id)">删&nbsp;&nbsp;除</b-button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <b-button variant="primary" style="width:100px !important;height:44px !important;" @click="search()">查询</b-button>
+      <table class="table table-bordered table-striped ">
+        <tbody>
+          <tr>
+            <th>工号</th>
+            <th>姓名</th>
+            <th>型号</th>
+            <th>工作量</th>
+          </tr>
+          <tr v-for="(item, index) in list" :key="index">
+            <td>{{ item.code }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.job_num }}</td>
+            <td>{{ item.num }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
@@ -52,6 +50,9 @@
 <script>
 export default {
   name: 'pdt',
+  metaInfo: {
+    title: '每人每天每型号数量',
+  },
   components: {},
   data() {
     return {
@@ -87,20 +88,27 @@ export default {
       this.kindList.unshift(defalut);
     },
     async search() {
-      let result = this.$axios.get(
-        `/akyl/count/count_per?
-        dept_id=${this.dept_id}&
-        start_time=${this.search_time[0]}&
-        end_time=${this.search_time[1]}&
-        kind_id=${this.kind_id}`
+      if (this.dept_id === null) this.dept_id = '';
+      if (this.kind_id === null) this.kind_id = '';
+      if (!this.search_time.length > 0) {
+        this.$message.error('请选择时间范围');
+        return false;
+      }
+      let result = await this.$axios.get(
+        `/akyl/count/count_per?dept_id=${this.dept_id}&start_time=${this.search_time[0]}&end_time=${this.search_time[1]}&kind_id=${this.kind_id}`
       );
-      console.log(result);
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.dataList);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+      }
     },
   },
 };
 </script>
 
-<style lang='css' scoped>
+<style lang="css" scoped>
 .marginBot4 {
   margin-bottom: 4px;
 }
@@ -296,7 +304,6 @@ li {
   }
 }
 </style>
-
 
 <style scoped>
 @import '../../assets/style/Font-Awesome-master/css/font-awesome.css';

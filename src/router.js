@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Index from './views/example/example.vue';
 import lz from './views/lz/lz.vue';
 import zx from './views/zx/zx.vue';
 import user from './views/user/user.vue';
@@ -17,18 +16,14 @@ import bg from './views/bg/bg.vue';
 import gongxin from './views/gongxin/gongxin.vue';
 import pdt from './views/statistic/pdt.vue';
 import gtx from './views/statistic/gtx.vue';
-import td from './views/statistic/td.vue';
+import login from './views/login_page.vue';
+import update_pw from './views/user/update_pw.vue';
 
 Vue.use(Router);
 const router = new Router({
   // base: '/archive/',
   // mode: 'history',
   routes: [
-    {
-      path: '/',
-      name: 'Index',
-      component: Index,
-    },
     {
       path: '/lz',
       name: 'lz',
@@ -94,12 +89,11 @@ const router = new Router({
       name: 'bg',
       component: bg,
     },
-     {
+    {
       path: '/gongxin',
       name: 'gongxin',
       component: gongxin,
-     },
-      
+    },
     {
       path: '/pdt',
       name: 'pdt',
@@ -111,9 +105,14 @@ const router = new Router({
       component: gtx,
     },
     {
-      path: '/td',
-      name: 'td',
-      component: td,
+      path: '/login',
+      name: 'login',
+      component: login,
+    },
+    {
+      path: '/update_pw',
+      name: 'update_pw',
+      component: update_pw,
     },
   ],
 });
@@ -123,8 +122,8 @@ const router = new Router({
 //   if (is_login) {
 //     next();
 //   } else {
-//     if (to.path.includes('Login')) next();
-//     else next('/LoginPage');
+//     if (to.path.includes('login')) next();
+//     else next('/login');
 //   }
 // });
 export default router;

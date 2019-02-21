@@ -1,11 +1,10 @@
-<template lang='html'>
+<template lang="html">
   <div id="index">
-      <div class="base-form">
-        <div class="form-inline">
-          <div class="base-form-title" style="width:100%;"><a class="base-margin-left-20">部门列表</a>
-            <div class="button-table">
-            </div>
-          </div>
+    <div class="base-form">
+      <div class="form-inline">
+        <div class="base-form-title" style="width:100%;">
+          <a class="base-margin-left-20">部门列表</a>
+          <div class="button-table"></div>
         </div>
         <div class="base-padding-20 base-bg-fff">
           <div class="base-align-right" style="margin-bottom:20px;">
