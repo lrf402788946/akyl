@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Index from './views/example/example.vue';
 import lz from './views/lz/lz.vue';
 import zx from './views/zx/zx.vue';
 import user from './views/user/user.vue';
@@ -17,7 +16,6 @@ import bg from './views/bg/bg.vue';
 import gongxin from './views/gongxin/gongxin.vue';
 import pdt from './views/statistic/pdt.vue';
 import gtx from './views/statistic/gtx.vue';
-import td from './views/statistic/td.vue';
 import login from './views/login_page.vue';
 import update_pw from './views/user/update_pw.vue';
 
@@ -26,11 +24,6 @@ const router = new Router({
   // base: '/archive/',
   // mode: 'history',
   routes: [
-    {
-      path: '/',
-      name: 'Index',
-      component: Index,
-    },
     {
       path: '/lz',
       name: 'lz',
@@ -110,11 +103,6 @@ const router = new Router({
       path: '/gtx',
       name: 'gtx',
       component: gtx,
-    },
-    {
-      path: '/td',
-      name: 'td',
-      component: td,
     },
     {
       path: '/login',

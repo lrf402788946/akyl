@@ -1,4 +1,4 @@
-<template lang='html'>
+<template lang="html">
   <div id="gtx">
     <div class="form-inline">
       <div class="base-form-title" style="width:100%;">
@@ -7,48 +7,55 @@
       </div>
     </div>
     <div class="col-lg-3">
-        <label for="exampleInputName2">工序选择:</label>
-        <select class="form-control" v-model="work_id" @change='getKindList()'>
-            <option v-for="(item,index) in workList" :key="index" v-bind:value="item.value">
-                {{item.text}}
-            </option>
-        </select>
+      <label for="exampleInputName2">工序选择:</label>
+      <select class="form-control" v-model="work_id" @change="getKindList()">
+        <option v-for="(item, index) in workList" :key="index" v-bind:value="item.value">
+          {{ item.text }}
+        </option>
+      </select>
     </div>
     <div class="col-lg-3">
-        <label for="exampleInputName2">型号选择:</label>
-        <select class="form-control" v-model="kind_id">
-            <option v-for="(item,index) in kindList" :key="index" v-bind:value="item.value">
-                {{item.text}}
-            </option>
-        </select>
+      <label for="exampleInputName2">型号选择:</label>
+      <select class="form-control" v-model="kind_id">
+        <option v-for="(item, index) in kindList" :key="index" v-bind:value="item.value">
+          {{ item.text }}
+        </option>
+      </select>
     </div>
     <div class="col-lg-3">
-        <label for="exampleInputName2">日期选择:</label>
-        <el-date-picker
-            v-model="form1"
-            value-format="yyyy-MM-dd"
-            format="yyyy-MM-dd"
-            type="daterange"
-            range-separator="-"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            unlink-panels>
-        </el-date-picker>
+      <label for="exampleInputName2">日期选择:</label>
+      <el-date-picker
+        v-model="form1"
+        value-format="yyyy-MM-dd"
+        format="yyyy-MM-dd"
+        type="daterange"
+        range-separator="-"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"
+        unlink-panels
+      >
+      </el-date-picker>
     </div>
     <div class="col-lg-4">
-        <b-button variant="primary" @click="search()" class="resetButton" style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;" >查&nbsp;&nbsp;询</b-button>
+      <b-button
+        variant="primary"
+        @click="search()"
+        class="resetButton"
+        style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+        >查&nbsp;&nbsp;询</b-button
+      >
     </div>
     <table class="table table-bordered table-striped ">
-        <tbody>
-            <tr>
-                <td>型号</td>
-                <td>数量</td>
-            </tr>
-            <tr v-for="(item,index) in list" :key="index">
-                <td>{{item.name}}</td>
-                <td>{{item.nums}}</td>
-            </tr>
-        </tbody>
+      <tbody>
+        <tr>
+          <td>型号</td>
+          <td>数量</td>
+        </tr>
+        <tr v-for="(item, index) in list" :key="index">
+          <td>{{ item.name }}</td>
+          <td>{{ item.nums }}</td>
+        </tr>
+      </tbody>
     </table>
   </div>
 </template>
@@ -62,17 +69,17 @@ export default {
   components: {},
   data() {
     return {
-        list: [],
-        form1: new Array(),
-        workList: [],
-        kindList: [],
-        work_id: null,
-        kind_id: null,
+      list: [],
+      form1: new Array(),
+      workList: [],
+      kindList: [],
+      work_id: null,
+      kind_id: null,
     };
   },
   computed: {},
   created() {
-      this.getWorkList();
+    this.getWorkList();
   },
   methods: {
     async getWorkList() {
@@ -85,7 +92,7 @@ export default {
       this.workList.unshift(defalut);
     },
     async getKindList() {
-      this.kindList= [];
+      this.kindList = [];
       let result = await this.$axios.get(`/akyl/kind/kind_list?skip=0&limit=1000&work_id=${this.work_id}`);
       this.kindList = result.data.kindList.map(item => {
         let newObject = { text: item.name, value: item.id };
@@ -103,12 +110,14 @@ export default {
         this.$message.error('请选择时间范围');
         return false;
       }
-      let result = await this.$axios.get(`/akyl/count/count_work?work_id=${this.work_id}&kind_id=${this.kind_id}&start_time=${this.form1[0]}&end_time=${this.form1[1]}`);
+      let result = await this.$axios.get(
+        `/akyl/count/count_work?work_id=${this.work_id}&kind_id=${this.kind_id}&start_time=${this.form1[0]}&end_time=${this.form1[1]}`
+      );
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.dataList);
       }
       if (result.data.msg === '没有数据') {
-        this.list='';
+        this.list = '';
       }
     },
   },
@@ -311,7 +320,6 @@ li {
   }
 }
 </style>
-
 
 <style scoped>
 @import '../../assets/style/Font-Awesome-master/css/font-awesome.css';

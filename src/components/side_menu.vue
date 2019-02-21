@@ -9,41 +9,73 @@
           </li>
           <ul class="submenu">
             <div class="expand-triangle"></div>
-            <router-link :to="{name:'user'}"><li><span> 用户管理</span></li></router-link>
-            <router-link :to="{name:'role'}"><li><span> 角色管理</span></li></router-link>
-            <router-link :to="{name:'user_role'}"><li><span> 权限分配</span></li></router-link>
-            <router-link :to="{name:'staff'}"><li><span> 员工管理</span></li></router-link>
+            <router-link :to="{ name: 'user' }"
+              ><li><span> 用户管理</span></li></router-link
+            >
+            <router-link :to="{ name: 'role' }"
+              ><li><span> 角色管理</span></li></router-link
+            >
+            <router-link :to="{ name: 'user_role' }"
+              ><li><span> 权限分配</span></li></router-link
+            >
+            <router-link :to="{ name: 'staff' }"
+              ><li><span> 员工管理</span></li></router-link
+            >
           </ul>
           <li>
             <span><i class="fa-stack fa fa-cogs"></i>系统管理</span>
           </li>
           <ul class="submenu">
             <div class="expand-triangle"></div>
-            <router-link :to="{name:'thb'}"><li><span>弹簧柄库管理</span></li></router-link>
-            
-            <router-link :to="{name:'dept'}"><li><span> 部门管理</span></li></router-link>
-            <router-link :to="{name:'post'}"><li><span> 岗位管理</span></li></router-link>
-            <router-link :to="{name:'work'}"><li><span> 工序管理</span></li></router-link>
-            <router-link :to="{name:'set'}"><li><span>基础设置管理</span></li></router-link>
-            <router-link :to="{name:'lz'}"><li><span>裸针管理</span></li></router-link>
-            <router-link :to="{name:'zx'}"><li><span>针芯管理</span></li></router-link>
-            <router-link :to="{name:'kind'}"><li><span>类型管理</span></li></router-link>
+            <router-link :to="{ name: 'thb' }"
+              ><li><span>弹簧柄库管理</span></li></router-link
+            >
+
+            <router-link :to="{ name: 'dept' }"
+              ><li><span> 部门管理</span></li></router-link
+            >
+            <router-link :to="{ name: 'post' }"
+              ><li><span> 岗位管理</span></li></router-link
+            >
+            <router-link :to="{ name: 'work' }"
+              ><li><span> 工序管理</span></li></router-link
+            >
+            <router-link :to="{ name: 'set' }"
+              ><li><span>基础设置管理</span></li></router-link
+            >
+            <router-link :to="{ name: 'lz' }"
+              ><li><span>裸针管理</span></li></router-link
+            >
+            <router-link :to="{ name: 'zx' }"
+              ><li><span>针芯管理</span></li></router-link
+            >
+            <router-link :to="{ name: 'kind' }"
+              ><li><span>类型管理</span></li></router-link
+            >
           </ul>
           <li>
             <span><i class="fa-stack fa fa-user"></i>工作管理</span>
           </li>
           <ul class="submenu">
             <div class="expand-triangle"></div>
-            <router-link :to="{name:'bg'}"><li><span> 报工单管理</span></li></router-link>
-            <router-link :to="{name:'gongxin'}"><li><span> 工资管理</span></li></router-link>
+            <router-link :to="{ name: 'bg' }"
+              ><li><span> 报工单管理</span></li></router-link
+            >
+            <router-link :to="{ name: 'gongxin' }"
+              ><li><span> 工资管理</span></li></router-link
+            >
           </ul>
           <li>
             <span><i class="fa-stack fa fa-user"></i>统计管理</span>
           </li>
           <ul class="submenu">
             <div class="expand-triangle"></div>
-            <router-link :to="{name:'pdt'}"><li><span> 每人每天每型号数量</span></li></router-link>
-            <router-link :to="{name:'gtx'}"><li><span> 每工序每天每型号数量</span></li></router-link>
+            <router-link :to="{ name: 'pdt' }"
+              ><li><span> 每人每天每型号数量</span></li></router-link
+            >
+            <router-link :to="{ name: 'gtx' }"
+              ><li><span> 每工序每天每型号数量</span></li></router-link
+            >
           </ul>
         </ul>
         <div class="base-footer">
@@ -97,7 +129,7 @@ export default {
 };
 </script>
 
-<style lang='css'>
+<style lang="css">
 a {
     color: #7ba0bb !important;
 }

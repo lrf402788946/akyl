@@ -1,4 +1,4 @@
-<template lang='html'>
+<template lang="html">
   <div id="user_role">
     <!-- 表格 begin -->
     <div class="base-form">

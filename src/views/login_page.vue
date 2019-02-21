@@ -9,11 +9,11 @@
           <form style="margin:20px auto; width:300px;">
             <div style="text-align:left;" class="form-group">
               <label for="exampleInputuser1">用户名：</label>
-              <input type="text" v-model="form.login_id" class="form-control" placeholder="">
+              <input type="text" v-model="form.login_id" class="form-control" placeholder="" />
             </div>
             <div style="text-align:left;" class="form-group">
               <label for="exampleInputPassword1">密&nbsp;&nbsp;&nbsp;码：</label>
-              <input type="password" v-model="form.password" class="form-control" placeholder="">
+              <input type="password" v-model="form.password" class="form-control" placeholder="" />
             </div>
             <div class="form-group">
               <div class="row">

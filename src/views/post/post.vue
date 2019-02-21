@@ -1,88 +1,144 @@
-<template lang='html'>
+<template lang="html">
   <div id="index">
-      <div class="base-form">
-        <div class="form-inline">
-          <div class="base-form-title" style="width:100%;"><a class="base-margin-left-20">岗位列表</a>
-            <div class="button-table">
-            </div>
-          </div>
-        </div>
-        <div class="base-padding-20 base-bg-fff">
-          <div class="base-align-right" style="margin-bottom:20px;">
-            <a class="btn btn-info base-margin-bottom" data-toggle="tooltip" style="font-size:14px !important;padding: 6px 12px !important;" title="" role="button" v-b-modal="'toAdd'">
-              <i class="base-margin-right-5 fa fa-plus-square"></i>添加岗位
-            </a>
-          </div>
-          <table class="table table-bordered table-striped ">
-            <tbody>
-              <tr>
-                <th>岗位名称</th>
-                <th>岗位补助</th>
-                <th>操作</th>
-              </tr>
-              <tr v-for="(item,index) in list" :key="index"><!--美化下input 可以看情况使用-->
-                <td>{{item.name}}</td>
-                <td>{{item.money}}</td>
-                <td>
-                  <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update',index)" >修&nbsp;&nbsp;改</b-button>
-                  <b-button variant="danger" style="color:white;"  @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <el-pagination
-            layout="total, prev, pager, next"
-            :background="true"
-            :page-size="15"
-            prev-text="上一页"
-            next-text="下一页"
-            @current-change="toSearch"
-            :total="totalRow">
-          </el-pagination>
-
-          <b-modal id="toAdd" title="添加岗位" ref="toAdd" hide-footer >
-            <div style="margin-top:7px; margin-bottom:7px;">岗位名称:</div>
-            <b-form-input onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" v-model="form.name"></b-form-input>
-            <div style="margin-top:7px; margin-bottom:7px;">岗位补助:</div>
-            <b-form-input v-model="form.money" type="number" autocomplete="off" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))" style="ime-mode:Disabled"></b-form-input>
-            <b-button variant="secondary" style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  @click="form={}" >重&nbsp;&nbsp;置</b-button>
-            <b-button  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   variant="primary" @click="toValidate('add')" >保&nbsp;&nbsp;存</b-button>
-          </b-modal>
-
-          <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> 
-            <div class="d-block text-center">
-              <b-alert variant="danger" show>删除岗位可能会有严重影响,确认删除吗?</b-alert>
-            </div>
-           <b-button variant="danger"   style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   @click="toDelete()">删&nbsp;&nbsp;除</b-button>
-           <b-button variant="primary"   style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"   @click="$refs.deleteAlert.hide(),deleteItem=''">
-             返&nbsp;&nbsp;回</b-button>
-          </b-modal>
-
-          <b-modal id="updateAlert" title="修改信息" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
-            <div class="d-block">
-              <div class="row">
-                <div class="col-lg-12 marginBot4">
-                    <p class="marginBot4">岗位名称</p>
-                    <b-form-input onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" v-model="updateForm.name"></b-form-input>
-                </div>
-                <div class="col-lg-12 marginBot4">
-                    <p class="marginBot4">岗位补助</p>
-                    <b-form-input v-model="updateForm.money" type="number" autocomplete="off" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))" style="ime-mode:Disabled"></b-form-input>
-                </div>
-                <div class="col-lg-12 marginBot4">
-                  <b-button variant="secondary" @click="closeAlert('update')" class="resetButton" style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"  >
-                    返&nbsp;&nbsp;回</b-button>
-                  <b-button variant="primary" @click="toValidate('update')" class="resetButton"  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;" >
-                    保&nbsp;&nbsp;存</b-button>
-                </div>
-              </div>
-            </div>
-          </b-modal>
-          
+    <div class="base-form">
+      <div class="form-inline">
+        <div class="base-form-title" style="width:100%;">
+          <a class="base-margin-left-20">岗位列表</a>
+          <div class="button-table"></div>
         </div>
       </div>
-  </div> 
+      <div class="base-padding-20 base-bg-fff">
+        <div class="base-align-right" style="margin-bottom:20px;">
+          <a
+            class="btn btn-info base-margin-bottom"
+            data-toggle="tooltip"
+            style="font-size:14px !important;padding: 6px 12px !important;"
+            title=""
+            role="button"
+            v-b-modal="'toAdd'"
+          >
+            <i class="base-margin-right-5 fa fa-plus-square"></i>添加岗位
+          </a>
+        </div>
+        <table class="table table-bordered table-striped ">
+          <tbody>
+            <tr>
+              <th>岗位名称</th>
+              <th>岗位补助</th>
+              <th>操作</th>
+            </tr>
+            <tr v-for="(item, index) in list" :key="index">
+              <td>{{ item.name }}</td>
+              <td>{{ item.money }}</td>
+              <td>
+                <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update', index)">修&nbsp;&nbsp;改</b-button>
+                <b-button variant="danger" style="color:white;" @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <el-pagination
+          layout="total, prev, pager, next"
+          :background="true"
+          :page-size="15"
+          prev-text="上一页"
+          next-text="下一页"
+          @current-change="toSearch"
+          :total="totalRow"
+        >
+        </el-pagination>
+
+        <b-modal id="toAdd" title="添加岗位" ref="toAdd" hide-footer>
+          <div style="margin-top:7px; margin-bottom:7px;">岗位名称:</div>
+          <b-form-input onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" v-model="form.name"></b-form-input>
+          <div style="margin-top:7px; margin-bottom:7px;">岗位补助:</div>
+          <b-form-input
+            v-model="form.money"
+            type="number"
+            autocomplete="off"
+            onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
+            style="ime-mode:Disabled"
+          >
+          </b-form-input>
+          <b-button
+            variant="secondary"
+            style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+            @click="form = {}"
+          >
+            重&nbsp;&nbsp;置
+          </b-button>
+          <b-button
+            style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+            variant="primary"
+            @click="toValidate('add')"
+          >
+            保&nbsp;&nbsp;存
+          </b-button>
+        </b-modal>
+
+        <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
+          <div class="d-block text-center">
+            <b-alert variant="danger" show>删除岗位可能会有严重影响,确认删除吗?</b-alert>
+          </div>
+          <b-button
+            variant="danger"
+            style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+            @click="toDelete()"
+          >
+            删&nbsp;&nbsp;除
+          </b-button>
+          <b-button
+            variant="primary"
+            style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+            @click="$refs.deleteAlert.hide(), (deleteItem = '')"
+          >
+            返&nbsp;&nbsp;回
+          </b-button>
+        </b-modal>
+
+        <b-modal id="updateAlert" title="修改信息" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
+          <div class="d-block">
+            <div class="row">
+              <div class="col-lg-12 marginBot4">
+                <p class="marginBot4">岗位名称</p>
+                <b-form-input onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" v-model="updateForm.name"></b-form-input>
+              </div>
+              <div class="col-lg-12 marginBot4">
+                <p class="marginBot4">岗位补助</p>
+                <b-form-input
+                  v-model="updateForm.money"
+                  type="number"
+                  autocomplete="off"
+                  onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                  style="ime-mode:Disabled"
+                >
+                </b-form-input>
+              </div>
+              <div class="col-lg-12 marginBot4">
+                <b-button
+                  variant="secondary"
+                  @click="closeAlert('update')"
+                  class="resetButton"
+                  style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+                >
+                  返&nbsp;&nbsp;回
+                </b-button>
+                <b-button
+                  variant="primary"
+                  @click="toValidate('update')"
+                  class="resetButton"
+                  style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+                >
+                  保&nbsp;&nbsp;存
+                </b-button>
+              </div>
+            </div>
+          </div>
+        </b-modal>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -460,7 +516,6 @@ li {
   height: auto !important;
 }
 </style>
-
 
 <style scoped>
 @import '../../assets/style/Font-Awesome-master/css/font-awesome.css';
