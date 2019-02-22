@@ -56,7 +56,7 @@
             <div class="col-lg-4" style="padding-left:10px !important; padding-right:10px !important;">
               <b-button
                 variant="primary"
-                @click="search()"
+                @click="excel()"
                 style="font-size:14px !important; color:#fff !important; margin-top:38px; width: 100% !important; padding: 6px 0 !important; margin-right:0 !important;"
               >
                 导&nbsp;&nbsp;出</b-button
@@ -217,6 +217,13 @@ export default {
       window.location.reload();
       document.body.innerHTML = oldContent;
       return false;
+    },
+    excel() {
+      const th = ['工号', '计时工资', '计件工资', '加班工资', '加班补助工资', '满勤奖工资', '通勤奖工资', '夜班补助工资', '保险补助工资', '工龄补助工资', '扣除工资', '工资总和'];
+      const filterVal = ['job_num', 'gz_js', 'gz_jj', 'gz_jb', 'gz_jbbz', 'gz_mqj', 'gz_tq', 'gz_yb', 'gz_bxbz', 'gz_glbz', 'gz_kc', 'gz_count'];
+      const data = this.list.map(v => filterVal.map(k => v[k]));
+      const [fileName, fileType, sheetName] = ['工资报表', 'xlsx', '工资报表'];
+      this.$toExcel({ th, data, fileName, fileType, sheetName });
     },
   },
 };
