@@ -38,7 +38,7 @@
             <div class="col-lg-4" style="padding-left:10px !important; padding-right:10px !important;">
               <b-button
                 variant="primary"
-                @click="toValidate(value1)"
+                @click="biaotoushow=true,toValidate(value1)"
                 style="font-size:14px !important; color:#fff !important; width: 100% !important; margin-top:38px;  padding: 6px 0 !important;margin-right:0 !important;"
               >
                 查&nbsp;&nbsp;询</b-button
@@ -47,7 +47,7 @@
             <div class="col-lg-4" style="padding-left:10px !important; padding-right:10px !important;">
               <b-button
                 variant="primary"
-                @click="toValidate(value1)"
+                @click="doPrint()"
                 style="font-size:14px !important; color:#fff !important; width: 100% !important; margin-top:38px;  padding: 6px 0 !important; margin-right:0 !important;"
               >
                 打&nbsp;&nbsp;印</b-button
@@ -64,6 +64,8 @@
             </div>
           </div>
         </div>
+        <div id='print'>
+        <center><h1 id='biaotou' v-show='biaotoushow'>{{value1}}      工资详情</h1></center>
         <table class="table table-bordered table-striped ">
           <tbody>
             <tr>
@@ -96,6 +98,7 @@
             </tr>
           </tbody>
         </table>
+        </div>
         <el-pagination
           layout="total, prev, pager, next"
           :background="true"
@@ -131,6 +134,7 @@ export default {
           return time.getTime() > threeMonths;
         },
       },
+      biaotoushow: false,
       list: [],
       operateId: {},
       currentPage: 1,
@@ -201,6 +205,18 @@ export default {
       }, {});
       // eslint-disable-next-line no-console
       console.debug(errors, fields);
+    },
+    //打印
+    doPrint(){
+      console.log(this.biaotoushow);
+      let subOutputRankPrint = document.getElementById('print');
+      let newContent = subOutputRankPrint.innerHTML;
+      let oldContent = document.body.innerHTML;
+      document.body.innerHTML = newContent;
+      window.print();
+      window.location.reload();
+      document.body.innerHTML = oldContent;
+      return false;
     },
   },
 };
