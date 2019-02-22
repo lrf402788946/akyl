@@ -64,7 +64,7 @@
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">部门：</div>
-            <b-form-select v-model="form.dept_id" :options="deptList" />
+            <b-form-input v-model="userInfo.dept_name" :readonly="true"></b-form-input>
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">总工时(小时)：</div>
@@ -352,6 +352,7 @@
 
 <script>
 import Validator from 'async-validator';
+import { mapState } from 'vuex';
 export default {
   name: 'bg',
   metaInfo: {
@@ -391,7 +392,11 @@ export default {
       }),
     };
   },
-  computed: {},
+  computed: {
+    ...mapState({
+      userInfo: state => state.userInfo,
+    }),
+  },
   created() {
     this.search();
     this.getOtherList();
@@ -406,7 +411,7 @@ export default {
     //查询
     async search() {
       let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(`/akyl/bg/job_report_list?skip=${skip}&limit=${this.limit}`);
+      let result = await this.$axios.get(`/akyl/bg/job_report_list?skip=${skip}&limit=${this.limit}&dept_id=${this.userInfo.dept_id}`);
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.jobReportList);
         this.$set(this, 'totalRow', result.data.totalRow);
@@ -532,6 +537,8 @@ export default {
         this.operateId = id;
       } else if (type === 'add') {
         this.temporaryList.splice(0, this.temporaryList.length);
+        this.form.dept_id = this.userInfo.dept_id;
+        this.form.login_id = this.userInfo.login_id;
         this.addSubForm();
         this.$refs.addAlert.show();
       }
@@ -573,6 +580,8 @@ export default {
     },
     reset() {
       this.form = {};
+      this.form.dept_id = this.userInfo.dept_id;
+      this.form.login_id = this.userInfo.login_id;
       this.subForm = [];
       this.subForm.push(this.subFormContent);
     },
