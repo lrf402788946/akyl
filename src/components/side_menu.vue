@@ -20,7 +20,6 @@
                 </b-list-group>
               </b-card>
             </b-collapse>
-            
           </span>
         </ul>
         <div class="base-footer">
@@ -86,10 +85,14 @@ export default {
     },
     openMenuList(index) {
       console.log(this.$refs.collapse[index].show);
-      this.$refs.collapse.forEach(item => {
-        item.show = false;
-      });
-      this.$refs.collapse[index].show = true;
+      if (!this.$refs.collapse[index].show) {
+        this.$refs.collapse.forEach(item => {
+          item.show = false;
+        });
+        this.$refs.collapse[index].show = true;
+      } else {
+        this.$refs.collapse[index].show = false;
+      }
     },
   },
 };
