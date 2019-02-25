@@ -22,7 +22,7 @@
           </a>
         </div>
         <table class="table table-bordered table-striped ">
-          <tbody>
+          <tbody v-if="list.length > 0">
             <tr>
               <th>角色代码</th>
               <th>角色名称</th>
@@ -35,6 +35,11 @@
                 <b-button variant="primary" style="color:white;" @click="openUpdateAlert(index)">修&nbsp;&nbsp;改</b-button>
                 <b-button variant="danger" @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
               </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td style="text-align:center;">没有查询到数据</td>
             </tr>
           </tbody>
         </table>

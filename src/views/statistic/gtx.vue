@@ -39,7 +39,7 @@
       </div>
 
       <table class="table table-bordered table-striped ">
-        <tbody>
+        <tbody v-if="list.length > 0">
           <tr>
             <th>型号</th>
             <th>数量</th>
@@ -47,6 +47,11 @@
           <tr v-for="(item, index) in list" :key="index">
             <td>{{ item.name }}</td>
             <td>{{ item.nums }}</td>
+          </tr>
+        </tbody>
+        <tbody v-else>
+          <tr>
+            <td style="text-align:center;">没有数据</td>
           </tr>
         </tbody>
       </table>

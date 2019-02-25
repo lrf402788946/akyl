@@ -38,7 +38,7 @@
         </div>
       </div>
       <table class="table table-bordered table-striped ">
-        <tbody>
+        <tbody v-if="list.length > 0">
           <tr>
             <th>工号</th>
             <th>姓名</th>
@@ -50,6 +50,11 @@
             <td>{{ item.name }}</td>
             <td>{{ item.job_num }}</td>
             <td>{{ item.num }}</td>
+          </tr>
+        </tbody>
+        <tbody v-else>
+          <tr>
+            <td style="text-align:center;">没有数据</td>
           </tr>
         </tbody>
       </table>

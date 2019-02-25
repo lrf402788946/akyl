@@ -22,7 +22,7 @@
             <i class="base-margin-right-5 fa fa-plus-square"></i>新建报工单
           </a>
         </div>
-        <table class="table table-bordered table-striped " >
+        <table class="table table-bordered table-striped ">
           <tbody v-if="list.length > 0">
             <tr>
               <th>工号</th>
@@ -30,7 +30,7 @@
               <th>请假时间(h)</th>
               <th>操作</th>
             </tr>
-            <tr v-for="(item, index) in list" :key="index" >
+            <tr v-for="(item, index) in list" :key="index">
               <td>{{ item.job_num }}</td>
               <td>{{ item.all_time }}</td>
               <td>{{ item.leave_time }}</td>

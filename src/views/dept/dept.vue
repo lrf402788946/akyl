@@ -20,7 +20,7 @@
             </a>
           </div>
           <table class="table table-bordered table-striped ">
-            <tbody>
+            <tbody v-if="list.length > 0">
               <tr>
                 <th>部门名称</th>
                 <th>部门职责</th>
@@ -36,6 +36,11 @@
                   <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update', index)">修&nbsp;&nbsp;改</b-button>
                   <b-button variant="danger" style="color:white;" @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
                 </td>
+              </tr>
+            </tbody>
+            <tbody v-else>
+              <tr>
+                <td style="text-align:center;">没有查询到数据</td>
               </tr>
             </tbody>
           </table>
