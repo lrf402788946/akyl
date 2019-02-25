@@ -69,7 +69,7 @@
             <h1 id="biaotou" v-show="biaotoushow">{{ value1 }} 工资详情</h1>
           </center>
           <table class="table table-bordered table-striped ">
-            <tbody>
+            <tbody v-if="list.length > 0">
               <tr>
                 <th>工号</th>
                 <th>计时工资</th>
@@ -97,6 +97,11 @@
                 <td>{{ item.gz_glbz }}</td>
                 <td>{{ item.gz_kc }}</td>
                 <td>{{ item.gz_count }}</td>
+              </tr>
+            </tbody>
+            <tbody v-else>
+              <tr>
+                <td style="text-align:center;">没有数据</td>
               </tr>
             </tbody>
           </table>
