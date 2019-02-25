@@ -502,9 +502,14 @@ li {
   border-radius: 3px !important;
   height: auto !important;
 }
+.form-inline .form-control {
+  display: block !important;
+  width: 100% !important;
+  vertical-align: middle;
+}
 </style>
 
-<style scoped>
+<style>
 @import '../../assets/style/Font-Awesome-master/css/font-awesome.css';
 @import '../../assets/style/layout/base-Layout-bootstrap.css';
 @import '../../assets/style/base-style-bootstrap.css';

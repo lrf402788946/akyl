@@ -1,8 +1,5 @@
 <template lang="html">
   <div id="UpdatePW">
-    <b-breadcrumb>
-      <b-breadcrumb-item :to="{ name: 'update_pw' }">修改密码</b-breadcrumb-item>
-    </b-breadcrumb>
     <div class="base-form">
       <div class="form-inline">
         <div class="base-form-title" style="width:100%;">
