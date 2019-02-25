@@ -21,7 +21,7 @@
             </a>
           </div>
           <table class="table table-bordered table-striped ">
-            <tbody>
+            <tbody v-if="list.length > 0">
               <tr>
                 <th>工序编号</th>
                 <th>工序代码</th>
@@ -43,6 +43,11 @@
                 </td>
               </tr>
             </tbody>
+            <tbody v-else>
+            <tr>
+              <td style="text-align:center;">没有查询到数据</td>
+            </tr>
+          </tbody>
           </table>
           <el-pagination
             layout="total, prev, pager, next"

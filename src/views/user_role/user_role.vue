@@ -11,7 +11,7 @@
       <div class="base-padding-20 base-bg-fff">
         <div class="base-align-right"></div>
         <table class="table table-bordered table-striped ">
-          <tbody>
+          <tbody v-if="userList.length > 0">
             <tr>
               <th>用户名</th>
               <th>权限</th>
@@ -22,6 +22,11 @@
               <td>
                 <b-button variant="primary" style="color:white;" @click="openUpdateAlert(item.id)">查&nbsp;&nbsp;看</b-button>
               </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td style="text-align:center;">没有查询到数据</td>
             </tr>
           </tbody>
         </table>
