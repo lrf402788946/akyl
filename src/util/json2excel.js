@@ -50,12 +50,12 @@ function s2ab(s) {
 }
 
 /*
-* th => 表头
-* data => 数据
-* fileName => 文件名
-* fileType => 文件类型
-* sheetName => sheet页名
-*/
+ * th => 表头
+ * data => 数据
+ * fileName => 文件名
+ * fileType => 文件类型
+ * sheetName => sheet页名
+ */
 export default function toExcel({ th, data, fileName, fileType, sheetName }) {
   data.unshift(th);
   const wb = new Workbook(),

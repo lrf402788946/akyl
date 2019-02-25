@@ -246,7 +246,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }

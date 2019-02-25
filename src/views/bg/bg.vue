@@ -22,7 +22,7 @@
             <i class="base-margin-right-5 fa fa-plus-square"></i>新建报工单
           </a>
         </div>
-        <table class="table table-bordered table-striped ">
+        <table class="table table-bordered table-striped " v-if="!list.length > 0">
           <tbody>
             <tr>
               <th>工号</th>
@@ -41,6 +41,7 @@
             </tr>
           </tbody>
         </table>
+        <p style="text-align:center;" v-else>没有数据</p>
         <el-pagination
           layout="total, prev, pager, next"
           :background="true"

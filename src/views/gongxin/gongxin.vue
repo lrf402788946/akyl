@@ -38,7 +38,7 @@
             <div class="col-lg-4" style="padding-left:10px !important; padding-right:10px !important;">
               <b-button
                 variant="primary"
-                @click="biaotoushow=true,toValidate(value1)"
+                @click="(biaotoushow = true), toValidate(value1)"
                 style="font-size:14px !important; color:#fff !important; width: 100% !important; margin-top:38px;  padding: 6px 0 !important;margin-right:0 !important;"
               >
                 查&nbsp;&nbsp;询</b-button
@@ -64,40 +64,42 @@
             </div>
           </div>
         </div>
-        <div id='print'>
-        <center><h1 id='biaotou' v-show='biaotoushow'>{{value1}}      工资详情</h1></center>
-        <table class="table table-bordered table-striped ">
-          <tbody>
-            <tr>
-              <th>工号</th>
-              <th>计时工资</th>
-              <th>计件工资</th>
-              <th>加班工资</th>
-              <th>加班补助工资</th>
-              <th>满勤奖工资</th>
-              <th>通勤奖工资</th>
-              <th>夜班补助工资</th>
-              <th>保险补助工资</th>
-              <th>工龄补助工资</th>
-              <th>扣除工资</th>
-              <th>工资总和</th>
-            </tr>
-            <tr v-for="(item, index) in list" :key="index">
-              <td>{{ item.job_num }}</td>
-              <td>{{ item.gz_js }}</td>
-              <td>{{ item.gz_jj }}</td>
-              <td>{{ item.gz_jb }}</td>
-              <td>{{ item.gz_jbbz }}</td>
-              <td>{{ item.gz_mqj }}</td>
-              <td>{{ item.gz_tq }}</td>
-              <td>{{ item.gz_yb }}</td>
-              <td>{{ item.gz_bxbz }}</td>
-              <td>{{ item.gz_glbz }}</td>
-              <td>{{ item.gz_kc }}</td>
-              <td>{{ item.gz_count }}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div id="print">
+          <center>
+            <h1 id="biaotou" v-show="biaotoushow">{{ value1 }} 工资详情</h1>
+          </center>
+          <table class="table table-bordered table-striped ">
+            <tbody>
+              <tr>
+                <th>工号</th>
+                <th>计时工资</th>
+                <th>计件工资</th>
+                <th>加班工资</th>
+                <th>加班补助工资</th>
+                <th>满勤奖工资</th>
+                <th>通勤奖工资</th>
+                <th>夜班补助工资</th>
+                <th>保险补助工资</th>
+                <th>工龄补助工资</th>
+                <th>扣除工资</th>
+                <th>工资总和</th>
+              </tr>
+              <tr v-for="(item, index) in list" :key="index">
+                <td>{{ item.job_num }}</td>
+                <td>{{ item.gz_js }}</td>
+                <td>{{ item.gz_jj }}</td>
+                <td>{{ item.gz_jb }}</td>
+                <td>{{ item.gz_jbbz }}</td>
+                <td>{{ item.gz_mqj }}</td>
+                <td>{{ item.gz_tq }}</td>
+                <td>{{ item.gz_yb }}</td>
+                <td>{{ item.gz_bxbz }}</td>
+                <td>{{ item.gz_glbz }}</td>
+                <td>{{ item.gz_kc }}</td>
+                <td>{{ item.gz_count }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <el-pagination
           layout="total, prev, pager, next"
@@ -207,7 +209,7 @@ export default {
       console.debug(errors, fields);
     },
     //打印
-    doPrint(){
+    doPrint() {
       console.log(this.biaotoushow);
       let subOutputRankPrint = document.getElementById('print');
       let newContent = subOutputRankPrint.innerHTML;
@@ -219,7 +221,20 @@ export default {
       return false;
     },
     excel() {
-      const th = ['工号', '计时工资', '计件工资', '加班工资', '加班补助工资', '满勤奖工资', '通勤奖工资', '夜班补助工资', '保险补助工资', '工龄补助工资', '扣除工资', '工资总和'];
+      const th = [
+        '工号',
+        '计时工资',
+        '计件工资',
+        '加班工资',
+        '加班补助工资',
+        '满勤奖工资',
+        '通勤奖工资',
+        '夜班补助工资',
+        '保险补助工资',
+        '工龄补助工资',
+        '扣除工资',
+        '工资总和',
+      ];
       const filterVal = ['job_num', 'gz_js', 'gz_jj', 'gz_jb', 'gz_jbbz', 'gz_mqj', 'gz_tq', 'gz_yb', 'gz_bxbz', 'gz_glbz', 'gz_kc', 'gz_count'];
       const data = this.list.map(v => filterVal.map(k => v[k]));
       const [fileName, fileType, sheetName] = ['工资报表', 'xlsx', '工资报表'];
