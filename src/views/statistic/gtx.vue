@@ -81,9 +81,7 @@ export default {
         let newObject = { text: item.name, value: item.id };
         return newObject;
       });
-      let defalut = { text: '所有工序', value: '' };
-      this.workList.unshift(defalut);
-      defalut = { text: '请选择工序', value: null, disabled: true };
+      let defalut = { text: '请选择工序', value: null, disabled: true };
       this.workList.unshift(defalut);
     },
     async getKindList() {

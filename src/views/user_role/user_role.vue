@@ -4,7 +4,7 @@
     <div class="base-form">
       <div class="form-inline">
         <div class="base-form-title" style="width:100%;">
-          <a class="base-margin-left-20">列表</a>
+          <a class="base-margin-left-20">权限分配</a>
           <div class="button-table"></div>
         </div>
       </div>
