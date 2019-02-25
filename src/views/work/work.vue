@@ -44,10 +44,10 @@
               </tr>
             </tbody>
             <tbody v-else>
-            <tr>
-              <td style="text-align:center;">没有查询到数据</td>
-            </tr>
-          </tbody>
+              <tr>
+                <td style="text-align:center;">没有查询到数据</td>
+              </tr>
+            </tbody>
           </table>
           <el-pagination
             layout="total, prev, pager, next"
