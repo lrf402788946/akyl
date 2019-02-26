@@ -121,14 +121,14 @@
               onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
           </div>
-          <div class="col-lg-6">
+          <!-- <div class="col-lg-6">
             <b-form-input
               v-model="addForm.emaill"
               placeholder="电子信箱"
               class="marginBot"
               onkeypress="return (/[0-9a-zA-Z@.]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
-          </div>
+          </div> -->
           <div class="col-lg-6">
             <el-date-picker v-model="addForm.birthday" type="date" placeholder="出生日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd"></el-date-picker>
           </div>
@@ -141,26 +141,26 @@
               onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
           </div>
-          <div class="col-lg-6">
+          <!-- <div class="col-lg-6">
             <b-form-input
               v-model="addForm.card_no"
               placeholder="卡号"
               class="marginBot"
               onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
-          </div>
+          </div> -->
           <div class="col-lg-6">
             <!--部门需要调用其他表-->
             <b-form-select v-model="addForm.dept_id" :options="deptList" class="marginBot" />
           </div>
-          <div class="col-lg-6">
+          <!-- <div class="col-lg-6">
             <b-form-input
               v-model="addForm.level"
               placeholder="职务"
               class="marginBot"
               onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
-          </div>
+          </div> -->
           <div class="col-lg-6">
             <!--岗位需要调用其他表-->
             <b-form-select v-model="addForm.post_id" placeholder="岗位" :options="postList" class="marginBot" />
@@ -373,12 +373,12 @@ export default {
         office_tell: [{ type: 'string', required: true, message: '请填写办公室电话' }],
         phone_no: [{ type: 'string', required: true, message: '请填写个人电话' }],
         home_address: [{ type: 'string', required: true, message: '请填写家庭住址' }],
-        emaill: [{ type: 'string', required: true, message: '请填写电子信箱' }],
+        // emaill: [{ type: 'string', required: true, message: '请填写电子信箱' }],
         birthday: [{ type: 'string', required: true, message: '请选择出生日期' }],
         id_number: [{ type: 'string', required: true, message: '请填写身份证号' }],
-        card_no: [{ type: 'string', required: true, message: '请填写卡号' }],
+        // card_no: [{ type: 'string', required: true, message: '请填写卡号' }],
         dept_id: [{ required: true, message: '请选择部门' }],
-        level: [{ type: 'string', required: true, message: '请填写职务' }],
+        // level: [{ type: 'string', required: true, message: '请填写职务' }],
         post_id: [{ required: true, message: '请选择岗位' }],
       }),
       updateUserValidator: new Validator({

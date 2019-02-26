@@ -189,7 +189,7 @@
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">部门：</div>
-            <b-form-select v-model="updateForm.dept_id" :options="deptList" :disabled="is_update" />
+            <b-form-select v-model="updateForm.dept_id" :options="deptList" :disabled="true" />
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">总工时(小时)：</div>
@@ -377,7 +377,7 @@ export default {
         work_time: 0,
         is_night: 0,
       },
-      is_night_or_not: [{ text: '夜班', value: 1 }],
+      is_night_or_not: [{ text: '夜班', value: 0 }],
       is_update: true,
       operateId: {},
       currentPage: 1,

@@ -81,8 +81,8 @@
                 <th>夜班补助工资</th>
                 <th>保险补助工资</th>
                 <th>工龄补助工资</th>
-                <th>扣除工资</th>
                 <th>工资总和</th>
+                <th>扣除工资</th>
               </tr>
               <tr v-for="(item, index) in list" :key="index">
                 <td>{{ item.job_num }}</td>
@@ -95,8 +95,8 @@
                 <td>{{ item.gz_yb }}</td>
                 <td>{{ item.gz_bxbz }}</td>
                 <td>{{ item.gz_glbz }}</td>
-                <td>{{ item.gz_kc }}</td>
                 <td>{{ item.gz_count }}</td>
+                <td>{{ item.gz_kc }}</td>
               </tr>
             </tbody>
             <tbody v-else>
@@ -237,10 +237,10 @@ export default {
         '夜班补助工资',
         '保险补助工资',
         '工龄补助工资',
-        '扣除工资',
         '工资总和',
+        '扣除工资',
       ];
-      const filterVal = ['job_num', 'gz_js', 'gz_jj', 'gz_jb', 'gz_jbbz', 'gz_mqj', 'gz_tq', 'gz_yb', 'gz_bxbz', 'gz_glbz', 'gz_kc', 'gz_count'];
+      const filterVal = ['job_num', 'gz_js', 'gz_jj', 'gz_jb', 'gz_jbbz', 'gz_mqj', 'gz_tq', 'gz_yb', 'gz_bxbz', 'gz_glbz', 'gz_count', 'gz_kc'];
       const data = this.list.map(v => filterVal.map(k => v[k]));
       const [fileName, fileType, sheetName] = ['工资报表', 'xlsx', '工资报表'];
       this.$toExcel({ th, data, fileName, fileType, sheetName });

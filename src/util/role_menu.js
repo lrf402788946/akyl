@@ -20,13 +20,27 @@ export const YH = {
   ],
 };
 
-export const XT = {
-  name: '系统管理',
+export const CK = {
+  name: '仓库管理',
   menu: [
     {
       name: '弹簧柄库管理',
       router_name: 'thb',
     },
+    {
+      name: '裸针管理',
+      router_name: 'lz',
+    },
+    {
+      name: '针芯管理',
+      router_name: 'zx',
+    },
+  ],
+};
+
+export const XT = {
+  name: '系统管理',
+  menu: [
     {
       name: '部门管理',
       router_name: 'dept',
@@ -42,14 +56,6 @@ export const XT = {
     {
       name: '基础设置管理',
       router_name: 'set',
-    },
-    {
-      name: '裸针管理',
-      router_name: 'lz',
-    },
-    {
-      name: '针芯管理',
-      router_name: 'zx',
     },
     {
       name: '类型管理',

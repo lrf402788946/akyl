@@ -137,6 +137,7 @@ router.beforeEach((to, from, next) => {
     next();
   } else {
     if (to.path.includes('login')) next();
+    else if (to.path.includes('test')) next();
     else next('/login');
   }
 });

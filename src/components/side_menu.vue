@@ -24,7 +24,7 @@
         </ul>
         <div class="base-footer">
           爱康管理平台 <br />
-          Co pyright © 2019-2020 <br />
+          Compyright © 2019-2020 <br />
           当前版本：1.0
         </div>
       </div>
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { YH, XT, YW, CW, TJ } from '@/util/role_menu.js';
+import { YH, XT, YW, CW, TJ, CK } from '@/util/role_menu.js';
 import { mapState } from 'vuex';
 export default {
   name: 'sideMenu',
@@ -60,6 +60,7 @@ export default {
             switch (item.role_code) {
               case 'ROLE_ZZ':
                 newMenu.push(YW);
+                newMenu.push(CK);
                 break;
               case 'ROLE_CW':
                 newMenu.push(CW);
@@ -75,6 +76,7 @@ export default {
             newMenu.push(YH);
             newMenu.push(XT);
             newMenu.push(YW);
+            newMenu.push(CK);
             newMenu.push(CW);
             newMenu.push(TJ);
             break;
