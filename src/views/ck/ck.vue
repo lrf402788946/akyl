@@ -24,8 +24,8 @@
         <table class="table table-bordered table-striped ">
           <tbody v-if="list.length > 0">
             <tr>
-              <th>型号</th>
-              <th>数量</th>
+              <th>出库人</th>
+              <th>单号</th>
               <th>创建日期</th>
               <th>操作</th>
             </tr>
@@ -34,9 +34,8 @@
               <td>{{ item.num }}</td>
               <td>{{ item.create_date }}</td>
               <td>
-                <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update', index)">修&nbsp;&nbsp;改</b-button>
+                <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update', index)">详&nbsp;&nbsp;情</b-button>
                 <b-button variant="danger" style="color:white;" @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
-                <b-button variant="danger" style="color:white;" @click="openDeleteAlert(item.id)">出&nbsp;&nbsp;库</b-button>
               </td>
             </tr>
           </tbody>
@@ -59,20 +58,19 @@
       </div>
     </div>
 
-    <b-modal id="toAdd" title="入库操作" ref="toAdd" hide-footer>
+    <b-modal id="toAdd" title="出库操作" ref="toAdd" hide-footer>
+      <div style="margin-bottom: 7px;">出库人:</div>
+      <b-form-input v-model="form.type"></b-form-input>
+      <div style="margin-bottom: 7px;">单号:</div>
+      <b-form-input v-model="form.type"></b-form-input>
+      <div style="margin-top:7px; margin-bottom:7px;">
+        <p class="marginBot4">库名</p>
+        <b-form-select v-model="addForm.kname" :options="kname"/>
+      </div>
       <div style="margin-bottom: 7px;">型号:</div>
       <b-form-input v-model="form.type"></b-form-input>
       <div style="margin-top:7px; margin-bottom:7px;">数量:</div>
       <b-form-input v-model="form.num" type="number"></b-form-input>
-      <div style="margin-top:7px; margin-bottom:7px;">创建日期:</div>
-      <el-date-picker
-        style="width:100%;"
-        v-model="form.create_date"
-        type="date"
-        placeholder="选择日期"
-        value-format="yyyy-MM-dd"
-        format="yyyy-MM-dd"
-      ></el-date-picker>
       <b-button
         variant="secondary"
         style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
@@ -108,7 +106,7 @@
     </b-modal>
 
     <!-- jkjkjkjk -->
-    <b-modal id="updateAlert" title="修改针芯" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
+    <b-modal id="updateAlert" title="出库管理" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
       <div class="d-block">
         <div class="row">
           <div class="col-lg-12 marginBot4">
@@ -120,15 +118,8 @@
             <b-form-input v-model="updateForm.num" type="number"></b-form-input>
           </div>
           <div class="col-lg-12 marginBot">
-            <p class="marginBot4">创建日期</p>
-            <el-date-picker
-              style="width:100%;"
-              v-model="updateForm.create_date"
-              type="date"
-              placeholder="选择日期"
-              value-format="yyyy-MM-dd"
-              format="yyyy-MM-dd"
-            ></el-date-picker>
+            <p class="marginBot4">操作日期</p>
+            <b-form-input v-model="updateForm.num" type="number"  readonly="readonly"></b-form-input>
           </div>
           <div class="col-lg-12 marginBot4">
             <b-button
@@ -162,7 +153,7 @@ import _ from 'lodash';
 export default {
   name: 'zx',
   metaInfo: {
-    title: '针芯管理',
+    title: '出库管理',
   },
   components: {},
   data() {
@@ -180,8 +171,14 @@ export default {
       zxValidator: new Validator({
         type: { type: 'string', required: true, message: '请填写型号' },
         num: { required: true, message: '请填写数量' },
+        kname: { type: 'string', required: true, message: '请选择型号' },
+        type: { type: 'string', required: true, message: '请填写型号' },
         create_date: { type: 'string', required: true, message: '请选择创建日期' },
       }),
+      addForm: {
+        kname: null,
+      },
+      kname: [{ text: '请选择库名', value: null, disabled: true }, { text: '弹簧柄库', value: '0' }, { text: '裸针库', value: '1' }, { text: '针芯库', value: '2' }],
     };
   },
   computed: {},
