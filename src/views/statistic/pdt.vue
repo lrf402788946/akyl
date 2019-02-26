@@ -23,10 +23,26 @@
           </el-date-picker>
         </div>
         <div class="col-lg-3 mb25">
-          <b-form-select style="height:40px !important" v-model="dept_id" :options="deptList" class="marginBot" />
+          <el-select class="marginBot" style="height:40px !important" v-model="dept_id" filterable placeholder="请选择部门">
+            <el-option
+              v-for="item in deptList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          <!-- <b-form-select style="height:40px !important" v-model="dept_id" :options="deptList" class="marginBot" /> -->
         </div>
         <div class="col-lg-3 mb25">
-          <b-form-select style="height:40px !important" v-model="kind_id" :options="kindList" class="marginBot" />
+          <el-select class="marginBot" style="height:40px !important" v-model="kind_id" filterable placeholder="请选择型号">
+            <el-option
+              v-for="item in kindList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          <!-- <b-form-select style="height:40px !important" v-model="kind_id" :options="kindList" class="marginBot" /> -->
         </div>
         <div class="col-lg-2 mb25">
           <b-button
@@ -91,7 +107,7 @@ export default {
         let newObject = { text: item.dept_name, value: item.id };
         return newObject;
       });
-      let defalut = { text: '请选择部门', value: null, disabled: true };
+      // let defalut = { text: '请选择部门', value: null, disabled: true };
       this.deptList.unshift(defalut);
       //请求类型表
       result = await this.$axios.get('/akyl/kind/kind_list?skip=0&limit=100');
@@ -99,7 +115,7 @@ export default {
         let newObject = { text: item.name, value: item.id };
         return newObject;
       });
-      defalut = { text: '请选择型号', value: null, disabled: true };
+      // defalut = { text: '请选择型号', value: null, disabled: true };
       this.kindList.unshift(defalut);
     },
     async search() {

@@ -109,10 +109,26 @@
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
                 <td>
-                  <b-form-select v-model="item.work_id" :options="workList" @change="getKindList(index)" />
+                  <el-select @change="getKindList(index)" class="marginBot" style="height:40px !important" v-model="item.work_id" filterable placeholder="请选择工序">
+                    <el-option
+                      v-for="item in workList"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                  <!-- <b-form-select v-model="item.work_id" :options="workList" @change="getKindList(index)" /> -->
                 </td>
                 <td>
-                  <b-form-select v-model="item.kind_id" :options="getOptions(index)" />
+                  <el-select class="marginBot" style="height:40px !important" v-model="item.kind_id" filterable placeholder="请选择类型">
+                    <el-option
+                      v-for="item in getOptions(index)"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                  <!-- <b-form-select v-model="item.kind_id" :options="getOptions(index)" /> -->
                 </td>
                 <td>
                   <b-form-input v-model="item.num" type="number" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
@@ -235,9 +251,27 @@
                 <td>操作</td>
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
-                <td><b-form-select v-model="item.work_id" :disabled="is_update" :options="workList" @change="getKindList(index)" /></td>
                 <td>
-                  <b-form-select v-model="item.kind_id" :disabled="is_update" :options="getOptions(index)" />
+                  <el-select :disabled="is_update" @change="getKindList(index)" class="marginBot" style="height:40px !important" v-model="item.work_id" filterable placeholder="请选择工序">
+                    <el-option
+                      v-for="item in workList"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                  <!-- <b-form-select v-model="item.work_id" :disabled="is_update" :options="workList" @change="getKindList(index)" /> -->
+                </td>
+                <td>
+                  <el-select :disabled="is_update" class="marginBot" style="height:40px !important" v-model="item.kind_id" filterable placeholder="请选择类型">
+                    <el-option
+                      v-for="item in getOptions(index)"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                  <!-- <b-form-select v-model="item.kind_id" :disabled="is_update" :options="getOptions(index)" /> -->
                 </td>
                 <td>
                   <b-form-input
@@ -430,17 +464,17 @@ export default {
         let newObject = { text: item.dept_name, value: item.id };
         return newObject;
       });
-      let defalut = { text: '请选择部门', value: null, disabled: true };
+      // let defalut = { text: '请选择部门', value: null, disabled: true };
       this.deptList.unshift(defalut);
     },
     //请求工序表
     async getWorkList() {
       let result = await this.$axios.get('/akyl/work/work_list?skip=0&limit=100');
       this.workList = result.data.workList.map(item => {
-        let newObject = { text: item.name, value: item.id };
+        let newObject = { text: item.code, value: item.id };
         return newObject;
       });
-      let defalut = { text: '请选择工序', value: null, disabled: true };
+      // let defalut = { text: '请选择工序', value: null, disabled: true };
       this.workList.unshift(defalut);
     },
     //请求类型表(应该是二级联动工序表)
@@ -452,8 +486,8 @@ export default {
           let newObject = { text: item.name, value: item.id };
           return newObject;
         });
-        let defalut = { text: '请选择类型', value: null, disabled: true };
-        subFormKindList.unshift(defalut);
+        // let defalut = { text: '请选择类型', value: null, disabled: true };
+        // subFormKindList.unshift(defalut);
         this.$set(this.temporaryList, `${index}`, subFormKindList);
       } else {
         let defalut = { text: '没有类型', value: null, disabled: true };

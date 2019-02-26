@@ -23,10 +23,26 @@
           </el-date-picker>
         </div>
         <div class="col-lg-3 mb25">
-          <b-form-select style="height:40px !important" v-model="work_id" :options="workList" class="marginBot" @change="getKindList()" />
+          <el-select @change="getKindList()" class="marginBot" style="height:40px !important" v-model="work_id" filterable placeholder="请选择工序">
+            <el-option
+              v-for="item in workList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          <!-- <b-form-select style="height:40px !important" v-model="work_id" :options="workList" class="marginBot" @change="getKindList()" /> -->
         </div>
         <div class="col-lg-3 mb25">
-          <b-form-select style="height:40px !important" v-model="kind_id" :options="kindList" class="marginBot" />
+          <el-select class="marginBot" style="height:40px !important" v-model="kind_id" filterable placeholder="请选择型号">
+            <el-option
+              v-for="item in kindList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          <!-- <b-form-select style="height:40px !important" v-model="kind_id" :options="kindList" class="marginBot" /> -->
         </div>
         <div class="col-lg-2 mb25">
           <b-button
@@ -86,7 +102,7 @@ export default {
         let newObject = { text: item.name, value: item.id };
         return newObject;
       });
-      let defalut = { text: '请选择工序', value: null, disabled: true };
+      // let defalut = { text: '请选择工序', value: null, disabled: true };
       this.workList.unshift(defalut);
     },
     async getKindList() {
@@ -98,7 +114,7 @@ export default {
       });
       let defalut = { text: '所有类型', value: '' };
       this.kindList.unshift(defalut);
-      defalut = { text: '请选择型号', value: null, disabled: true };
+      // defalut = { text: '请选择型号', value: null, disabled: true };
       this.kindList.unshift(defalut);
     },
     async search() {
