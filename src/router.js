@@ -20,6 +20,8 @@ import login from './views/login_page.vue';
 import update_pw from './views/user/update_pw.vue';
 import index from './views/index.vue';
 import index_contant from './views/index_contant.vue';
+import rk from './views/rk/rk.vue';
+import ck from './views/ck/ck.vue';
 
 Vue.use(Router);
 const router = new Router({
@@ -125,6 +127,16 @@ const router = new Router({
           path: '/update_pw',
           name: 'update_pw',
           component: update_pw,
+        },
+        {
+          path: '/rk',
+          name: 'rk',
+          component: rk,
+        },
+        {
+          path: '/ck',
+          name: 'ck',
+          component: ck,
         },
       ],
     },

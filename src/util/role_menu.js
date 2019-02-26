@@ -35,6 +35,14 @@ export const CK = {
       name: '针芯管理',
       router_name: 'zx',
     },
+    {
+      name: '入库管理',
+      router_name: 'rk',
+    },
+    {
+      name: '出库管理',
+      router_name: 'ck',
+    },
   ],
 };
 
