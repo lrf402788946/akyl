@@ -152,7 +152,7 @@ export default {
       cjobnum: '',
       value1: '',
       selected: null,
-      deptList: [{ text: '请选择部门', value: null }],
+      deptList: [{ text: '请选择部门', value: '' }],
       roleValidator: new Validator({
         value1: { type: 'string', required: true, message: '请填写查询日期！' },
       }),
@@ -171,11 +171,21 @@ export default {
     //查询  部门下拉列表，工号选填，月份日期不可为空
     async search() {
       let skip = (this.currentPage - 1) * this.limit;
+      if(this.cdeptid === null){
+        this.cdeptid='';
+      }
       let result = await this.$axios.get(
         `/akyl/wages/wages_list?skip=${skip}&limit=${this.limit}&create_time=${this.value1}&dept_id=${this.cdeptid}&job_num=${this.cjobnum}`
       );
-      this.$set(this, 'list', result.data.wagesList);
-      this.$set(this, 'totalRow', result.data.totalRow);
+      if(result.data.msg === '成功'){
+        this.$set(this, 'list', result.data.wagesList);
+        this.$set(this, 'totalRow', result.data.totalRow);
+      };
+      if(result.data.msg === '没有数据'){
+        this.list=[];
+        this.totalRow=0;
+      };
+      
     },
     async searchdept() {
       //查询部门的方法
