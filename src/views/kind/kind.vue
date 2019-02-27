@@ -27,12 +27,16 @@
               <th>工序</th>
               <th>型号代码</th>
               <th>型号名称</th>
+              <th>计件定额</th>
+              <th>加班计件定额</th>
               <th>操作</th>
             </tr>
             <tr v-for="(item, index) in list" :key="index">
               <td>{{ { data: workList, searchItem: 'value', value: item.work_id, label: 'text' } | getName }}</td>
               <td>{{ item.code }}</td>
               <td>{{ item.name }}</td>
+              <td>{{ item.jj_price }}</td>
+              <td>{{ item.jb_jj_price }}</td>
               <td>
                 <b-button variant="primary" style="color:white;" @click="openUpdateAlert(index)">修&nbsp;&nbsp;改</b-button>
                 <b-button variant="danger" @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
@@ -53,6 +57,10 @@
           <b-form-input v-model="form.code" class="marginBot8"></b-form-input>
           <p class="marginBot5">型号名称</p>
           <b-form-input v-model="form.name" class="marginBot20"></b-form-input>
+          <p class="marginBot5">计时定额(元)</p>
+          <b-form-input v-model="form.jj_price" type="number" class="marginBot20"></b-form-input>
+          <p class="marginBot5">加班计时定额(元)</p>
+          <b-form-input v-model="form.jb_jj_price" type="number" class="marginBot20"></b-form-input>
           <b-button
             variant="secondary"
             @click="form = {}"
@@ -76,6 +84,10 @@
           <b-form-input v-model="form.code" class="marginBot8"></b-form-input>
           <p class="marginBot5">型号名称</p>
           <b-form-input v-model="form.name" class="marginBot20"></b-form-input>
+          <p class="marginBot5">计时定额(元)</p>
+          <b-form-input v-model="form.jj_price" type="number" class="marginBot20"></b-form-input>
+          <p class="marginBot5">加班计时定额(元)</p>
+          <b-form-input v-model="form.jb_jj_price" type="number" class="marginBot20"></b-form-input>
           <b-button
             variant="secondary"
             @click="closeAlert()"
@@ -140,6 +152,8 @@ export default {
         work_id: { type: 'number', required: true, message: '请选择工序代码' },
         code: { type: 'string', required: true, message: '请填写型号代码' },
         name: { type: 'string', required: true, message: '请填写型号名称' },
+        jj_price: { required: true, message: '请填写计时定额' },
+        jb_jj_price: { required: true, message: '请填写加班计时定额' },
       }),
     };
   },

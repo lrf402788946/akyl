@@ -13,22 +13,22 @@
           <div class="row">
             <div class="col-lg-12">
               <div class="col-lg-6">
-                <div class="li38">计时定额(元):</div>
-                <input
-                  type="number"
-                  class="col-lg-11 form-control"
-                  v-bind:disabled="isReadOnly"
-                  v-model="list.js_price"
-                  onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
-                />
-              </div>
-              <div class="col-lg-6">
                 <div class="li38">计件定额(元):</div>
                 <input
                   type="number"
                   class="col-lg-11 form-control"
                   v-bind:disabled="isReadOnly"
                   v-model="list.jj_price"
+                  onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+                />
+              </div>
+              <div class="col-lg-6">
+                <div class="li38">加班计件定额(元):</div>
+                <input
+                  type="number"
+                  class="col-lg-11 form-control"
+                  v-bind:disabled="isReadOnly"
+                  v-model="list.jb_jj_price"
                   onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
                 />
               </div>
@@ -77,28 +77,7 @@
                 />
               </div>
             </div>
-            <div class="col-lg-12">
-              <div class="col-lg-6">
-                <div class="li38">加班计时定额(元):</div>
-                <input
-                  type="number"
-                  class="col-lg-11 form-control"
-                  v-bind:disabled="isReadOnly"
-                  v-model="list.jb_js_price"
-                  onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
-                />
-              </div>
-              <div class="col-lg-6">
-                <div class="li38">加班计件定额(元):</div>
-                <input
-                  type="number"
-                  class="col-lg-11 form-control"
-                  v-bind:disabled="isReadOnly"
-                  v-model="list.jb_jj_price"
-                  onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
-                />
-              </div>
-            </div>
+            <div class="col-lg-12"></div>
             <div class="col-lg-12">
               <div class="col-lg-6">
                 <div class="li38">加班补助定额(元):</div>

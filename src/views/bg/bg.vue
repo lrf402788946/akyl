@@ -94,39 +94,50 @@
               format="yyyy-MM-dd"
             ></el-date-picker>
           </div>
+          <div class="col-lg-4 mb20">
+            <div class="lh44">工作时段：</div>
+            <b-form-group>
+              <b-form-radio-group
+                id="btnradios1"
+                buttons
+                button-variant="outline-primary"
+                v-model="time_quantum"
+                :options="[{ text: '白班', value: 0, checked: true }, { text: '夜班', value: 1 }]"
+                name="radiosBtnDefault"
+              />
+            </b-form-group>
+          </div>
           <br />
           <table class="table table-bordered table-striped ">
             <tbody>
               <tr>
                 <td>工序</td>
                 <td>类型</td>
-                <td style="width:10%">数量</td>
-                <td style="width:10%">工时(小时)</td>
-                <td>上班时段</td>
-                <td style="width:10%">加班</td>
+                <td style="width:8%">计时工时(小时)</td>
+                <td style="width:8%">计时数量</td>
+                <td style="width:8%">计件工时(小时)</td>
+                <td style="width:8%">计件数量</td>
+                <td style="width:8%">加班</td>
                 <td>备注</td>
                 <td>操作</td>
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
                 <td>
-                  <el-select @change="getKindList(index)" class="marginBot" style="height:40px !important" v-model="item.work_id" filterable placeholder="请选择工序">
-                    <el-option
-                      v-for="item in workList"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
+                  <el-select
+                    @change="getKindList(index)"
+                    class="marginBot"
+                    style="height:40px !important"
+                    v-model="item.work_id"
+                    filterable
+                    placeholder="请选择工序"
+                  >
+                    <el-option v-for="item in workList" :key="item.value" :label="item.label" :value="item.value"> </el-option>
                   </el-select>
                   <!-- <b-form-select v-model="item.work_id" :options="workList" @change="getKindList(index)" /> -->
                 </td>
                 <td>
                   <el-select class="marginBot" style="height:40px !important" v-model="item.kind_id" filterable placeholder="请选择类型">
-                    <el-option
-                      v-for="item in getOptions(index)"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
+                    <el-option v-for="item in getOptions(index)" :key="item.value" :label="item.label" :value="item.value"> </el-option>
                   </el-select>
                   <!-- <b-form-select v-model="item.kind_id" :options="getOptions(index)" /> -->
                 </td>
@@ -135,19 +146,6 @@
                 </td>
                 <td>
                   <b-form-input v-model="item.work_time" type="number" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
-                </td>
-                <td>
-                  <b-form-group>
-                    <b-form-radio-group
-                      id="btnradios1"
-                      buttons
-                      stacked
-                      button-variant="outline-primary"
-                      v-model="item.is_night"
-                      :options="[{ text: '夜班', value: '1' }, { text: '白班', value: '0', checked: true }]"
-                      name="radiosBtnDefault"
-                    />
-                  </b-form-group>
                 </td>
                 <td>
                   <b-form-input v-model="item.add_time" type="number" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
@@ -237,39 +235,51 @@
               format="yyyy-MM-dd"
             ></el-date-picker>
           </div>
+          <div class="col-lg-4 mb20">
+            <div class="lh44">工作时段：</div>
+            <b-form-group>
+              <b-form-radio-group
+                id="btnradios1"
+                buttons
+                button-variant="outline-primary"
+                v-model="time_quantum"
+                :options="[{ text: '白班', value: 0 }, { text: '夜班', value: 1 }]"
+                name="radiosBtnDefault"
+              />
+            </b-form-group>
+          </div>
           <br />
           <table class="table table-bordered table-striped ">
             <tbody>
               <tr>
                 <td>工序</td>
                 <td>类型</td>
-                <td style="width:10%">数量</td>
-                <td style="width:10%">工时(小时)</td>
-                <td>上班时段</td>
-                <td style="width:10%">加班</td>
+                <td style="width:8%">计时工时(小时)</td>
+                <td style="width:8%">计时数量</td>
+                <td style="width:8%">计件工时(小时)</td>
+                <td style="width:8%">计件数量</td>
+                <td style="width:8%">加班</td>
                 <td>备注</td>
                 <td>操作</td>
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
                 <td>
-                  <el-select :disabled="is_update" @change="getKindList(index)" class="marginBot" style="height:40px !important" v-model="item.work_id" filterable placeholder="请选择工序">
-                    <el-option
-                      v-for="item in workList"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
+                  <el-select
+                    :disabled="is_update"
+                    @change="getKindList(index)"
+                    class="marginBot"
+                    style="height:40px !important"
+                    v-model="item.work_id"
+                    filterable
+                    placeholder="请选择工序"
+                  >
+                    <el-option v-for="item in workList" :key="item.value" :label="item.label" :value="item.value"> </el-option>
                   </el-select>
                   <!-- <b-form-select v-model="item.work_id" :disabled="is_update" :options="workList" @change="getKindList(index)" /> -->
                 </td>
                 <td>
                   <el-select :disabled="is_update" class="marginBot" style="height:40px !important" v-model="item.kind_id" filterable placeholder="请选择类型">
-                    <el-option
-                      v-for="item in getOptions(index)"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
+                    <el-option v-for="item in getOptions(index)" :key="item.value" :label="item.label" :value="item.value"> </el-option>
                   </el-select>
                   <!-- <b-form-select v-model="item.kind_id" :disabled="is_update" :options="getOptions(index)" /> -->
                 </td>
@@ -290,18 +300,20 @@
                   ></b-form-input>
                 </td>
                 <td>
-                  <b-form-group :disabled="is_update">
-                    <b-form-radio-group
-                      id="btnradios1"
-                      buttons
-                      stacked
-                      button-variant="outline-primary"
-                      v-model="item.is_night"
-                      :options="[{ text: '夜班', value: '1' }, { text: '白班', value: '0', checked: true }]"
-                      name="radiosBtnDefault"
-                      :disabled="is_update"
-                    />
-                  </b-form-group>
+                  <b-form-input
+                    v-model="item.num"
+                    :disabled="is_update"
+                    type="number"
+                    onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"
+                  ></b-form-input>
+                </td>
+                <td>
+                  <b-form-input
+                    v-model="item.work_time"
+                    :disabled="is_update"
+                    type="number"
+                    onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"
+                  ></b-form-input>
                 </td>
                 <td>
                   <b-form-input
@@ -411,21 +423,21 @@ export default {
         work_time: 0,
         is_night: 0,
       },
-      is_night_or_not: [{ text: '夜班', value: 0 }],
       is_update: true,
       operateId: {},
       currentPage: 1,
       limit: 15,
       totalRow: 0,
-      form: {},
+      form: {
+        leave_time: 0,
+      },
+      time_quantum: 0,
       deptList: [],
       kindList: [],
       workList: [],
       temporaryList: [],
       mainValidator: new Validator({
         job_num: [{ required: true, message: '请填写工号' }],
-        all_time: [{ required: true, message: '请填写总工时' }],
-        leave_time: [{ required: true, message: '请填写请假时间' }],
         dept_id: [{ required: true, message: '请选择部门' }],
         create_time: [{ required: true, message: '请选择创建日期' }],
       }),
@@ -465,7 +477,7 @@ export default {
         return newObject;
       });
       // let defalut = { text: '请选择部门', value: null, disabled: true };
-      this.deptList.unshift(defalut);
+      // this.deptList.unshift(defalut);
     },
     //请求工序表
     async getWorkList() {
@@ -475,7 +487,7 @@ export default {
         return newObject;
       });
       // let defalut = { text: '请选择工序', value: null, disabled: true };
-      this.workList.unshift(defalut);
+      // this.workList.unshift(defalut);
     },
     //请求类型表(应该是二级联动工序表)
     async getKindList(index) {
@@ -503,6 +515,8 @@ export default {
         if (result.data.jobReportSubList.length > 0) {
           this.$set(this, 'subForm', result.data.jobReportSubList);
           for (let i = 0; i < this.subForm.length; i++) {
+            console.log(typeof result.data.jobReportSubList[i].is_night);
+            this.$set(this, 'time_quantum', result.data.jobReportSubList[i].is_night);
             this.getKindList(i);
           }
         }
