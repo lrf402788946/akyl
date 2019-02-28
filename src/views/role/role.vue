@@ -44,12 +44,6 @@
           </tbody>
         </table>
         <b-modal id="toAdd" title="添加角色" ref="toAdd" hide-footer>
-          <!--需要计算,如果是父类,正常显示,不是的话就缩进-->
-          <p class="marginBot5">所属角色</p>
-          <b-form-select v-model="form.p_id" class="marginBot8">
-            <option :value="0">无所属</option>
-            <option v-for="(item, index) in list" :key="index" :value="item.id">{{ item.role_name }}</option>
-          </b-form-select>
           <p class="marginBot5">角色代码</p>
           <b-form-input v-model="form.role_code" class="marginBot8"></b-form-input>
           <p class="marginBot5">角色名称</p>
@@ -71,11 +65,6 @@
         </b-modal>
 
         <b-modal id="Edit" title="修改角色" ref="Edit" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
-          <p class="marginBot5">所属角色</p>
-          <b-form-select v-model="form.p_id" class="marginBot8">
-            <option :value="0">无所属</option>
-            <option v-for="(item, index) in list" :key="index" :value="item.id">{{ item.role_name }}</option>
-          </b-form-select>
           <p class="marginBot5">角色代码</p>
           <b-form-input v-model="form.role_code" class="marginBot8"></b-form-input>
           <p class="marginBot5">角色名称</p>
@@ -172,9 +161,14 @@ export default {
     async add() {
       console.log(1);
       let result = await this.$axios.post('/akyl/role/role_save', { data: this.form });
-      this.form = {};
-      this.search();
-      this.$refs.toAdd.hide();
+      if (result.data.rescode === '0') {
+        this.$message.success('添加' + result.data.msg);
+        this.form = {};
+        this.$refs.toAdd.hide();
+        this.search();
+      } else {
+        this.$message.error(result.data.msg);
+      }
     },
     //打开删除提示框
     openDeleteAlert(id) {
@@ -184,9 +178,14 @@ export default {
     //删除
     async toDelete() {
       let result = await this.$axios.post('/akyl/role/role_delete', { data: { id: this.deleteItem } });
-      this.search();
-      this.deleteItem = '';
-      this.$refs.deleteAlert.hide();
+      if (result.data.rescode === '0') {
+        this.$message.success('删除' + result.data.msg);
+        this.search();
+        this.deleteItem = '';
+        this.$refs.deleteAlert.hide();
+      } else {
+        this.$message.error(result.data.msg);
+      }
     },
     //打开修改提示框
     openUpdateAlert(index) {
@@ -197,9 +196,14 @@ export default {
     async update() {
       let data = this.form;
       let result = await this.$axios.post('/akyl/role/role_edit', { data: data });
-      console.log(result);
-      this.$refs.Edit.hide();
-      this.search();
+      if (result.data.rescode === '0') {
+        this.$message.success('修改' + result.data.msg);
+        this.form = {};
+        this.$refs.Edit.hide();
+        this.search();
+      } else {
+        this.$message.error(result.data.msg);
+      }
     },
     //关闭弹框
     closeAlert() {

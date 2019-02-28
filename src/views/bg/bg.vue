@@ -482,10 +482,13 @@ export default {
     async search() {
       let skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(`/akyl/bg/job_report_list?skip=${skip}&limit=${this.limit}&dept_id=${this.userInfo.dept_id}`);
-      if (result.data.msg === '成功') {
+      if (result.data.totalRow === 0) {
+        let array = [];
+        this.$set(this, 'list', array);
+      } else {
         this.$set(this, 'list', result.data.jobReportList);
-        this.$set(this, 'totalRow', result.data.totalRow);
       }
+      this.$set(this, 'totalRow', result.data.totalRow);
     },
     //请求各表
     async getOtherList() {
@@ -584,12 +587,17 @@ export default {
         let id = result.data.id;
         result = await this.$axios.post('/akyl/bg/job_report_sub_save', { data: { subForm: this.subForm, id: id } });
         if (result.data.msg === '成功') {
+          this.$message.success('添加成功');
           this.$refs.addAlert.hide();
           this.form = {};
           this.subForm = [];
           this.time_quantum = '';
           this.search();
+        } else {
+          this.$message.error('添加失败');
         }
+      } else {
+        this.$message.error('添加失败');
       }
     },
     //修改
@@ -598,19 +606,29 @@ export default {
       if (result.data.msg === '成功') {
         result = await this.$axios.post('/akyl/bg/job_report_sub_edit', { data: { subForm: this.subForm, id: this.updateForm.id } });
         if (result.data.msg === '成功') {
+          this.$message.success('修改成功');
           this.closeAlert('update');
           this.form = {};
           this.time_quantum = '';
           this.is_update = true;
           this.search();
+        } else {
+          this.$message.error('修改失败');
         }
+      } else {
+        this.$message.error('修改失败');
       }
     },
     //删除
     async toDelete() {
       let result = await this.$axios.post('/akyl/bg/job_report_delete', { data: { id: this.operateId } });
-      this.closeAlert('delete');
-      this.search();
+      if (result.data.rescode === '0') {
+        this.$message.success('删除' + result.data.msg);
+        this.closeAlert('delete');
+        this.search();
+      } else {
+        this.$message.error(result.data.msg);
+      }
     },
     //打开与关闭修改和删除的弹框
     openAlert(type, id) {

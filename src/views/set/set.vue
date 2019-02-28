@@ -13,22 +13,22 @@
           <div class="row">
             <div class="col-lg-12">
               <div class="col-lg-6">
-                <div class="li38">计件定额(元):</div>
+                <div class="li38">计时定额(元):</div>
                 <input
                   type="number"
                   class="col-lg-11 form-control"
                   v-bind:disabled="isReadOnly"
-                  v-model="list.jj_price"
+                  v-model="list.js_price"
                   onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
                 />
               </div>
               <div class="col-lg-6">
-                <div class="li38">加班计件定额(元):</div>
+                <div class="li38">加班计时定额(元):</div>
                 <input
                   type="number"
                   class="col-lg-11 form-control"
                   v-bind:disabled="isReadOnly"
-                  v-model="list.jb_jj_price"
+                  v-model="list.jb_js_price"
                   onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
                 />
               </div>
@@ -179,9 +179,9 @@ export default {
       },
       roleValidator: new Validator({
         js_price: { type: 'string', required: true, message: '请填写计时金额' },
-        jj_price: { type: 'string', required: true, message: '请填写计件金额' },
+        // jj_price: { type: 'string', required: true, message: '请填写计件金额' },
         jb_js_price: { type: 'string', required: true, message: '请填写加班计时金额' },
-        jb_jj_price: { type: 'string', required: true, message: '请填写加班计价金额' },
+        // jb_jj_price: { type: 'string', required: true, message: '请填写加班计价金额' },
         jb_price: { type: 'string', required: true, message: '请填写加班补助金额' },
         mq_price: { type: 'string', required: true, message: '请填写满勤奖' },
         tq_price: { type: 'string', required: true, message: '请填写通勤补助' },
@@ -209,9 +209,14 @@ export default {
     },
     async toUpdate() {
       let result = await this.$axios.post('/akyl/set/set_edit', { data: this.list });
-      this.closeAlert('update');
-      this.updateForm = this.list;
-      this.search();
+      if (result.data.rescode === '0') {
+        this.$message.success('修改' + result.data.msg);
+        this.closeAlert('update');
+        this.updateForm = this.list;
+        this.search();
+      } else {
+        this.$message.error(result.data.msg);
+      }
     },
     //改变文本框只读状态
     change() {
