@@ -73,7 +73,12 @@
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">总工时(小时)：</div>
-            <b-form-input v-model="form.all_time" placeholder="总工时" onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+            <b-form-input
+              v-model="form.all_time"
+              placeholder="总工时"
+              :readonly="true"
+              onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
           </div>
           <div class="col-lg-4 mb20">
             <div class="lh44">请假时间(小时)：</div>
@@ -94,60 +99,67 @@
               format="yyyy-MM-dd"
             ></el-date-picker>
           </div>
+          <div class="col-lg-4 mb20">
+            <div class="lh44">工作时段：</div>
+            <b-form-group>
+              <b-form-radio-group
+                id="btnradios1"
+                buttons
+                button-variant="outline-primary"
+                v-model="time_quantum"
+                :options="[{ text: '白班', value: 0 }, { text: '夜班', value: 1 }]"
+                name="radiosBtnDefault"
+              />
+            </b-form-group>
+          </div>
           <br />
           <table class="table table-bordered table-striped ">
             <tbody>
               <tr>
                 <td>工序</td>
                 <td>类型</td>
-                <td style="width:10%">数量</td>
+                <td style="width:10%">计数方式</td>
                 <td style="width:10%">工时(小时)</td>
-                <td>上班时段</td>
+                <td style="width:10%">数量</td>
                 <td style="width:10%">加班</td>
                 <td>备注</td>
                 <td>操作</td>
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
                 <td>
-                  <el-select @change="getKindList(index)" class="marginBot" style="height:40px !important" v-model="item.work_id" filterable placeholder="请选择工序">
-                    <el-option
-                      v-for="item in workList"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
+                  <el-select
+                    @change="getKindList(index)"
+                    class="marginBot"
+                    style="height:40px !important"
+                    v-model="item.work_id"
+                    filterable
+                    placeholder="请选择工序"
+                  >
+                    <el-option v-for="item in workList" :key="item.value" :label="item.text" :value="item.value"> </el-option>
                   </el-select>
-                  <!-- <b-form-select v-model="item.work_id" :options="workList" @change="getKindList(index)" /> -->
                 </td>
                 <td>
-                  <el-select class="marginBot" style="height:40px !important" v-model="item.kind_id" filterable placeholder="请选择类型">
-                    <el-option
-                      v-for="item in getOptions(index)"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
+                  <el-select class="marginBot" placeholder="请先选择工序" style="height:40px !important" v-model="item.kind_id" filterable>
+                    <el-option v-for="item in getOptions(index)" :key="item.value" :label="item.text" :value="item.value"> </el-option>
                   </el-select>
-                  <!-- <b-form-select v-model="item.kind_id" :options="getOptions(index)" /> -->
-                </td>
-                <td>
-                  <b-form-input v-model="item.num" type="number" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
-                </td>
-                <td>
-                  <b-form-input v-model="item.work_time" type="number" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
                 </td>
                 <td>
                   <b-form-group>
                     <b-form-radio-group
                       id="btnradios1"
                       buttons
-                      stacked
                       button-variant="outline-primary"
-                      v-model="item.is_night"
-                      :options="[{ text: '夜班', value: '1' }, { text: '白班', value: '0', checked: true }]"
+                      v-model="item.work_type"
+                      :options="[{ text: '计时', value: 0, checked: true }, { text: '计件', value: 1 }]"
                       name="radiosBtnDefault"
                     />
                   </b-form-group>
+                </td>
+                <td>
+                  <b-form-input v-model="item.work_time" type="number" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+                </td>
+                <td>
+                  <b-form-input v-model="item.num" type="number" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
                 </td>
                 <td>
                   <b-form-input v-model="item.add_time" type="number" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
@@ -169,7 +181,7 @@
       </div>
       <b-button
         variant="primary"
-        @click="addSubForm()"
+        @click="addSubForm('add')"
         class="resetButton"
         style="font-size:16px !important; margin-top:25px; width:30% !important; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
         >添&nbsp;&nbsp;加</b-button
@@ -237,49 +249,62 @@
               format="yyyy-MM-dd"
             ></el-date-picker>
           </div>
+          <div class="col-lg-4 mb20">
+            <div class="lh44">工作时段：</div>
+            <b-form-group :disabled="is_update">
+              <b-form-radio-group
+                id="btnradios1"
+                buttons
+                button-variant="outline-primary"
+                v-model="time_quantum"
+                :options="[{ text: '白班', value: 0 }, { text: '夜班', value: 1 }]"
+                name="radiosBtnDefault"
+              />
+            </b-form-group>
+          </div>
           <br />
           <table class="table table-bordered table-striped ">
             <tbody>
               <tr>
                 <td>工序</td>
                 <td>类型</td>
-                <td style="width:10%">数量</td>
+                <td style="width:10%">计数方式</td>
                 <td style="width:10%">工时(小时)</td>
-                <td>上班时段</td>
+                <td style="width:10%">数量</td>
                 <td style="width:10%">加班</td>
                 <td>备注</td>
                 <td>操作</td>
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
                 <td>
-                  <el-select :disabled="is_update" @change="getKindList(index)" class="marginBot" style="height:40px !important" v-model="item.work_id" filterable placeholder="请选择工序">
-                    <el-option
-                      v-for="item in workList"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
+                  <el-select
+                    :disabled="is_update"
+                    @change="getKindList(index)"
+                    class="marginBot"
+                    style="height:40px !important"
+                    v-model="item.work_id"
+                    filterable
+                    placeholder="请选择工序"
+                  >
+                    <el-option v-for="item in workList" :key="item.value" :label="item.text" :value="item.value"> </el-option>
                   </el-select>
-                  <!-- <b-form-select v-model="item.work_id" :disabled="is_update" :options="workList" @change="getKindList(index)" /> -->
                 </td>
                 <td>
                   <el-select :disabled="is_update" class="marginBot" style="height:40px !important" v-model="item.kind_id" filterable placeholder="请选择类型">
-                    <el-option
-                      v-for="item in getOptions(index)"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
+                    <el-option v-for="item in getOptions(index)" :key="item.value" :label="item.text" :value="item.value"> </el-option>
                   </el-select>
-                  <!-- <b-form-select v-model="item.kind_id" :disabled="is_update" :options="getOptions(index)" /> -->
                 </td>
                 <td>
-                  <b-form-input
-                    v-model="item.num"
-                    :disabled="is_update"
-                    type="number"
-                    onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"
-                  ></b-form-input>
+                  <b-form-group :disabled="is_update">
+                    <b-form-radio-group
+                      id="btnradios1"
+                      buttons
+                      button-variant="outline-primary"
+                      v-model="item.work_type"
+                      :options="[{ text: '计时', value: 0 }, { text: '计件', value: 1 }]"
+                      name="radiosBtnDefault"
+                    />
+                  </b-form-group>
                 </td>
                 <td>
                   <b-form-input
@@ -290,18 +315,12 @@
                   ></b-form-input>
                 </td>
                 <td>
-                  <b-form-group :disabled="is_update">
-                    <b-form-radio-group
-                      id="btnradios1"
-                      buttons
-                      stacked
-                      button-variant="outline-primary"
-                      v-model="item.is_night"
-                      :options="[{ text: '夜班', value: '1' }, { text: '白班', value: '0', checked: true }]"
-                      name="radiosBtnDefault"
-                      :disabled="is_update"
-                    />
-                  </b-form-group>
+                  <b-form-input
+                    v-model="item.num"
+                    :disabled="is_update"
+                    type="number"
+                    onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"
+                  ></b-form-input>
                 </td>
                 <td>
                   <b-form-input
@@ -329,7 +348,6 @@
                   >删&nbsp;&nbsp;除</b-button
                 >
               </tr>
-              <!-- <b-button variant="primary" v-if="!is_update" @click="addSubForm()" class="resetButton" >添&nbsp;&nbsp;加</b-button> -->
             </tbody>
           </table>
         </div>
@@ -337,7 +355,7 @@
       <b-button
         variant="primary"
         :disabled="is_update"
-        @click="addSubForm()"
+        @click="addSubForm('add')"
         class="resetButton"
         style="font-size:16px !important; margin-top:25px; width:30% !important; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
         >添&nbsp;&nbsp;加</b-button
@@ -402,7 +420,6 @@ export default {
     return {
       updateForm: new Array(),
       list: [],
-      login_id: 'login_id',
       subForm: [],
       subFormContent: {
         work_id: null,
@@ -410,22 +427,24 @@ export default {
         num: 0,
         work_time: 0,
         is_night: 0,
+        add_time: 0,
+        work_type: 0,
       },
-      is_night_or_not: [{ text: '夜班', value: 0 }],
       is_update: true,
       operateId: {},
       currentPage: 1,
       limit: 15,
       totalRow: 0,
-      form: {},
+      form: {
+        leave_time: 0,
+      },
+      time_quantum: null,
       deptList: [],
       kindList: [],
       workList: [],
       temporaryList: [],
       mainValidator: new Validator({
         job_num: [{ required: true, message: '请填写工号' }],
-        all_time: [{ required: true, message: '请填写总工时' }],
-        leave_time: [{ required: true, message: '请填写请假时间' }],
         dept_id: [{ required: true, message: '请选择部门' }],
         create_time: [{ required: true, message: '请选择创建日期' }],
       }),
@@ -441,6 +460,17 @@ export default {
     this.getOtherList();
     this.getWorkList();
   },
+  watch: {
+    time_quantum: {
+      handler(nV, oV) {
+        if (nV === 1) {
+          this.form.all_time = 8.5;
+        } else {
+          this.form.all_time = 9.5;
+        }
+      },
+    },
+  },
   methods: {
     //分页
     toSearch(currentPage) {
@@ -451,10 +481,13 @@ export default {
     async search() {
       let skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(`/akyl/bg/job_report_list?skip=${skip}&limit=${this.limit}&dept_id=${this.userInfo.dept_id}`);
-      if (result.data.msg === '成功') {
+      if (result.data.totalRow === 0) {
+        let array = [];
+        this.$set(this, 'list', array);
+      } else {
         this.$set(this, 'list', result.data.jobReportList);
-        this.$set(this, 'totalRow', result.data.totalRow);
       }
+      this.$set(this, 'totalRow', result.data.totalRow);
     },
     //请求各表
     async getOtherList() {
@@ -464,8 +497,6 @@ export default {
         let newObject = { text: item.dept_name, value: item.id };
         return newObject;
       });
-      // let defalut = { text: '请选择部门', value: null, disabled: true };
-      this.deptList.unshift(defalut);
     },
     //请求工序表
     async getWorkList() {
@@ -474,20 +505,19 @@ export default {
         let newObject = { text: item.code, value: item.id };
         return newObject;
       });
-      // let defalut = { text: '请选择工序', value: null, disabled: true };
-      this.workList.unshift(defalut);
     },
     //请求类型表(应该是二级联动工序表)
     async getKindList(index) {
+      if (!this.$refs.updateAlert.is_show) {
+        this.subForm[index].kind_id = '';
+      }
       let subFormKindList = [];
       let result = await this.$axios.get(`/akyl/kind/kind_list?skip=0&limit=1000&work_id=${this.subForm[index].work_id}`);
       if (result.data.totalRow > 0) {
         subFormKindList = result.data.kindList.map(item => {
-          let newObject = { text: item.name, value: item.id };
+          let newObject = { text: item.code, value: item.id };
           return newObject;
         });
-        // let defalut = { text: '请选择类型', value: null, disabled: true };
-        // subFormKindList.unshift(defalut);
         this.$set(this.temporaryList, `${index}`, subFormKindList);
       } else {
         let defalut = { text: '没有类型', value: null, disabled: true };
@@ -503,6 +533,7 @@ export default {
         if (result.data.jobReportSubList.length > 0) {
           this.$set(this, 'subForm', result.data.jobReportSubList);
           for (let i = 0; i < this.subForm.length; i++) {
+            this.$set(this, 'time_quantum', result.data.jobReportSubList[i].is_night);
             this.getKindList(i);
           }
         }
@@ -524,25 +555,48 @@ export default {
         if (errors) {
           return this.handleErrors(errors, fields);
         }
-        if (type === 'add') {
-          return this.add();
+        if (this.time_quantum === 1 || this.time_quantum === 0) {
+          if (type === 'add') {
+            return this.add();
+          } else {
+            return this.update();
+          }
         } else {
-          return this.update();
+          this.$message.error('请选择工作时段');
         }
       });
     },
     //添加
     async add() {
+      this.subForm.map(item => {
+        item.is_night = this.time_quantum;
+        return item;
+      });
+      let all_work_time = 0;
+      this.subForm.forEach(item => {
+        all_work_time = all_work_time * 1 + item.work_time * 1;
+      });
+      all_work_time += this.form.leave_time * 1;
+      if (this.form.all_time !== all_work_time) {
+        this.$message.error('请假时间加工作时间不等于总工时.时间输入有误');
+        return false;
+      }
       let result = await this.$axios.post('/akyl/bg/job_report_main_save', { data: this.form });
       if (result.data.msg === '成功') {
         let id = result.data.id;
         result = await this.$axios.post('/akyl/bg/job_report_sub_save', { data: { subForm: this.subForm, id: id } });
         if (result.data.msg === '成功') {
+          this.$message.success('添加成功');
           this.$refs.addAlert.hide();
           this.form = {};
           this.subForm = [];
+          this.time_quantum = '';
           this.search();
+        } else {
+          this.$message.error('添加失败');
         }
+      } else {
+        this.$message.error('添加失败');
       }
     },
     //修改
@@ -551,18 +605,29 @@ export default {
       if (result.data.msg === '成功') {
         result = await this.$axios.post('/akyl/bg/job_report_sub_edit', { data: { subForm: this.subForm, id: this.updateForm.id } });
         if (result.data.msg === '成功') {
+          this.$message.success('修改成功');
           this.closeAlert('update');
           this.form = {};
+          this.time_quantum = '';
           this.is_update = true;
           this.search();
+        } else {
+          this.$message.error('修改失败');
         }
+      } else {
+        this.$message.error('修改失败');
       }
     },
     //删除
     async toDelete() {
       let result = await this.$axios.post('/akyl/bg/job_report_delete', { data: { id: this.operateId } });
-      this.closeAlert('delete');
-      this.search();
+      if (result.data.rescode === '0') {
+        this.$message.success('删除' + result.data.msg);
+        this.closeAlert('delete');
+        this.search();
+      } else {
+        this.$message.error(result.data.msg);
+      }
     },
     //打开与关闭修改和删除的弹框
     openAlert(type, id) {
@@ -578,7 +643,7 @@ export default {
         this.temporaryList.splice(0, this.temporaryList.length);
         this.form.dept_id = this.userInfo.dept_id;
         this.form.login_id = this.userInfo.login_id;
-        this.addSubForm();
+        this.addSubForm('open');
         this.$refs.addAlert.show();
       }
     },
@@ -609,16 +674,24 @@ export default {
       this.subForm.splice(i, 1);
     },
     //添加字表数据
-    addSubForm() {
-      this.subForm.push(JSON.parse(JSON.stringify(this.subFormContent)));
-      let defalut = { text: '请先选择工序', value: null, disabled: true };
-      let subFormKindList = [];
-      subFormKindList.unshift(defalut);
-      let lengths = this.subForm.length - 1 > 0 ? this.subForm.length - 1 : 0;
-      this.$set(this.temporaryList, `${lengths}`, subFormKindList);
+    addSubForm(type) {
+      if (type === 'add') {
+        this.subForm.push(JSON.parse(JSON.stringify(this.subFormContent)));
+      } else {
+        if (!this.subForm.length > 0) {
+          this.subForm.push(JSON.parse(JSON.stringify(this.subFormContent)));
+        }
+      }
+      // let defalut = { text: '请先选择工序', value: null, disabled: true };
+      // let subFormKindList = [];
+      // subFormKindList.unshift(defalut);
+      // let lengths = this.subForm.length - 1 > 0 ? this.subForm.length - 1 : 0;
+      // this.$set(this.temporaryList, `${lengths}`, subFormKindList);
     },
     reset() {
+      this.time_quantum = null;
       this.form = {};
+      this.form.all_time = 0;
       this.form.dept_id = this.userInfo.dept_id;
       this.form.login_id = this.userInfo.login_id;
       this.subForm = [];

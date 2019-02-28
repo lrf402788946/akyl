@@ -219,9 +219,14 @@ export default {
     async toUpdate() {
       //修改方法
       let result = await this.$axios.post(`/akyl/post/post_edit`, { data: this.updateForm });
-      this.closeAlert('update');
-      this.updateForm = {};
-      this.search();
+      if (result.data.rescode === '0') {
+        this.$message.success('修改' + result.data.msg);
+        this.closeAlert('update');
+        this.updateForm = {};
+        this.search();
+      } else {
+        this.$message.error(result.data.msg);
+      }
     },
     //打开删除提示框
     openDeleteAlert(id) {
@@ -231,16 +236,26 @@ export default {
     //删除
     async toDelete() {
       let result = await this.$axios.post(`/akyl/post/post_delete`, { data: { id: this.deleteItem } });
-      this.search();
-      this.deleteItem = '';
-      this.$refs.deleteAlert.hide();
+      if (result.data.rescode === '0') {
+        this.$message.success('删除' + result.data.msg);
+        this.search();
+        this.deleteItem = '';
+        this.$refs.deleteAlert.hide();
+      } else {
+        this.$message.error(result.data.msg);
+      }
     },
     //添加
     async toAdd() {
       let result = await this.$axios.post(`/akyl/post/post_save`, { data: this.form });
-      this.form = {};
-      this.search();
-      this.$refs.toAdd.hide();
+      if (result.data.rescode === '0') {
+        this.$message.success('添加' + result.data.msg);
+        this.form = {};
+        this.search();
+        this.$refs.toAdd.hide();
+      } else {
+        this.$message.error(result.data.msg);
+      }
     },
     openAlert(type, id) {
       if (type === 'update') {

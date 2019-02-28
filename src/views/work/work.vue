@@ -23,14 +23,12 @@
           <table class="table table-bordered table-striped ">
             <tbody v-if="list.length > 0">
               <tr>
-                <th>工序编号</th>
                 <th>工序代码</th>
                 <th>工序名称</th>
                 <th>操作</th>
               </tr>
               <tr v-for="(item, index) in list" :key="index">
                 <!--美化下input 可以看情况使用-->
-                <td>{{ item.id }}</td>
                 <td>{{ item.code }}</td>
                 <td>{{ item.name }}</td>
                 <td>
@@ -184,9 +182,14 @@ export default {
     },
     async toUpdate() {
       let result = await this.$axios.post('/akyl/work/work_edit', { data: this.updateForm });
-      this.closeAlert('update');
-      this.updateForm = {};
-      this.search();
+      if (result.data.rescode === '0') {
+        this.$message.success('修改' + result.data.msg);
+        this.closeAlert('update');
+        this.updateForm = {};
+        this.search();
+      } else {
+        this.$message.error(result.data.msg);
+      }
     },
     //打开删除提示框
     openDeleteAlert(id) {
@@ -196,16 +199,26 @@ export default {
     //删除
     async toDelete() {
       let result = await this.$axios.post('/akyl/work/work_delete', { data: { id: this.deleteItem } });
-      this.search();
-      this.deleteItem = '';
-      this.$refs.deleteAlert.hide();
+      if (result.data.rescode === '0') {
+        this.$message.success('删除' + result.data.msg);
+        this.search();
+        this.deleteItem = '';
+        this.$refs.deleteAlert.hide();
+      } else {
+        this.$message.error(result.data.msg);
+      }
     },
     //添加
     async toAdd() {
       let result = await this.$axios.post('/akyl/work/work_save', { data: this.form });
-      this.form = {};
-      this.search();
-      this.$refs.toAdd.hide();
+      if (result.data.rescode === '0') {
+        this.$message.success('添加' + result.data.msg);
+        this.form = {};
+        this.search();
+        this.$refs.toAdd.hide();
+      } else {
+        this.$message.error(result.data.msg);
+      }
     },
     openAlert(type, id) {
       if (type === 'update') {

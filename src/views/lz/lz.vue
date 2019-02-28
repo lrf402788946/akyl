@@ -207,9 +207,14 @@ export default {
     },
     async toUpdate() {
       let result = await this.$axios.post('/akyl/lz/lz_edit', { data: this.updateForm });
-      this.closeAlert('update');
-      this.updateForm = {};
-      this.search();
+      if (result.data.rescode === '0') {
+        this.$message.success('修改' + result.data.msg);
+        this.closeAlert('update');
+        this.updateForm = {};
+        this.search();
+      } else {
+        this.$message.error(result.data.msg);
+      }
     },
     //打开删除提示框
     openDeleteAlert(id) {
@@ -219,17 +224,27 @@ export default {
     //删除
     async toDelete() {
       let result = await this.$axios.post('/akyl/lz/lz_delete', { data: { id: this.deleteItem } });
-      this.search();
-      this.deleteItem = '';
-      this.$refs.deleteAlert.hide();
+      if (result.data.rescode === '0') {
+        this.$message.success('删除' + result.data.msg);
+        this.search();
+        this.deleteItem = '';
+        this.$refs.deleteAlert.hide();
+      } else {
+        this.$message.error(result.data.msg);
+      }
     },
     //添加
     async toAdd() {
       let result = await this.$axios.post('/akyl/lz/lz_save', { data: this.form });
-      this.currentPage = 1;
-      this.form = { create_date: this.create_date_today };
-      this.search();
-      this.$refs.toAdd.hide();
+      if (result.data.rescode === '0') {
+        this.$message.success('添加' + result.data.msg);
+        this.currentPage = 1;
+        this.form = { create_date: this.create_date_today };
+        this.search();
+        this.$refs.toAdd.hide();
+      } else {
+        this.$message.error(result.data.msg);
+      }
     },
     openAlert(type, id) {
       if (type === 'update') {

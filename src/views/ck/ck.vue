@@ -65,7 +65,7 @@
       <b-form-input v-model="form.type"></b-form-input>
       <div style="margin-top:7px; margin-bottom:7px;">
         <p class="marginBot4">库名</p>
-        <b-form-select v-model="addForm.kname" :options="kname"/>
+        <b-form-select v-model="addForm.kname" :options="kname" />
       </div>
       <div style="margin-bottom: 7px;">型号:</div>
       <b-form-input v-model="form.type"></b-form-input>
@@ -119,7 +119,7 @@
           </div>
           <div class="col-lg-12 marginBot">
             <p class="marginBot4">操作日期</p>
-            <b-form-input v-model="updateForm.num" type="number"  readonly="readonly"></b-form-input>
+            <b-form-input v-model="updateForm.num" type="number" readonly="readonly"></b-form-input>
           </div>
           <div class="col-lg-12 marginBot4">
             <b-button
@@ -172,13 +172,17 @@ export default {
         type: { type: 'string', required: true, message: '请填写型号' },
         num: { required: true, message: '请填写数量' },
         kname: { type: 'string', required: true, message: '请选择型号' },
-        type: { type: 'string', required: true, message: '请填写型号' },
         create_date: { type: 'string', required: true, message: '请选择创建日期' },
       }),
       addForm: {
         kname: null,
       },
-      kname: [{ text: '请选择库名', value: null, disabled: true }, { text: '弹簧柄库', value: '0' }, { text: '裸针库', value: '1' }, { text: '针芯库', value: '2' }],
+      kname: [
+        { text: '请选择库名', value: null, disabled: true },
+        { text: '弹簧柄库', value: '0' },
+        { text: '裸针库', value: '1' },
+        { text: '针芯库', value: '2' },
+      ],
     };
   },
   computed: {},
