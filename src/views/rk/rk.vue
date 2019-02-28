@@ -10,22 +10,36 @@
       </div>
       <div class="base-padding-20 base-bg-fff">
         <div>
-          入库单号查询:
-          <b-form-input v-model="select_order_no" placeholder="输入入库单号" style="width:200px"></b-form-input>
-          入库人查询:
-          <b-form-input v-model="select_user_name" placeholder="输入入库人" style="width:200px"></b-form-input>
-          入库日期查询:
-          <el-date-picker
-            v-model="select_in_date"
-            value-format="yyyy-MM-dd"
-            format="yyyy-MM-dd"
-            type="daterange"
-            range-separator="-"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-          >
-          </el-date-picker>
-        <b-button variant="primary" style="color:white; margin-right:5px;" @click="titlesearch()">查&nbsp;&nbsp;询</b-button>
+          <table>
+           <tr>
+             <td>入库单号查询:</td>
+             <td style="padding-left:50px">入库人查询:</td>
+             <td style="padding-left:50px">入库日期查询:</td>
+           </tr>
+           <tr>
+            <td>
+              <b-form-input v-model="select_order_no" placeholder="输入入库单号" style="width:200px,margin-left:50px"></b-form-input>
+              </td>
+              <td style="padding-left:50px">
+          <b-form-input v-model="select_user_name" placeholder="输入入库人" style="padding-left:50px,width:200px"></b-form-input>
+              </td>
+              <td style="padding-left:50px">
+                <el-date-picker
+                  v-model="select_in_date"
+                  value-format="yyyy-MM-dd"
+                  format="yyyy-MM-dd"
+                  type="daterange"
+                  range-separator="-"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                             >
+                </el-date-picker>
+              </td>
+              <td style="padding-left:80px">
+                <b-button variant="primary1"  @click="titlesearch()">查&nbsp;&nbsp;询</b-button>
+              </td>
+            </tr>
+          </table>
         </div>
         <div class="base-align-right" style="margin-bottom: 20px;">
           <a
@@ -89,7 +103,7 @@
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">入库人：</div>
-            <b-form-input  v-model="form.user_name" placeholder="入库人"></b-form-input>
+            <b-form-input v-model="form.user_name" placeholder="入库人"></b-form-input>
           </div>
           <div class="col-lg-4 mb20">
             <div class="lh44">操作人ID：</div>
@@ -572,6 +586,13 @@ export default {
 }
 .btn-primary {
   background-color: #5bc0de;
+}
+.btn-primary1 {
+  background-color: #5bc0de;
+  color: white;
+  width: 160px;
+  height: 120px;
+  cursor: hand;
 }
 .breadcrumb {
   padding: 14px 18px;
