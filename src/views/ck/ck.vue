@@ -10,32 +10,65 @@
       </div>
       <div class="base-padding-20 base-bg-fff">
         <div class="base-align-right" style="margin-bottom:20px;">
-          <a
-            class="btn btn-info base-margin-bottom"
-            data-toggle="tooltip"
-            style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;"
-            title=""
-            role="button"
-            v-b-modal="'toAdd'"
-          >
-            <i class="base-margin-right-5 fa fa-plus-square" style=" color:#fff !important;"></i>出库产品
-          </a>
+          <table class="table table-bordered table-striped ">
+          <tbody>
+            <tr>
+              <th>订单号</th>
+              <th>出库人</th>
+              <th>日期</th>
+              <th>操作</th>
+            </tr>
+            <tr>
+              <td><b-form-input v-model="order_no"></b-form-input></td>
+              <td><b-form-input v-model="user_name"></b-form-input></td>
+              <td>
+                <el-date-picker
+                  v-model="timeValue"
+                  value-format="yyyy-MM-dd"
+                  format="yyyy-MM-dd"
+                  type="daterange"
+                  range-separator="-"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期">
+                </el-date-picker>
+              </td>
+              <td>
+                <b-button
+                  variant="primary"
+                  style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;"
+                  @click="search()"
+                  >查&nbsp;&nbsp;询</b-button
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <a
+          class="btn btn-info base-margin-bottom"
+          data-toggle="tooltip"
+          style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;"
+          title=""
+          role="button"
+          v-b-modal="'toAdd'">
+          <i class="base-margin-right-5 fa fa-plus-square" style=" color:#fff !important;"></i>出库产品
+        </a>
         </div>
         <table class="table table-bordered table-striped ">
-          <tbody v-if="list.length > 0">
+          <tbody v-if="list.length>0">
             <tr>
+              <th>订单号</th>
               <th>出库人</th>
-              <th>单号</th>
-              <th>创建日期</th>
+              <th>出库日期</th>
+              <th>备注</th>
               <th>操作</th>
             </tr>
             <tr v-for="(item, index) in list" :key="index">
-              <td>{{ item.type }}</td>
-              <td>{{ item.num }}</td>
-              <td>{{ item.create_date }}</td>
+              <td>{{ item.order_no }}</td>
+              <td>{{ item.user_name }}</td>
+              <td>{{ item.out_date }}</td>
+              <td>{{ item.remark }}</td>
               <td>
                 <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update', index)">详&nbsp;&nbsp;情</b-button>
-                <b-button variant="danger" style="color:white;" @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
               </td>
             </tr>
           </tbody>
@@ -57,99 +90,137 @@
         </el-pagination>
       </div>
     </div>
-
-    <b-modal id="toAdd" title="出库操作" ref="toAdd" hide-footer>
-      <div style="margin-bottom: 7px;">出库人:</div>
-      <b-form-input v-model="form.type"></b-form-input>
-      <div style="margin-bottom: 7px;">单号:</div>
-      <b-form-input v-model="form.type"></b-form-input>
-      <div style="margin-top:7px; margin-bottom:7px;">
-        <p class="marginBot4">库名</p>
-        <b-form-select v-model="addForm.kname" :options="kname" />
+    <!-- 添加 -->
+    <b-modal id="toAdd" size='lg' title="出库操作" ref="toAdd" hide-footer>
+      <div class="d-block text-center">
+        <div class="row">
+          <div class="col-lg-4 mb25">
+            <div style="margin-bottom: 7px;">订单号:</div>
+            <b-form-input v-model="form.order_no" :disabled="is_update" placeholder="订单号"></b-form-input>
+          </div>
+          <div class="col-lg-4 mb25">
+            <div style="margin-bottom: 7px;">出库人:</div>
+            <b-form-input v-model="form.user_name"></b-form-input>
+          </div>
+          <div class="col-lg-4 mb25">
+            <div style="margin-bottom: 7px;">备注:</div>
+            <textarea v-model="form.remark" class="form-control" rows="3" style="height: 44px !important;" placeholder="备注"></textarea>
+          </div>
+          <br/><br/><br/><br/>
+          <table class="table table-bordered table-striped ">
+            <tbody>
+              <tr>
+                <td>类别</td>
+                <td>型号</td>
+                <td>出库数量</td>
+                <td>剩余库存</td>
+                <td>操作</td>
+              </tr>
+              <tr v-for="(item, index) in form1" :key="index">
+                 <td>
+                  <el-select class="marginBot" style="height:40px !important" v-model="item.type" filterable placeholder="请选择类别">
+                    <el-option v-for="item1 in type" :key="item1.value" :label="item1.text" :value="item1.value"> </el-option>
+                  </el-select>
+                </td>
+                <td>
+                  <el-select class="marginBot" @change="getNums(index)" @click.native="getKindList(item.type)" style="height:40px !important" v-model="item.kind" filterable placeholder="请选择型号">
+                    <el-option v-for="item2 in kindList" :key="item2.value" :label="item2.type" :value="item2.type"></el-option>
+                  </el-select>
+                </td>
+                <td>
+                  <b-form-input v-model="item.num" type="number" @change="fun(item.num,item.else_num)" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+                </td>
+                <td>
+                  <b-form-input v-model="item.else_num" :disabled="is_update"></b-form-input>
+                </td>
+                <b-button
+                  style="margin-top: 23px; margin-left: 8px !important; margin-right: 6px !important; padding: 5px 8px !important; font-size: 13px !important;"
+                  @click="closeSubForm(index)"
+                  class="resetButton"
+                  variant="danger"
+                  >删&nbsp;&nbsp;除</b-button>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-      <div style="margin-bottom: 7px;">型号:</div>
-      <b-form-input v-model="form.type"></b-form-input>
-      <div style="margin-top:7px; margin-bottom:7px;">数量:</div>
-      <b-form-input v-model="form.num" type="number"></b-form-input>
       <b-button
-        variant="secondary"
-        style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
-        @click="form = { create_date: create_date_today }"
-        >重&nbsp;&nbsp;置</b-button
-      >
+        variant="primary"
+        @click="addSubForm()"
+        class="resetButton"
+        style="font-size:16px !important; margin-top:25px; width:30% !important; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+        >添&nbsp;&nbsp;加</b-button>
       <b-button
-        style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+       style="font-size:16px !important; margin:25px 5% 30px 5% !important; background-color: #17a2b8 !important;  width:30% !important; padding:6px 80px !important;"
         variant="primary"
         @click="toValidate('add')"
-        >保&nbsp;&nbsp;存</b-button
-      >
+        >确&nbsp;认&nbsp;出&nbsp;库</b-button>
+      <b-button
+        variant="secondary"
+        @click="reset()"
+        class="resetButton"
+        style="font-size:16px !important; margin-top:25px; margin-bottom:30px !important; width:30% !important; margin-right: 0 !important; padding:6px 80px !important;"
+        >重&nbsp;&nbsp;置</b-button>
     </b-modal>
 
-    <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
+    <!-- 详情 -->
+    <b-modal id="updateAlert" size='lg' title="出库信息" ref="updateAlert" hide-footer>
       <div class="d-block text-center">
-        <b-alert variant="danger" show>删除针芯可能会影响您的管理,确认删除吗?</b-alert>
-      </div>
-      <b-button
-        variant="danger"
-        style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
-        @click="toDelete()"
-      >
-        删&nbsp;&nbsp;除</b-button
-      >
-      <b-button
-        variant="primary"
-        style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
-        @click="$refs.deleteAlert.hide(), (deleteItem = '')"
-      >
-        返&nbsp;&nbsp;回</b-button
-      >
-    </b-modal>
-
-    <!-- jkjkjkjk -->
-    <b-modal id="updateAlert" title="出库管理" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
-      <div class="d-block">
         <div class="row">
-          <div class="col-lg-12 marginBot4">
-            <p class="marginBot4">型号</p>
-            <b-form-input v-model="updateForm.type"></b-form-input>
+          <div class="col-lg-4 mb25">
+            <div style="margin-bottom: 7px;">订单号</div>
+            <b-form-input :disabled="is_update" v-model="updateForm.order_no"></b-form-input>
           </div>
-          <div class="col-lg-12 marginBot4">
-            <p class="marginBot4">数量</p>
-            <b-form-input v-model="updateForm.num" type="number"></b-form-input>
+          <div class="col-lg-4 mb25">
+            <div style="margin-bottom: 7px;">出库人</div>
+            <b-form-input :disabled="is_update" v-model="updateForm.user_name"></b-form-input>
+          </div>
+          <div class="col-lg-4 mb25">
+            <div style="margin-bottom: 7px;">备注</div>
+            <textarea :disabled="is_update" v-model="updateForm.remark" class="form-control" rows="3" style="height: 44px !important;" placeholder="备注"></textarea>
           </div>
           <div class="col-lg-12 marginBot">
-            <p class="marginBot4">操作日期</p>
-            <b-form-input v-model="updateForm.num" type="number" readonly="readonly"></b-form-input>
-          </div>
-          <div class="col-lg-12 marginBot4">
-            <b-button
-              variant="secondary"
-              @click="closeAlert('update')"
-              class="resetButton"
-              style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
-            >
-              返&nbsp;&nbsp;回</b-button
-            >
-            <b-button
-              variant="primary"
-              @click="toValidate('update')"
-              class="resetButton"
-              style="font-size:16px !important;
-              margin-top:35px; 
-              float:right; 
-              padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
-              >保&nbsp;&nbsp;存</b-button
-            >
-          </div>
+            <div style="margin-bottom: 7px;">出库时间</div>
+            <b-form-input :disabled="is_update" v-model="updateForm.out_date"></b-form-input>
+          </div><br/>
+          <table class="table table-bordered table-striped ">
+            <tbody>
+              <tr>
+                <td>类别</td>
+                <td>型号</td>
+                <td>出库数量</td>
+              </tr>
+              <tr v-for="(item, index) in updateForm1" :key="index">
+                <td>
+                  <b-form-input :disabled="is_update" v-model="item.type === '1' ? '裸针库' : item.status === '2' ? '弹簧柄库' : '针芯库' "></b-form-input>
+                </td>
+                <td>
+                  <b-form-input :disabled="is_update" v-model="item.kind"></b-form-input>
+                </td>
+                <td>
+                  <b-form-input :disabled="is_update" v-model="item.num"></b-form-input>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      </div></b-modal
-    >
+      </div>
+      <b-button
+        variant="secondary"
+        @click="closeAlert('update')"
+        class="resetButton"
+        style="font-size:16px !important; margin:25px 5% 30px 5% !important; background-color: #17a2b8 !important;  width:30% !important; padding:6px 80px !important;"
+        >返&nbsp;&nbsp;回</b-button>
+    </b-modal>
+    <!-- 详情 -->
   </div>
 </template>
 
 <script>
 import Validator from 'async-validator';
 import _ from 'lodash';
+import { mapState } from 'vuex';
+import { loadavg } from 'os';
 export default {
   name: 'zx',
   metaInfo: {
@@ -158,79 +229,130 @@ export default {
   components: {},
   data() {
     return {
+      updateForm: [],
+      updateForm1: [],
       list: [],
-      create_date_today: new Date().getYear() + 1900 + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate(),
-      form: {
-        create_date: new Date().getYear() + 1900 + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate(),
-      },
-      deleteItem: '',
-      updateForm: {},
+      login_id: 'login_id',
+      subFormContent: {},
+      order_no: '',
+      user_name: '',
+      is_update: true,
+      operateId: {},
       currentPage: 1,
       limit: 15,
-      totalRow: 100,
-      zxValidator: new Validator({
-        type: { type: 'string', required: true, message: '请填写型号' },
-        num: { required: true, message: '请填写数量' },
-        kname: { type: 'string', required: true, message: '请选择型号' },
-        create_date: { type: 'string', required: true, message: '请选择创建日期' },
+      totalRow: 0,
+      form: {},
+      form1: [],
+      timeValue: ['',''],
+      start:'',
+      end:'',
+      deptList: [],
+      kindList: [],
+      workList: [],
+      mainValidator: new Validator({
+        // job_num: [{ required: true, message: '请填写工号' }],
+        // dept_id: [{ required: true, message: '请选择部门' }],
+        // create_time: [{ required: true, message: '请选择创建日期' }],
       }),
-      addForm: {
-        kname: null,
-      },
-      kname: [
-        { text: '请选择库名', value: null, disabled: true },
-        { text: '弹簧柄库', value: '0' },
-        { text: '裸针库', value: '1' },
-        { text: '针芯库', value: '2' },
-      ],
+      type: [{ text: '弹簧柄库', value: '2' }, { text: '裸针库', value: '1' }, { text: '针芯库', value: '3' }],
     };
   },
-  computed: {},
+  computed: {
+    ...mapState({
+      userInfo: state => state.userInfo,
+    }),
+  },
   created() {
     this.search();
   },
   methods: {
-    //整体逻辑:已有数据的修改直接=>提交=>请求=>刷新视图;添加数据则弹出框添加
+    //查询
+    async search() {
+      //查询方法
+      if(typeof(this.timeValue[0])!="undefined"){
+        this.start=this.timeValue[0]
+      }else{
+        this.start=''
+      }
+      if(typeof(this.timeValue[1])!="undefined"){
+        this.end=this.timeValue[1]
+      }else{
+        this.end=''
+      }
+      let skip = (this.currentPage - 1) * this.limit;
+      let result = await this.$axios.get(`/akyl/store/out_main_list?main_id=${this.userInfo.login_id}&skip=${skip}&limit=${this.limit}&order_no=${this.order_no}&user_name=${this.user_name}&start_time=${this.start}&end_time=${this.end}`);
+      this.$set(this, 'list', result.data.outMainList);
+      this.$set(this, 'totalRow', result.data.totalRow);
+      let result1 = await this.$axios.get(`/akyl/store/order_no?order_key=OUT`);
+      this.$set(this.form, 'order_no', result1.data.order_no);
+    },
     //分页
     toSearch(currentPage) {
       this.currentPage = currentPage;
       this.search();
     },
-    //查询
-    async search() {
-      //查询方法
-      let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(`/akyl/zx/zx_list?skip=${skip}&limit=${this.limit}`);
-      this.$set(this, 'list', result.data.zxList);
-      this.$set(this, 'totalRow', result.data.totalRow);
+    reset() {
+      this.form = {};
+      this.form1 = [];
+      // this.form.dept_id = this.userInfo.dept_id;
+      // this.form.login_id = this.userInfo.login_id;
+      this.form1.push(this.subFormContent);
+    },
+    //添加字表数据
+    addSubForm() {
+      this.form1.push(JSON.parse(JSON.stringify(this.subFormContent)));
+    },
+    //关闭弹框
+    closeAlert(type) {
+      if (type === 'update') {
+        this.$refs.updateAlert.hide();
+      } else if (type === 'delete') {
+        this.$refs.deleteAlert.hide();
+      }
+      this.is_update = true;
+      this.operateId = '';
+      this.form1.splice(1, this.form1.length);
+    },
+    //删除表单中内容
+    closeSubForm(i) {
+      this.form1.splice(i, 1);
     },
     async toUpdate() {
-      let result = await this.$axios.post('/akyl/zx/zx_edit', { data: this.updateForm });
+      let result = await this.$axios.post('/akyl/akyl_out_sub/akyl_out_sub_edit', { data: this.updateForm });
       this.closeAlert('update');
       this.updateForm = {};
       this.search();
     },
-    //打开删除提示框
-    openDeleteAlert(id) {
-      this.$refs.deleteAlert.show();
-      this.deleteItem = id;
+    seeTable(type){
+      this.getKindList(type);
     },
-    //删除
-    async toDelete() {
-      let result = await this.$axios.post('/akyl/zx/zx_delete', { data: { id: this.deleteItem } });
-      this.search();
-      this.deleteItem = '';
-      this.$refs.deleteAlert.hide();
+    async getKindList(type) {
+      let result = await this.$axios.post(`/akyl/store/type_kind?type=${type}`);
+      this.$set(this, 'kindList', result.data.dataList);
     },
     //添加
     async toAdd() {
-      let result = await this.$axios.post('/akyl/zx/zx_save', { data: this.form });
+      this.form.login_id=this.login_id;
+      let result = await this.$axios.post('/akyl/store/out_main_save', { data: this.form });
+      let id=result.data.id;
+      let result1 = await this.$axios.post('/akyl/store/out_sub_save', { data: { subForm: this.form1,id:id} });
       this.form = {};
+      this.form1 = [];
       this.search();
       this.$refs.toAdd.hide();
     },
+    async search1(id) {
+      let result = await this.$axios.get(`/akyl/store/out_sub_info?id=${this.list[id].id}`);
+      this.$set(this, 'updateForm1', result.data.outSubList);
+    },
+    async getorder_no(){
+      let result1 = await this.$axios.get(`/akyl/store/order_no?order_key=OUT`);
+      this.$set(this.form, 'order_no', result1.data.order_no);
+    },
     openAlert(type, id) {
       if (type === 'update') {
+        this.getorder_no();
+        this.search1(id);
         this.$refs.updateAlert.show();
         this.updateForm = JSON.parse(JSON.stringify(this.list[id]));
       } else if (type === 'delete') {
@@ -246,23 +368,14 @@ export default {
       }
       this.operateId = '';
       this.updateForm = {};
+      this.reset();
     },
     //验证,因为添加和修改的验证内容都是一样的,所以用一个方法
     toValidate(type) {
       if (type === 'add') {
-        this.zxValidator.validate(this.form, (errors, fields) => {
-          if (errors) {
-            return this.handleErrors(errors, fields);
-          }
-          return this.toAdd();
-        });
+        return this.toAdd();
       } else {
-        this.zxValidator.validate(this.updateForm, (errors, fields) => {
-          if (errors) {
-            return this.handleErrors(errors, fields);
-          }
           return this.toUpdate();
-        });
       }
     },
     //验证错误
@@ -275,6 +388,22 @@ export default {
       }, {});
       // eslint-disable-next-line no-console
       console.debug(errors, fields);
+    },
+    getNums(index){
+      let num = 0;
+      for (const item of this.kindList) {
+        if (item.type === this.form1[index].kind) {
+          num = item.num;
+          break;
+        }
+      }
+      this.form1[index].else_num = num;
+    },
+    fun(number,number1){
+      if(number*1>number1*1){
+        alert('数值过大，请重新填写');
+        this.form1 = [];
+      }
     },
   },
 };
