@@ -169,19 +169,19 @@
         <div class="row">
           <div class="col-lg-4 mb25">
             <div style="margin-bottom: 7px;">订单号</div>
-            <b-form-input :disabled="is_update" v-model="updateForm.order_no"></b-form-input>
+            {{updateForm.order_no}}
           </div>
           <div class="col-lg-4 mb25">
             <div style="margin-bottom: 7px;">出库人</div>
-            <b-form-input :disabled="is_update" v-model="updateForm.user_name"></b-form-input>
+            {{updateForm.user_name}}
           </div>
           <div class="col-lg-4 mb25">
             <div style="margin-bottom: 7px;">备注</div>
-            <textarea :disabled="is_update" v-model="updateForm.remark" class="form-control" rows="3" style="height: 44px !important;" placeholder="备注"></textarea>
+            {{updateForm.remark}}
           </div>
           <div class="col-lg-12 marginBot">
             <div style="margin-bottom: 7px;">出库时间</div>
-            <b-form-input :disabled="is_update" v-model="updateForm.out_date"></b-form-input>
+            {{updateForm.out_date}}
           </div><br/>
           <table class="table table-bordered table-striped ">
             <tbody>
@@ -192,13 +192,13 @@
               </tr>
               <tr v-for="(item, index) in updateForm1" :key="index">
                 <td>
-                  <b-form-input :disabled="is_update" v-model="item.type === '1' ? '裸针库' : item.status === '2' ? '弹簧柄库' : '针芯库' "></b-form-input>
+                  {{item.type === '1' ? '裸针库' : item.status === '2' ? '弹簧柄库' : '针芯库' }}
                 </td>
                 <td>
-                  <b-form-input :disabled="is_update" v-model="item.kind"></b-form-input>
+                  {{item.kind}}
                 </td>
                 <td>
-                  <b-form-input :disabled="is_update" v-model="item.num"></b-form-input>
+                  {{item.num}}
                 </td>
               </tr>
             </tbody>
@@ -359,16 +359,6 @@ export default {
         this.$refs.deleteAlert.show();
         this.operateId = id;
       }
-    },
-    closeAlert(type) {
-      if (type === 'update') {
-        this.$refs.updateAlert.hide();
-      } else if (type === 'delete') {
-        this.$refs.deleteAlert.hide();
-      }
-      this.operateId = '';
-      this.updateForm = {};
-      this.reset();
     },
     //验证,因为添加和修改的验证内容都是一样的,所以用一个方法
     toValidate(type) {
