@@ -20,6 +20,7 @@
           >
             <i class="base-margin-right-5 fa fa-plus-square"></i>添加型号
           </a>
+          <entrance @research="search"></entrance>
         </div>
         <table class="table table-bordered table-striped ">
           <tbody v-if="list.length > 0">
@@ -28,7 +29,7 @@
               <th>型号代码</th>
               <th>型号名称</th>
               <th>计件定额</th>
-              <th>加班计件定额</th>
+              <th>配重</th>
               <th>操作</th>
             </tr>
             <tr v-for="(item, index) in list" :key="index">
@@ -36,7 +37,7 @@
               <td>{{ item.code }}</td>
               <td>{{ item.name }}</td>
               <td>{{ item.jj_price }}</td>
-              <td>{{ item.jb_jj_price }}</td>
+              <td>{{ item.pz }}</td>
               <td>
                 <b-button variant="primary" style="color:white;" @click="openUpdateAlert(index)">修&nbsp;&nbsp;改</b-button>
                 <b-button variant="danger" @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
@@ -59,8 +60,8 @@
           <b-form-input v-model="form.name" class="marginBot20"></b-form-input>
           <p class="marginBot5">计时定额(元)</p>
           <b-form-input v-model="form.jj_price" type="number" class="marginBot20"></b-form-input>
-          <p class="marginBot5">加班计时定额(元)</p>
-          <b-form-input v-model="form.jb_jj_price" type="number" class="marginBot20"></b-form-input>
+          <p class="marginBot5">配重</p>
+          <b-form-input v-model="form.pz" type="number" class="marginBot20"></b-form-input>
           <b-button
             variant="secondary"
             @click="form = {}"
@@ -86,8 +87,8 @@
           <b-form-input v-model="form.name" class="marginBot20"></b-form-input>
           <p class="marginBot5">计时定额(元)</p>
           <b-form-input v-model="form.jj_price" type="number" class="marginBot20"></b-form-input>
-          <p class="marginBot5">加班计时定额(元)</p>
-          <b-form-input v-model="form.jb_jj_price" type="number" class="marginBot20"></b-form-input>
+          <p class="marginBot5">配重</p>
+          <b-form-input v-model="form.pz" type="number" class="marginBot20"></b-form-input>
           <b-button
             variant="secondary"
             @click="closeAlert()"
@@ -130,12 +131,15 @@
 
 <script>
 import Validator from 'async-validator';
+import entrance from '@/components/entrance.vue';
 export default {
   name: 'kind',
   metaInfo: {
     title: '类型管理',
   },
-  components: {},
+  components: {
+    entrance,
+  },
   data() {
     return {
       origin: [],
@@ -153,7 +157,7 @@ export default {
         code: { type: 'string', required: true, message: '请填写型号代码' },
         name: { type: 'string', required: true, message: '请填写型号名称' },
         jj_price: { required: true, message: '请填写计时定额' },
-        jb_jj_price: { required: true, message: '请填写加班计时定额' },
+        pz: { required: true, message: '请填写配重' },
       }),
     };
   },

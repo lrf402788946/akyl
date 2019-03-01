@@ -71,7 +71,7 @@
             <div class="lh44">部门：</div>
             <b-form-input v-model="userInfo.dept_name" :readonly="true"></b-form-input>
           </div>
-          <div class="col-lg-4 mb25">
+          <!-- <div class="col-lg-4 mb25">
             <div class="lh44">总工时(小时)：</div>
             <b-form-input
               v-model="form.all_time"
@@ -79,7 +79,7 @@
               :readonly="true"
               onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
-          </div>
+          </div> -->
           <div class="col-lg-4 mb20">
             <div class="lh44">请假时间(小时)：</div>
             <b-form-input
@@ -219,7 +219,7 @@
             <div class="lh44">部门：</div>
             <b-form-select v-model="updateForm.dept_id" :options="deptList" :disabled="true" />
           </div>
-          <div class="col-lg-4 mb25">
+          <!-- <div class="col-lg-4 mb25">
             <div class="lh44">总工时(小时)：</div>
             <b-form-input
               v-model="updateForm.all_time"
@@ -227,7 +227,7 @@
               placeholder="总工时"
               onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
-          </div>
+          </div> -->
           <div class="col-lg-4 mb20">
             <div class="lh44">请假时间(小时)：</div>
             <b-form-input
@@ -461,15 +461,15 @@ export default {
     this.getWorkList();
   },
   watch: {
-    time_quantum: {
-      handler(nV, oV) {
-        if (nV === 1) {
-          this.form.all_time = 8.5;
-        } else {
-          this.form.all_time = 9.5;
-        }
-      },
-    },
+    // time_quantum: {
+    //   handler(nV, oV) {
+    //     if (nV === 1) {
+    //       this.form.all_time = 8.5;
+    //     } else {
+    //       this.form.all_time = 9.5;
+    //     }
+    //   },
+    // },
   },
   methods: {
     //分页
@@ -577,7 +577,8 @@ export default {
         all_work_time = all_work_time * 1 + item.work_time * 1;
       });
       all_work_time += this.form.leave_time * 1;
-      if (this.form.all_time !== all_work_time) {
+      let should_work_time = this.time_quantum === 0 ? 9.5 : 8.5;
+      if (should_work_time !== all_work_time) {
         this.$message.error('请假时间加工作时间不等于总工时.时间输入有误');
         return false;
       }
@@ -601,6 +602,20 @@ export default {
     },
     //修改
     async update() {
+      this.subForm.map(item => {
+        item.is_night = this.time_quantum;
+        return item;
+      });
+      let all_work_time = 0;
+      this.subForm.forEach(item => {
+        all_work_time = all_work_time * 1 + item.work_time * 1;
+      });
+      all_work_time += this.form.leave_time * 1;
+      let should_work_time = this.time_quantum === 0 ? 9.5 : 8.5;
+      if (should_work_time !== all_work_time) {
+        this.$message.error('请假时间加工作时间不等于总工时.时间输入有误');
+        return false;
+      }
       let result = await this.$axios.post('/akyl/bg/job_report_main_edit', { data: this.updateForm });
       if (result.data.msg === '成功') {
         result = await this.$axios.post('/akyl/bg/job_report_sub_edit', { data: { subForm: this.subForm, id: this.updateForm.id } });

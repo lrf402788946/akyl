@@ -11,50 +11,49 @@
       <div class="base-padding-20 base-bg-fff">
         <div class="base-align-right" style="margin-bottom:20px;">
           <table class="table table-bordered table-striped ">
-          <tbody>
-            <tr>
-              <th>订单号</th>
-              <th>出库人</th>
-              <th>日期</th>
-              <th>操作</th>
-            </tr>
-            <tr>
-              <td><b-form-input v-model="order_no"></b-form-input></td>
-              <td><b-form-input v-model="user_name"></b-form-input></td>
-              <td>
-                <el-date-picker
-                  v-model="timeValue"
-                  value-format="yyyy-MM-dd"
-                  format="yyyy-MM-dd"
-                  type="daterange"
-                  range-separator="-"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期">
-                </el-date-picker>
-              </td>
-              <td>
-                <b-button
-                  variant="primary"
-                  style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;"
-                  @click="search()"
-                  >查&nbsp;&nbsp;询</b-button
-                >
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <a
-          class="btn btn-info base-margin-bottom"
-          data-toggle="tooltip"
-          style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;"
-          title=""
-          role="button"
-          v-b-modal="'toAdd'">
-          <i class="base-margin-right-5 fa fa-plus-square" style=" color:#fff !important;"></i>出库产品
-        </a>
+            <tbody>
+              <tr>
+                <th>订单号</th>
+                <th>出库人</th>
+                <th>日期</th>
+                <th>操作</th>
+              </tr>
+              <tr>
+                <td><b-form-input v-model="order_no"></b-form-input></td>
+                <td><b-form-input v-model="user_name"></b-form-input></td>
+                <td>
+                  <el-date-picker
+                    v-model="timeValue"
+                    value-format="yyyy-MM-dd"
+                    format="yyyy-MM-dd"
+                    type="daterange"
+                    range-separator="-"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                  >
+                  </el-date-picker>
+                </td>
+                <td>
+                  <b-button variant="primary" style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;" @click="search()"
+                    >查&nbsp;&nbsp;询</b-button
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <a
+            class="btn btn-info base-margin-bottom"
+            data-toggle="tooltip"
+            style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;"
+            title=""
+            role="button"
+            v-b-modal="'toAdd'"
+          >
+            <i class="base-margin-right-5 fa fa-plus-square" style=" color:#fff !important;"></i>出库产品
+          </a>
         </div>
         <table class="table table-bordered table-striped ">
-          <tbody v-if="list.length>0">
+          <tbody v-if="list.length > 0">
             <tr>
               <th>订单号</th>
               <th>出库人</th>
@@ -91,7 +90,7 @@
       </div>
     </div>
     <!-- 添加 -->
-    <b-modal id="toAdd" size='lg' title="出库操作" ref="toAdd" hide-footer>
+    <b-modal id="toAdd" size="lg" title="出库操作" ref="toAdd" hide-footer>
       <div class="d-block text-center">
         <div class="row">
           <div class="col-lg-4 mb25">
@@ -106,7 +105,7 @@
             <div style="margin-bottom: 7px;">备注:</div>
             <textarea v-model="form.remark" class="form-control" rows="3" style="height: 44px !important;" placeholder="备注"></textarea>
           </div>
-          <br/><br/><br/><br/>
+          <br /><br /><br /><br />
           <table class="table table-bordered table-striped ">
             <tbody>
               <tr>
@@ -117,18 +116,31 @@
                 <td>操作</td>
               </tr>
               <tr v-for="(item, index) in form1" :key="index">
-                 <td>
+                <td>
                   <el-select class="marginBot" style="height:40px !important" v-model="item.type" filterable placeholder="请选择类别">
                     <el-option v-for="item1 in type" :key="item1.value" :label="item1.text" :value="item1.value"> </el-option>
                   </el-select>
                 </td>
                 <td>
-                  <el-select class="marginBot" @change="getNums(index)" @click.native="getKindList(item.type)" style="height:40px !important" v-model="item.kind" filterable placeholder="请选择型号">
+                  <el-select
+                    class="marginBot"
+                    @change="getNums(index)"
+                    @click.native="getKindList(item.type)"
+                    style="height:40px !important"
+                    v-model="item.kind"
+                    filterable
+                    placeholder="请选择型号"
+                  >
                     <el-option v-for="item2 in kindList" :key="item2.value" :label="item2.type" :value="item2.type"></el-option>
                   </el-select>
                 </td>
                 <td>
-                  <b-form-input v-model="item.num" type="number" @change="fun(item.num,item.else_num)" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+                  <b-form-input
+                    v-model="item.num"
+                    type="number"
+                    @change="fun(item.num, item.else_num)"
+                    onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"
+                  ></b-form-input>
                 </td>
                 <td>
                   <b-form-input v-model="item.else_num" :disabled="is_update"></b-form-input>
@@ -138,7 +150,8 @@
                   @click="closeSubForm(index)"
                   class="resetButton"
                   variant="danger"
-                  >删&nbsp;&nbsp;除</b-button>
+                  >删&nbsp;&nbsp;除</b-button
+                >
               </tr>
             </tbody>
           </table>
@@ -149,22 +162,25 @@
         @click="addSubForm()"
         class="resetButton"
         style="font-size:16px !important; margin-top:25px; width:30% !important; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
-        >添&nbsp;&nbsp;加</b-button>
+        >添&nbsp;&nbsp;加</b-button
+      >
       <b-button
-       style="font-size:16px !important; margin:25px 5% 30px 5% !important; background-color: #17a2b8 !important;  width:30% !important; padding:6px 80px !important;"
+        style="font-size:16px !important; margin:25px 5% 30px 5% !important; background-color: #17a2b8 !important;  width:30% !important; padding:6px 80px !important;"
         variant="primary"
         @click="toValidate('add')"
-        >确&nbsp;认&nbsp;出&nbsp;库</b-button>
+        >确&nbsp;认&nbsp;出&nbsp;库</b-button
+      >
       <b-button
         variant="secondary"
         @click="reset()"
         class="resetButton"
         style="font-size:16px !important; margin-top:25px; margin-bottom:30px !important; width:30% !important; margin-right: 0 !important; padding:6px 80px !important;"
-        >重&nbsp;&nbsp;置</b-button>
+        >重&nbsp;&nbsp;置</b-button
+      >
     </b-modal>
 
     <!-- 详情 -->
-    <b-modal id="updateAlert" size='lg' title="出库信息" ref="updateAlert" hide-footer>
+    <b-modal id="updateAlert" size="lg" title="出库信息" ref="updateAlert" hide-footer>
       <div class="d-block text-center">
         <div class="row">
           <div class="col-lg-4 mb25">
@@ -210,7 +226,8 @@
         @click="closeAlert('update')"
         class="resetButton"
         style="font-size:16px !important; margin:25px 5% 30px 5% !important; background-color: #17a2b8 !important;  width:30% !important; padding:6px 80px !important;"
-        >返&nbsp;&nbsp;回</b-button>
+        >返&nbsp;&nbsp;回</b-button
+      >
     </b-modal>
     <!-- 详情 -->
   </div>
@@ -243,9 +260,9 @@ export default {
       totalRow: 0,
       form: {},
       form1: [],
-      timeValue: ['',''],
-      start:'',
-      end:'',
+      timeValue: ['', ''],
+      start: '',
+      end: '',
       deptList: [],
       kindList: [],
       workList: [],
@@ -269,18 +286,22 @@ export default {
     //查询
     async search() {
       //查询方法
-      if(typeof(this.timeValue[0])!="undefined"){
-        this.start=this.timeValue[0]
-      }else{
-        this.start=''
+      if (typeof this.timeValue[0] != 'undefined') {
+        this.start = this.timeValue[0];
+      } else {
+        this.start = '';
       }
-      if(typeof(this.timeValue[1])!="undefined"){
-        this.end=this.timeValue[1]
-      }else{
-        this.end=''
+      if (typeof this.timeValue[1] != 'undefined') {
+        this.end = this.timeValue[1];
+      } else {
+        this.end = '';
       }
       let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(`/akyl/store/out_main_list?main_id=${this.userInfo.login_id}&skip=${skip}&limit=${this.limit}&order_no=${this.order_no}&user_name=${this.user_name}&start_time=${this.start}&end_time=${this.end}`);
+      let result = await this.$axios.get(
+        `/akyl/store/out_main_list?main_id=${this.userInfo.login_id}&skip=${skip}&limit=${this.limit}&order_no=${this.order_no}&user_name=${
+          this.user_name
+        }&start_time=${this.start}&end_time=${this.end}`
+      );
       this.$set(this, 'list', result.data.outMainList);
       this.$set(this, 'totalRow', result.data.totalRow);
       let result1 = await this.$axios.get(`/akyl/store/order_no?order_key=OUT`);
@@ -323,7 +344,7 @@ export default {
       this.updateForm = {};
       this.search();
     },
-    seeTable(type){
+    seeTable(type) {
       this.getKindList(type);
     },
     async getKindList(type) {
@@ -332,10 +353,10 @@ export default {
     },
     //添加
     async toAdd() {
-      this.form.login_id=this.login_id;
+      this.form.login_id = this.login_id;
       let result = await this.$axios.post('/akyl/store/out_main_save', { data: this.form });
-      let id=result.data.id;
-      let result1 = await this.$axios.post('/akyl/store/out_sub_save', { data: { subForm: this.form1,id:id} });
+      let id = result.data.id;
+      let result1 = await this.$axios.post('/akyl/store/out_sub_save', { data: { subForm: this.form1, id: id } });
       this.form = {};
       this.form1 = [];
       this.search();
@@ -345,7 +366,7 @@ export default {
       let result = await this.$axios.get(`/akyl/store/out_sub_info?id=${this.list[id].id}`);
       this.$set(this, 'updateForm1', result.data.outSubList);
     },
-    async getorder_no(){
+    async getorder_no() {
       let result1 = await this.$axios.get(`/akyl/store/order_no?order_key=OUT`);
       this.$set(this.form, 'order_no', result1.data.order_no);
     },
@@ -365,7 +386,7 @@ export default {
       if (type === 'add') {
         return this.toAdd();
       } else {
-          return this.toUpdate();
+        return this.toUpdate();
       }
     },
     //验证错误
@@ -379,7 +400,7 @@ export default {
       // eslint-disable-next-line no-console
       console.debug(errors, fields);
     },
-    getNums(index){
+    getNums(index) {
       let num = 0;
       for (const item of this.kindList) {
         if (item.type === this.form1[index].kind) {
@@ -389,8 +410,8 @@ export default {
       }
       this.form1[index].else_num = num;
     },
-    fun(number,number1){
-      if(number*1>number1*1){
+    fun(number, number1) {
+      if (number * 1 > number1 * 1) {
         alert('数值过大，请重新填写');
         this.form1 = [];
       }

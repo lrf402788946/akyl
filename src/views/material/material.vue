@@ -1,8 +1,8 @@
 <template lang="html">
-  <div id="pdt">
+  <div id="material">
     <div class="form-inline">
       <div class="base-form-title" style="width:100%;">
-        <a class="base-margin-left-20">统计一</a>
+        <a class="base-margin-left-20">材料管理</a>
         <div class="button-table"></div>
       </div>
     </div>
@@ -11,7 +11,7 @@
         <div class="col-lg-4 mb25">
           <el-date-picker
             style="width: 100%;"
-            v-model="search_time"
+            v-model="form1"
             value-format="yyyy-MM-dd"
             format="yyyy-MM-dd"
             type="daterange"
@@ -23,10 +23,10 @@
           </el-date-picker>
         </div>
         <div class="col-lg-3 mb25">
-          <el-select class="marginBot" style="height:40px !important" v-model="dept_id" filterable placeholder="请选择部门">
-            <el-option v-for="item in deptList" :key="item.value" :label="item.text" :value="item.value"> </el-option>
+          <el-select @change="getKindList()" class="marginBot" style="height:40px !important" v-model="work_id" filterable placeholder="请选择工序">
+            <el-option v-for="item in workList" :key="item.value" :label="item.text" :value="item.value"> </el-option>
           </el-select>
-          <!-- <b-form-select style="height:40px !important" v-model="dept_id" :options="deptList" class="marginBot" /> -->
+          <!-- <b-form-select style="height:40px !important" v-model="work_id" :options="workList" class="marginBot" @change="getKindList()" /> -->
         </div>
         <div class="col-lg-3 mb25">
           <el-select class="marginBot" style="height:40px !important" v-model="kind_id" filterable placeholder="请选择型号">
@@ -43,19 +43,20 @@
           >
         </div>
       </div>
+
       <table class="table table-bordered table-striped ">
         <tbody v-if="list.length > 0">
           <tr>
-            <th>工号</th>
-            <th>姓名</th>
             <th>型号</th>
-            <th>工作量</th>
+            <th>数量</th>
+            <th>配重</th>
+            <th>重量</th>
           </tr>
           <tr v-for="(item, index) in list" :key="index">
             <td>{{ item.code }}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.job_num }}</td>
-            <td>{{ item.num }}</td>
+            <td>{{ item.nums === null ? 0 : item.nums }}</td>
+            <td>{{ item.pz === null ? 0 : item.pz }}</td>
+            <td>{{ item.weight === null ? 0 : item.weight }}</td>
           </tr>
         </tbody>
         <tbody v-else>
@@ -67,59 +68,65 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
-  name: 'pdt',
+  name: 'material',
   metaInfo: {
-    title: '每人每天每型号数量',
+    title: '材料管理',
   },
   components: {},
   data() {
     return {
       list: [],
-      search_time: [],
-      dept_id: null,
-      kind_id: null,
-      deptList: [],
-      kindList: [],
+      form1: new Array(),
+      workList: [],
+      kindList: [{ text: '全部', value: '' }],
+      work_id: '',
+      kind_id: '',
     };
   },
   computed: {},
   created() {
-    this.getOtherList();
+    this.getWorkList();
   },
   methods: {
-    async getOtherList() {
-      //请求部门表
-      let result = await this.$axios.get('/akyl/dept/dept_list?skip=0&limit=100');
-      this.deptList = result.data.deptList.map(item => {
-        let newObject = { text: item.dept_name, value: item.id };
+    async getWorkList() {
+      let result = await this.$axios.get('/akyl/work/work_list?skip=0&limit=100');
+      this.workList = result.data.workList.map(item => {
+        let newObject = { text: item.name, value: item.id };
         return newObject;
       });
-      // let defalut = { text: '请选择部门', value: null, disabled: true };
-      // this.deptList.unshift(defalut);
-      //请求类型表
-      result = await this.$axios.get('/akyl/kind/kind_list?skip=0&limit=100');
+      // let defalut = { text: '请选择工序', value: null, disabled: true };
+      // this.workList.unshift(defalut);
+    },
+    async getKindList() {
+      this.kindList = [];
+      let result = await this.$axios.get(`/akyl/kind/kind_list?skip=0&limit=1000&work_id=${this.work_id}`);
       this.kindList = result.data.kindList.map(item => {
         let newObject = { text: item.name, value: item.id };
         return newObject;
       });
-      // defalut = { text: '请选择型号', value: null, disabled: true };
-      // this.kindList.unshift(defalut);
+      let defalut = { text: '所有类型', value: '' };
+      this.kindList.unshift(defalut);
     },
     async search() {
-      if (this.dept_id === null) this.dept_id = '';
-      if (this.kind_id === null) this.kind_id = '';
-      if (!this.search_time.length > 0) {
+      if (this.work_id == null) {
+        this.$message.error('请选择工序');
+        return false;
+      }
+      if (!this.form1.length > 0) {
         this.$message.error('请选择时间范围');
         return false;
       }
       let result = await this.$axios.get(
-        `/akyl/count/count_per?dept_id=${this.dept_id}&start_time=${this.search_time[0]}&end_time=${this.search_time[1]}&kind_id=${this.kind_id}`
+        `/akyl/count/count_pz?work_id=${this.work_id}&kind_id=${this.kind_id}&start_time=${this.form1[0]}&end_time=${this.form1[1]}`
       );
       if (result.data.msg === '成功') {
-        this.$set(this, 'list', result.data.dataList);
+        let newList = result.data.dataList.map(item => {
+          let newObject = { code: item.code, name: item.name, nums: item.nums, pz: item.pz, weight: item.nums * 1 * (item.pz * 1) };
+          return newObject;
+        });
+        this.$set(this, 'list', newList);
       }
       if (result.data.msg === '没有数据') {
         this.list = '';

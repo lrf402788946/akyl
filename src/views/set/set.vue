@@ -35,7 +35,7 @@
             </div>
             <div class="col-lg-12">
               <div class="col-lg-6">
-                <div class="li38">工作时长(小时):</div>
+                <div class="li38">白班工作时长(小时):</div>
                 <input
                   type="number"
                   class="col-lg-11 form-control"
@@ -43,6 +43,18 @@
                   v-model="list.gz_sc"
                   onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
                 />
+              </div>
+              <div class="col-lg-12">
+                <div class="col-lg-6">
+                  <div class="li38">夜班工作时长(小时):</div>
+                  <input
+                    type="number"
+                    class="col-lg-11 form-control"
+                    v-bind:disabled="isReadOnly"
+                    v-model="list.yb_sc"
+                    onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+                  />
+                </div>
               </div>
               <div class="col-lg-6">
                 <div class="li38">夜班补助(元):</div>

@@ -22,6 +22,7 @@ import index from './views/index.vue';
 import index_contant from './views/index_contant.vue';
 import rk from './views/rk/rk.vue';
 import ck from './views/ck/ck.vue';
+import material from './views/material/material.vue';
 
 Vue.use(Router);
 const router = new Router({
@@ -137,6 +138,11 @@ const router = new Router({
           path: '/ck',
           name: 'ck',
           component: ck,
+        },
+        {
+          path: '/material',
+          name: 'material',
+          component: material,
         },
       ],
     },

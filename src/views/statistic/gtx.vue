@@ -24,13 +24,13 @@
         </div>
         <div class="col-lg-3 mb25">
           <el-select @change="getKindList()" class="marginBot" style="height:40px !important" v-model="work_id" filterable placeholder="请选择工序">
-            <el-option v-for="item in workList" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+            <el-option v-for="item in workList" :key="item.value" :label="item.text" :value="item.value"> </el-option>
           </el-select>
           <!-- <b-form-select style="height:40px !important" v-model="work_id" :options="workList" class="marginBot" @change="getKindList()" /> -->
         </div>
         <div class="col-lg-3 mb25">
           <el-select class="marginBot" style="height:40px !important" v-model="kind_id" filterable placeholder="请选择型号">
-            <el-option v-for="item in kindList" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+            <el-option v-for="item in kindList" :key="item.value" :label="item.text" :value="item.value"> </el-option>
           </el-select>
           <!-- <b-form-select style="height:40px !important" v-model="kind_id" :options="kindList" class="marginBot" /> -->
         </div>
@@ -52,7 +52,7 @@
           </tr>
           <tr v-for="(item, index) in list" :key="index">
             <td>{{ item.name }}</td>
-            <td>{{ item.nums }}</td>
+            <td>{{ item.nums === null ? 0 : item.nums }}</td>
           </tr>
         </tbody>
         <tbody v-else>
@@ -76,9 +76,9 @@ export default {
       list: [],
       form1: new Array(),
       workList: [],
-      kindList: [{ text: '全部', value: null }],
-      work_id: null,
-      kind_id: null,
+      kindList: [{ text: '全部', value: '' }],
+      work_id: '',
+      kind_id: '',
     };
   },
   computed: {},
@@ -103,8 +103,6 @@ export default {
         return newObject;
       });
       let defalut = { text: '所有类型', value: '' };
-      this.kindList.unshift(defalut);
-      // defalut = { text: '请选择型号', value: null, disabled: true };
       this.kindList.unshift(defalut);
     },
     async search() {
