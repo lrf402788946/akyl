@@ -135,7 +135,7 @@
               <tr v-for="(item, index) in subForm" :key="index">
                 <td>
                   <!-- <b-form-select v-model="addForm.kname" :options="kname"/>-->
-                  <el-select class="marginBot" style="height:40px !important" v-model="item.type" filterable placeholder="请选择类别">
+                  <el-select class="marginBot" style="height: 35px !important;  margin-top: 7px !important; width: 100% !important;" v-model="item.type" filterable placeholder="请选择类别">
                     <el-option v-for="item in type" :key="item.value" :label="item.text" :value="item.value"> </el-option>
                   </el-select>
                   <!-- <b-form-select v-model="item.work_id" :options="workList" @change="getKindList(index)" /> -->
@@ -178,7 +178,7 @@
     <b-modal id="updateAlert" title="入库单详情" ref="updateAlert" size="xl" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
       <div class="d-block text-center">
         <div class="row">
-          <div class="col-lg-4 mb25">
+          <div class="col-lg-4">
             <div class="lh44">订单号：</div>
             <b-form-input
               v-model="updateForm.order_no"
@@ -187,11 +187,11 @@
               onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
           </div>
-          <div class="col-lg-4 mb25">
+          <div class="col-lg-4">
             <div class="lh44">入库人：</div>
             <b-form-input v-model="updateForm.user_name" :disabled="is_update"></b-form-input>
           </div>
-          <div class="col-lg-4 mb20">
+          <div class="col-lg-4">
             <div class="lh44">入库日期：</div>
             <el-date-picker
               style="width:100%;"
@@ -217,7 +217,7 @@
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
                 <td>
-                  <el-select class="marginBot" style="height:40px !important" v-model="item.type" :disabled="is_update" filterable placeholder="请选择类别">
+                  <el-select class="marginBot" style="height: 35px !important;  margin-top: 7px !important; width: 100% !important;" v-model="item.type" :disabled="is_update" filterable placeholder="请选择类别">
                     <el-option v-for="item in type" :key="item.value" :label="item.text" :value="item.value"> </el-option>
                   </el-select>
                 </td>

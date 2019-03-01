@@ -12,7 +12,7 @@
         <div class="base-align-right" style="margin-bottom:20px;">
           <table class="table table-bordered table-striped ">
             <tbody>
-              <tr>
+              <tr style="text-align: left;">
                 <th>订单号</th>
                 <th>出库人</th>
                 <th>日期</th>
@@ -21,13 +21,14 @@
               <tr>
                 <td><b-form-input v-model="order_no"></b-form-input></td>
                 <td><b-form-input v-model="user_name"></b-form-input></td>
-                <td>
+                <td style="text-align: left;">
                   <el-date-picker
                     v-model="timeValue"
                     value-format="yyyy-MM-dd"
                     format="yyyy-MM-dd"
                     type="daterange"
                     range-separator="-"
+                    style="width:100%;"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
                   >
@@ -184,20 +185,21 @@
       <div class="d-block text-center">
         <div class="row">
           <div class="col-lg-4 mb25">
-            <div style="margin-bottom: 7px;">订单号</div>
-            {{ updateForm.order_no }}
+            <div style="margin-bottom: 7px; text-align:left;">订单号</div>
+            <b-form-input v-model="updateForm.order_no" :disabled="is_update" placeholder="订单号"></b-form-input>
           </div>
           <div class="col-lg-4 mb25">
-            <div style="margin-bottom: 7px;">出库人</div>
-            {{ updateForm.user_name }}
+            <div style="margin-bottom: 7px; text-align:left;">出库人</div>
+            <b-form-input v-model="updateForm.user_name" :disabled="is_update" placeholder="出库人"></b-form-input>
+            
           </div>
           <div class="col-lg-4 mb25">
-            <div style="margin-bottom: 7px;">备注</div>
-            {{ updateForm.remark }}
+            <div style="margin-bottom: 7px; text-align:left;">出库时间</div>
+            <b-form-input v-model="updateForm.out_date" :disabled="is_update" placeholder="出库时间"></b-form-input>
           </div>
-          <div class="col-lg-12 marginBot">
-            <div style="margin-bottom: 7px;">出库时间</div>
-            {{ updateForm.out_date }}
+          <div class="col-lg-8 marginBot">
+            <div style="margin-bottom: 7px; text-align:left;">备注</div>
+            <b-form-input v-model="updateForm.remark" :disabled="is_update" placeholder="备注"></b-form-input>
           </div>
           <br />
           <table class="table table-bordered table-striped ">
