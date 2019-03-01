@@ -491,6 +491,7 @@ export default {
     },
     //打开与关闭修改和删除的弹框
     openAlert(type, id) {
+      this.subForm=[];
       if (type === 'update') {
         this.$refs.updateAlert.show();
         this.search();
