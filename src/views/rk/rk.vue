@@ -32,11 +32,15 @@
                   range-separator="-"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
-                             >
+                >
                 </el-date-picker>
               </td>
-              <td style="padding-left:80px">
-                <b-button variant="primary1"  @click="titlesearch()">查&nbsp;&nbsp;询</b-button>
+              <td style="padding-left:60px">
+                <b-button
+                  variant="primary"
+                  style="font-size: 12px !important; color: rgb(255, 255, 255) !important; width: 100% !important; padding: 6px 15px !important; margin-right: 0px !important;"
+                  @click="titlesearch()"
+                >点&nbsp;&nbsp;击&nbsp;&nbsp;查&nbsp;&nbsp;询</b-button>
               </td>
             </tr>
           </table>
@@ -60,7 +64,7 @@
               <th>订单号</th>
               <th>入库人</th>
               <th>入库日期(h)</th>
-              <th>备注</th>
+              <th>备注</th> 
               <th>操作</th>
             </tr>
             <tr v-for="(item, index) in list" :key="index">
@@ -590,8 +594,8 @@ export default {
 .btn-primary1 {
   background-color: #5bc0de;
   color: white;
-  width: 160px;
-  height: 120px;
+  width: 400px;
+  height: 280px;
   cursor: hand;
 }
 .breadcrumb {
