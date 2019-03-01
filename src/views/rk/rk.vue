@@ -153,7 +153,7 @@
       </div>
       <b-button
         variant="primary"
-        @click="addSubForm()"
+        @click="addSubForm('add')"
         class="resetButton"
         style="font-size:16px !important; margin-top:25px; width:30% !important; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
         >添&nbsp;&nbsp;加</b-button
@@ -491,7 +491,7 @@ export default {
     },
     //打开与关闭修改和删除的弹框
     openAlert(type, id) {
-      this.subForm=[];
+      this.subForm = [];
       if (type === 'update') {
         this.$refs.updateAlert.show();
         this.search();
@@ -505,7 +505,7 @@ export default {
         this.temporaryList.splice(0, this.temporaryList.length);
         this.form.dept_id = this.userInfo.dept_id;
         this.form.login_id = this.userInfo.login_id;
-        this.addSubForm();
+        this.addSubForm('open');
         this.$refs.addAlert.show();
       }
     },
@@ -537,8 +537,15 @@ export default {
       this.subForm.splice(i, 1);
     },
     //添加字表数据
-    addSubForm() {
-      this.subForm.push(JSON.parse(JSON.stringify(this.subFormContent)));
+    addSubForm(type) {
+      if (type === 'add') {
+        this.subForm.push(JSON.parse(JSON.stringify(this.subFormContent)));
+      } else {
+        if (!this.subForm.length > 0) {
+          this.subForm.push(JSON.parse(JSON.stringify(this.subFormContent)));
+        }
+      }
+      // this.subForm.push(JSON.parse(JSON.stringify(this.subFormContent)));
       // let defalut = { text: '请先选择工序', value: null, disabled: true };
       // let subFormKindList = [];
       // subFormKindList.unshift(defalut);

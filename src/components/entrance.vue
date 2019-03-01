@@ -92,7 +92,11 @@ export default {
           this.da.map(item => {
             let newObject = {};
             for (const item2 of titleObject) {
-              newObject[item2.db_name] = item[item2.name];
+              if (item2.db_name === 'create_date' || item2.db_name === 'birthday' || item2.db_name === 'in_time') {
+                newObject[item2.db_name] = _this.$moment(_this.excel_time_to_timestamp(item[item2.name])).format('YYYY-MM-DD');
+              } else {
+                newObject[item2.db_name] = item[item2.name];
+              }
             }
             importArray.push(newObject);
           });
@@ -105,7 +109,7 @@ export default {
           console.log(result);
           if (result.data.rescode === '0') {
             _this.$message.success('导入成功');
-            this.$emit('research');
+            _this.$emit('research');
           } else {
             _this.$message.error('导入失败');
           }
@@ -118,6 +122,11 @@ export default {
       } else {
         reader.readAsBinaryString(f);
       }
+    },
+    excel_time_to_timestamp(excelTime) {
+      const second = 25569,
+        day_timestamp = 24 * 60 * 60 * 1000;
+      return (+excelTime - second) * day_timestamp;
     },
   },
 };
