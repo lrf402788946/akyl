@@ -113,7 +113,7 @@
             >
             </b-form-input>
           </div>
-          <div class="col-lg-6">
+          <!-- <div class="col-lg-6">
             <b-form-input
               v-model="addForm.emaill"
               placeholder="电子信箱"
@@ -121,7 +121,7 @@
               onkeypress="return (/[0-9a-zA-Z@.]/.test(String.fromCharCode(event.keyCode)))"
             >
             </b-form-input>
-          </div>
+          </div> -->
           <div class="col-lg-6">
             <el-date-picker v-model="addForm.birthday" type="date" placeholder="出生日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd"></el-date-picker>
           </div>
@@ -227,14 +227,14 @@
               onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
           </div>
-          <div class="col-lg-6 marginBot4">
+          <!-- <div class="col-lg-6 marginBot4">
             <p class="marginBot4">电子信箱</p>
             <b-form-input
               v-model="updateForm.emaill"
               :disabled="is_update"
               onkeypress="return (/[0-9a-zA-Z@.]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
-          </div>
+          </div> -->
           <div class="col-lg-6 marginBot4">
             <p class="marginBot4">出生日期</p>
             <el-date-picker
@@ -393,10 +393,8 @@ export default {
         gender: [{ required: true, message: '请选择性别' }],
         phone_no: [{ type: 'string', required: true, message: '请填写个人电话' }],
         home_address: [{ type: 'string', required: true, message: '请填写家庭住址' }],
-        emaill: [{ type: 'string', required: true, message: '请填写电子信箱' }],
         birthday: [{ type: 'string', required: true, message: '请选择出生日期' }],
         id_number: [{ type: 'string', required: true, message: '请填写身份证号' }],
-        card_no: [{ type: 'string', required: true, message: '请填写卡号' }],
         dept_id: [{ required: true, message: '请选择部门' }],
         level: [{ type: 'string', required: true, message: '请填写职务' }],
         post_id: [{ required: true, message: '请选择岗位' }],
@@ -410,10 +408,8 @@ export default {
         gender: [{ required: true, message: '请选择性别' }],
         phone_no: [{ type: 'string', required: true, message: '请填写个人电话' }],
         home_address: [{ type: 'string', required: true, message: '请填写家庭住址' }],
-        emaill: [{ type: 'string', required: true, message: '请填写电子信箱' }],
         birthday: [{ type: 'string', required: true, message: '请选择出生日期' }],
         id_number: [{ type: 'string', required: true, message: '请填写身份证号' }],
-        card_no: [{ type: 'string', required: true, message: '请填写卡号' }],
         dept_id: [{ required: true, message: '请选择部门' }],
         level: [{ type: 'string', required: true, message: '请填写职务' }],
         post_id: [{ required: true, message: '请选择岗位' }],
@@ -466,23 +462,38 @@ export default {
     //添加
     async add() {
       let result = await this.$axios.post('/akyl/staff/staff_save', { data: this.addForm });
-      this.$refs.addAlert.hide();
-      this.addForm = {};
-      this.search();
+      if (result.data.rescode === '0') {
+        this.$message.success('添加' + result.data.msg);
+        this.addForm = {};
+        this.$refs.addAlert.hide();
+        this.search();
+      } else {
+        this.$message.error(result.data.msg);
+      }
     },
     //修改
     async update() {
       let result = await this.$axios.post('/akyl/staff/staff_edit', { data: this.updateForm });
-      this.closeAlert('update');
-      this.updateForm = {};
-      this.is_update = true;
-      this.search();
+      if (result.data.rescode === '0') {
+        this.$message.success('修改' + result.data.msg);
+        this.updateForm = {};
+        this.is_update = true;
+        this.closeAlert('update');
+        this.search();
+      } else {
+        this.$message.error(result.data.msg);
+      }
     },
     //删除
     async toDelete() {
       let result = await this.$axios.post('/akyl/staff/staff_delete', { data: { id: this.operateId } });
-      this.closeAlert('delete');
-      this.search();
+      if (result.data.rescode === '0') {
+        this.$message.success('删除' + result.data.msg);
+        this.closeAlert('delete');
+        this.search();
+      } else {
+        this.$message.error(result.data.msg);
+      }
     },
     //请求各表
     async getOtherList() {

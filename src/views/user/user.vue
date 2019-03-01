@@ -30,7 +30,7 @@
               <th>办公室电话</th>
               <th>个人电话</th>
               <th>家庭住址</th>
-              <th>电子信箱</th>
+              <!-- <th>电子信箱</th> -->
               <th>操作</th>
             </tr>
             <tr v-for="(item, index) in list" :key="index">
@@ -41,7 +41,7 @@
               <td>{{ item.office_tell }}</td>
               <td>{{ item.phone_no }}</td>
               <td>{{ item.home_address }}</td>
-              <td>{{ item.emaill }}</td>
+              <!-- <td>{{ item.emaill }}</td> -->
               <td>
                 <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update', index)">详&nbsp;&nbsp;情</b-button>
                 <b-button variant="danger" style="color:white;" @click="openAlert('delete', item.id)">删&nbsp;&nbsp;除</b-button>
@@ -231,14 +231,14 @@
               onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
           </div>
-          <div class="col-lg-6 marginBot4">
+          <!-- <div class="col-lg-6 marginBot4">
             <p class="marginBot4">电子信箱</p>
             <b-form-input
               v-model="updateForm.emaill"
               :disabled="is_update"
               onkeypress="return (/[0-9a-zA-Z@.]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
-          </div>
+          </div> -->
           <div class="col-lg-6 marginBot4">
             <p class="marginBot4">出生日期</p>
             <el-date-picker
@@ -260,26 +260,26 @@
               onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
           </div>
-          <div class="col-lg-6 marginBot4">
+          <!-- <div class="col-lg-6 marginBot4">
             <p class="marginBot4">卡号</p>
             <b-form-input
               v-model="updateForm.card_no"
               :disabled="is_update"
               onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
-          </div>
+          </div> -->
           <div class="col-lg-6 marginBot4">
             <p class="marginBot4">部门</p>
             <b-form-select v-model="updateForm.dept_id" :options="deptList" :disabled="is_update" />
           </div>
-          <div class="col-lg-6 marginBot4">
+          <!-- <div class="col-lg-6 marginBot4">
             <p class="marginBot4">职务</p>
             <b-form-input
               v-model="updateForm.level"
               :disabled="is_update"
               onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
-          </div>
+          </div> -->
           <div class="col-lg-6 marginBot4">
             <p class="marginBot4">岗位</p>
             <b-form-select v-model="updateForm.post_id" :options="postList" :disabled="is_update"></b-form-select>
@@ -387,12 +387,12 @@ export default {
         office_tell: [{ type: 'string', required: true, message: '请填写办公室电话' }],
         phone_no: [{ type: 'string', required: true, message: '请填写个人电话' }],
         home_address: [{ type: 'string', required: true, message: '请填写家庭住址' }],
-        emaill: [{ type: 'string', required: true, message: '请填写电子信箱' }],
+        // emaill: [{ type: 'string', required: true, message: '请填写电子信箱' }],
         birthday: [{ type: 'string', required: true, message: '请选择出生日期' }],
         id_number: [{ type: 'string', required: true, message: '请填写身份证号' }],
-        card_no: [{ type: 'string', required: true, message: '请填写卡号' }],
+        // card_no: [{ type: 'string', required: true, message: '请填写卡号' }],
         dept_id: [{ required: true, message: '请选择部门' }],
-        level: [{ type: 'string', required: true, message: '请填写职务' }],
+        // level: [{ type: 'string', required: true, message: '请填写职务' }],
         post_id: [{ required: true, message: '请选择岗位' }],
       }),
     };
@@ -412,7 +412,6 @@ export default {
     async search() {
       let skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(`/akyl/user/user_list?skip=${skip}&limit=${this.limit}`);
-      console.log(result.data.userList);
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.userList);
         this.$set(this, 'totalRow', result.data.totalRow);

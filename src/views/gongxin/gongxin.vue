@@ -171,21 +171,20 @@ export default {
     //查询  部门下拉列表，工号选填，月份日期不可为空
     async search() {
       let skip = (this.currentPage - 1) * this.limit;
-      if(this.cdeptid === null){
-        this.cdeptid='';
+      if (this.cdeptid === null) {
+        this.cdeptid = '';
       }
       let result = await this.$axios.get(
         `/akyl/wages/wages_list?skip=${skip}&limit=${this.limit}&create_time=${this.value1}&dept_id=${this.cdeptid}&job_num=${this.cjobnum}`
       );
-      if(result.data.msg === '成功'){
+      if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.wagesList);
         this.$set(this, 'totalRow', result.data.totalRow);
-      };
-      if(result.data.msg === '没有数据'){
-        this.list=[];
-        this.totalRow=0;
-      };
-      
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = [];
+        this.totalRow = 0;
+      }
     },
     async searchdept() {
       //查询部门的方法

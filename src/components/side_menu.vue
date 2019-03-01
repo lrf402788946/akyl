@@ -86,7 +86,6 @@ export default {
       }
     },
     openMenuList(index) {
-      console.log(this.$refs.collapse[index].show);
       if (!this.$refs.collapse[index].show) {
         this.$refs.collapse.forEach(item => {
           item.show = false;

@@ -206,24 +206,39 @@ export default {
     //添加
     async add() {
       let result = await this.$axios.post('/akyl/kind/kind_save', { data: this.form });
-      this.$refs.toAdd.hide();
-      this.form = {};
-      this.search();
+      if (result.data.rescode === '0') {
+        this.$message.success('添加' + result.data.msg);
+        this.$refs.toAdd.hide();
+        this.form = {};
+        this.search();
+      } else {
+        this.$message.error(result.data.msg);
+      }
     },
     //修改
     async update() {
       let data = this.form;
       let result = await this.$axios.post('/akyl/kind/kind_edit', { data: data });
-      console.log(result);
-      this.$refs.Edit.hide();
-      this.search();
+      if (result.data.rescode === '0') {
+        this.$message.success('修改' + result.data.msg);
+        this.$refs.Edit.hide();
+        this.search();
+        this.form = {};
+      } else {
+        this.$message.error(result.data.msg);
+      }
     },
     //删除
     async toDelete() {
       let result = await this.$axios.post('/akyl/kind/kind_delete', { data: { id: this.deleteItem } });
-      this.$refs.deleteAlert.hide();
-      this.search();
-      this.deleteItem = '';
+      if (result.data.rescode === '0') {
+        this.$message.success('删除' + result.data.msg);
+        this.$refs.deleteAlert.hide();
+        this.search();
+        this.deleteItem = '';
+      } else {
+        this.$message.error(result.data.msg);
+      }
     },
     //打开修改提示框
     openUpdateAlert(index) {

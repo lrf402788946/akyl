@@ -135,9 +135,14 @@ export default {
     async toSave() {
       this.form['id'] = this.operateId;
       let result = await this.$axios.post('/akyl/user/user_role', { data: this.form });
-      this.form = {};
-      this.search();
-      this.$refs.updateAlert.hide();
+      if (result.data.rescode === '0') {
+        this.$message.success('添加' + result.data.msg);
+        this.form = {};
+        this.$refs.updateAlert.hide();
+        this.search();
+      } else {
+        this.$message.error(result.data.msg);
+      }
     },
     //关闭弹框
     closeAlert() {
