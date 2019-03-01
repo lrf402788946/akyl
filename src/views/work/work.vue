@@ -19,6 +19,7 @@
             >
               <i class="base-margin-right-5 fa fa-plus-square"></i>添加工序
             </a>
+            <entrance @research="search"></entrance>
           </div>
           <table class="table table-bordered table-striped ">
             <tbody v-if="list.length > 0">
@@ -139,12 +140,15 @@
 <script>
 import _ from 'lodash';
 import Validator from 'async-validator';
+import entrance from '@/components/entrance.vue';
 export default {
   name: 'work',
   metaInfo: {
     title: '工序管理',
   },
-  components: {},
+  components: {
+    entrance,
+  },
   data() {
     return {
       list: [],

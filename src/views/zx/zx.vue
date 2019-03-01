@@ -20,6 +20,7 @@
           >
             <i class="base-margin-right-5 fa fa-plus-square" style=" color:#fff !important;"></i>添加针芯
           </a>
+          <entrance @research="search"></entrance>
         </div>
         <table class="table table-bordered table-striped ">
           <tbody v-if="list.length > 0">
@@ -157,13 +158,16 @@
 
 <script>
 import Validator from 'async-validator';
+import entrance from '@/components/entrance.vue';
 import _ from 'lodash';
 export default {
   name: 'zx',
   metaInfo: {
     title: '针芯管理',
   },
-  components: {},
+  components: {
+    entrance,
+  },
   data() {
     return {
       list: [],
