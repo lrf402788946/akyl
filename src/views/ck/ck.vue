@@ -185,20 +185,21 @@
         <div class="row">
           <div class="col-lg-4 mb25">
             <div style="margin-bottom: 7px;">订单号</div>
-            {{updateForm.order_no}}
+            {{ updateForm.order_no }}
           </div>
           <div class="col-lg-4 mb25">
             <div style="margin-bottom: 7px;">出库人</div>
-            {{updateForm.user_name}}
+            {{ updateForm.user_name }}
           </div>
           <div class="col-lg-4 mb25">
             <div style="margin-bottom: 7px;">备注</div>
-            {{updateForm.remark}}
+            {{ updateForm.remark }}
           </div>
           <div class="col-lg-12 marginBot">
             <div style="margin-bottom: 7px;">出库时间</div>
-            {{updateForm.out_date}}
-          </div><br/>
+            {{ updateForm.out_date }}
+          </div>
+          <br />
           <table class="table table-bordered table-striped ">
             <tbody>
               <tr>
@@ -208,13 +209,13 @@
               </tr>
               <tr v-for="(item, index) in updateForm1" :key="index">
                 <td>
-                  {{item.type === '1' ? '裸针库' : item.status === '2' ? '弹簧柄库' : '针芯库' }}
+                  {{ item.type === '1' ? '裸针库' : item.status === '2' ? '弹簧柄库' : '针芯库' }}
                 </td>
                 <td>
-                  {{item.kind}}
+                  {{ item.kind }}
                 </td>
                 <td>
-                  {{item.num}}
+                  {{ item.num }}
                 </td>
               </tr>
             </tbody>
