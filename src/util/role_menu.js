@@ -103,5 +103,9 @@ export const TJ = {
       name: '每工序每天每型号数量',
       router_name: 'gtx',
     },
+    {
+      name: '材料统计',
+      router_name: 'material',
+    },
   ],
 };

@@ -11,17 +11,17 @@
       <div class="base-padding-20 base-bg-fff">
         <div>
           <table>
-           <tr>
-             <td>入库单号查询:</td>
-             <td style="padding-left:50px">入库人查询:</td>
-             <td style="padding-left:50px">入库日期查询:</td>
-           </tr>
-           <tr>
-            <td>
-              <b-form-input v-model="select_order_no" placeholder="输入入库单号" style="width:200px,margin-left:50px"></b-form-input>
+            <tr>
+              <td>入库单号查询:</td>
+              <td style="padding-left:50px">入库人查询:</td>
+              <td style="padding-left:50px">入库日期查询:</td>
+            </tr>
+            <tr>
+              <td>
+                <b-form-input v-model="select_order_no" placeholder="输入入库单号" style="width:200px,margin-left:50px"></b-form-input>
               </td>
               <td style="padding-left:50px">
-          <b-form-input v-model="select_user_name" placeholder="输入入库人" style="padding-left:50px,width:200px"></b-form-input>
+                <b-form-input v-model="select_user_name" placeholder="输入入库人" style="padding-left:50px,width:200px"></b-form-input>
               </td>
               <td style="padding-left:50px">
                 <el-date-picker
@@ -32,11 +32,11 @@
                   range-separator="-"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
-                             >
+                >
                 </el-date-picker>
               </td>
               <td style="padding-left:80px">
-                <b-button variant="primary1"  @click="titlesearch()">查&nbsp;&nbsp;询</b-button>
+                <b-button variant="primary1" @click="titlesearch()">查&nbsp;&nbsp;询</b-button>
               </td>
             </tr>
           </table>
@@ -70,7 +70,7 @@
               <td>{{ item.remark }}</td>
               <td>
                 <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update', index)">详&nbsp;&nbsp;情</b-button>
-               <!-- <b-button variant="danger" style="color:white;" @click="openAlert('delete', item.id)">删&nbsp;&nbsp;除</b-button> -->
+                <!-- <b-button variant="danger" style="color:white;" @click="openAlert('delete', item.id)">删&nbsp;&nbsp;除</b-button> -->
               </td>
             </tr>
           </tbody>
@@ -109,7 +109,7 @@
             <div class="lh44">操作人ID：</div>
             <b-form-input
               v-model="form.login_id"
-              :disabled="is_update" 
+              :disabled="is_update"
               placeholder="操作人ID"
               onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
@@ -117,7 +117,6 @@
           <div class="col-lg-4 mb20">
             <div class="lh44">备注：</div>
             <textarea v-model="form.remark" class="form-control" rows="3" style="height: 44px !important;" placeholder="备注"></textarea>
-
           </div>
           <br />
           <table class="table table-bordered table-striped ">
@@ -126,7 +125,7 @@
                 <td>类别</td>
                 <td>型号</td>
                 <td>数量</td>
-               <!-- <td>操作</td>-->
+                <!-- <td>操作</td>-->
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
                 <td>
@@ -439,7 +438,7 @@ export default {
         }
       }
     },
-    async titlesearch(){
+    async titlesearch() {
       if (this.select_order_no === null) this.select_order_no = '';
       if (this.select_user_name === null) this.select_user_name = '';
       if (this.select_in_date === null) this.select_in_date = '';
@@ -455,7 +454,9 @@ export default {
       }
       let skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(
-        `/akyl/store/in_main_list?order_no=${this.select_order_no}&start_time=${this.start}&end_time=${this.end}&user_name=${this.select_user_name}&skip=${skip}&limit=${this.limit}`
+        `/akyl/store/in_main_list?order_no=${this.select_order_no}&start_time=${this.start}&end_time=${this.end}&user_name=${
+          this.select_user_name
+        }&skip=${skip}&limit=${this.limit}`
       );
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.inMainList);
@@ -512,7 +513,7 @@ export default {
       this.is_update = true;
       this.operateId = '';
       this.reset();
-    //  this.subForm.splice(0, this.subForm.length);
+      //  this.subForm.splice(0, this.subForm.length);
     },
     //验证错误
     handleErrors(errors, fields) {
