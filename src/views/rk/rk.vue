@@ -135,7 +135,13 @@
               <tr v-for="(item, index) in subForm" :key="index">
                 <td>
                   <!-- <b-form-select v-model="addForm.kname" :options="kname"/>-->
-                  <el-select class="marginBot" style="height: 35px !important;  margin-top: 7px !important; width: 100% !important;" v-model="item.type" filterable placeholder="请选择类别">
+                  <el-select
+                    class="marginBot"
+                    style="height: 35px !important;  margin-top: 7px !important; width: 100% !important;"
+                    v-model="item.type"
+                    filterable
+                    placeholder="请选择类别"
+                  >
                     <el-option v-for="item in type" :key="item.value" :label="item.text" :value="item.value"> </el-option>
                   </el-select>
                   <!-- <b-form-select v-model="item.work_id" :options="workList" @change="getKindList(index)" /> -->
@@ -217,7 +223,14 @@
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
                 <td>
-                  <el-select class="marginBot" style="height: 35px !important;  margin-top: 7px !important; width: 100% !important;" v-model="item.type" :disabled="is_update" filterable placeholder="请选择类别">
+                  <el-select
+                    class="marginBot"
+                    style="height: 35px !important;  margin-top: 7px !important; width: 100% !important;"
+                    v-model="item.type"
+                    :disabled="is_update"
+                    filterable
+                    placeholder="请选择类别"
+                  >
                     <el-option v-for="item in type" :key="item.value" :label="item.text" :value="item.value"> </el-option>
                   </el-select>
                 </td>

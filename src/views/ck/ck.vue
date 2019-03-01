@@ -191,7 +191,6 @@
           <div class="col-lg-4 mb25">
             <div style="margin-bottom: 7px; text-align:left;">出库人</div>
             <b-form-input v-model="updateForm.user_name" :disabled="is_update" placeholder="出库人"></b-form-input>
-            
           </div>
           <div class="col-lg-4 mb25">
             <div style="margin-bottom: 7px; text-align:left;">出库时间</div>

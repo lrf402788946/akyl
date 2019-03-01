@@ -1,11 +1,10 @@
 <template lang="html">
   <div id="entrance">
-    <div href="javascript:;" class="file" style="text-align: left !important;"
-      >导入表格
+    <div href="javascript:;" class="file" style="text-align: left !important;">
+      导入表格
       <input
         id="upload"
         type="file"
-        
         @change="imports(this)"
         accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
       />
