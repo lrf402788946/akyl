@@ -344,7 +344,7 @@ export default {
     async toUpdate() {
       let result = await this.$axios.post('/akyl/akyl_out_sub/akyl_out_sub_edit', { data: this.updateForm });
       this.closeAlert('update');
-      this.updateForm = {};
+      this.updateForm = [];
       this.search();
     },
     seeTable(type) {
