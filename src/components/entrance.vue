@@ -92,11 +92,12 @@ export default {
           this.da.map(item => {
             let newObject = {};
             for (const item2 of titleObject) {
-              if (item2.db_name === 'create_date' || item2.db_name === 'birthday' || item2.db_name === 'in_time') {
-                newObject[item2.db_name] = _this.$moment(_this.excel_time_to_timestamp(item[item2.name])).format('YYYY-MM-DD');
-              } else {
-                newObject[item2.db_name] = item[item2.name];
-              }
+              // if (item2.db_name === 'create_date') {
+              //   newObject[item2.db_name] = _this.$moment(_this.excel_time_to_timestamp(item[item2.name])).format('YYYY-MM-DD');
+              // } else {
+              //   newObject[item2.db_name] = item[item2.name];
+              // }
+              newObject[item2.db_name] = item[item2.name];
             }
             importArray.push(newObject);
           });
@@ -112,6 +113,7 @@ export default {
             _this.$emit('research');
           } else {
             _this.$message.error('导入失败');
+            console.debug(result.data.msg);
           }
         };
         reader.readAsArrayBuffer(f);

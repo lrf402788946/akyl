@@ -4,7 +4,7 @@
     <div class="base-form">
       <div class="form-inline">
         <div class="base-form-title" style="width:100%;">
-          <a class="base-margin-left-20">裸针列表</a>
+          <a class="base-margin-left-20">直废列表</a>
           <div class="button-table"></div>
         </div>
       </div>
@@ -18,7 +18,7 @@
             role="button"
             v-b-modal="'toAdd'"
           >
-            <i class="base-margin-right-5 fa fa-plus-square" style=" color:#fff !important;"></i>添加裸针
+            <i class="base-margin-right-5 fa fa-plus-square" style=" color:#fff !important;"></i>添加直废
           </a>
           <entrance @research="search"></entrance>
         </div>
@@ -58,7 +58,7 @@
         ></el-pagination>
       </div>
     </div>
-    <b-modal id="toAdd" title="添加裸针" ref="toAdd" hide-footer>
+    <b-modal id="toAdd" title="添加直废" ref="toAdd" hide-footer>
       <div style="margin-bottom: 7px;">型号:</div>
       <b-form-input v-model="form.type"></b-form-input>
       <div style="margin-top:7px; margin-bottom:7px;">数量:</div>
@@ -75,7 +75,7 @@
       <b-button
         variant="secondary"
         style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
-        @click="form = { create_date: create_date_today }"
+        @click="form = {}"
       >
         重&nbsp;&nbsp;置</b-button
       >
@@ -90,7 +90,7 @@
 
     <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
       <div class="d-block text-center">
-        <b-alert variant="danger" show>删除裸针可能会影响您的管理,确认删除吗?</b-alert>
+        <b-alert variant="danger" show>删除直废可能会影响您的管理,确认删除吗?</b-alert>
       </div>
       <b-button
         variant="danger"
@@ -109,7 +109,7 @@
     >
 
     <!-- jkjkjkjk -->
-    <b-modal id="updateAlert" title="修改裸针" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
+    <b-modal id="updateAlert" title="修改直废" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
       <div class="d-block">
         <div class="row">
           <div class="col-lg-12 marginBot4">
@@ -163,7 +163,7 @@ import _ from 'lodash';
 export default {
   name: 'lz',
   metaInfo: {
-    title: '裸针管理',
+    title: '直废管理',
   },
   components: {
     entrance,
@@ -171,10 +171,7 @@ export default {
   data() {
     return {
       list: [],
-      create_date_today: new Date().getYear() + 1900 + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate(),
-      form: {
-        create_date: new Date().getYear() + 1900 + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate(),
-      },
+      form: {},
       deleteItem: '',
       updateForm: {
         gender: -1,
@@ -205,12 +202,12 @@ export default {
     async search() {
       //查询方法
       let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(`/akyl/lz/lz_list?skip=${skip}&limit=${this.limit}`);
-      this.$set(this, 'list', result.data.lzList);
+      let result = await this.$axios.get(`/akyl/zf/zf_list?skip=${skip}&limit=${this.limit}`);
+      this.$set(this, 'list', result.data.zfList);
       this.$set(this, 'totalRow', result.data.totalRow);
     },
     async toUpdate() {
-      let result = await this.$axios.post('/akyl/lz/lz_edit', { data: this.updateForm });
+      let result = await this.$axios.post('/akyl/zf/zf_edit', { data: this.updateForm });
       if (result.data.rescode === '0') {
         this.$message.success('修改' + result.data.msg);
         this.closeAlert('update');
@@ -227,7 +224,7 @@ export default {
     },
     //删除
     async toDelete() {
-      let result = await this.$axios.post('/akyl/lz/lz_delete', { data: { id: this.deleteItem } });
+      let result = await this.$axios.post('/akyl/zf/zf_delete', { data: { id: this.deleteItem } });
       if (result.data.rescode === '0') {
         this.$message.success('删除' + result.data.msg);
         this.search();
@@ -239,11 +236,10 @@ export default {
     },
     //添加
     async toAdd() {
-      let result = await this.$axios.post('/akyl/lz/lz_save', { data: this.form });
+      let result = await this.$axios.post('/akyl/zf/zf_save', { data: this.form });
       if (result.data.rescode === '0') {
         this.$message.success('添加' + result.data.msg);
         this.currentPage = 1;
-        this.form = { create_date: this.create_date_today };
         this.search();
         this.$refs.toAdd.hide();
       } else {

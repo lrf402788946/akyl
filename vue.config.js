@@ -19,7 +19,7 @@ module.exports = {
     //api地址前缀
     proxy: {
       '/akyl': {
-        target: 'http://10.16.11.186:80',
+        target: 'http://192.168.1.235:80',
         changeOrigin: true,
         ws: true,
         pathRewrite: {

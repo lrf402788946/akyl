@@ -50,6 +50,16 @@
             </tr>
           </tbody>
         </table>
+        <el-pagination
+          layout="total, prev, pager, next"
+          :background="true"
+          :page-size="15"
+          prev-text="上一页"
+          next-text="下一页"
+          @current-change="toSearch"
+          :total="totalRow"
+        >
+        </el-pagination>
         <b-modal id="toAdd" title="添加型号" ref="toAdd" hide-footer>
           <!--需要计算,如果是父类,正常显示,不是的话就缩进-->
           <p class="marginBot5">工序</p>
@@ -151,7 +161,7 @@ export default {
       deleteItem: '',
       currentPage: 1,
       limit: 15,
-      totalRow: 100,
+      totalRow: 0,
       kindValidator: new Validator({
         work_id: { type: 'number', required: true, message: '请选择工序代码' },
         code: { type: 'string', required: true, message: '请填写型号代码' },

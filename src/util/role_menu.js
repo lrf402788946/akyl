@@ -36,6 +36,10 @@ export const CK = {
       router_name: 'zx',
     },
     {
+      name: '直废针库',
+      router_name: 'zf',
+    },
+    {
       name: '入库管理',
       router_name: 'rk',
     },
@@ -66,7 +70,7 @@ export const XT = {
       router_name: 'set',
     },
     {
-      name: '类型管理',
+      name: '型号管理',
       router_name: 'kind',
     },
   ],
@@ -103,9 +107,15 @@ export const TJ = {
       name: '每工序每天每型号数量',
       router_name: 'gtx',
     },
+  ],
+};
+
+export const CL = {
+  name: '材料管理',
+  menu: [
     {
-      name: '材料统计',
+      name: '材料配重',
       router_name: 'material',
     },
   ],
-};
+}

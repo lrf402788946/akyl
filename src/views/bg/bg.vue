@@ -71,7 +71,7 @@
             <div class="lh44">部门：</div>
             <b-form-input v-model="userInfo.dept_name" :readonly="true"></b-form-input>
           </div>
-          <!-- <div class="col-lg-4 mb25">
+          <div class="col-lg-4 mb25">
             <div class="lh44">总工时(小时)：</div>
             <b-form-input
               v-model="form.all_time"
@@ -79,7 +79,7 @@
               :readonly="true"
               onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
-          </div> -->
+          </div>
           <div class="col-lg-4 mb20">
             <div class="lh44">请假时间(小时)：</div>
             <b-form-input
@@ -219,7 +219,7 @@
             <div class="lh44">部门：</div>
             <b-form-select v-model="updateForm.dept_id" :options="deptList" :disabled="true" />
           </div>
-          <!-- <div class="col-lg-4 mb25">
+          <div class="col-lg-4 mb25">
             <div class="lh44">总工时(小时)：</div>
             <b-form-input
               v-model="updateForm.all_time"
@@ -227,7 +227,7 @@
               placeholder="总工时"
               onkeypress="return (/[0-9.:]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
-          </div> -->
+          </div>
           <div class="col-lg-4 mb20">
             <div class="lh44">请假时间(小时)：</div>
             <b-form-input

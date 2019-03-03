@@ -79,10 +79,6 @@ export default {
       db_name: 'tq',
     },
     {
-      name: '是否通勤',
-      db_name: 'tq',
-    },
-    {
       name: '入职时间',
       db_name: 'in_time',
     },

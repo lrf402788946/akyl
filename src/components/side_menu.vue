@@ -61,11 +61,18 @@ export default {
               case 'ROLE_ZZ':
                 newMenu.push(YW);
                 newMenu.push(CK);
+                newMenu.push(TJ);
                 break;
               case 'ROLE_CW':
                 newMenu.push(CW);
+                newMenu.push(YW);
                 break;
               case 'ROLE_LD':
+                newMenu.push(TJ);
+                newMenu.push(CK);
+                break;
+              case 'ROLE_SC':
+                newMenu.push(CK);
                 newMenu.push(TJ);
                 break;
               default:

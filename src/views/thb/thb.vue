@@ -243,7 +243,7 @@ export default {
     async search() {
       //查询方法
       let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(`http://10.16.11.186:80/thb/thb_list?skip=${skip}&limit=10`);
+      let result = await this.$axios.get(`/akyl/thb/thb_list?skip=${skip}&limit=10`);
       this.$set(this, 'list', result.data.thbList);
       this.$set(this, 'totalRow', result.data.totalRow);
     },

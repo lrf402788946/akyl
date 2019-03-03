@@ -105,7 +105,7 @@
             >
             </b-form-input>
           </div>
-          <div class="col-lg-6">
+          <!-- <div class="col-lg-6">
             <b-form-input
               v-model="addForm.home_address"
               placeholder="家庭住址"
@@ -113,7 +113,7 @@
               onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
             >
             </b-form-input>
-          </div>
+          </div> -->
           <!-- <div class="col-lg-6">
             <b-form-input
               v-model="addForm.emaill"
@@ -136,7 +136,7 @@
             >
             </b-form-input>
           </div>
-          <div class="col-lg-6">
+          <!-- <div class="col-lg-6">
             <b-form-input
               v-model="addForm.card_no"
               maxlength="20"
@@ -145,7 +145,7 @@
               onkeypress="return (/[0-9\\-]/.test(String.fromCharCode(event.keyCode)))"
             >
             </b-form-input>
-          </div>
+          </div> -->
           <div class="col-lg-6">
             <b-form-select v-model="addForm.dept_id" :options="deptList" class="marginBot" />
           </div>
@@ -220,14 +220,14 @@
               onkeypress="return (/[0-9]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
           </div>
-          <div class="col-lg-12 marginBot4">
+          <!-- <div class="col-lg-12 marginBot4">
             <p class="marginBot4">家庭住址</p>
             <b-form-input
               v-model="updateForm.home_address"
               :disabled="is_update"
               onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
-          </div>
+          </div> -->
           <!-- <div class="col-lg-6 marginBot4">
             <p class="marginBot4">电子信箱</p>
             <b-form-input
@@ -256,7 +256,7 @@
               onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
           </div>
-          <div class="col-lg-6 marginBot4">
+          <!-- <div class="col-lg-6 marginBot4">
             <p class="marginBot4">卡号</p>
             <b-form-input
               v-model="updateForm.card_no"
@@ -264,7 +264,7 @@
               :disabled="is_update"
               onkeypress="return (/[0-9]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
-          </div>
+          </div> -->
           <div class="col-lg-6 marginBot4">
             <p class="marginBot4">部门</p>
             <b-form-select v-model="updateForm.dept_id" :options="deptList" :disabled="is_update" />
@@ -396,12 +396,12 @@ export default {
         user_name: [{ type: 'string', required: true, message: '请填写姓名' }],
         gender: [{ required: true, message: '请选择性别' }],
         phone_no: [{ type: 'string', required: true, message: '请填写个人电话' }],
-        home_address: [{ type: 'string', required: true, message: '请填写家庭住址' }],
+        // home_address: [{ type: 'string', required: true, message: '请填写家庭住址' }],
         birthday: [{ type: 'string', required: true, message: '请选择出生日期' }],
         id_number: [{ type: 'string', required: true, message: '请填写身份证号' }],
         dept_id: [{ required: true, message: '请选择部门' }],
         // level: [{ type: 'string', required: true, message: '请填写职务' }],
-        post_id: [{ required: true, message: '请选择岗位' }],
+        // post_id: [{ required: true, message: '请选择岗位' }],
         status: [{ required: true, message: '请选择工作状态' }],
         tq: [{ required: true, message: '请选择是否通勤' }],
         in_time: [{ type: 'string', required: true, message: '请选择入职时间' }],
@@ -411,12 +411,12 @@ export default {
         user_name: [{ type: 'string', required: true, message: '请填写姓名' }],
         gender: [{ required: true, message: '请选择性别' }],
         phone_no: [{ type: 'string', required: true, message: '请填写个人电话' }],
-        home_address: [{ type: 'string', required: true, message: '请填写家庭住址' }],
+        // home_address: [{ type: 'string', required: true, message: '请填写家庭住址' }],
         birthday: [{ type: 'string', required: true, message: '请选择出生日期' }],
         id_number: [{ type: 'string', required: true, message: '请填写身份证号' }],
         dept_id: [{ required: true, message: '请选择部门' }],
         // level: [{ type: 'string', required: true, message: '请填写职务' }],
-        post_id: [{ required: true, message: '请选择岗位' }],
+        // post_id: [{ required: true, message: '请选择岗位' }],
         status: [{ required: true, message: '请选择工作状态' }],
         tq: [{ required: true, message: '请选择是否通勤' }],
         in_time: [{ type: 'string', required: true, message: '请选择入职时间' }],

@@ -76,7 +76,7 @@
       <b-button
         variant="secondary"
         style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
-        @click="form = { create_date: create_date_today }"
+        @click="form = {}"
         >重&nbsp;&nbsp;置</b-button
       >
       <b-button
@@ -171,15 +171,12 @@ export default {
   data() {
     return {
       list: [],
-      create_date_today: new Date().getYear() + 1900 + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate(),
-      form: {
-        create_date: new Date().getYear() + 1900 + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate(),
-      },
+      form: {},
       deleteItem: '',
       updateForm: {},
       currentPage: 1,
       limit: 15,
-      totalRow: 100,
+      totalRow: 0,
       zxValidator: new Validator({
         type: { type: 'string', required: true, message: '请填写型号' },
         num: { required: true, message: '请填写数量' },

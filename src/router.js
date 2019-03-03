@@ -23,6 +23,7 @@ import index_contant from './views/index_contant.vue';
 import rk from './views/rk/rk.vue';
 import ck from './views/ck/ck.vue';
 import material from './views/material/material.vue';
+import zf from './views/zf/zf.vue';
 
 Vue.use(Router);
 const router = new Router({
@@ -143,6 +144,11 @@ const router = new Router({
           path: '/material',
           name: 'material',
           component: material,
+        },
+        {
+          path: '/zf',
+          name: 'zf',
+          component: zf,
         },
       ],
     },

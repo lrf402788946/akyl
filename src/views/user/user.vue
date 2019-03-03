@@ -27,9 +27,9 @@
               <th>姓名</th>
               <th>登录ID</th>
               <th>性别</th>
-              <th>办公室电话</th>
+              <!-- <th>办公室电话</th>
               <th>个人电话</th>
-              <th>家庭住址</th>
+              <th>家庭住址</th> -->
               <!-- <th>电子信箱</th> -->
               <th>操作</th>
             </tr>
@@ -38,9 +38,9 @@
               <td>{{ item.user_name }}</td>
               <td>{{ item.login_id }}</td>
               <td>{{ item.gender === 1 ? '男' : '女' }}</td>
-              <td>{{ item.office_tell }}</td>
+              <!-- <td>{{ item.office_tell }}</td>
               <td>{{ item.phone_no }}</td>
-              <td>{{ item.home_address }}</td>
+              <td>{{ item.home_address }}</td> -->
               <!-- <td>{{ item.emaill }}</td> -->
               <td>
                 <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update', index)">详&nbsp;&nbsp;情</b-button>
@@ -97,7 +97,7 @@
           <div class="col-lg-6">
             <b-form-select v-model="addForm.gender" :options="gender" class="marginBot" />
           </div>
-          <div class="col-lg-6">
+          <!-- <div class="col-lg-6">
             <b-form-input
               v-model="addForm.office_tell"
               placeholder="办公室电话"
@@ -120,7 +120,7 @@
               class="marginBot"
               onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
-          </div>
+          </div> -->
           <!-- <div class="col-lg-6">
             <b-form-input
               v-model="addForm.emaill"
@@ -129,10 +129,10 @@
               onkeypress="return (/[0-9a-zA-Z@.]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
           </div> -->
-          <div class="col-lg-6">
+          <!-- <div class="col-lg-6">
             <el-date-picker v-model="addForm.birthday" type="date" placeholder="出生日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd"></el-date-picker>
-          </div>
-          <div class="col-lg-6">
+          </div> -->
+          <!-- <div class="col-lg-6">
             <b-form-input
               v-model="addForm.id_number"
               placeholder="身份证号"
@@ -140,7 +140,7 @@
               class="marginBot"
               onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
-          </div>
+          </div> -->
           <!-- <div class="col-lg-6">
             <b-form-input
               v-model="addForm.card_no"
@@ -207,7 +207,7 @@
             <p class="marginBot4">性别</p>
             <b-form-select v-model="updateForm.gender" :options="gender" :disabled="is_update" />
           </div>
-          <div class="col-lg-6 marginBot4">
+          <!-- <div class="col-lg-6 marginBot4">
             <p class="marginBot4">办公室电话</p>
             <b-form-input
               v-model="updateForm.office_tell"
@@ -230,7 +230,7 @@
               :disabled="is_update"
               onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
-          </div>
+          </div> -->
           <!-- <div class="col-lg-6 marginBot4">
             <p class="marginBot4">电子信箱</p>
             <b-form-input
@@ -239,7 +239,7 @@
               onkeypress="return (/[0-9a-zA-Z@.]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
           </div> -->
-          <div class="col-lg-6 marginBot4">
+          <!-- <div class="col-lg-6 marginBot4">
             <p class="marginBot4">出生日期</p>
             <el-date-picker
               v-model="updateForm.birthday"
@@ -248,10 +248,10 @@
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
               :disabled="is_update"
-            ></el-date-picker>
-            <!-- <input v-model="updateForm.birthday" type="text" class="form-control tyx-cursor" id="updateBirthday" data-date-format="yyyy-mm-dd"/> -->
-          </div>
-          <div class="col-lg-6 marginBot4">
+            ></el-date-picker> -->
+          <!-- <input v-model="updateForm.birthday" type="text" class="form-control tyx-cursor" id="updateBirthday" data-date-format="yyyy-mm-dd"/> -->
+          <!-- </div> -->
+          <!-- <div class="col-lg-6 marginBot4">
             <p class="marginBot4">身份证号</p>
             <b-form-input
               v-model="updateForm.id_number"
@@ -259,7 +259,7 @@
               :disabled="is_update"
               onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
-          </div>
+          </div> -->
           <!-- <div class="col-lg-6 marginBot4">
             <p class="marginBot4">卡号</p>
             <b-form-input
@@ -370,12 +370,12 @@ export default {
         login_id: [{ type: 'string', required: true, message: '请填写登录账号' }],
         password: [{ type: 'string', required: true, message: '请填写登录密码' }],
         gender: [{ required: true, message: '请选择性别' }],
-        office_tell: [{ type: 'string', required: true, message: '请填写办公室电话' }],
-        phone_no: [{ type: 'string', required: true, message: '请填写个人电话' }],
-        home_address: [{ type: 'string', required: true, message: '请填写家庭住址' }],
+        // office_tell: [{ type: 'string', required: true, message: '请填写办公室电话' }],
+        // phone_no: [{ type: 'string', required: true, message: '请填写个人电话' }],
+        // home_address: [{ type: 'string', required: true, message: '请填写家庭住址' }],
         // emaill: [{ type: 'string', required: true, message: '请填写电子信箱' }],
-        birthday: [{ type: 'string', required: true, message: '请选择出生日期' }],
-        id_number: [{ type: 'string', required: true, message: '请填写身份证号' }],
+        // birthday: [{ type: 'string', required: true, message: '请选择出生日期' }],
+        // id_number: [{ type: 'string', required: true, message: '请填写身份证号' }],
         // card_no: [{ type: 'string', required: true, message: '请填写卡号' }],
         dept_id: [{ required: true, message: '请选择部门' }],
         // level: [{ type: 'string', required: true, message: '请填写职务' }],
@@ -384,12 +384,12 @@ export default {
       updateUserValidator: new Validator({
         user_name: [{ type: 'string', required: true, message: '请填写姓名' }],
         gender: [{ required: true, message: '请选择性别' }],
-        office_tell: [{ type: 'string', required: true, message: '请填写办公室电话' }],
-        phone_no: [{ type: 'string', required: true, message: '请填写个人电话' }],
-        home_address: [{ type: 'string', required: true, message: '请填写家庭住址' }],
+        // office_tell: [{ type: 'string', required: true, message: '请填写办公室电话' }],
+        // phone_no: [{ type: 'string', required: true, message: '请填写个人电话' }],
+        // home_address: [{ type: 'string', required: true, message: '请填写家庭住址' }],
         // emaill: [{ type: 'string', required: true, message: '请填写电子信箱' }],
-        birthday: [{ type: 'string', required: true, message: '请选择出生日期' }],
-        id_number: [{ type: 'string', required: true, message: '请填写身份证号' }],
+        // birthday: [{ type: 'string', required: true, message: '请选择出生日期' }],
+        // id_number: [{ type: 'string', required: true, message: '请填写身份证号' }],
         // card_no: [{ type: 'string', required: true, message: '请填写卡号' }],
         dept_id: [{ required: true, message: '请选择部门' }],
         // level: [{ type: 'string', required: true, message: '请填写职务' }],
