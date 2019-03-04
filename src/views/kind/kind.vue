@@ -9,28 +9,31 @@
         </div>
       </div>
       <div class="base-padding-20 base-bg-fff">
-         <table>
-            <tr>
-              <td>工序名称查询:</td>
-              <td style="padding-left:50px">型号代码查询:</td>
-            </tr>
-            <tr>
-              <td>
-                <b-form-input v-model="select_kind_gxname" placeholder="输入工序名称" style="width:200px,margin-left:50px"></b-form-input>
-              </td>
-              <td style="padding-left:50px">
-                <b-form-input v-model="select_kind_typecode" placeholder="输入型号代码" style="padding-left:50px,width:200px"></b-form-input>
-              </td>
-              <td style="padding-left:60px">
-                <b-button
-                  variant="primary"
-                  style="font-size: 12px !important; color: rgb(255, 255, 255) !important; width: 100% !important; padding: 6px 15px !important; margin-right: 0px !important;"
-                  @click="titlesearch()"
-                  >点&nbsp;&nbsp;击&nbsp;&nbsp;查&nbsp;&nbsp;询</b-button
-                >
-              </td>
-            </tr>
-          </table>
+        <table>
+          <tr>
+            <td>工序名称查询:</td>
+            <td style="padding-left:50px">型号代码查询:</td>
+          </tr>
+          <tr>
+            <td>
+              <el-select class="marginBot8" style="height:40px !important" v-model="select_kind_gxname" filterable placeholder="请选择类别">
+                <el-option v-for="item1 in workList" :key="item1.value" :label="item1.text" :value="item1.value"> </el-option>
+              </el-select>
+            </td>
+            <td style="padding-left:50px">
+              <b-form-input v-model="select_kind_typecode" placeholder="输入型号代码" style="padding-left:50px,width:200px"></b-form-input>
+            </td>
+            <td style="padding-left:60px">
+              <b-button
+                variant="primary"
+                style="font-size: 12px !important; color: rgb(255, 255, 255) !important; width: 100% !important; padding: 6px 15px !important; margin-right: 0px !important;"
+                @click="search()"
+                >点&nbsp;&nbsp;击&nbsp;&nbsp;查&nbsp;&nbsp;询</b-button
+              >
+            </td>
+          </tr>
+        </table>
+
         <div class="base-align-right" style="margin-bottom:20px;">
           <a
             class="btn btn-info base-margin-bottom"
@@ -85,7 +88,9 @@
         <b-modal id="toAdd" title="添加型号" ref="toAdd" hide-footer>
           <!--需要计算,如果是父类,正常显示,不是的话就缩进-->
           <p class="marginBot5">工序</p>
-          <b-form-select v-model="form.work_id" :options="workList" />
+          <el-select class="marginBot8" style="height:40px !important" v-model="form.work_id" filterable placeholder="请选择类别">
+            <el-option v-for="item1 in workList" :key="item1.value" :label="item1.text" :value="item1.value"> </el-option>
+          </el-select>
           <p class="marginBot5">型号代码</p>
           <b-form-input v-model="form.code" class="marginBot8"></b-form-input>
           <p class="marginBot5">型号名称</p>
@@ -112,7 +117,9 @@
 
         <b-modal id="Edit" title="修改型号" ref="Edit" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
           <p class="marginBot5">工序</p>
-          <b-form-select v-model="form.work_id" :options="workList" />
+          <el-select class="marginBot8" style="height:40px !important" v-model="form.work_id" filterable placeholder="请选择类别">
+            <el-option v-for="item1 in workList" :key="item1.value" :label="item1.text" :value="item1.value"> </el-option>
+          </el-select>
           <p class="marginBot5">型号代码</p>
           <b-form-input v-model="form.code" class="marginBot8"></b-form-input>
           <p class="marginBot5">型号名称</p>
@@ -206,14 +213,34 @@ export default {
       this.currentPage = currentPage;
       this.search();
     },
+    // //模糊查询的方法，接口名不对
+    // async titlesearch() {
+    //   let skip = (this.currentPage - 1) * this.limit;
+    //   let result = await this.$axios.get(
+    //     `/akyl/staff/in_main_list?gx=${this.select_kind_gxname}?&code=${this.select_kind_typecode}&skip=${skip}&limit=${this.limit}`
+    //   );
+    //   if (result.data.msg === '成功') {
+    //     this.$set(this, 'list', result.data.kindList);
+    //   }
+    //   if (result.data.msg === '没有数据') {
+    //     this.list = '';
+    //   }
+    // },
     //查询
     async search() {
       let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(`/akyl/kind/kind_list?skip=${skip}&limit=${this.limit}`);
+      let result = await this.$axios.get(
+        `/akyl/kind/kind_list?skip=${skip}&limit=${this.limit}&gx=${this.select_kind_gxname}?&code=${this.select_kind_typecode}`
+      );
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.kindList);
         this.$set(this, 'origin', result.data.kindList);
         this.$set(this, 'totalRow', result.data.totalRow);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+        this.origin = '';
+        this.totalRow = '';
       }
     },
     //查询工序表,关联用
