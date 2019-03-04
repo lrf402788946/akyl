@@ -9,28 +9,29 @@
         </div>
       </div>
       <div class="base-padding-20 base-bg-fff">
-         <table>
-            <tr>
-              <td>工序名称查询:</td>
-              <td style="padding-left:50px">型号代码查询:</td>
-            </tr>
-            <tr>
-              <td>
-                <b-form-input v-model="select_kind_gxname" placeholder="输入工序名称" style="width:200px,margin-left:50px"></b-form-input>
-              </td>
-              <td style="padding-left:50px">
-                <b-form-input v-model="select_kind_typecode" placeholder="输入型号代码" style="padding-left:50px,width:200px"></b-form-input>
-              </td>
-              <td style="padding-left:60px">
-                <b-button
-                  variant="primary"
-                  style="font-size: 12px !important; color: rgb(255, 255, 255) !important; width: 100% !important; padding: 6px 15px !important; margin-right: 0px !important;"
-                  @click="titlesearch()"
-                  >点&nbsp;&nbsp;击&nbsp;&nbsp;查&nbsp;&nbsp;询</b-button
-                >
-              </td>
-            </tr>
-          </table>
+        <table>
+          <tr>
+            <td>工序名称查询:</td>
+            <td style="padding-left:50px">型号代码查询:</td>
+          </tr>
+          <tr>
+            <td>
+              <b-form-input v-model="select_kind_gxname" placeholder="输入工序名称" style="width:200px,margin-left:50px"></b-form-input>
+            </td>
+            <td style="padding-left:50px">
+              <b-form-input v-model="select_kind_typecode" placeholder="输入型号代码" style="padding-left:50px,width:200px"></b-form-input>
+            </td>
+            <td style="padding-left:60px">
+              <b-button
+                variant="primary"
+                style="font-size: 12px !important; color: rgb(255, 255, 255) !important; width: 100% !important; padding: 6px 15px !important; margin-right: 0px !important;"
+                @click="titlesearch()"
+                >点&nbsp;&nbsp;击&nbsp;&nbsp;查&nbsp;&nbsp;询</b-button
+              >
+            </td>
+          </tr>
+        </table>
+
         <div class="base-align-right" style="margin-bottom:20px;">
           <a
             class="btn btn-info base-margin-bottom"
