@@ -260,7 +260,7 @@ export default {
       form: {},
       form1: [],
       // timeValue: ['', ''],
-      timeValue:null,
+      timeValue: null,
       start: '',
       end: '',
       deptList: [],
@@ -303,9 +303,9 @@ export default {
       );
       this.$set(this, 'list', result.data.outMainList);
       this.$set(this, 'totalRow', result.data.totalRow);
-      if(result.data.msg==='没有数据'){
-        this.list=[]
-      };
+      if (result.data.msg === '没有数据') {
+        this.list = [];
+      }
     },
     //分页
     toSearch(currentPage) {
