@@ -93,6 +93,10 @@ export const CW = {
       name: '工资管理',
       router_name: 'gongxin',
     },
+    {
+      name: '工资查询',
+      router_name: 'gxcx',
+    },
   ],
 };
 

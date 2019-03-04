@@ -24,6 +24,7 @@ import rk from './views/rk/rk.vue';
 import ck from './views/ck/ck.vue';
 import material from './views/material/material.vue';
 import zf from './views/zf/zf.vue';
+import gxcx from './views/gxcx/gxcx.vue';
 
 Vue.use(Router);
 const router = new Router({
@@ -149,6 +150,11 @@ const router = new Router({
           path: '/zf',
           name: 'zf',
           component: zf,
+        },
+        {
+          path: '/gxcx',
+          name: 'gxcx',
+          component: gxcx,
         },
       ],
     },
