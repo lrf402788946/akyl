@@ -222,6 +222,19 @@ export default {
       this.search();
     },
     //查询
+     //模糊查询的方法，接口名不对
+    async titlesearch() {
+      console.log(111);
+      let skip = (this.currentPage - 1) * this.limit;
+      let result = await this.$axios.get(`/akyl/lz/lz_list?skip=${skip}&limit=${this.limit}&type=${this.select_lz_type}`);
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.lzList);
+        this.$set(this, 'totalRow', result.data.totalRow);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+      }
+    },
     async search() {
       //查询方法
       let skip = (this.currentPage - 1) * this.limit;
@@ -317,17 +330,7 @@ export default {
       // eslint-disable-next-line no-console
       console.debug(errors, fields);
     },
-    //模糊查询的方法，接口名不对
-    async titlesearch() {
-      let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(`/akyl/zx/in_main_list?type=${this.select_lz_type}&skip=${skip}&limit=${this.limit}`);
-      if (result.data.msg === '成功') {
-        this.$set(this, 'list', result.data.lzList);
-      }
-      if (result.data.msg === '没有数据') {
-        this.list = '';
-      }
-    },
+   
   },
 };
 </script>

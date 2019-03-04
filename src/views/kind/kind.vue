@@ -217,9 +217,11 @@ export default {
     },
     //查询
     async search() {
+      if (this.select_kind_gxname === null) this.select_kind_gxname = '';
+      if (this.select_kind_typecode === null) this.select_kind_typecode = '';
       let skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(
-        `/akyl/kind/kind_list?skip=${skip}&limit=${this.limit}&gx=${this.select_kind_gxname}?&code=${this.select_kind_typecode}`
+        `/akyl/kind/kind_list?skip=${skip}&limit=${this.limit}&work_id=${this.select_kind_gxname}&code=${this.select_kind_typecode}`
       );
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.kindList);
@@ -322,10 +324,21 @@ export default {
       // eslint-disable-next-line no-console
       console.debug(errors, fields);
     },
+    //模糊查询的方法，接口名不对
+    async titlesearch() {
+      let skip = (this.currentPage - 1) * this.limit;
+      let result = await this.$axios.get(
+        `/akyl/kind/kind_list?code=${this.select_kind_gxname}&code=${this.select_kind_typecode}&skip=${skip}&limit=${this.limit}`
+      );
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.kindList);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+      }
+    },
     //打开修改型号的配重弹框
-    async openPZ(index) {
-
-    }
+    async openPZ(index) {},
   },
 };
 </script>
