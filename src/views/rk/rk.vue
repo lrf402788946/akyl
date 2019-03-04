@@ -300,8 +300,6 @@ export default {
       addForm: new Array(),
       updateForm: new Array(),
       list: [],
-      login_id: 'login_id',
-      user_name: 'user_name',
       orderid: '',
       kuname: '',
       subForm: [],
@@ -328,7 +326,7 @@ export default {
       end: '',
       timeValue: new Array(),
       realorderno: '',
-      type: [{ text: '弹簧柄库', value: '2' }, { text: '裸针库', value: '1' }, { text: '针芯库', value: '3' }],
+      type: [{ text: '弹簧柄库', value: '2' }, { text: '裸针库', value: '1' }, { text: '针芯库', value: '3' }, { text: '直废库', value: '4' }],
       temporaryList: [],
       mainValidator: new Validator({
         order_no: [{ required: true, message: '请填入库单号' }],
@@ -422,6 +420,8 @@ export default {
             this.$set(this, 'kuname', '弹簧柄');
           } else if (this.subForm.type == 3) {
             this.$set(this, 'kuname', '针芯');
+          } else if (this.subForm.type == 4) {
+            this.$set(this, 'kuname', '直废');
           }
           for (let i = 0; i < this.subForm.length; i++) {
             this.getKindList(i);

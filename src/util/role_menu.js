@@ -118,4 +118,4 @@ export const CL = {
       router_name: 'material',
     },
   ],
-}
+};

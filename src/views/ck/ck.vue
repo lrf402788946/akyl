@@ -48,7 +48,7 @@
             style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;"
             title=""
             role="button"
-            v-b-modal="'toAdd'"
+            @click="openAlert('add')"
           >
             <i class="base-margin-right-5 fa fa-plus-square" style=" color:#fff !important;"></i>出库产品
           </a>
@@ -210,7 +210,7 @@
               </tr>
               <tr v-for="(item, index) in updateForm1" :key="index">
                 <td>
-                  {{ item.type === '1' ? '裸针库' : item.status === '2' ? '弹簧柄库' : '针芯库' }}
+                  {{ item.type === '1' ? '裸针库' : item.type === '2' ? '弹簧柄库' : item.type === '3' ? '针芯库' : '直废库' }}
                 </td>
                 <td>
                   {{ item.kind }}
@@ -239,7 +239,6 @@
 import Validator from 'async-validator';
 import _ from 'lodash';
 import { mapState } from 'vuex';
-import { loadavg } from 'os';
 export default {
   name: 'zx',
   metaInfo: {
@@ -251,7 +250,6 @@ export default {
       updateForm: [],
       updateForm1: [],
       list: [],
-      login_id: 'login_id',
       subFormContent: {},
       order_no: '',
       user_name: '',
@@ -273,7 +271,7 @@ export default {
         // dept_id: [{ required: true, message: '请选择部门' }],
         // create_time: [{ required: true, message: '请选择创建日期' }],
       }),
-      type: [{ text: '弹簧柄库', value: '2' }, { text: '裸针库', value: '1' }, { text: '针芯库', value: '3' }],
+      type: [{ text: '弹簧柄库', value: '2' }, { text: '裸针库', value: '1' }, { text: '针芯库', value: '3' }, { text: '直废库', value: '4' }],
     };
   },
   computed: {
@@ -306,8 +304,6 @@ export default {
       );
       this.$set(this, 'list', result.data.outMainList);
       this.$set(this, 'totalRow', result.data.totalRow);
-      let result1 = await this.$axios.get(`/akyl/store/order_no?order_key=OUT`);
-      this.$set(this.form, 'order_no', result1.data.order_no);
     },
     //分页
     toSearch(currentPage) {
@@ -372,7 +368,7 @@ export default {
       let result1 = await this.$axios.get(`/akyl/store/order_no?order_key=OUT`);
       this.$set(this.form, 'order_no', result1.data.order_no);
     },
-    openAlert(type, id) {
+    async openAlert(type, id) {
       if (type === 'update') {
         this.getorder_no();
         this.search1(id);
@@ -381,6 +377,10 @@ export default {
       } else if (type === 'delete') {
         this.$refs.deleteAlert.show();
         this.operateId = id;
+      } else if (type === 'add') {
+        let result1 = await this.$axios.get(`/akyl/store/order_no?order_key=OUT`);
+        this.$set(this.form, 'order_no', result1.data.order_no);
+        this.$refs.toAdd.show();
       }
     },
     //验证,因为添加和修改的验证内容都是一样的,所以用一个方法
