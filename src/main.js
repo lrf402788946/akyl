@@ -14,7 +14,7 @@ import viser from 'viser-vue';
 import toExcel from '@/util/json2excel';
 import moment from 'moment';
 
-// axios.defaults.baseURL = 'http://192.168.1.217'; //http://10.16.11.186:8080合并项目用本地
+process.env.NODE_ENV === 'production' ? (axios.defaults.baseURL = 'http://192.168.1.217') : '';
 axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 Vue.prototype.$axios = axios;
 Vue.prototype.qs = Qs;
