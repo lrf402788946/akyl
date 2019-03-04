@@ -8,6 +8,29 @@
           <div class="button-table"></div>
         </div>
         <div class="base-padding-20 base-bg-fff" style="width:100%;">
+          <table>
+            <tr>
+              <td>工序代码查询:</td>
+              <td style="padding-left:50px">工序名称查询:</td>
+            </tr>
+            <tr>
+              <td>
+                <b-form-input v-model="select_staff_gx_code" placeholder="输入工序代码" style="width:200px,margin-left:50px"></b-form-input>
+              </td>
+              <td style="padding-left:50px">
+                <b-form-input v-model="select_staff_gx_name" placeholder="输入工序名称" style="padding-left:50px,width:200px"></b-form-input>
+              </td>
+              <td style="padding-left:60px">
+                <b-button
+                  variant="primary"
+                  style="font-size: 12px !important; color: rgb(255, 255, 255) !important; width: 100% !important; padding: 6px 15px !important; margin-right: 0px !important;"
+                  @click="titlesearch()"
+                  >点&nbsp;&nbsp;击&nbsp;&nbsp;查&nbsp;&nbsp;询</b-button
+                >
+              </td>
+            </tr>
+          </table>
+
           <div class="base-align-right" style="margin-bottom:20px;">
             <a
               class="btn btn-info base-margin-bottom"
@@ -160,6 +183,8 @@ export default {
       currentPage: 1,
       limit: 15,
       totalRow: 0,
+      select_staff_gx_code: '',
+      select_staff_gx_name: '',
       roleValidator: new Validator({
         code: { type: 'string', required: true, message: '请填写工序代码' },
         name: { type: 'string', required: true, message: '请填写工序名称' },
@@ -272,6 +297,19 @@ export default {
       }, {});
       // eslint-disable-next-line no-console
       console.debug(errors, fields);
+    },
+    //模糊查询的方法，接口名不对
+    async titlesearch() {
+      let skip = (this.currentPage - 1) * this.limit;
+      let result = await this.$axios.get(
+        `/akyl/staff/in_main_list?code=${this.select_staff_gx_code}&name=${this.select_staff_gx_name}&skip=${skip}&limit=${this.limit}`
+      );
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.workList);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+      }
     },
   },
 };

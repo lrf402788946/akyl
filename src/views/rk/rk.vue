@@ -147,7 +147,17 @@
                   <!-- <b-form-select v-model="item.work_id" :options="workList" @change="getKindList(index)" /> -->
                 </td>
                 <td>
-                  <b-form-input v-model="item.kind" placeholder="请输入型号"></b-form-input>
+                  <el-select
+                    class="marginBot"
+                    @change="getNums(index)"
+                    @click.native="getKindListx(item.type)"
+                    style="height:40px !important"
+                    v-model="item.kind"
+                    filterable
+                    placeholder="请选择型号"
+                  >
+                    <el-option v-for="item2 in kindList" :key="item2.value" :label="item2.type" :value="item2.type"></el-option>
+                  </el-select>
                 </td>
                 <td>
                   <b-form-input v-model="item.num" type="number" onkeypress="return( /[\d]/.test(String.fromCharCode(event.keyCode) ) )"></b-form-input>
@@ -544,6 +554,26 @@ export default {
       }, {});
       // eslint-disable-next-line no-console
       console.debug(errors, fields);
+    },
+    getNums(index) {
+      let num = 0;
+      for (const item of this.kindList) {
+        if (item.type === this.form1[index].kind) {
+          num = item.num;
+          break;
+        }
+      }
+      this.form1[index].else_num = num;
+    },
+    async getKindListx(type) {
+      let result = await this.$axios.post(`/akyl/store/type_kind?type=${type}`);
+      this.$set(this, 'kindList', result.data.dataList);
+    },
+    fun(number, number1) {
+      if (number * 1 > number1 * 1) {
+        alert('数值过大，请重新填写');
+        this.form1 = [];
+      }
     },
     //删除表单中内容
     closeSubForm(i) {
