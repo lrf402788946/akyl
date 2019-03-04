@@ -54,7 +54,6 @@
               <th>型号代码</th>
               <th>型号名称</th>
               <th>计件定额</th>
-              <th>配重</th>
               <th>操作</th>
             </tr>
             <tr v-for="(item, index) in list" :key="index">
@@ -64,6 +63,7 @@
               <td>{{ item.jj_price }}</td>
               <td>{{ item.pz }}</td>
               <td>
+                <b-button variant="primary" style="color:white;" @click="openPZ(index)">配&nbsp;&nbsp;重</b-button>
                 <b-button variant="primary" style="color:white;" @click="openUpdateAlert(index)">修&nbsp;&nbsp;改</b-button>
                 <b-button variant="danger" @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
               </td>
@@ -97,17 +97,17 @@
           <b-form-input v-model="form.name" class="marginBot20"></b-form-input>
           <p class="marginBot5">计时定额(元)</p>
           <b-form-input v-model="form.jj_price" type="number" class="marginBot20"></b-form-input>
-          <p class="marginBot5">配重</p>
-          <b-form-input v-model="form.pz" type="number" class="marginBot20"></b-form-input>
           <b-button
             variant="secondary"
             @click="form = {}"
+            class="resetButton"
             style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
           >
             重&nbsp;&nbsp;置
           </b-button>
           <b-button
             variant="primary"
+            class="resetButton"
             @click="toValidate('add')"
             style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
           >
@@ -126,11 +126,10 @@
           <b-form-input v-model="form.name" class="marginBot20"></b-form-input>
           <p class="marginBot5">计时定额(元)</p>
           <b-form-input v-model="form.jj_price" type="number" class="marginBot20"></b-form-input>
-          <p class="marginBot5">配重</p>
-          <b-form-input v-model="form.pz" type="number" class="marginBot20"></b-form-input>
           <b-button
             variant="secondary"
             @click="closeAlert()"
+            class="resetButton"
             style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
           >
             返&nbsp;&nbsp;回
@@ -138,6 +137,7 @@
           <b-button
             variant="primary"
             @click="toValidate('update')"
+            class="resetButton"
             style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
           >
             修&nbsp;&nbsp;改
@@ -150,6 +150,7 @@
           </div>
           <b-button
             variant="danger"
+            class="resetButton"
             style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
             @click="toDelete()"
           >
@@ -157,6 +158,7 @@
           </b-button>
           <b-button
             variant="primary"
+            class="resetButton"
             style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
             @click="$refs.deleteAlert.hide(), (deleteItem = '')"
           >
@@ -213,19 +215,6 @@ export default {
       this.currentPage = currentPage;
       this.search();
     },
-    // //模糊查询的方法，接口名不对
-    // async titlesearch() {
-    //   let skip = (this.currentPage - 1) * this.limit;
-    //   let result = await this.$axios.get(
-    //     `/akyl/staff/in_main_list?gx=${this.select_kind_gxname}?&code=${this.select_kind_typecode}&skip=${skip}&limit=${this.limit}`
-    //   );
-    //   if (result.data.msg === '成功') {
-    //     this.$set(this, 'list', result.data.kindList);
-    //   }
-    //   if (result.data.msg === '没有数据') {
-    //     this.list = '';
-    //   }
-    // },
     //查询
     async search() {
       let skip = (this.currentPage - 1) * this.limit;
@@ -333,6 +322,10 @@ export default {
       // eslint-disable-next-line no-console
       console.debug(errors, fields);
     },
+    //打开修改型号的配重弹框
+    async openPZ(index) {
+
+    }
   },
 };
 </script>
