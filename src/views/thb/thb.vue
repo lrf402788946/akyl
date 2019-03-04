@@ -9,6 +9,24 @@
         </div>
       </div>
       <div class="base-padding-20 base-bg-fff">
+         <table>
+            <tr>
+              <td>弹簧柄型号查询:</td>
+            </tr>
+            <tr>
+              <td>
+                <b-form-input v-model="select_thb_type" placeholder="输入弹簧柄型号" style="width:200px,margin-left:50px"></b-form-input>
+              </td>
+              <td style="padding-left:60px">
+                <b-button
+                  variant="primary"
+                  style="font-size: 12px !important; color: rgb(255, 255, 255) !important; width: 100% !important; padding: 6px 15px !important; margin-right: 0px !important;"
+                  @click="titlesearch()"
+                  >点&nbsp;&nbsp;击&nbsp;&nbsp;查&nbsp;&nbsp;询</b-button
+                >
+              </td>
+            </tr>
+          </table>
         <div class="base-align-right" style="margin-bottom:20px;">
           <a
             class="btn btn-info base-margin-bottom"
@@ -194,6 +212,7 @@ export default {
       currentPage: 1,
       limit: 15,
       totalRow: 0,
+      select_thb_type: '',
       addValidator: new Validator({
         type: [{ type: 'string', required: true, message: '请填写型号' }],
         num: [{ type: 'string', required: true, message: '请填写数量' }],
@@ -304,6 +323,17 @@ export default {
       }
       this.operateId = '';
       this.updateForm = {};
+    },
+    //模糊查询的方法，接口名不对
+    async titlesearch() {
+      let skip = (this.currentPage - 1) * this.limit;
+      let result = await this.$axios.get(`/akyl/zx/in_main_list?type=${this.select_thb_type}&skip=${skip}&limit=${this.limit}`);
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.thbList);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+      }
     },
   },
 };

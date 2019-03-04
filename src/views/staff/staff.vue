@@ -9,6 +9,28 @@
         </div>
       </div>
       <div class="base-padding-20 base-bg-fff">
+        <table>
+            <tr>
+              <td>员工编号查询:</td>
+              <td style="padding-left:50px">员工姓名查询:</td>
+            </tr>
+            <tr>
+              <td>
+                <b-form-input v-model="select_staff_job_num" placeholder="输入员工工号" style="width:200px,margin-left:50px"></b-form-input>
+              </td>
+              <td style="padding-left:50px">
+                <b-form-input v-model="select_staff_user_name" placeholder="输入员工姓名" style="padding-left:50px,width:200px"></b-form-input>
+              </td>
+              <td style="padding-left:60px">
+                <b-button
+                  variant="primary"
+                  style="font-size: 12px !important; color: rgb(255, 255, 255) !important; width: 100% !important; padding: 6px 15px !important; margin-right: 0px !important;"
+                  @click="titlesearch()"
+                  >点&nbsp;&nbsp;击&nbsp;&nbsp;查&nbsp;&nbsp;询</b-button
+                >
+              </td>
+            </tr>
+          </table>
         <div class="base-align-right" style="margin-bottom: 20px;">
           <a
             class="btn btn-info base-margin-bottom"
@@ -391,6 +413,8 @@ export default {
       totalRow: 100,
       deptList: [],
       postList: [],
+      select_staff_user_name: '',     //要查询的员工名字
+      select_staff_job_num: '',       //要查询的员工编号
       addUserValidator: new Validator({
         job_num: [{ type: 'string', required: true, message: '请填写工号' }],
         user_name: [{ type: 'string', required: true, message: '请填写姓名' }],
@@ -550,6 +574,19 @@ export default {
       }, {});
       // eslint-disable-next-line no-console
       console.debug(errors, fields);
+    },
+    //模糊查询的方法，接口名不对
+    async titlesearch() {
+      let skip = (this.currentPage - 1) * this.limit;
+      let result = await this.$axios.get(
+        `/akyl/staff/in_main_list?job_num=${this.select_staff_job_num}&user_name=${this.select_staff_user_name}&skip=${skip}&limit=${this.limit}`
+      );
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.staffList);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+      }
     },
   },
 };
