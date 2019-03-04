@@ -28,7 +28,6 @@
                     format="yyyy-MM-dd"
                     type="daterange"
                     range-separator="-"
-                    style="width:100%;"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
                   >
@@ -260,7 +259,8 @@ export default {
       totalRow: 0,
       form: {},
       form1: [],
-      timeValue: ['', ''],
+      // timeValue: ['', ''],
+      timeValue:null,
       start: '',
       end: '',
       deptList: [],
@@ -286,6 +286,7 @@ export default {
     //查询
     async search() {
       //查询方法
+      if (this.timeValue === null) this.timeValue = '';
       if (typeof this.timeValue[0] != 'undefined') {
         this.start = this.timeValue[0];
       } else {
@@ -304,6 +305,9 @@ export default {
       );
       this.$set(this, 'list', result.data.outMainList);
       this.$set(this, 'totalRow', result.data.totalRow);
+      if(result.data.msg==='没有数据'){
+        this.list=[]
+      };
     },
     //分页
     toSearch(currentPage) {
