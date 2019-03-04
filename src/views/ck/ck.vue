@@ -28,7 +28,6 @@
                     format="yyyy-MM-dd"
                     type="daterange"
                     range-separator="-"
-                    style="width:100%;"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
                   >
@@ -260,16 +259,15 @@ export default {
       totalRow: 0,
       form: {},
       form1: [],
-      timeValue: ['', ''],
+      // timeValue: ['', ''],
+      timeValue:null,
       start: '',
       end: '',
       deptList: [],
       kindList: [],
       workList: [],
       mainValidator: new Validator({
-        // job_num: [{ required: true, message: '请填写工号' }],
-        // dept_id: [{ required: true, message: '请选择部门' }],
-        // create_time: [{ required: true, message: '请选择创建日期' }],
+        user_name: [{ required: true, message: '请填写出库人' }],
       }),
       type: [{ text: '弹簧柄库', value: '2' }, { text: '裸针库', value: '1' }, { text: '针芯库', value: '3' }, { text: '直废库', value: '4' }],
     };
@@ -286,6 +284,7 @@ export default {
     //查询
     async search() {
       //查询方法
+      if (this.timeValue === null) this.timeValue = '';
       if (typeof this.timeValue[0] != 'undefined') {
         this.start = this.timeValue[0];
       } else {
@@ -304,6 +303,9 @@ export default {
       );
       this.$set(this, 'list', result.data.outMainList);
       this.$set(this, 'totalRow', result.data.totalRow);
+      if(result.data.msg==='没有数据'){
+        this.list=[]
+      };
     },
     //分页
     toSearch(currentPage) {
@@ -385,11 +387,16 @@ export default {
     },
     //验证,因为添加和修改的验证内容都是一样的,所以用一个方法
     toValidate(type) {
-      if (type === 'add') {
-        return this.toAdd();
-      } else {
-        return this.toUpdate();
-      }
+      this.mainValidator.validate(type === 'add' ? this.form : this.updateForm, (errors, fields) => {
+        if (errors) {
+          return this.handleErrors(errors, fields);
+        }
+        if (type === 'add') {
+          return this.toAdd();
+        } else {
+          return this.toUpdate();
+        }
+      });
     },
     //验证错误
     handleErrors(errors, fields) {
@@ -414,7 +421,7 @@ export default {
     },
     fun(number, number1) {
       if (number * 1 > number1 * 1) {
-        alert('数值过大，请重新填写');
+        this.$message.error('请重新输入数量！！！');
         this.form1 = [];
       }
     },
