@@ -315,9 +315,10 @@ export default {
     //模糊查询的方法，接口名不对
     async titlesearch() {
       let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(`/akyl/zx/in_main_list?type=${this.select_zf_type}&skip=${skip}&limit=${this.limit}`);
+      let result = await this.$axios.get(`/akyl/zf/zf_list?type=${this.select_zf_type}&skip=${skip}&limit=${this.limit}`);
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.zfList);
+        this.$set(this, 'totalRow', result.data.totalRow);
       }
       if (result.data.msg === '没有数据') {
         this.list = '';

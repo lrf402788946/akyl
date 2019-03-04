@@ -310,7 +310,7 @@ export default {
     async titlesearch() {
       let skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(
-        `/akyl/staff/in_main_list?gx=${this.select_kind_gxname}?&code=${this.select_kind_typecode}&skip=${skip}&limit=${this.limit}`
+        `/akyl/kind/kind_list?code=${this.select_kind_gxname}&code=${this.select_kind_typecode}&skip=${skip}&limit=${this.limit}`
       );
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.kindList);
