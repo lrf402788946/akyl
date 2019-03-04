@@ -222,7 +222,7 @@ export default {
       this.search();
     },
     //查询
-     //模糊查询的方法，接口名不对
+    //模糊查询的方法，接口名不对
     async titlesearch() {
       console.log(111);
       let skip = (this.currentPage - 1) * this.limit;
@@ -330,7 +330,6 @@ export default {
       // eslint-disable-next-line no-console
       console.debug(errors, fields);
     },
-   
   },
 };
 </script>

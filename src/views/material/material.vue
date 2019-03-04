@@ -8,6 +8,18 @@
     </div>
     <div class="base-padding-20 base-bg-fff">
       <div class="base-align-right" style="margin-bottom: 20px;">
+        <div class="col-lg-3 mb25">
+          <b-form-input v-model="name" class="marginBot8"></b-form-input>
+        </div>
+        <div class="col-lg-3 mb25">
+          <b-button
+            variant="primary"
+            style="font-size:14px !important; color:#fff !important; width: 60% !important; margin-top:3px;  padding: 6px 0 !important; margin-right:0 !important;"
+            @click="search()"
+            >查&nbsp;&nbsp;询</b-button
+          >
+        </div>
+
         <a
           class="btn btn-info base-margin-bottom"
           style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;"
@@ -224,7 +236,7 @@ export default {
     },
     //删除
     async toDelete() {
-      let result = await this.$axios.post('/akyl/cl/cl_delete', { data:{ id: this.operateId } });
+      let result = await this.$axios.post('/akyl/cl/cl_delete', { data: { id: this.operateId } });
       if (result.data.rescode === '0') {
         this.$message.success('删除成功');
         this.operatAlert('delete', null);

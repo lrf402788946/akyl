@@ -329,7 +329,7 @@ export default {
     async titlesearch() {
       let skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(`/akyl/thb/thb_list?type=${this.select_thb_type}&skip=${skip}&limit=10`);
-    if (result.data.msg === '成功') {
+      if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.thbList);
         this.$set(this, 'totalRow', result.data.totalRow);
       }

@@ -17,6 +17,7 @@
           <tr>
             <td>
               <el-select class="marginBot8" style="height:40px !important" v-model="select_kind_gxname" filterable placeholder="请选择类别">
+                <el-option value="">全部工序</el-option>
                 <el-option v-for="item1 in workList" :key="item1.value" :label="item1.text" :value="item1.value"> </el-option>
               </el-select>
             </td>
@@ -61,9 +62,8 @@
               <td>{{ item.code }}</td>
               <td>{{ item.name }}</td>
               <td>{{ item.jj_price }}</td>
-              <td>{{ item.pz }}</td>
               <td>
-                <b-button variant="primary" style="color:white;" @click="openPZ(index)">配&nbsp;&nbsp;重</b-button>
+                <b-button variant="primary" style="color:white;" @click="openPZ(item.id, item.name)">配&nbsp;&nbsp;重</b-button>
                 <b-button variant="primary" style="color:white;" @click="openUpdateAlert(index)">修&nbsp;&nbsp;改</b-button>
                 <b-button variant="danger" @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
               </td>
@@ -165,6 +165,56 @@
             返&nbsp;&nbsp;回
           </b-button>
         </b-modal>
+
+        <b-modal id="pzEdit" :title="pzTitle" ref="pzEdit" size="lg" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
+          <table class="table table-bordered table-striped ">
+            <tbody>
+              <tr>
+                <td>材料</td>
+                <td>数量</td>
+                <td>操作</td>
+              </tr>
+              <tr v-for="(item, index) in pzForm" :key="index">
+                <td>
+                  <el-select class="marginBot" style="height:40px !important" v-model="item.cl_id" filterable placeholder="请选择材料">
+                    <el-option v-for="(item2, index) in materialList" :key="index" :label="item2.text" :value="item2.value">{{ item2.text }}</el-option>
+                  </el-select>
+                </td>
+                <td>
+                  <b-form-input v-model="item.num" type="number" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+                </td>
+                <b-button
+                  style="margin-top: 23px; margin-left: 8px !important; margin-right: 6px !important; padding: 5px 8px !important; font-size: 13px !important;"
+                  @click="closePzForm(index)"
+                  class="resetButton"
+                  variant="danger"
+                  >删&nbsp;&nbsp;除</b-button
+                >
+              </tr>
+            </tbody>
+          </table>
+          <b-button
+            variant="primary"
+            @click="addSubForm()"
+            class="resetButton"
+            style="font-size:16px !important; margin-top:25px; width:30% !important; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+            >添&nbsp;&nbsp;加</b-button
+          >
+          <b-button
+            variant="primary"
+            @click="editKind_Material()"
+            class="resetButton"
+            style="font-size:16px !important; margin:25px 5% 30px 5% !important; background-color: #17a2b8 !important;  width:30% !important; padding:6px 80px !important;"
+            >保&nbsp;&nbsp;存</b-button
+          >
+          <b-button
+            variant="secondary"
+            @click="openPZ()"
+            class="resetButton"
+            style="font-size:16px !important; width:30% !important; margin-top:25px; margin-bottom:30px !important; margin-right: 0 !important; padding:6px 80px !important;"
+            >返&nbsp;&nbsp;回</b-button
+          >
+        </b-modal>
       </div>
     </div>
   </div>
@@ -200,14 +250,18 @@ export default {
         code: { type: 'string', required: true, message: '请填写型号代码' },
         name: { type: 'string', required: true, message: '请填写型号名称' },
         jj_price: { required: true, message: '请填写计时定额' },
-        pz: { required: true, message: '请填写配重' },
       }),
+      pzForm: [],
+      materialList: [],
+      pzTitle: '',
+      operateId: '',
     };
   },
   computed: {},
   created() {
     this.search();
     this.searchWork();
+    this.searchMaterial();
   },
   methods: {
     //分页
@@ -244,6 +298,19 @@ export default {
         });
         let defalut = { text: '请选择工序', value: null, disabled: true };
         this.workList.unshift(defalut);
+      }
+    },
+    //查询材料表
+    async searchMaterial() {
+      let result = await this.$axios.get(`/akyl/cl/cl_list?name=&skip=0&limit=10000`);
+      if (result.data.rescode === '0') {
+        this.materialList = result.data.cList.map(item => {
+          let newObject = { text: item.name, value: item.id };
+          return newObject;
+        });
+      } else {
+        let defalut = { text: '无材料可选择', value: null, disabled: true };
+        this.materialList = '';
       }
     },
     //验证,因为添加和修改的验证内容都是一样的,所以用一个方法
@@ -338,7 +405,37 @@ export default {
       }
     },
     //打开修改型号的配重弹框
-    async openPZ(index) {},
+    async openPZ(id, name) {
+      if (!this.$refs.pzEdit.is_show) {
+        this.operateId = id;
+        this.$set(this, 'pzTitle', name);
+        this.$refs.pzEdit.show();
+        let result = await this.$axios.get(`/akyl/cl/kind_cl_list?kind_id=${id}`);
+        if (result.data.rescode === '0') {
+          this.$set(this, 'pzForm', result.data.kindCList);
+        }
+      } else {
+        this.$refs.pzEdit.hide();
+      }
+    },
+    //删除表单中内容
+    closePzForm(i) {
+      this.pzForm.splice(i, 1);
+    },
+    //添加字表数据
+    addSubForm() {
+      this.pzForm.push({});
+    },
+    //修改配重
+    async editKind_Material() {
+      let result = await this.$axios.post(`/akyl/cl/kind_cl_save`, { data: { subForm: this.pzForm, kind_id: this.operateId } });
+      if (result.data.rescode === '0') {
+        this.$message.success('修改成功');
+        this.openPZ(null, null);
+      } else {
+        this.$message.error('修改失败');
+      }
+    },
   },
 };
 </script>
