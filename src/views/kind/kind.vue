@@ -296,8 +296,8 @@ export default {
           let newObject = { text: item.name, value: item.id };
           return newObject;
         });
-        let defalut = { text: '请选择工序', value: null, disabled: true };
-        this.workList.unshift(defalut);
+        // let defalut = { text: '请选择工序', value: null, disabled: true };
+        // this.workList.unshift(defalut);
       }
     },
     //查询材料表
