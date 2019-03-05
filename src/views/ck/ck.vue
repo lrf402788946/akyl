@@ -52,7 +52,7 @@
             <i class="base-margin-right-5 fa fa-plus-square" style=" color:#fff !important;"></i>出库产品
           </a>
         </div>
-          <!--<exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="出库表"></exportExcel>-->     
+        <!--<exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="出库表"></exportExcel>-->
 
         <table class="table table-bordered table-striped ">
           <tbody v-if="list.length > 0">
@@ -247,7 +247,7 @@ export default {
     title: '出库管理',
   },
   components: {
-  //  exportExcel,
+    //  exportExcel,
   },
   data() {
     return {

@@ -18,9 +18,8 @@
             @click="search()"
             >查&nbsp;&nbsp;询</b-button
           >
-
         </div>
-          <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="材料表"></exportExcel>
+        <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="材料表"></exportExcel>
 
         <a
           class="btn btn-info base-margin-bottom"

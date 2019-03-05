@@ -8,7 +8,7 @@
         </div>
         <div class="base-padding-20 base-bg-fff" style="width:100%;">
           <div>
-            <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list"></exportExcel>
+            <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="部门表"></exportExcel>
           </div>
           <div class="base-align-right" style="margin-bottom:20px;">
             <a
@@ -169,16 +169,8 @@ export default {
         dept_tell: [{ type: 'string', required: true, message: '请填写部门电话' }],
       }),
       limit: 15, //每页信息数量
-      th: [
-        '部门名称',
-        '部门职责',
-        '部门电话',
-      ],
-      filterVal: [
-        'dept_name',
-        'dept_duty',
-        'dept_tell',
-      ],
+      th: ['部门名称', '部门职责', '部门电话'],
+      filterVal: ['dept_name', 'dept_duty', 'dept_tell'],
     };
   },
   computed: {},

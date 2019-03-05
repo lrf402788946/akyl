@@ -293,7 +293,7 @@ export default {
       this.$refs.deleteAlert.show();
       this.deleteItem = id;
     },
-       //打印
+    //打印
     doPrint() {
       console.log(this.biaotoushow);
       let subOutputRankPrint = document.getElementById('print');

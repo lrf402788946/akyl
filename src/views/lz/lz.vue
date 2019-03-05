@@ -261,7 +261,7 @@ export default {
         this.$message.error(result.data.msg);
       }
     },
-     //打印
+    //打印
     doPrint() {
       console.log(this.biaotoushow);
       let subOutputRankPrint = document.getElementById('print');
