@@ -226,7 +226,7 @@ import entrance from '@/components/entrance.vue';
 export default {
   name: 'kind',
   metaInfo: {
-    title: '类型管理',
+    title: '型号管理',
   },
   components: {
     entrance,
@@ -285,7 +285,7 @@ export default {
       if (result.data.msg === '没有数据') {
         this.list = '';
         this.origin = '';
-        this.totalRow = '';
+        this.totalRow = 0;
       }
     },
     //查询工序表,关联用
