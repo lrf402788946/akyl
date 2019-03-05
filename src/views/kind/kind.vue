@@ -17,7 +17,7 @@
           <tr>
             <td>
               <el-select class="marginBot8" style="height:40px !important" v-model="select_kind_gxname" filterable placeholder="请选择类别">
-                <el-option value="">全部工序</el-option>
+                <el-option value="" label='全部工序'>全部工序</el-option>
                 <el-option v-for="item1 in workList" :key="item1.value" :label="item1.text" :value="item1.value"> </el-option>
               </el-select>
             </td>
