@@ -11,7 +11,6 @@ function data2ws(data) {
   const ws = {};
   const range = { s: { c: 10000000, r: 10000000 }, e: { c: 0, r: 0 } };
   for (let R = 0; R != data.length; ++R) {
-    console.log(data[R].length);
     for (let C = 0; C != data[R].length; ++C) {
       if (range.s.r > R) range.s.r = R;
       if (range.s.c > C) range.s.c = C;
