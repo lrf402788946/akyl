@@ -41,7 +41,7 @@
           </a>
           <entrance @research="search"></entrance>
         </div>
-              <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="直废表"></exportExcel>
+        <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="直废表"></exportExcel>
 
         <table class="table table-bordered table-striped ">
           <tbody v-if="list.length > 0">

@@ -14,6 +14,7 @@
 
 <script>
 import _ from 'lodash';
+import needAllDataList from '@/util/exportExcelNeedAllData.js';
 export default {
   name: 'exportExcel',
   props: {
@@ -28,11 +29,20 @@ export default {
     return {};
   },
   computed: {},
+  created() {
+    // this.allData();
+  },
   methods: {
     excel() {
       let th = this.exportTitle;
       let filterVar = this.db_nameList;
-      let originData = _.get(this.$parent, this.dataName);
+      let routerName = this.$route.name;
+      let originData;
+      if (routerName === 'staff' || routerName === 'kind') {
+        originData = this.newData(routerName);
+      } else {
+        originData = _.get(this.$parent, this.dataName);
+      }
       if (originData.length > 0) {
         const data = originData.map(v => filterVar.map(k => v[k]));
         const [fileName, fileType, sheetName] = [this.fileName, 'xlsx', this.sheetName];
@@ -40,6 +50,52 @@ export default {
         this.$toExcel({ th, data, fileName, fileType, sheetName });
       } else {
         this.$message.error('无可导出的数据');
+      }
+    },
+    newData(type) {
+      if (type === 'staff') {
+        let deptList = _.get(this.$parent, 'deptList');
+        let postList = _.get(this.$parent, 'postList');
+        let originData = _.get(this.$parent, this.dataName);
+        let newData = originData.map(item => {
+          let newObject = {
+            job_num: item.job_num,
+            user_name: item.user_name,
+            gender: item.gender === 0 ? '女' : '男',
+            phone_no: item.phone_no,
+            birthday: item.birthday,
+            id_number: item.birthday,
+            dept_id: this.getName(deptList, item.dept_id),
+            level: item.level,
+            post_id: this.getName(postList, item.post_id),
+            status: item.status === 0 ? '在职' : item.status === 1 ? '离职' : '退休',
+            tq: item.tq === 0 ? '通勤' : '不通勤',
+            in_time: item.in_time,
+            remark: item.remark,
+          };
+          return newObject;
+        });
+        return newData;
+      } else if (type === 'kind') {
+        let workList = _.get(this.$parent, 'workList');
+        let originData = _.get(this.$parent, this.dataName);
+        let newData = originData.map(item => {
+          let newObject = {
+            work_id: this.getName(workList, item.work_id),
+            code: item.code,
+            name: item.name,
+            jj_price: item.jj_price,
+          };
+          return newObject;
+        });
+        return newData;
+      }
+    },
+    getName(data, value) {
+      for (const item2 of data) {
+        if (item2.value === value) {
+          return item2.text;
+        }
       }
     },
   },

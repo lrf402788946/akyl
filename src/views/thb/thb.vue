@@ -27,7 +27,8 @@
             </td>
           </tr>
         </table>
-      <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="弹簧柄表"></exportExcel>
+
+        <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="弹簧柄表"></exportExcel>
 
         <div class="base-align-right" style="margin-bottom:20px;">
           <a
@@ -290,7 +291,7 @@ export default {
       this.$refs.deleteAlert.show();
       this.deleteItem = id;
     },
-       //打印
+    //打印
     doPrint() {
       console.log(this.biaotoushow);
       let subOutputRankPrint = document.getElementById('print');

@@ -27,7 +27,8 @@
             </td>
           </tr>
         </table>
-      <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="针芯表"></exportExcel>
+
+        <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="针芯表"></exportExcel>
 
         <div class="base-align-right" style="margin-bottom:20px;">
           <a
@@ -46,30 +47,30 @@
           <center>
             <h1 id="biaotou" v-show="biaotoushow">{{ value1 }} 工资详情</h1>
           </center>
-        <table class="table table-bordered table-striped ">
-          <tbody v-if="list.length > 0">
-            <tr>
-              <th>型号</th>
-              <th>数量</th>
-              <th>创建日期</th>
-              <th>操作</th>
-            </tr>
-            <tr v-for="(item, index) in list" :key="index">
-              <td>{{ item.type }}</td>
-              <td>{{ item.num }}</td>
-              <td>{{ item.create_date }}</td>
-              <td>
-                <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update', index)">修&nbsp;&nbsp;改</b-button>
-                <b-button variant="danger" style="color:white;" @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
-              </td>
-            </tr>
-          </tbody>
-          <tbody v-else>
-            <tr>
-              <td style="text-align:center;">没有查询到数据</td>
-            </tr>
-          </tbody>
-        </table>
+          <table class="table table-bordered table-striped ">
+            <tbody v-if="list.length > 0">
+              <tr>
+                <th>型号</th>
+                <th>数量</th>
+                <th>创建日期</th>
+                <th>操作</th>
+              </tr>
+              <tr v-for="(item, index) in list" :key="index">
+                <td>{{ item.type }}</td>
+                <td>{{ item.num }}</td>
+                <td>{{ item.create_date }}</td>
+                <td>
+                  <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update', index)">修&nbsp;&nbsp;改</b-button>
+                  <b-button variant="danger" style="color:white;" @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
+                </td>
+              </tr>
+            </tbody>
+            <tbody v-else>
+              <tr>
+                <td style="text-align:center;">没有查询到数据</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <el-pagination
           layout="total, prev, pager, next"

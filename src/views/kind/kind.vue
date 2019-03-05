@@ -261,18 +261,8 @@ export default {
       materialList: [],
       pzTitle: '',
       operateId: '',
-      th: [
-        '工序代码',
-        '型号代码',
-        '型号名称',
-        '计时定额',
-      ],
-      filterVal: [
-        'work_id',
-        'code',
-        'name',
-        'jj_price',
-      ],
+      th: ['工序代码', '型号代码', '型号名称', '计时定额'],
+      filterVal: ['work_id', 'code', 'name', 'jj_price'],
     };
   },
   computed: {},

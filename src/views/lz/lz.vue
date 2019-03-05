@@ -27,7 +27,8 @@
             </td>
           </tr>
         </table>
-      <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="裸针表"></exportExcel>
+
+        <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="裸针表"></exportExcel>
 
         <div class="base-align-right" style="margin-bottom:20px;">
           <a
@@ -260,7 +261,7 @@ export default {
         this.$message.error(result.data.msg);
       }
     },
-     //打印
+    //打印
     doPrint() {
       console.log(this.biaotoushow);
       let subOutputRankPrint = document.getElementById('print');

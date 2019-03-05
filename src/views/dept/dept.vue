@@ -169,16 +169,8 @@ export default {
         dept_tell: [{ type: 'string', required: true, message: '请填写部门电话' }],
       }),
       limit: 15, //每页信息数量
-      th: [
-        '部门名称',
-        '部门职责',
-        '部门电话',
-      ],
-      filterVal: [
-        'dept_name',
-        'dept_duty',
-        'dept_tell',
-      ],
+      th: ['部门名称', '部门职责', '部门电话'],
+      filterVal: ['dept_name', 'dept_duty', 'dept_tell'],
     };
   },
   computed: {},

@@ -195,14 +195,8 @@ export default {
         code: { type: 'string', required: true, message: '请填写工序代码' },
         name: { type: 'string', required: true, message: '请填写工序名称' },
       }),
-      th: [
-        '工序代码',
-        '工序名称',
-      ],
-      filterVal: [
-        'code',
-        'name',
-      ],
+      th: ['工序代码', '工序名称'],
+      filterVal: ['code', 'name'],
     };
   },
   computed: {},
