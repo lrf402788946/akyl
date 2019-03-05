@@ -46,6 +46,8 @@
             </tr>
           </table>
         </div>
+        <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="入库表"></exportExcel>
+
         <div class="base-align-right" style="margin-bottom: 20px;">
           <a
             class="btn btn-info base-margin-bottom"
@@ -289,12 +291,15 @@
 <script>
 import Validator from 'async-validator';
 import { mapState } from 'vuex';
+import exportExcel from '@/components/exportExcel.vue';
 export default {
   name: 'bg',
   metaInfo: {
     title: '入库管理',
   },
-  components: {},
+  components: {
+    exportExcel,
+  },
   data() {
     return {
       addForm: new Array(),
@@ -303,6 +308,7 @@ export default {
       orderid: '',
       kuname: '',
       subForm: [],
+      value1: '',
       subFormContent: {
         work_id: null,
         kind_id: null,
@@ -332,6 +338,8 @@ export default {
         order_no: [{ required: true, message: '请填入库单号' }],
         user_name: [{ required: true, message: '请填写入库人' }],
       }),
+      th: ['订单号', '入库人', '入库日期', '备注'],
+      filterVal: ['order_no', 'user_name', 'in_date', 'remark'],
     };
   },
   computed: {
