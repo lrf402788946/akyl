@@ -9,7 +9,7 @@
     <div class="base-padding-20 base-bg-fff">
       <div class="base-align-right" style="margin-bottom: 20px;">
         <div class="col-lg-3 mb25">
-          <b-form-input v-model="name" class="marginBot8"></b-form-input>
+          <b-form-input v-model="name" placeholder="请输入材料名称查询" class="marginBot8"></b-form-input>
         </div>
         <div class="col-lg-3 mb25">
           <b-button
