@@ -52,6 +52,8 @@
             <i class="base-margin-right-5 fa fa-plus-square" style=" color:#fff !important;"></i>出库产品
           </a>
         </div>
+                <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="出库表"></exportExcel>
+
         <table class="table table-bordered table-striped ">
           <tbody v-if="list.length > 0">
             <tr>
@@ -238,12 +240,15 @@
 import Validator from 'async-validator';
 import _ from 'lodash';
 import { mapState } from 'vuex';
+import exportExcel from '@/components/exportExcel.vue';
 export default {
   name: 'zx',
   metaInfo: {
     title: '出库管理',
   },
-  components: {},
+  components: {
+    exportExcel,
+  },
   data() {
     return {
       updateForm: [],
@@ -270,6 +275,8 @@ export default {
         user_name: [{ required: true, message: '请填写出库人' }],
       }),
       type: [{ text: '弹簧柄库', value: '2' }, { text: '裸针库', value: '1' }, { text: '针芯库', value: '3' }, { text: '直废库', value: '4' }],
+      th: ['订单号', '出库人', '出库日期', '备注'],
+      filterVal: ['order_no', 'user_name', 'out_date', 'remark'],
     };
   },
   computed: {

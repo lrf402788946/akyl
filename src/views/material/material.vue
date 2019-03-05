@@ -9,7 +9,7 @@
     <div class="base-padding-20 base-bg-fff">
       <div class="base-align-right" style="margin-bottom: 20px;">
         <div class="col-lg-3 mb25">
-          <b-form-input v-model="name" class="marginBot8"></b-form-input>
+          <b-form-input v-model="name" placeholder="请输入材料名称查询" class="marginBot8"></b-form-input>
         </div>
         <div class="col-lg-3 mb25">
           <b-button
@@ -18,7 +18,9 @@
             @click="search()"
             >查&nbsp;&nbsp;询</b-button
           >
+
         </div>
+          <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="材料表"></exportExcel>
 
         <a
           class="btn btn-info base-margin-bottom"
@@ -155,12 +157,16 @@
 </template>
 <script>
 import Validator from 'async-validator';
+import exportExcel from '@/components/exportExcel.vue';
+
 export default {
   name: 'material',
   metaInfo: {
     title: '材料管理',
   },
-  components: {},
+  components: {
+    exportExcel,
+  },
   data() {
     return {
       list: [],
@@ -175,6 +181,8 @@ export default {
         pz: [{ required: true, message: '请填写配重' }],
         create_date: [{ required: true, message: '请选择创建日期' }],
       }),
+      th: ['材料', '配重', '创建日期'],
+      filterVal: ['name', 'pz', 'create_date'],
     };
   },
   computed: {},

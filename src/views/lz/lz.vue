@@ -27,6 +27,7 @@
             </td>
           </tr>
         </table>
+      <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="裸针表"></exportExcel>
 
         <div class="base-align-right" style="margin-bottom:20px;">
           <a
@@ -178,6 +179,8 @@
 <script>
 import Validator from 'async-validator';
 import entrance from '@/components/entrance.vue';
+import exportExcel from '@/components/exportExcel.vue';
+
 import _ from 'lodash';
 export default {
   name: 'lz',
@@ -186,6 +189,7 @@ export default {
   },
   components: {
     entrance,
+    exportExcel,
   },
   data() {
     return {
@@ -202,12 +206,15 @@ export default {
       currentPage: 1,
       limit: 15,
       totalRow: 0,
+      value1: '',
       select_lz_type: '', //要查询的裸针型号
       lzValidator: new Validator({
         type: { type: 'string', required: true, message: '请填写型号' },
         num: { required: true, message: '请填写数量' },
         create_date: { type: 'string', required: true, message: '请选择创建日期' },
       }),
+      th: ['型号', '数量', '创建日期'],
+      filterVal: ['type', 'num', 'create_date'],
     };
   },
   computed: {},
@@ -252,6 +259,18 @@ export default {
       } else {
         this.$message.error(result.data.msg);
       }
+    },
+     //打印
+    doPrint() {
+      console.log(this.biaotoushow);
+      let subOutputRankPrint = document.getElementById('print');
+      let newContent = subOutputRankPrint.innerHTML;
+      let oldContent = document.body.innerHTML;
+      document.body.innerHTML = newContent;
+      window.print();
+      window.location.reload();
+      document.body.innerHTML = oldContent;
+      return false;
     },
     //打开删除提示框
     openDeleteAlert(id) {

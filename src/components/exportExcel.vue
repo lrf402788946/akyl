@@ -33,9 +33,14 @@ export default {
       let th = this.exportTitle;
       let filterVar = this.db_nameList;
       let originData = _.get(this.$parent, this.dataName);
-      const data = originData.map(v => filterVar.map(k => v[k]));
-      const [fileName, fileType, sheetName] = [this.fileName, 'xlsx', this.sheetName];
-      this.$toExcel({ th, data, fileName, fileType, sheetName });
+      if (originData.length > 0) {
+        const data = originData.map(v => filterVar.map(k => v[k]));
+        const [fileName, fileType, sheetName] = [this.fileName, 'xlsx', this.sheetName];
+        this.$message('正在导出,请耐心等待');
+        this.$toExcel({ th, data, fileName, fileType, sheetName });
+      } else {
+        this.$message.error('无可导出的数据');
+      }
     },
   },
 };

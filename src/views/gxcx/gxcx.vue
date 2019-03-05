@@ -303,6 +303,7 @@ export default {
           this.$set(this, 'subList', result.data.jobReportSubList);
           this.$set(this, 'staff', result.data.staff);
         }
+        this.$set(this, 'staff', result.data.staff);
       }
     },
     //打开与关闭修改和删除的弹框
@@ -313,7 +314,6 @@ export default {
     //关闭弹框
     closeAlert() {
       this.$refs.updateAlert.hide();
-      this.subForm.splice(0, this.subForm.length);
     },
     //验证错误
     handleErrors(errors, fields) {

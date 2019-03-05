@@ -27,6 +27,7 @@
             </td>
           </tr>
         </table>
+      <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="弹簧柄表"></exportExcel>
 
         <div class="base-align-right" style="margin-bottom:20px;">
           <a
@@ -194,6 +195,8 @@
 import _ from 'lodash';
 import Validator from 'async-validator';
 import entrance from '@/components/entrance.vue';
+import exportExcel from '@/components/exportExcel.vue';
+
 export default {
   name: 'thb',
   metaInfo: {
@@ -201,6 +204,7 @@ export default {
   },
   components: {
     entrance,
+    exportExcel,
   },
   data() {
     return {
@@ -213,12 +217,15 @@ export default {
       currentPage: 1,
       limit: 15,
       totalRow: 0,
+      value1: '',
       select_thb_type: '',
       addValidator: new Validator({
         type: [{ type: 'string', required: true, message: '请填写型号' }],
         num: [{ type: 'string', required: true, message: '请填写数量' }],
         create_date: [{ type: 'string', required: true, message: '请填写创建日期' }],
       }),
+      th: ['型号', '数量', '创建日期'],
+      filterVal: ['type', 'num', 'create_date'],
     };
   },
   computed: {},
@@ -282,6 +289,18 @@ export default {
     openDeleteAlert(id) {
       this.$refs.deleteAlert.show();
       this.deleteItem = id;
+    },
+       //打印
+    doPrint() {
+      console.log(this.biaotoushow);
+      let subOutputRankPrint = document.getElementById('print');
+      let newContent = subOutputRankPrint.innerHTML;
+      let oldContent = document.body.innerHTML;
+      document.body.innerHTML = newContent;
+      window.print();
+      window.location.reload();
+      document.body.innerHTML = oldContent;
+      return false;
     },
     //删除
     async toDelete() {

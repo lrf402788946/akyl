@@ -41,6 +41,8 @@
           </a>
           <entrance @research="search"></entrance>
         </div>
+              <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="直废表"></exportExcel>
+
         <table class="table table-bordered table-striped ">
           <tbody v-if="list.length > 0">
             <tr>
@@ -178,6 +180,7 @@
 <script>
 import Validator from 'async-validator';
 import entrance from '@/components/entrance.vue';
+import exportExcel from '@/components/exportExcel.vue';
 import _ from 'lodash';
 export default {
   name: 'lz',
@@ -186,6 +189,7 @@ export default {
   },
   components: {
     entrance,
+    exportExcel,
   },
   data() {
     return {
@@ -200,11 +204,14 @@ export default {
       limit: 15,
       totalRow: 0,
       select_zf_type: '',
+      value1: '',
       lzValidator: new Validator({
         type: { type: 'string', required: true, message: '请填写型号' },
         num: { required: true, message: '请填写数量' },
         create_date: { type: 'string', required: true, message: '请选择创建日期' },
       }),
+      th: ['型号', '数量', '创建日期'],
+      filterVal: ['type', 'num', 'create_date'],
     };
   },
   computed: {},
