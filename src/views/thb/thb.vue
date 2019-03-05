@@ -27,7 +27,7 @@
             </td>
           </tr>
         </table>
-      <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="弹簧柄表"></exportExcel>
+      
 
         <div class="base-align-right" style="margin-bottom:20px;">
           <a
@@ -41,6 +41,9 @@
             <i class="base-margin-right-5 fa fa-plus-square" style=" color:#fff !important;"></i>添加弹簧柄
           </a>
           <entrance @research="search"></entrance>
+        </div>
+        <div style="margin:10px 0;">
+          <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="弹簧柄表"></exportExcel>
         </div>
         <table class="table table-bordered table-striped ">
           <tbody v-if="list.length > 0">

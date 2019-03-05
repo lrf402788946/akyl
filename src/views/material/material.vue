@@ -11,10 +11,10 @@
         <div class="col-lg-3 mb25">
           <b-form-input v-model="name" placeholder="请输入材料名称查询" class="marginBot8"></b-form-input>
         </div>
-        <div class="col-lg-3 mb25">
+        <div class="col-lg-1 mb25" style="text-align:left;">
           <b-button
             variant="primary"
-            style="font-size:14px !important; color:#fff !important; width: 60% !important; margin-top:3px;  padding: 6px 0 !important; margin-right:0 !important;"
+            style="font-size:14px !important; color:#fff !important; width: 100% !important;  padding: 6px 0 !important; margin-right:0 !important;"
             @click="search()"
             >查&nbsp;&nbsp;询</b-button
           >
@@ -486,6 +486,9 @@ li {
 }
 .btn-primary:hover {
   background-color: #17a2b8 !important;
+}
+.col-lg-1{
+  float: left;
 }
 </style>
 

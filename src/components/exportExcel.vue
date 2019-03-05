@@ -1,10 +1,10 @@
 <template lang="html">
   <div id="exportExcel">
-    <div class="col-lg-4" style="padding-left:10px !important; padding-right:10px !important;">
+    <div style="width:80px; height:40px; line-height:40px;">
       <b-button
         variant="primary"
         @click="excel()"
-        style="font-size:14px !important; color:#fff !important; margin-top:38px; width: 100% !important; padding: 6px 0 !important; margin-right:0 !important;"
+        style="font-size:14px !important; color:#fff !important; width: 100% !important; padding: 6px 0 !important; margin-right:0 !important;"
       >
         导&nbsp;&nbsp;出</b-button
       >
@@ -46,4 +46,11 @@ export default {
 };
 </script>
 
-<style lang="css" scoped></style>
+<style lang="css">
+.col-lg-1{
+  float: left;
+}
+.btn-primary:hover{
+  background-color:#17a2b8 !important;
+}
+</style>

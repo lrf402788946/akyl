@@ -49,7 +49,7 @@
           <entrance @research="search"></entrance>
         </div>
         <!-- 导出 -->
-        <div>
+        <div style="margin:10px 0;">
           <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list"></exportExcel>
         </div>
         <table class="table table-bordered table-striped ">

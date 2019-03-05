@@ -27,8 +27,6 @@
             </td>
           </tr>
         </table>
-      <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="裸针表"></exportExcel>
-
         <div class="base-align-right" style="margin-bottom:20px;">
           <a
             class="btn btn-info base-margin-bottom"
@@ -41,6 +39,9 @@
             <i class="base-margin-right-5 fa fa-plus-square" style=" color:#fff !important;"></i>添加裸针
           </a>
           <entrance @research="search"></entrance>
+        </div>
+        <div style="margin:10px 0;">
+          <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="裸针表"></exportExcel>
         </div>
         <table class="table table-bordered table-striped ">
           <tbody v-if="list.length > 0">

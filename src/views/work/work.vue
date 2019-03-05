@@ -25,7 +25,7 @@
                   variant="primary"
                   style="font-size: 12px !important; color: rgb(255, 255, 255) !important; width: 100% !important; padding: 6px 15px !important; margin-right: 0px !important;"
                   @click="titlesearch()"
-                  >点&nbsp;&nbsp;击&nbsp;&nbsp;查&nbsp;&nbsp;询</b-button
+                  >点击查询</b-button
                 >
               </td>
             </tr>
@@ -45,7 +45,7 @@
             <entrance @research="search"></entrance>
           </div>
           <!-- 导出 -->
-          <div>
+          <div style="margin:10px 0;">
             <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list"></exportExcel>
           </div>
           <table class="table table-bordered table-striped ">
