@@ -46,7 +46,8 @@
             </tr>
           </table>
         </div>
-        <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="入库表"></exportExcel>
+        <!--         <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="入库表"></exportExcel>
+-->
 
         <div class="base-align-right" style="margin-bottom: 20px;">
           <a
@@ -290,14 +291,14 @@
 <script>
 import Validator from 'async-validator';
 import { mapState } from 'vuex';
-import exportExcel from '@/components/exportExcel.vue';
+//import exportExcel from '@/components/exportExcel.vue';
 export default {
   name: 'bg',
   metaInfo: {
     title: '入库管理',
   },
   components: {
-    exportExcel,
+    //   exportExcel,
   },
   data() {
     return {

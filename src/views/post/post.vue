@@ -10,7 +10,7 @@
       <div class="base-padding-20 base-bg-fff">
         <!-- 导出 -->
         <div>
-          <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list"></exportExcel>
+          <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="岗位表"></exportExcel>
         </div>
         <div class="base-align-right" style="margin-bottom:20px;">
           <a

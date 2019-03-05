@@ -32,7 +32,7 @@
               >
             </td>
             <td style="padding-left:70px">
-              <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list"></exportExcel>
+              <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="员工表"></exportExcel>
             </td>
           </tr>
         </table>
