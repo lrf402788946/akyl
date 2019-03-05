@@ -48,6 +48,10 @@
           </a>
           <entrance @research="search"></entrance>
         </div>
+        <!-- 导出 -->
+        <div>
+          <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list"></exportExcel>
+        </div>
         <table class="table table-bordered table-striped ">
           <tbody v-if="list.length > 0">
             <tr>
@@ -223,12 +227,14 @@
 <script>
 import Validator from 'async-validator';
 import entrance from '@/components/entrance.vue';
+import exportExcel from '@/components/exportExcel.vue';
 export default {
   name: 'kind',
   metaInfo: {
     title: '型号管理',
   },
   components: {
+    exportExcel,
     entrance,
   },
   data() {
@@ -255,6 +261,18 @@ export default {
       materialList: [],
       pzTitle: '',
       operateId: '',
+      th: [
+        '工序代码',
+        '型号代码',
+        '型号名称',
+        '计时定额',
+      ],
+      filterVal: [
+        'work_id',
+        'code',
+        'name',
+        'jj_price',
+      ],
     };
   },
   computed: {},

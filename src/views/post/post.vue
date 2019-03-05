@@ -8,6 +8,10 @@
         </div>
       </div>
       <div class="base-padding-20 base-bg-fff">
+        <!-- 导出 -->
+        <div>
+          <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list"></exportExcel>
+        </div>
         <div class="base-align-right" style="margin-bottom:20px;">
           <a
             class="btn btn-info base-margin-bottom"
@@ -149,12 +153,15 @@
 <script>
 import _ from 'lodash';
 import Validator from 'async-validator';
+import exportExcel from '@/components/exportExcel.vue';
 export default {
   name: 'post',
   metaInfo: {
     title: '岗位管理',
   },
-  components: {},
+  components: {
+    exportExcel,
+  },
   data() {
     return {
       list: [],
@@ -170,6 +177,14 @@ export default {
         name: [{ type: 'string', required: true, message: '请填写岗位名称' }],
         money: [{ type: 'string', required: true, message: '请填写岗位补助' }],
       }),
+      th: [
+        '岗位名称',
+        '岗位补助',
+      ],
+      filterVal: [
+        'name',
+        'money',
+      ],
     };
   },
   computed: {},

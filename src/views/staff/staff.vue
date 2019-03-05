@@ -13,6 +13,8 @@
           <tr>
             <td>员工编号查询:</td>
             <td style="padding-left:50px">员工姓名查询:</td>
+            <td style="padding-left:150px"></td>
+            <td style="padding-left:250px"></td>
           </tr>
           <tr>
             <td>
@@ -28,6 +30,9 @@
                 @click="titlesearch()"
                 >点&nbsp;&nbsp;击&nbsp;&nbsp;查&nbsp;&nbsp;询</b-button
               >
+            </td>
+            <td style="padding-left:70px">
+              <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list"></exportExcel>
             </td>
           </tr>
         </table>
@@ -378,9 +383,11 @@
 <script>
 import Validator from 'async-validator';
 import entrance from '@/components/entrance.vue';
+import exportExcel from '@/components/exportExcel.vue';
 export default {
   name: 'staff',
   components: {
+    exportExcel,
     entrance,
   },
   metaInfo: {
@@ -446,6 +453,36 @@ export default {
         tq: [{ required: true, message: '请选择是否通勤' }],
         in_time: [{ type: 'string', required: true, message: '请选择入职时间' }],
       }),
+      th: [
+        '工号',
+        '姓名',
+        '性别',
+        '个人电话',
+        '出生日期',
+        '身份证号',
+        '部门',
+        '职务',
+        '岗位',
+        '工作状态',
+        '是否通勤',
+        '入职时间',
+        '备注',
+      ],
+      filterVal: [
+        'job_num',
+        'user_name',
+        'gender',
+        'phone_no',
+        'birthday',
+        'id_number',
+        'dept_id',
+        'level',
+        'post_id',
+        'status',
+        'tq',
+        'in_time',
+        'remark',
+      ],
     };
   },
   created() {

@@ -7,6 +7,9 @@
           <div class="button-table"></div>
         </div>
         <div class="base-padding-20 base-bg-fff" style="width:100%;">
+          <div>
+            <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list"></exportExcel>
+          </div>
           <div class="base-align-right" style="margin-bottom:20px;">
             <a
               class="btn btn-info base-margin-bottom"
@@ -142,12 +145,15 @@
 <script>
 import _ from 'lodash';
 import Validator from 'async-validator';
+import exportExcel from '@/components/exportExcel.vue';
 export default {
   name: 'dept',
   metaInfo: {
     title: '部门管理',
   },
-  components: {},
+  components: {
+    exportExcel,
+  },
   data() {
     return {
       list: [],
@@ -163,6 +169,16 @@ export default {
         dept_tell: [{ type: 'string', required: true, message: '请填写部门电话' }],
       }),
       limit: 15, //每页信息数量
+      th: [
+        '部门名称',
+        '部门职责',
+        '部门电话',
+      ],
+      filterVal: [
+        'dept_name',
+        'dept_duty',
+        'dept_tell',
+      ],
     };
   },
   computed: {},

@@ -44,6 +44,10 @@
             </a>
             <entrance @research="search"></entrance>
           </div>
+          <!-- 导出 -->
+          <div>
+            <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list"></exportExcel>
+          </div>
           <table class="table table-bordered table-striped ">
             <tbody v-if="list.length > 0">
               <tr>
@@ -164,12 +168,14 @@
 import _ from 'lodash';
 import Validator from 'async-validator';
 import entrance from '@/components/entrance.vue';
+import exportExcel from '@/components/exportExcel.vue';
 export default {
   name: 'work',
   metaInfo: {
     title: '工序管理',
   },
   components: {
+    exportExcel,
     entrance,
   },
   data() {
@@ -189,6 +195,14 @@ export default {
         code: { type: 'string', required: true, message: '请填写工序代码' },
         name: { type: 'string', required: true, message: '请填写工序名称' },
       }),
+      th: [
+        '工序代码',
+        '工序名称',
+      ],
+      filterVal: [
+        'code',
+        'name',
+      ],
     };
   },
   computed: {},
