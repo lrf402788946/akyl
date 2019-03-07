@@ -440,18 +440,21 @@ export default {
     },
     //导出
     exportExcel(){
-      var tableStr = `<tr style="text-align:center;">
+      var tableStr = `
+                      <caption><b>出库单</b></caption>
+                      <tr style="text-align:center;">
                         <th>订单号</th>
                         <th>出库人</th>
                         <th>出库时间</th>
                         <th>备注</th>
                       </tr>
                       <tr style="text-align: center;">
-                          <th>${this.updateForm.order_no}</th>
-                          <th>${this.updateForm.user_name}</th>
-                          <th>${this.updateForm.out_date}</th>
-                          <th>${this.updateForm.remark}</th>
+                          <td>${this.updateForm.order_no}</td>
+                          <td>${this.updateForm.user_name}</td>
+                          <td>${this.updateForm.out_date}</td>
+                          <td>${this.updateForm.remark}</td>
                       </tr>
+                      <tr></tr>
                       <tr style="text-align:center;">
                         <th>类别</th>
                         <th>型号</th>
@@ -478,7 +481,7 @@ export default {
                               </x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
                           </head>
                           <body>
-                              <table syle="table-layout: fixed;word-wrap: break-word; word-break: break-all;">${tableStr}</table>
+                              <table border="1" cellspacing="0" cellpadding="0" syle="table-layout: fixed;word-wrap: break-word; word-break: break-all;">${tableStr}</table>
                           </body>
                       </html>`;
       //下载模板
