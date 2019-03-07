@@ -10,41 +10,38 @@
       </div>
       <div class="base-padding-20 base-bg-fff">
         <div>
-          <table>
-            <tr>
-              <td>入库单号查询:</td>
-              <td style="padding-left:50px">入库人查询:</td>
-              <td style="padding-left:50px">入库日期查询:</td>
-            </tr>
-            <tr>
-              <td>
-                <b-form-input v-model="select_order_no" placeholder="输入入库单号" style="width:200px,margin-left:50px"></b-form-input>
-              </td>
-              <td style="padding-left:50px">
-                <b-form-input v-model="select_user_name" placeholder="输入入库人" style="padding-left:50px,width:200px"></b-form-input>
-              </td>
-              <td style="padding-left:50px">
-                <el-date-picker
-                  v-model="select_in_date"
-                  value-format="yyyy-MM-dd"
-                  format="yyyy-MM-dd"
-                  type="daterange"
-                  range-separator="-"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                >
-                </el-date-picker>
-              </td>
-              <td style="padding-left:60px">
-                <b-button
-                  variant="primary"
-                  style="font-size: 12px !important; color: rgb(255, 255, 255) !important; width: 100% !important; padding: 6px 15px !important; margin-right: 0px !important;"
-                  @click="titlesearch()"
-                  >点&nbsp;&nbsp;击&nbsp;&nbsp;查&nbsp;&nbsp;询</b-button
-                >
-              </td>
-            </tr>
-          </table>
+          <div class="row" style="margin-bottom: 15px !important;">
+            <div class="col-lg-3 marginBot4">
+              <p class="marginBot4">入库单号查询:</p>
+              <b-form-input v-model="select_order_no" placeholder="输入入库单号"></b-form-input>
+            </div>
+            <div class="col-lg-3 marginBot4">
+              <p class="marginBot4">入库人查询:</p>
+              <b-form-input v-model="select_user_name" placeholder="输入入库人"></b-form-input>
+            </div>
+            <div class="col-lg-4 marginBot4">
+              <p class="marginBot4">入库日期查询:</p>
+              <el-date-picker
+                style="width:100%; height: 34px !important; line-height: 34px !important;"
+                v-model="select_in_date"
+                value-format="yyyy-MM-dd"
+                format="yyyy-MM-dd"
+                type="daterange"
+                range-separator="-"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+              >
+              </el-date-picker>
+            </div>
+            <div class="col-lg-2 marginBot4">
+              <b-button
+                variant="primary"
+                style="font-size: 14px !important; color: rgb(255, 255, 255) !important; width: 60% !important; padding: 5px 10px !important; margin-top:28px; margin-right: 0px !important;"
+                @click="titlesearch()"
+                >点击查询</b-button
+              >
+            </div>
+          </div>
         </div>
         <!--         <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="入库表"></exportExcel>
 -->
@@ -259,18 +256,17 @@
       </div>
       <b-button
         variant="secondary"
-        @click="exportExcel()"
-        class="resetButton"
-        style="font-size:16px !important; width:30% !important; margin-top:25px; margin-bottom:30px !important; margin-right: 0 !important; padding:6px 80px !important;"
-        >导&nbsp;&nbsp;出</b-button>
-      <b-button
-        variant="secondary"
         @click="closeAlert('update')"
         class="resetButton"
-        style="font-size:16px !important; width:30% !important; margin-top:25px; margin-bottom:30px !important; margin-right: 0 !important; padding:6px 80px !important;"
+        style="font-size:16px !important; margin-top:25px; float: right; margin-bottom:30px !important; margin-right: 0 !important; padding:6px 20px !important;"
         >返&nbsp;&nbsp;回</b-button>
+      <b-button
+        variant="primary"
+        @click="exportExcel()"
+        class="resetButton"
+        style="font-size:16px !important; margin-top:25px; float: right; margin-bottom:30px !important; margin-right: 30px !important; padding:6px 20px !important;"
+        >导&nbsp;&nbsp;出</b-button>
       </b-modal>
-
     <!--删除弹框-->
     <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
       <div class="d-block text-center">
