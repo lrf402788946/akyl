@@ -46,7 +46,7 @@
           </div>
           <!-- 导出 -->
           <div style="margin:10px 0;">
-            <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list"></exportExcel>
+            <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="工序表"></exportExcel>
           </div>
           <table class="table table-bordered table-striped ">
             <tbody v-if="list.length > 0">

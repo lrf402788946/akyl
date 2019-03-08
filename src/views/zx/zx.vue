@@ -45,9 +45,6 @@
           <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="针芯表"></exportExcel>
         </div>
         <div id="print">
-          <center>
-            <h1 id="biaotou" v-show="biaotoushow">{{ value1 }} 工资详情</h1>
-          </center>
           <table class="table table-bordered table-striped ">
             <tbody v-if="list.length > 0">
               <tr>
@@ -249,7 +246,6 @@ export default {
     },
     //打印
     doPrint() {
-      console.log(this.biaotoushow);
       let subOutputRankPrint = document.getElementById('print');
       let newContent = subOutputRankPrint.innerHTML;
       let oldContent = document.body.innerHTML;

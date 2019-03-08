@@ -9,38 +9,39 @@
         </div>
       </div>
       <div class="base-padding-20 base-bg-fff">
-        <div class="base-align-right" style="margin-bottom:20px;">
-          <table class="table table-bordered table-striped ">
-            <tbody>
-              <tr style="text-align: left;">
-                <th>订单号</th>
-                <th>出库人</th>
-                <th>日期</th>
-                <th>操作</th>
-              </tr>
-              <tr>
-                <td><b-form-input v-model="order_no"></b-form-input></td>
-                <td><b-form-input v-model="user_name"></b-form-input></td>
-                <td style="text-align: left;">
-                  <el-date-picker
-                    v-model="timeValue"
-                    value-format="yyyy-MM-dd"
-                    format="yyyy-MM-dd"
-                    type="daterange"
-                    range-separator="-"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                  >
-                  </el-date-picker>
-                </td>
-                <td>
-                  <b-button variant="primary" style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;" @click="search()"
-                    >查&nbsp;&nbsp;询</b-button
-                  >
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="row" style="margin-bottom: 15px !important;">
+          <div class="col-lg-3 marginBot4">
+            <p class="marginBot4">出库单号查询:</p>
+            <b-form-input v-model="order_no" placeholder="输入出库单号"></b-form-input>
+          </div>
+          <div class="col-lg-3 marginBot4">
+            <p class="marginBot4">出库人查询:</p>
+            <b-form-input v-model="user_name" placeholder="输入出库人"></b-form-input>
+          </div>
+          <div class="col-lg-4 marginBot4">
+            <p class="marginBot4">出库日期查询:</p>
+            <el-date-picker
+              style="width:100%; height: 34px !important; line-height: 34px !important;"
+              v-model="timeValue"
+              value-format="yyyy-MM-dd"
+              format="yyyy-MM-dd"
+              type="daterange"
+              range-separator="-"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+            >
+            </el-date-picker>
+          </div>
+          <div class="col-lg-2 marginBot4">
+            <b-button
+              variant="primary"
+              style="font-size: 14px !important; color: rgb(255, 255, 255) !important; width: 60% !important; padding: 5px 10px !important; margin-top:28px; margin-right: 0px !important;"
+              @click="search()"
+              >点击查询</b-button
+            >
+          </div>
+        </div>
+        <div class="base-align-right" style="margin-bottom: 20px;">
           <a
             class="btn btn-info base-margin-bottom"
             data-toggle="tooltip"
@@ -228,8 +229,15 @@
         variant="secondary"
         @click="closeAlert('update')"
         class="resetButton"
-        style="font-size:16px !important; margin:25px 5% 30px 5% !important; background-color: #17a2b8 !important;  width:30% !important; padding:6px 80px !important;"
+        style="font-size:16px !important; margin-top:25px; float: right; margin-bottom:30px !important; margin-right: 0 !important; padding:6px 20px !important;"
         >返&nbsp;&nbsp;回</b-button
+      >
+      <b-button
+        variant="primary"
+        @click="exportExcel()"
+        class="resetButton"
+        style="font-size:16px !important;  float: right; margin-top:25px; margin-bottom:30px !important; margin-right: 30px !important; padding:6px 20px !important;"
+        >导&nbsp;&nbsp;出</b-button
       >
     </b-modal>
     <!-- 详情 -->
@@ -431,6 +439,59 @@ export default {
         this.$message.error('请重新输入数量！！！');
         this.form1 = [];
       }
+    },
+    //导出
+    exportExcel(){
+      var tableStr = `
+                      <caption><b>出库单</b></caption>
+                      <tr style="text-align:center;">
+                        <th>订单号</th>
+                        <th>出库人</th>
+                        <th>出库时间</th>
+                        <th>备注</th>
+                      </tr>
+                      <tr style="text-align: center;">
+                          <td>${this.updateForm.order_no}</td>
+                          <td>${this.updateForm.user_name}</td>
+                          <td>${this.updateForm.out_date}</td>
+                          <td>${this.updateForm.remark}</td>
+                      </tr>
+                      <tr></tr>
+                      <tr style="text-align:center;">
+                        <th>类别</th>
+                        <th>型号</th>
+                        <th>数量</th>
+                        <th>&nbsp;</th>
+                      </tr>`;
+      for(let item of this.updateForm1) {
+        tableStr += ` <tr style="text-align: center;">
+                        <td>${item.type === 1 ? '裸针' : item.type === 2 ? '弹簧柄' : item.type === 3 ? '针芯' : '直废'}</td>
+                        <td>${item.kind}</td>
+                        <td>${item.num}</td>
+                        <td>&nbsp;</td>
+                      </tr>`;
+        }
+      //Worksheet名
+      var worksheet = 'Sheet1'
+      var uri = 'data:application/vnd.ms-excel;base64,';
+      // 真正要导出（下载）的HTML模板
+      var exportTemplate = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" 
+                      xmlns="http://www.w3.org/TR/REC-html40">
+                          <head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>
+                              <x:Name>${worksheet}</x:Name>
+                                  <x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet>
+                              </x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
+                          </head>
+                          <body>
+                              <table border="1" cellspacing="0" cellpadding="0" syle="table-layout: fixed;word-wrap: break-word; word-break: break-all;">${tableStr}</table>
+                          </body>
+                      </html>`;
+      //下载模板
+      window.location.href = uri + this.base64(exportTemplate)
+    },
+    //输出base64编码
+    base64 (s) { 
+      return window.btoa(unescape(encodeURIComponent(s))) 
     },
   },
 };

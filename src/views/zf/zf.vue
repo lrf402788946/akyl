@@ -272,7 +272,8 @@ export default {
         this.$refs.toAdd.hide();
       } else {
         this.$message.error(result.data.msg);
-      }
+      };
+      this.form={};
     },
     openAlert(type, id) {
       if (type === 'update') {

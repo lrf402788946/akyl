@@ -10,41 +10,38 @@
       </div>
       <div class="base-padding-20 base-bg-fff">
         <div>
-          <table>
-            <tr>
-              <td>入库单号查询:</td>
-              <td style="padding-left:50px">入库人查询:</td>
-              <td style="padding-left:50px">入库日期查询:</td>
-            </tr>
-            <tr>
-              <td>
-                <b-form-input v-model="select_order_no" placeholder="输入入库单号" style="width:200px,margin-left:50px"></b-form-input>
-              </td>
-              <td style="padding-left:50px">
-                <b-form-input v-model="select_user_name" placeholder="输入入库人" style="padding-left:50px,width:200px"></b-form-input>
-              </td>
-              <td style="padding-left:50px">
-                <el-date-picker
-                  v-model="select_in_date"
-                  value-format="yyyy-MM-dd"
-                  format="yyyy-MM-dd"
-                  type="daterange"
-                  range-separator="-"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                >
-                </el-date-picker>
-              </td>
-              <td style="padding-left:60px">
-                <b-button
-                  variant="primary"
-                  style="font-size: 12px !important; color: rgb(255, 255, 255) !important; width: 100% !important; padding: 6px 15px !important; margin-right: 0px !important;"
-                  @click="titlesearch()"
-                  >点&nbsp;&nbsp;击&nbsp;&nbsp;查&nbsp;&nbsp;询</b-button
-                >
-              </td>
-            </tr>
-          </table>
+          <div class="row" style="margin-bottom: 15px !important;">
+            <div class="col-lg-3 marginBot4">
+              <p class="marginBot4">入库单号查询:</p>
+              <b-form-input v-model="select_order_no" placeholder="输入入库单号"></b-form-input>
+            </div>
+            <div class="col-lg-3 marginBot4">
+              <p class="marginBot4">入库人查询:</p>
+              <b-form-input v-model="select_user_name" placeholder="输入入库人"></b-form-input>
+            </div>
+            <div class="col-lg-4 marginBot4">
+              <p class="marginBot4">入库日期查询:</p>
+              <el-date-picker
+                style="width:100%; height: 34px !important; line-height: 34px !important;"
+                v-model="select_in_date"
+                value-format="yyyy-MM-dd"
+                format="yyyy-MM-dd"
+                type="daterange"
+                range-separator="-"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+              >
+              </el-date-picker>
+            </div>
+            <div class="col-lg-2 marginBot4">
+              <b-button
+                variant="primary"
+                style="font-size: 14px !important; color: rgb(255, 255, 255) !important; width: 60% !important; padding: 5px 10px !important; margin-top:28px; margin-right: 0px !important;"
+                @click="titlesearch()"
+                >点击查询</b-button
+              >
+            </div>
+          </div>
         </div>
         <!--         <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="入库表"></exportExcel>
 -->
@@ -261,11 +258,15 @@
         variant="secondary"
         @click="closeAlert('update')"
         class="resetButton"
-        style="font-size:16px !important; width:30% !important; margin-top:25px; margin-bottom:30px !important; margin-right: 0 !important; padding:6px 80px !important;"
-        >返&nbsp;&nbsp;回</b-button
-      ></b-modal
-    >
-
+        style="font-size:16px !important; margin-top:25px; float: right; margin-bottom:30px !important; margin-right: 0 !important; padding:6px 20px !important;"
+        >返&nbsp;&nbsp;回</b-button>
+      <b-button
+        variant="primary"
+        @click="exportExcel()"
+        class="resetButton"
+        style="font-size:16px !important; margin-top:25px; float: right; margin-bottom:30px !important; margin-right: 30px !important; padding:6px 20px !important;"
+        >导&nbsp;&nbsp;出</b-button>
+      </b-modal>
     <!--删除弹框-->
     <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
       <div class="d-block text-center">
@@ -371,19 +372,21 @@ export default {
     },
     async serarchXiangxi() {
       let result = await this.$axios.get(`/akyl/store/in_sub_info?skip=0&limit=100&id=${this.updateForm.id}`);
-      this.subList = result.data.subList.map(item => {
-        let newObject = { text: item.dept_name, value: item.id };
-        return newObject;
-      });
+      this.subList = result.data.subList;
+      // this.subList = result.data.subList.map(item => {
+      //   let newObject = { text: item.dept_name, value: item.id };
+      //   return newObject;
+      // });
     },
     //请求各表
     async getOtherList() {
       //请求部门表
       let result = await this.$axios.get('/akyl/dept/dept_list?skip=0&limit=100');
-      this.deptList = result.data.deptList.map(item => {
-        let newObject = { text: item.dept_name, value: item.id };
-        return newObject;
-      });
+      this.deptList = result.data.deptList;
+      // this.deptList = result.data.deptList.map(item => {
+      //   let newObject = { text: item.dept_name, value: item.id };
+      //   return newObject;
+      // });
       // let defalut = { text: '请选择部门', value: null, disabled: true };
       // this.deptList.unshift(defalut);
     },
@@ -400,7 +403,7 @@ export default {
     //请求类型表(应该是二级联动工序表)
     async getKindList(index) {
       let subFormKindList = [];
-      let result = await this.$axios.get(`/akyl/kind/kind_list?skip=0&limit=1000&work_id=${this.subForm[index].work_id}`);
+      let result = await this.$axios.get(`/akyl/kind/kind_list?skip=0&limit=1000&work_id=${this.subForm[index].type}`);
       if (result.data.totalRow > 0) {
         subFormKindList = result.data.kindList.map(item => {
           let newObject = { text: item.name, value: item.id };
@@ -602,6 +605,59 @@ export default {
       this.form.login_id = this.userInfo.login_id;
       this.subForm = [];
       this.subForm.push(this.subFormContent);
+    },
+    //导出
+    exportExcel(){
+      var tableStr = `
+                      <caption><b>入库单</b></caption>
+                      <tr style="text-align:center;">
+                        <th>订单号</th>
+                        <th>入库人</th>
+                        <th>入库日期</th>
+                        <th>备注</th>
+                      </tr>
+                      <tr style="text-align: center;">
+                          <td>${this.updateForm.order_no}</td>
+                          <td>${this.updateForm.user_name}</td>
+                          <td>${this.updateForm.in_date}</td>
+                          <td>${this.updateForm.remark}</td>
+                      </tr>
+                      <tr></tr>
+                      <tr style="text-align:center;">
+                        <th>类别</th>
+                        <th>型号</th>
+                        <th>数量</th>
+                        <th>&nbsp;</th>
+                      </tr>`;
+      for(let item of this.subForm) {
+        tableStr += ` <tr style="text-align: center;">
+                        <td>${item.type === 1 ? '裸针' : item.type === 2 ? '弹簧柄' : item.type === 3 ? '针芯' : '直废'}</td>
+                        <td>${item.kind}</td>
+                        <td>${item.num}</td>
+                        <td>&nbsp;</td>
+                      </tr>`;
+        }
+      //Worksheet名
+      var worksheet = 'Sheet1'
+      var uri = 'data:application/vnd.ms-excel;base64,';
+      // 真正要导出（下载）的HTML模板
+      var exportTemplate = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" 
+                      xmlns="http://www.w3.org/TR/REC-html40">
+                          <head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>
+                              <x:Name>${worksheet}</x:Name>
+                                  <x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet>
+                              </x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
+                          </head>
+                          <body>
+                              <table border="1" cellspacing="0" cellpadding="0" syle="table-layout: fixed;word-wrap: break-word; word-break: break-all;">${tableStr}</table>
+                          </body>
+                      </html>`;
+      //下载模板
+      window.location.href = uri + this.base64(exportTemplate)
+    },
+    //输出base64编码
+    base64 (s) { 
+      return window.btoa(unescape(encodeURIComponent(s))) 
     },
   },
 };

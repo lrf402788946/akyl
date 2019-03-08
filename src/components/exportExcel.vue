@@ -17,7 +17,7 @@ import _ from 'lodash';
 import needAllDataList from '@/util/exportExcelNeedAllData.js';
 export default {
   name: 'exportExcel',
-  props: {
+  props:{
     exportTitle: { type: Array, defalut: [] },
     db_nameList: { type: Array, defalut: [] },
     dataName: { type: String, defalut: '' },
@@ -26,14 +26,34 @@ export default {
   },
   components: {},
   data() {
-    return {};
+    return {
+      list:[],
+      limit: 10000,
+    };
   },
   computed: {},
   created() {
     // this.allData();
   },
   methods: {
-    excel() {
+    async search() {
+      //查询方法
+      let name1 = this.$route.name;
+      let skip = 0;
+      let result;
+      if(name1 === 'gongxin'){
+        result = await this.$axios.get(`/akyl/wages/wages_list?skip=${skip}&limit=${this.limit}&create_time=${this.$parent.$data.value1}`);
+        this.$set(this, 'list', result.data.wagesList);
+      }else if(name1 === 'material'){
+        result = await this.$axios.get(`/akyl/cl/cl_list?skip=${skip}&limit=${this.limit}`);
+        this.$set(this, 'list', result.data.cList);
+      } else {
+        result = await this.$axios.get(`/akyl/${name1}/${name1}_list?skip=${skip}&limit=${this.limit}`);
+        this.$set(this, 'list', _.get(result.data, name1+'List'));
+      }
+    },
+    async excel() {
+      await this.search();
       let th = this.exportTitle;
       let filterVar = this.db_nameList;
       let routerName = this.$route.name;
@@ -41,7 +61,7 @@ export default {
       if (routerName === 'staff' || routerName === 'kind') {
         originData = this.newData(routerName);
       } else {
-        originData = _.get(this.$parent, this.dataName);
+        originData = this.list;
       }
       if (originData.length > 0) {
         const data = originData.map(v => filterVar.map(k => v[k]));
