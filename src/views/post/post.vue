@@ -10,7 +10,7 @@
       <div class="base-padding-20 base-bg-fff">
         <!-- 导出 -->
         <div>
-          <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list"></exportExcel>
+          <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="岗位表"></exportExcel>
         </div>
         <div class="base-align-right" style="margin-bottom:20px;">
           <a
@@ -177,14 +177,8 @@ export default {
         name: [{ type: 'string', required: true, message: '请填写岗位名称' }],
         money: [{ type: 'string', required: true, message: '请填写岗位补助' }],
       }),
-      th: [
-        '岗位名称',
-        '岗位补助',
-      ],
-      filterVal: [
-        'name',
-        'money',
-      ],
+      th: ['岗位名称', '岗位补助'],
+      filterVal: ['name', 'money'],
     };
   },
   computed: {},

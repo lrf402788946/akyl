@@ -22,7 +22,7 @@
                 variant="primary"
                 style="font-size: 12px !important; color: rgb(255, 255, 255) !important; width: 100% !important; padding: 6px 15px !important; margin-right: 0px !important;"
                 @click="titlesearch()"
-                >点&nbsp;&nbsp;击&nbsp;&nbsp;查&nbsp;&nbsp;询</b-button
+                >点击查询</b-button
               >
             </td>
           </tr>
@@ -41,8 +41,9 @@
           </a>
           <entrance @research="search"></entrance>
         </div>
-              <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="直废表"></exportExcel>
-
+        <div style="margin:10px 0;">
+         <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="直废表"></exportExcel>
+        </div>
         <table class="table table-bordered table-striped ">
           <tbody v-if="list.length > 0">
             <tr>
@@ -271,7 +272,8 @@ export default {
         this.$refs.toAdd.hide();
       } else {
         this.$message.error(result.data.msg);
-      }
+      };
+      this.form={};
     },
     openAlert(type, id) {
       if (type === 'update') {

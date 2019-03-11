@@ -49,8 +49,8 @@
           <entrance @research="search"></entrance>
         </div>
         <!-- 导出 -->
-        <div>
-          <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list"></exportExcel>
+        <div style="margin:10px 0;">
+          <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="型号表"></exportExcel>
         </div>
         <table class="table table-bordered table-striped ">
           <tbody v-if="list.length > 0">
@@ -261,18 +261,8 @@ export default {
       materialList: [],
       pzTitle: '',
       operateId: '',
-      th: [
-        '工序代码',
-        '型号代码',
-        '型号名称',
-        '计时定额',
-      ],
-      filterVal: [
-        'work_id',
-        'code',
-        'name',
-        'jj_price',
-      ],
+      th: ['工序', '型号代码', '型号名称', '计件定额'],
+      filterVal: ['work_id', 'code', 'name', 'jj_price'],
     };
   },
   computed: {},

@@ -53,7 +53,6 @@
                 打&nbsp;&nbsp;印</b-button
               >
             </div>
-            <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="工资表"></exportExcel>
             <!-- <div class="col-lg-4" style="padding-left:10px !important; padding-right:10px !important;">
               <b-button
                 variant="primary"
@@ -64,6 +63,9 @@
               >
             </div> -->
           </div>
+        </div>
+        <div style="margin:10px 0;">
+          <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="工资表"></exportExcel>
         </div>
         <div id="print">
           <center>

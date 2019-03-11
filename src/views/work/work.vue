@@ -25,7 +25,7 @@
                   variant="primary"
                   style="font-size: 12px !important; color: rgb(255, 255, 255) !important; width: 100% !important; padding: 6px 15px !important; margin-right: 0px !important;"
                   @click="titlesearch()"
-                  >点&nbsp;&nbsp;击&nbsp;&nbsp;查&nbsp;&nbsp;询</b-button
+                  >点击查询</b-button
                 >
               </td>
             </tr>
@@ -45,8 +45,8 @@
             <entrance @research="search"></entrance>
           </div>
           <!-- 导出 -->
-          <div>
-            <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list"></exportExcel>
+          <div style="margin:10px 0;">
+            <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="工序表"></exportExcel>
           </div>
           <table class="table table-bordered table-striped ">
             <tbody v-if="list.length > 0">
@@ -195,14 +195,8 @@ export default {
         code: { type: 'string', required: true, message: '请填写工序代码' },
         name: { type: 'string', required: true, message: '请填写工序名称' },
       }),
-      th: [
-        '工序代码',
-        '工序名称',
-      ],
-      filterVal: [
-        'code',
-        'name',
-      ],
+      th: ['工序代码', '工序名称'],
+      filterVal: ['code', 'name'],
     };
   },
   computed: {},
