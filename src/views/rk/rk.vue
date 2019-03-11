@@ -312,7 +312,7 @@ export default {
       value1: '',
       subFormContent: {
         work_id: null,
-        kind_id: null,
+        kind_id: '',
         num: 0,
         work_time: 0,
         is_night: 0,
