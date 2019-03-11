@@ -127,3 +127,13 @@ export const CL = {
     },
   ],
 };
+
+export const DD = {
+  name: '订单管理',
+  menu: [
+    {
+      name: '客户管理',
+      router_name: 'customer',
+    },
+  ],
+};
