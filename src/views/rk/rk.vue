@@ -152,7 +152,6 @@
                 <td>
                   <el-select
                     class="marginBot"
-                    @change="getNums(index)"
                     @click.native="getKindListx(item.type)"
                     style="height:40px !important"
                     v-model="item.kind"
@@ -312,7 +311,7 @@ export default {
       value1: '',
       subFormContent: {
         work_id: null,
-        kind_id: null,
+        kind_id: '',
         num: 0,
         work_time: 0,
         is_night: 0,
@@ -563,16 +562,6 @@ export default {
       }, {});
       // eslint-disable-next-line no-console
       console.debug(errors, fields);
-    },
-    getNums(index) {
-      let num = 0;
-      for (const item of this.kindList) {
-        if (item.type === this.form1[index].kind) {
-          num = item.num;
-          break;
-        }
-      }
-      this.form1[index].else_num = num;
     },
     async getKindListx(type) {
       let result = await this.$axios.post(`/akyl/store/type_kind?type=${type}`);
