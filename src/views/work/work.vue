@@ -53,12 +53,14 @@
               <tr>
                 <th>工序代码</th>
                 <th>工序名称</th>
+                <th>工序顺序</th>
                 <th>操作</th>
               </tr>
               <tr v-for="(item, index) in list" :key="index">
                 <!--美化下input 可以看情况使用-->
                 <td>{{ item.code }}</td>
                 <td>{{ item.name }}</td>
+                <td>{{ item.sort }}</td>
                 <td>
                   <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update', index)">修&nbsp;&nbsp;改</b-button>
                   <b-button variant="danger" style="color:white;" @click="openDeleteAlert(item.id)">删&nbsp;&nbsp;除</b-button>
@@ -91,6 +93,8 @@
             <b-form-input v-model="form.code" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
             <div style="margin-top:7px; margin-bottom:7px;">工序名称:</div>
             <b-form-input v-model="form.name" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+            <div style="margin-top:7px; margin-bottom:7px;">工序顺序:</div>
+            <b-form-input v-model="form.sort" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
             <b-button
               variant="secondary"
               style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
@@ -135,6 +139,10 @@
                 <div class="col-lg-12 marginBot">
                   <p class="marginBot4">工序名称</p>
                   <b-form-input v-model="updateForm.name" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+                </div>
+                <div class="col-lg-12 marginBot">
+                  <p class="marginBot4">工序顺序</p>
+                  <b-form-input v-model="updateForm.sort" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
                 </div>
                 <div class="col-lg-12 marginBot4">
                   <b-button
@@ -191,12 +199,14 @@ export default {
       totalRow: 0,
       select_staff_gx_code: '',
       select_staff_gx_name: '',
+      select_staff_gx_sort: '',
       roleValidator: new Validator({
         code: { type: 'string', required: true, message: '请填写工序代码' },
         name: { type: 'string', required: true, message: '请填写工序名称' },
+        sort: { type: 'string', required: true, message: '请填写工序顺序' },
       }),
-      th: ['工序代码', '工序名称'],
-      filterVal: ['code', 'name'],
+      th: ['工序代码', '工序名称', '工序顺序'],
+      filterVal: ['code', 'name', 'sort'],
     };
   },
   computed: {},

@@ -111,6 +111,7 @@
           <table class="table table-bordered table-striped ">
             <tbody>
               <tr>
+                <td>批号</td>
                 <td>工序</td>
                 <td>类型</td>
                 <td style="width:10%">计数方式</td>
@@ -121,6 +122,9 @@
                 <td>操作</td>
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
+                <td>
+                  <b-form-input v-model="item.order_no"></b-form-input>
+                </td>
                 <td>
                   <el-select
                     @change="getKindList(index)"
@@ -261,6 +265,7 @@
           <table class="table table-bordered table-striped ">
             <tbody>
               <tr>
+                <td>批号</td>
                 <td>工序</td>
                 <td>类型</td>
                 <td style="width:10%">计数方式</td>
@@ -271,6 +276,9 @@
                 <td>操作</td>
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
+                <td>
+                  <b-form-input v-model="item.order_no" :disabled="is_update"></b-form-input>
+                </td>
                 <td>
                   <el-select
                     :disabled="is_update"
@@ -424,12 +432,14 @@ export default {
         is_night: 0,
         add_time: 0,
         work_type: 0,
+        order_no: null,
       },
       is_update: true,
       operateId: {},
       currentPage: 1,
       limit: 15,
       totalRow: 0,
+      order_no: null,
       form: {
         leave_time: 0,
         fj_time: 0,
