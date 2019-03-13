@@ -1,62 +1,67 @@
 <template lang="html">
   <div id="index">
-    <!-- 表格 begin -->
     <div class="base-form">
       <div class="form-inline">
         <div class="base-form-title" style="width:100%;">
-          <a class="base-margin-left-20">弹簧柄库管理</a>
+          <a class="base-margin-left-20">客户列表</a>
           <div class="button-table"></div>
         </div>
       </div>
       <div class="base-padding-20 base-bg-fff">
         <table>
           <tr>
-            <td>弹簧柄型号查询:</td>
+            <td>客户名称查询:</td>
           </tr>
           <tr>
             <td>
-              <b-form-input v-model="select_thb_type" placeholder="输入弹簧柄型号" style="width:200px,margin-left:50px"></b-form-input>
+              <el-select @click.native="searchName()" class="marginBot8" style="height:40px !important" v-model="select_name" filterable placeholder="请选择客户">
+                <el-option value="" label="全部客户">全部客户</el-option>
+                <el-option v-for="item1 in list1" :key="item1.value" :label="item1.text" :value="item1.value"> </el-option>
+              </el-select>
             </td>
             <td style="padding-left:60px">
               <b-button
                 variant="primary"
                 style="font-size: 12px !important; color: rgb(255, 255, 255) !important; width: 100% !important; padding: 6px 15px !important; margin-right: 0px !important;"
-                @click="titlesearch()"
+                @click="search()"
                 >点&nbsp;&nbsp;击&nbsp;&nbsp;查&nbsp;&nbsp;询</b-button
               >
             </td>
           </tr>
         </table>
-      
-
+        <!-- 导出 -->
+        <div>
+          <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="客户表"></exportExcel>
+        </div>
         <div class="base-align-right" style="margin-bottom:20px;">
           <a
             class="btn btn-info base-margin-bottom"
             data-toggle="tooltip"
-            style="font-size:14px !important; color:#fff !important; padding: 6px 12px !important;"
+            style="font-size:14px !important;padding: 6px 12px !important;"
             title=""
             role="button"
             v-b-modal="'toAdd'"
           >
-            <i class="base-margin-right-5 fa fa-plus-square" style=" color:#fff !important;"></i>添加弹簧柄
+            <i class="base-margin-right-5 fa fa-plus-square"></i>添加客户
           </a>
-          <entrance @research="search"></entrance>
-        </div>
-        <div style="margin:10px 0;">
-          <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="弹簧柄表"></exportExcel>
         </div>
         <table class="table table-bordered table-striped ">
           <tbody v-if="list.length > 0">
             <tr>
-              <th>型号</th>
-              <th>数量</th>
+              <th>客户编码</th>
+              <th>客户名称</th>
+              <th>联系人</th>
+              <th>联系电话</th>
+              <th>联系地址</th>
               <th>创建日期</th>
               <th>操作</th>
             </tr>
             <tr v-for="(item, index) in list" :key="index">
-              <!--美化下input 可以看情况使用-->
-              <td>{{ item.type }}</td>
-              <td>{{ item.num }}</td>
+              <td>{{ item.code }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.user_name }}</td>
+              <td>{{ item.tel }}</td>
+              <td>{{ item.address }}</td>
               <td>{{ item.create_date }}</td>
               <td>
                 <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update', index)">修&nbsp;&nbsp;改</b-button>
@@ -79,94 +84,84 @@
           next-text="下一页"
           @current-change="toSearch"
           :total="totalRow"
-        ></el-pagination>
+        >
+        </el-pagination>
 
-        <b-modal id="toAdd" title="添加弹簧柄" ref="toAdd" hide-footer>
-          <div style="margin-bottom: 7px;">型号:</div>
-          <b-form-input v-model="form.type" onkeypress="return (/[^ ]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
-          <div style="margin-top:7px; margin-bottom:7px;">数量:</div>
-          <b-form-input
-            v-model="form.num"
-            type="number"
-            autocomplete="off"
-            onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
-            style="ime-mode:Disabled"
-          ></b-form-input>
-          <div style="margin-top:7px; margin-bottom:7px;">创建日期:</div>
-          <el-date-picker
-            style="width:100%;"
-            v-model="form.create_date"
-            type="date"
-            placeholder="选择日期"
-            value-format="yyyy-MM-dd"
-            format="yyyy-MM-dd"
-          ></el-date-picker>
-          <!-- <b-form-input v-model="form.create_date"></b-form-input> -->
+        <b-modal id="toAdd" title="添加客户" ref="toAdd" hide-footer>
+          <div style="margin-top:7px; margin-bottom:7px;">客户编码:</div>
+          <b-form-input onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" v-model="form.code"></b-form-input>
+          <div style="margin-top:7px; margin-bottom:7px;">客户名称:</div>
+          <b-form-input onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" v-model="form.name"></b-form-input>
+          <div style="margin-top:7px; margin-bottom:7px;">联系人:</div>
+          <b-form-input onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" v-model="form.user_name"></b-form-input>
+          <div style="margin-top:7px; margin-bottom:7px;">联系电话:</div>
+          <b-form-input onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" v-model="form.tel"></b-form-input>
+          <div style="margin-top:7px; margin-bottom:7px;">联系地址:</div>
+          <b-form-input onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" v-model="form.address"></b-form-input>
           <b-button
             variant="secondary"
             style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
             @click="form = {}"
           >
-            重&nbsp;&nbsp;置</b-button
-          >
+            重&nbsp;&nbsp;置
+          </b-button>
           <b-button
             style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
             variant="primary"
             @click="toValidate('add')"
           >
-            保&nbsp;&nbsp;存</b-button
-          ></b-modal
-        >
+            保&nbsp;&nbsp;存
+          </b-button>
+        </b-modal>
 
         <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
           <div class="d-block text-center">
-            <b-alert variant="danger" show>删除裸针可能会影响您的管理,确认删除吗?</b-alert>
+            <b-alert variant="danger" show>删除客户可能会有严重影响,确认删除吗?</b-alert>
           </div>
           <b-button
             variant="danger"
             style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
             @click="toDelete()"
           >
-            删&nbsp;&nbsp;除</b-button
-          >
+            删&nbsp;&nbsp;除
+          </b-button>
           <b-button
             variant="primary"
             style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
             @click="$refs.deleteAlert.hide(), (deleteItem = '')"
           >
-            返&nbsp;&nbsp;回</b-button
-          ></b-modal
-        >
+            返&nbsp;&nbsp;回
+          </b-button>
+        </b-modal>
 
-        <!-- jkjkjkjk -->
-        <b-modal id="updateAlert" title="修改弹簧柄" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
+        <b-modal id="updateAlert" title="修改信息" ref="updateAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
           <div class="d-block">
             <div class="row">
               <div class="col-lg-12 marginBot4">
-                <p class="marginBot4">型号</p>
-                <b-form-input v-model="updateForm.type" onkeypress="return (/[^ ]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+                <p class="marginBot4">客户编码</p>
+                <b-form-input onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" v-model="updateForm.code"></b-form-input>
               </div>
               <div class="col-lg-12 marginBot4">
-                <p class="marginBot4">数量</p>
-                <b-form-input
-                  v-model="updateForm.num"
-                  type="number"
-                  autocomplete="off"
-                  onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                  style="ime-mode:Disabled"
-                ></b-form-input>
+                <p class="marginBot4">客户名称</p>
+                <b-form-input onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" v-model="updateForm.name"></b-form-input>
               </div>
-              <div class="col-lg-12 marginBot">
+              <div class="col-lg-12 marginBot4">
+                <p class="marginBot4">联系人</p>
+                <b-form-input onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" v-model="updateForm.user_name"></b-form-input>
+              </div>
+              <div class="col-lg-12 marginBot4">
+                <p class="marginBot4">联系电话</p>
+                <b-form-input onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" v-model="updateForm.tel"></b-form-input>
+              </div>
+              <div class="col-lg-12 marginBot4">
+                <p class="marginBot4">联系地址</p>
+                <b-form-input onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))" v-model="updateForm.address"></b-form-input>
+              </div>
+              <div class="col-lg-12 marginBot4">
                 <p class="marginBot4">创建日期</p>
-                <el-date-picker
-                  style="width:100%;"
-                  v-model="updateForm.create_date"
-                  type="date"
-                  placeholder="选择日期"
-                  value-format="yyyy-MM-dd"
-                  format="yyyy-MM-dd"
-                ></el-date-picker>
+                <b-form-input :disabled="true" v-model="updateForm.create_date"></b-form-input>
               </div>
+              
               <div class="col-lg-12 marginBot4">
                 <b-button
                   variant="secondary"
@@ -174,21 +169,20 @@
                   class="resetButton"
                   style="font-size:16px !important; margin-top:35px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
                 >
-                  返&nbsp;&nbsp;回</b-button
-                >
+                  返&nbsp;&nbsp;回
+                </b-button>
                 <b-button
                   variant="primary"
                   @click="toValidate('update')"
                   class="resetButton"
                   style="font-size:16px !important; margin-top:35px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
                 >
-                  保&nbsp;&nbsp;存</b-button
-                >
+                  保&nbsp;&nbsp;存
+                </b-button>
               </div>
             </div>
-          </div></b-modal
-        >
-        <!-- klklklkl -->
+          </div>
+        </b-modal>
       </div>
     </div>
   </div>
@@ -197,38 +191,36 @@
 <script>
 import _ from 'lodash';
 import Validator from 'async-validator';
-import entrance from '@/components/entrance.vue';
 import exportExcel from '@/components/exportExcel.vue';
-
 export default {
-  name: 'thb',
+  name: 'customer',
   metaInfo: {
-    title: '弹簧柄管理',
+    title: '客户管理',
   },
   components: {
-    entrance,
     exportExcel,
   },
   data() {
     return {
+      select_name:'',
       list: [],
+      list1: [],
       form: {},
       deleteItem: '',
       updateForm: {
-        dept_id: 'default',
+        id: 'default',
       },
       currentPage: 1,
       limit: 15,
       totalRow: 0,
-      value1: '',
-      select_thb_type: '',
       addValidator: new Validator({
-        type: [{ type: 'string', required: true, message: '请填写型号' }],
-        num: [{ type: 'string', required: true, message: '请填写数量' }],
-        create_date: [{ type: 'string', required: true, message: '请填写创建日期' }],
+        name: [{ type: 'string', required: true, message: '请填写客户名称' }],
+        user_name: [{ type: 'string', required: true, message: '请填写联系人' }],
+        tel: [{ type: 'string', required: true, message: '请填写客户电话' }],
+        address: [{ type: 'string', required: true, message: '请填写联系地址' }],
       }),
-      th: ['型号', '数量', '创建日期'],
-      filterVal: ['type', 'num', 'create_date'],
+      th: ['客户编码', '客户名称', '联系人', '客户电话', '联系地址', '创建日期'],
+      filterVal: ['code', 'name', 'user_name', 'tel', 'address', 'create_date'],
     };
   },
   computed: {},
@@ -268,17 +260,34 @@ export default {
       this.currentPage = currentPage;
       this.search();
     },
-    //整体逻辑:已有数据的修改直接=>提交=>请求=>刷新视图;添加数据则弹出框添加
-    //查询
     async search() {
       //查询方法
-      let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(`/akyl/thb/thb_list?skip=${skip}&limit=${this.limit}`);
-      this.$set(this, 'list', result.data.thbList);
-      this.$set(this, 'totalRow', result.data.totalRow);
+      if (this.select_name === null) this.select_name = '';
+      let skip = (this.currentPage - 1) * this.limit; //111
+      let result = await this.$axios.get(`/akyl/customer/customer_list?skip=${skip}&limit=${this.limit}&name=${this.select_name}`);
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.customerList);
+        this.$set(this, 'totalRow', result.data.totalRow); //111
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+        this.totalRow = 0;
+      }
     },
+    //查询客户姓名
+    async searchName() {
+      let skip = (this.currentPage - 1) * this.limit; //111
+      let result = await this.$axios.get(`/akyl/customer/customer_list?skip=${skip}&limit=${this.limit}`);
+      if (result.data.msg === '成功') {
+        this.list1 = result.data.customerList.map(item => {
+          let newObject = { text: item.name, value: item.name };
+          return newObject;
+        });
+      }
+    },    
     async toUpdate() {
-      let result = await this.$axios.post('/akyl/thb/thb_edit', { data: this.updateForm });
+      //修改方法
+      let result = await this.$axios.post(`/akyl/customer/customer_edit`, { data: this.updateForm });
       if (result.data.rescode === '0') {
         this.$message.success('修改' + result.data.msg);
         this.closeAlert('update');
@@ -293,21 +302,9 @@ export default {
       this.$refs.deleteAlert.show();
       this.deleteItem = id;
     },
-    //打印
-    doPrint() {
-      console.log(this.biaotoushow);
-      let subOutputRankPrint = document.getElementById('print');
-      let newContent = subOutputRankPrint.innerHTML;
-      let oldContent = document.body.innerHTML;
-      document.body.innerHTML = newContent;
-      window.print();
-      window.location.reload();
-      document.body.innerHTML = oldContent;
-      return false;
-    },
     //删除
     async toDelete() {
-      let result = await this.$axios.post('/akyl/thb/thb_delete', { data: { id: this.deleteItem } });
+      let result = await this.$axios.post(`/akyl/customer/customer_delete`, { data: { id: this.deleteItem } });
       if (result.data.rescode === '0') {
         this.$message.success('删除' + result.data.msg);
         this.search();
@@ -319,7 +316,7 @@ export default {
     },
     //添加
     async toAdd() {
-      let result = await this.$axios.post('/akyl/thb/thb_save', { data: this.form });
+      let result = await this.$axios.post(`/akyl/customer/customer_save`, { data: this.form });
       if (result.data.rescode === '0') {
         this.$message.success('添加' + result.data.msg);
         this.form = {};
@@ -347,23 +344,11 @@ export default {
       this.operateId = '';
       this.updateForm = {};
     },
-    //模糊查询的方法，接口名不对
-    async titlesearch() {
-      let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(`/akyl/thb/thb_list?type=${this.select_thb_type}&skip=${skip}&limit=10`);
-      if (result.data.msg === '成功') {
-        this.$set(this, 'list', result.data.thbList);
-        this.$set(this, 'totalRow', result.data.totalRow);
-      }
-      if (result.data.msg === '没有数据') {
-        this.list = '';
-      }
-    },
   },
 };
 </script>
 
-<style>
+<style scoped>
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
@@ -464,7 +449,7 @@ button {
   font: 400 13.3333px Arial;
 }
 .btn-info {
-  color: #fff;
+  color: #fff !important;
   background-color: #5bc0de;
   border-color: #46b8da;
 }
@@ -618,9 +603,6 @@ li {
   border: 1px solid transparent !important;
   border-radius: 3px !important;
   height: auto !important;
-}
-.el-input__inner {
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 </style>
 

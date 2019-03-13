@@ -47,6 +47,9 @@ export default {
       }else if(name1 === 'material'){
         result = await this.$axios.get(`/akyl/cl/cl_list?skip=${skip}&limit=${this.limit}`);
         this.$set(this, 'list', result.data.cList);
+      }else if(name1 === 'customer'){
+        result = await this.$axios.get(`/akyl/customer/customer_list?skip=${skip}&limit=${this.limit}&name=${this.$parent.select_name}`);
+        this.$set(this, 'list', result.data.customerList);
       } else {
         result = await this.$axios.get(`/akyl/${name1}/${name1}_list?skip=${skip}&limit=${this.limit}`);
         this.$set(this, 'list', _.get(result.data, name1+'List'));

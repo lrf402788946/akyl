@@ -26,6 +26,8 @@ import material from './views/material/material.vue';
 import zf from './views/zf/zf.vue';
 import gxcx from './views/gxcx/gxcx.vue';
 import cl from './views/statistic/cl.vue';
+import customer from './views/customer/customer.vue';
+import order from './views/order/order.vue';
 
 Vue.use(Router);
 const router = new Router({
@@ -161,6 +163,16 @@ const router = new Router({
           path: '/cl',
           name: 'cl',
           component: cl,
+        },
+        {
+          path: '/customer',
+          name: 'customer',
+          component: customer,
+        },
+        {
+          path: '/order',
+          name: 'order',
+          component: order,
         },
       ],
     },
