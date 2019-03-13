@@ -124,7 +124,7 @@
           <div class="col-lg-4 mb25">
             <div class="lh44">客户：</div>
             <el-select
-              @change="getOrderNum(form.cus_id)"
+              @change="getOrderNum()"
               class="marginBot"
               style="height:40px !important"
               v-model="form.cus_id"
@@ -458,16 +458,11 @@ export default {
       }
     },
     //获取订单号
-    async getOrderNum(id){
-      console.log("开始")
-      this.form.order_num = '';
-      let result = await this.$axios.get(`/akyl/order/order_num?cus_id=${id}`);
-      console.log("1")
+    async getOrderNum(){
+      let result = await this.$axios.get(`/akyl/order/order_num?cus_id=${this.form.cus_id}`);
       console.log(result.data.order_num)
       this.$set(this.form, 'order_num', result.data.order_num);
-      console.log("2")
       console.log(this.form.order_num)
-      console.log("结束")
     },
     //查询客户姓名
     async searchName() {
