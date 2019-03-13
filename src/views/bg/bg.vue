@@ -111,17 +111,32 @@
           <table class="table table-bordered table-striped ">
             <tbody>
               <tr>
+                <td>是否入库</td>
                 <td>批号</td>
                 <td>工序</td>
                 <td>类型</td>
-                <td style="width:10%">计数方式</td>
-                <td style="width:10%">工时(小时)</td>
-                <td style="width:10%">数量</td>
-                <td style="width:10%">加班</td>
+                <td style="width:7%">计数方式</td>
+                <td style="width:7%">工时(小时)</td>
+                <td style="width:7%">数量</td>
+                <td style="width:7%">加班</td>
+                <td style="width:10%">针芯批号</td>
+                <td style="width:10%">弹簧批号</td>
                 <td>备注</td>
                 <td>操作</td>
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
+                <td>
+                  <b-form-group>
+                    <b-form-radio-group
+                      id="btnradios1"
+                      buttons
+                      button-variant="outline-primary"
+                      v-model="item.is_in"
+                      :options="[{ text: '是', value: '0' }, { text: '否', value: '1', checked: true }]"
+                      name="radiosBtnDefault"
+                    />
+                  </b-form-group>
+                </td>
                 <td>
                   <b-form-input v-model="item.order_no"></b-form-input>
                 </td>
@@ -162,6 +177,18 @@
                 </td>
                 <td>
                   <b-form-input v-model="item.add_time" type="number" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+                </td>
+                <td v-if="tests(index)">
+                  <b-form-input v-model="item.zx_order_no" placeholder="请输入针芯批号" :disabled="true"></b-form-input>
+                </td>
+                <td v-else>
+                  <b-form-input v-model="item.zx_order_no" placeholder="请输入针芯批号"></b-form-input>
+                </td>
+                <td v-if="tests(index)">
+                  <b-form-input v-model="item.th_order_no" placeholder="请输入弹簧批号" :disabled="true"></b-form-input>
+                </td>
+                <td v-else>
+                  <b-form-input v-model="item.th_order_no" placeholder="请输入弹簧批号"></b-form-input>
                 </td>
                 <td>
                   <textarea v-model="item.remark" class="form-control" rows="3" style="height: 44px !important;" placeholder="备注"></textarea>
@@ -265,17 +292,32 @@
           <table class="table table-bordered table-striped ">
             <tbody>
               <tr>
+                <td>是否入库</td>
                 <td>批号</td>
                 <td>工序</td>
                 <td>类型</td>
-                <td style="width:10%">计数方式</td>
-                <td style="width:10%">工时(小时)</td>
-                <td style="width:10%">数量</td>
-                <td style="width:10%">加班</td>
+                <td style="width:7%">计数方式</td>
+                <td style="width:7%">工时(小时)</td>
+                <td style="width:7%">数量</td>
+                <td style="width:7%">加班</td>
+                <td style="width:10%">针芯批号</td>
+                <td style="width:10%">弹簧批号</td>
                 <td>备注</td>
                 <td>操作</td>
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
+                <td>
+                  <b-form-group :disabled="is_update">
+                    <b-form-radio-group
+                      id="btnradios1"
+                      buttons
+                      button-variant="outline-primary"
+                      v-model="item.is_in"
+                      :options="[{ text: '是', value: '0' }, { text: '否', value: '1' }]"
+                      name="radiosBtnDefault"
+                    />
+                  </b-form-group>
+                </td>
                 <td>
                   <b-form-input v-model="item.order_no" :disabled="is_update"></b-form-input>
                 </td>
@@ -332,6 +374,18 @@
                     type="number"
                     onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"
                   ></b-form-input>
+                </td>
+                 <td v-if="tests(index)">
+                  <b-form-input v-model="item.zx_order_no" placeholder="请输入针芯批号" :disabled="true"></b-form-input>
+                </td>
+                <td v-else>
+                  <b-form-input v-model="item.zx_order_no" placeholder="请输入针芯批号"></b-form-input>
+                </td>
+                <td v-if="tests(index)">
+                  <b-form-input v-model="item.th_order_no" placeholder="请输入弹簧批号" :disabled="true"></b-form-input>
+                </td>
+                <td v-else>
+                  <b-form-input v-model="item.th_order_no" placeholder="请输入弹簧批号"></b-form-input>
                 </td>
                 <td>
                   <textarea
@@ -413,6 +467,8 @@
 <script>
 import Validator from 'async-validator';
 import { mapState } from 'vuex';
+import _ from 'lodash';
+
 export default {
   name: 'bg',
   metaInfo: {
@@ -433,12 +489,17 @@ export default {
         add_time: 0,
         work_type: 0,
         order_no: null,
+        is_in: '1',
       },
       is_update: true,
+      g_update: true,
+      zx_order_no: '',
+      th_order_no: '',
       operateId: {},
       currentPage: 1,
       limit: 15,
       totalRow: 0,
+      is_in: '',
       order_no: null,
       form: {
         leave_time: 0,
@@ -478,6 +539,17 @@ export default {
     },
   },
   methods: {
+    tests(index) {
+      let work_id = this.subForm[index].work_id;
+      let result = true; 
+      for (const item of this.workList) {
+        if (item.value === work_id && item.text === 'G') {
+          result = false;
+          break;
+        }
+      }
+      return result;
+    },
     //分页
     toSearch(currentPage) {
       this.currentPage = currentPage;
@@ -511,6 +583,17 @@ export default {
         let newObject = { text: item.code, value: item.id };
         return newObject;
       });
+    },
+    //当工序为G时，针芯批号跟弹簧批号可编辑
+    async changepihao(index) {
+     console.log(this.subForm[index].work_id);
+      if (this.subForm[index].work_id === 10) {
+        console.log(111);
+        this.g_update = false;
+      } else {
+        console.log(222);
+        this.g_update = true;
+      }
     },
     //请求类型表(应该是二级联动工序表)
     async getKindList(index) {
@@ -617,8 +700,8 @@ export default {
       this.subForm.forEach(item => {
         all_work_time = all_work_time * 1 + item.work_time * 1;
       });
-      all_work_time += this.form.leave_time * 1;
-      all_work_time += this.form.fj_time * 1;
+      all_work_time += this.updateForm.leave_time * 1;
+      all_work_time += this.updateForm.fj_time * 1;
       let should_work_time = this.time_quantum === 0 ? 9.5 : 8.5;
       if (should_work_time !== all_work_time) {
         this.$message.error('请假时间加工作时间不等于总工时.时间输入有误');
@@ -633,6 +716,7 @@ export default {
           this.form = {};
           this.time_quantum = '';
           this.is_update = true;
+          this.g_update = true;
           this.search();
         } else {
           this.$message.error('修改失败');
@@ -678,6 +762,7 @@ export default {
         this.$refs.deleteAlert.hide();
       }
       this.is_update = true;
+      this.g_update = true;
       this.operateId = '';
       this.subForm.splice(0, this.subForm.length);
     },
