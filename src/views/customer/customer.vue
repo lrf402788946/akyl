@@ -274,8 +274,8 @@ export default {
         this.totalRow = 0;
       }
     },
+    //查询客户姓名
     async searchName() {
-      //查询方法
       let skip = (this.currentPage - 1) * this.limit; //111
       let result = await this.$axios.get(`/akyl/customer/customer_list?skip=${skip}&limit=${this.limit}`);
       if (result.data.msg === '成功') {

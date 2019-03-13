@@ -120,7 +120,12 @@
               </tr>
               <tr v-for="(item, index) in form1" :key="index">
                 <td>
-                  <el-select class="marginBot" style="height:40px !important" v-model="item.type" filterable placeholder="请选择类别">
+                  <el-select 
+                    class="marginBot" 
+                    style="height:40px !important" 
+                    v-model="item.type" 
+                    filterable placeholder="请选择类别"
+                  >
                     <el-option v-for="item1 in type" :key="item1.value" :label="item1.text" :value="item1.value"> </el-option>
                   </el-select>
                 </td>
@@ -358,9 +363,6 @@ export default {
       this.closeAlert('update');
       this.updateForm = [];
       this.search();
-    },
-    seeTable(type) {
-      this.getKindList(type);
     },
     async getKindList(type) {
       let result = await this.$axios.post(`/akyl/store/type_kind?type=${type}`);
