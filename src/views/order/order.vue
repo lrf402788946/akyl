@@ -1,3 +1,4 @@
+/* eslint-disable vue/no-parsing-error */
 <template lang="html">
   <div id="bg">
     <!-- 表格 begin -->
@@ -18,13 +19,7 @@
             <div class="col-lg-3 marginBot4">
               <p class="marginBot4">订单人查询:</p>
               <!-- <b-form-input v-model="select_cus_id" placeholder="输入订单人"></b-form-input> -->
-              <el-select
-                class="marginBot"
-                style="height:40px !important"
-                v-model="select_cus_id"
-                filterable
-                placeholder="输入订单人"
-              >
+              <el-select class="marginBot" style="height:40px !important" v-model="select_cus_id" filterable placeholder="输入订单人">
                 <el-option value="" label="全部客户">全部客户</el-option>
                 <el-option v-for="item in customerName" :key="item.value" :label="item.text" :value="item.value"></el-option>
               </el-select>
@@ -119,18 +114,11 @@
           <div class="col-lg-4 mb25">
             <div class="lh44">操作人：</div>
             <b-form-input v-model="form.user_name" :disabled="is_update" placeholder="操作人"></b-form-input>
-            <input v-model="form.login_id" type="hidden"></input>
+            <input v-model="form.login_id" type="hidden" />
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">客户：</div>
-            <el-select
-              @change="getOrderNum()"
-              class="marginBot"
-              style="height:40px !important"
-              v-model="form.cus_id"
-              filterable
-              placeholder="请选择客户"
-            >
+            <el-select @change="getOrderNum()" class="marginBot" style="height:40px !important" v-model="form.cus_id" filterable placeholder="请选择客户">
               <el-option v-for="item2 in customerName" :key="item2.value" :label="item2.text" :value="item2.value"></el-option>
             </el-select>
           </div>
@@ -140,11 +128,13 @@
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">订单日期：</div>
-            <el-date-picker style="width: 100%;" v-model="form.in_date" placeholder="订单日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd" type="date"> </el-date-picker>
+            <el-date-picker style="width: 100%;" v-model="form.in_date" placeholder="订单日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd" type="date">
+            </el-date-picker>
           </div>
-          <div class="col-lg-4 mb25"><!-- 0未出库，1出库 -->
+          <div class="col-lg-4 mb25">
+            <!-- 0未出库，1出库 -->
             <div class="lh44">状态：</div>
-            <b-form-select v-model="form.status" :options="chooseStatus"/>
+            <b-form-select v-model="form.status" :options="chooseStatus" />
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">备注：</div>
@@ -161,12 +151,7 @@
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
                 <td>
-                  <el-select 
-                    class="marginBot8" 
-                    style="height:40px !important" 
-                    v-model="selectKindList[index].selectKind" 
-                    filterable placeholder="请选择工序"
-                  >
+                  <el-select class="marginBot8" style="height:40px !important" v-model="selectKindList[index].selectKind" filterable placeholder="请选择工序">
                     <el-option value="" label="全部工序">全部工序</el-option>
                     <el-option v-for="item1 in workList" :key="item1.value" :label="item1.text" :value="item1.value"> </el-option>
                   </el-select>
@@ -192,7 +177,8 @@
                     @click="closeSubForm(index)"
                     class="resetButton"
                     style="margin-top: 23px; margin-left: 8px !important; margin-right: 6px !important; padding: 5px 8px !important; font-size: 13px !important;"
-                    >删&nbsp;&nbsp;除</b-button>
+                    >删&nbsp;&nbsp;除</b-button
+                  >
                 </td>
               </tr>
             </tbody>
@@ -246,31 +232,19 @@
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">客户：</div>
-            <b-form-input
-              :value="getName(updateForm.cus_id)"
-              :disabled="true"
-              placeholder="订单日期"
-            ></b-form-input>
+            <b-form-input :value="getName(updateForm.cus_id)" :disabled="true" placeholder="订单日期"></b-form-input>
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">订单日期：</div>
-            <b-form-input
-              v-model="updateForm.in_date"
-              :disabled="true"
-              placeholder="订单日期"
-            ></b-form-input>
+            <b-form-input v-model="updateForm.in_date" :disabled="true" placeholder="订单日期"></b-form-input>
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">操作时间：</div>
-            <b-form-input
-              v-model="updateForm.create_time"
-              :disabled="true"
-              placeholder="操作时间"
-            ></b-form-input>
+            <b-form-input v-model="updateForm.create_time" :disabled="true" placeholder="操作时间"></b-form-input>
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">状态：</div>
-            <b-form-select v-model="updateForm.status" :options="chooseStatus" :disabled="is_update"/>
+            <b-form-select v-model="updateForm.status" :options="chooseStatus" :disabled="is_update" />
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">备注：</div>
@@ -291,14 +265,7 @@
               </tr>
               <tr v-for="(item, index) in orderSubList" :key="index">
                 <td>
-                  <el-select
-                    class="marginBot"
-                    style="height:40px !important"
-                    :disabled="is_update"
-                    v-model="item.kind"
-                    filterable
-                    placeholder="请选择型号"
-                  >
+                  <el-select class="marginBot" style="height:40px !important" :disabled="is_update" v-model="item.kind" filterable placeholder="请选择型号">
                     <el-option v-for="item2 in kindList" :key="item2.id" :label="item2.code" :value="item2.kind"></el-option>
                   </el-select>
                 </td>
@@ -317,7 +284,8 @@
                     @click="closeSubForm(index)"
                     class="resetButton"
                     style="margin-top: 23px; margin-left: 8px !important; margin-right: 6px !important; padding: 5px 8px !important; font-size: 13px !important;"
-                    >删&nbsp;&nbsp;除</b-button>
+                    >删&nbsp;&nbsp;除</b-button
+                  >
                 </td>
               </tr>
             </tbody>
@@ -338,26 +306,30 @@
         @click="is_update = false"
         class="resetButton"
         style="font-size:16px !important; margin:10px 5% 30px 5% !important; background-color: #17a2b8 !important;  width:30% !important; padding:6px 80px !important;"
-        >修&nbsp;&nbsp;改</b-button>
+        >修&nbsp;&nbsp;改</b-button
+      >
       <b-button
         variant="primary"
         @click="exportExcel()"
         class="resetButton"
         style="font-size:16px !important; margin:10px 5% 30px 5% !important; background-color: #17a2b8 !important;  width:30% !important; padding:6px 80px !important;"
-        >导&nbsp;&nbsp;出</b-button>
+        >导&nbsp;&nbsp;出</b-button
+      >
       <b-button
         v-if="!is_update"
         variant="primary"
         @click="toValidate('update')"
         class="resetButton"
         style="font-size:16px !important; margin:10px 5% 30px 5% !important; background-color: #17a2b8 !important;  width:30% !important; padding:6px 80px !important;"
-        >保&nbsp;&nbsp;存</b-button>
+        >保&nbsp;&nbsp;存</b-button
+      >
       <b-button
         variant="secondary"
         @click="closeAlert('update')"
         class="resetButton"
         style="font-size:16px !important; margin:10px 5% 30px 5% !important; background-color: #ccc !important;  width:30% !important; padding:6px 80px !important;"
-        >返&nbsp;&nbsp;回</b-button>
+        >返&nbsp;&nbsp;回</b-button
+      >
     </b-modal>
     <!--删除弹框-->
     <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
@@ -393,9 +365,9 @@ export default {
   },
   data() {
     return {
-      updateForm:new Array(),
+      updateForm: new Array(),
       list: [],
-      customerName:[],
+      customerName: [],
       subForm: [],
       subFormContent: {},
       orderSubListContent: {},
@@ -407,10 +379,10 @@ export default {
       form: {},
       kindList: [],
       workList: [],
-      orderSubList:[],
-      selectKind:'',
-      selectKindList:[],
-      selectKindListContent:{},
+      orderSubList: [],
+      selectKind: '',
+      selectKindList: [],
+      selectKindListContent: {},
       start: '',
       end: '',
       mainValidator: new Validator({
@@ -420,10 +392,10 @@ export default {
       }),
       th: ['订单号', '订单人', '订单日期', '备注'],
       filterVal: ['order_no', 'user_name', 'in_date', 'remark'],
-      select_order_num:'',
-      select_cus_id:'',
+      select_order_num: '',
+      select_cus_id: '',
       select_in_date: null,
-      chooseStatus:[{ text: '状态', value: null, disabled: true }, { text: '未出库', value: '0' }, { text: '已经出库', value: '1' }],
+      chooseStatus: [{ text: '状态', value: null, disabled: true }, { text: '未出库', value: '0' }, { text: '已经出库', value: '1' }],
     };
   },
   computed: {
@@ -453,7 +425,7 @@ export default {
       }
     },
     //获取订单号
-    async getOrderNum(){
+    async getOrderNum() {
       let result = await this.$axios.get(`/akyl/order/order_num?cus_id=${this.form.cus_id}`);
       this.$set(this.form, 'order_num', result.data.order_num);
     },
@@ -469,9 +441,9 @@ export default {
       }
     },
     //显示客户姓名
-    getName(id){
+    getName(id) {
       for (let index = 0; index < this.customerName.length; index++) {
-        if(this.customerName[index].value===id){
+        if (this.customerName[index].value === id) {
           return this.customerName[index].text;
         }
       }
@@ -529,24 +501,28 @@ export default {
         this.end = '';
       }
       let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(`/akyl/order/order_list?skip=${skip}&limit=${this.limit}&order_num=${this.select_order_num}&cus_id=${this.select_cus_id}&start_time=${this.start}&end_time=${this.end}`);
+      let result = await this.$axios.get(
+        `/akyl/order/order_list?skip=${skip}&limit=${this.limit}&order_num=${this.select_order_num}&cus_id=${this.select_cus_id}&start_time=${
+          this.start
+        }&end_time=${this.end}`
+      );
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.orderList);
         this.$set(this, 'totalRow', result.data.totalRow);
       }
       if (result.data.msg === '没有数据') {
         this.list = '';
-        this.totalRow = 0 ;
+        this.totalRow = 0;
       }
     },
     //修改
     async update() {
       let result = await this.$axios.post('/akyl/order/order_edit', { data: this.updateForm });
       let id = this.updateForm.id;
-      console.log(this.orderSubList)
+      console.log(this.orderSubList);
       if (result.data.msg === '成功') {
         for (let index = 0; index < this.orderSubList.length; index++) {
-          delete this.orderSubList[index].kind_name
+          delete this.orderSubList[index].kind_name;
         }
         result = await this.$axios.post('/akyl/order/order_sub_edit', { data: { subForm: this.orderSubList, id: id } });
         if (result.data.msg === '成功') {
@@ -567,7 +543,7 @@ export default {
     //打开与关闭修改和删除的弹框
     async openAlert(type, id) {
       this.subForm = [];
-      this.orderSubList=[];
+      this.orderSubList = [];
       if (type === 'update') {
         this.$refs.updateAlert.show();
         this.updateForm = JSON.parse(JSON.stringify(this.list[id]));
@@ -595,6 +571,8 @@ export default {
       } else if (type === 'delete') {
         this.$refs.deleteAlert.hide();
       }
+      // this.form.user_name = this.userInfo.user_name;
+      // this.form.login_id = this.userInfo.login_id;
       this.is_update = true;
       this.operateId = '';
       this.reset();
@@ -610,13 +588,19 @@ export default {
     },
     //获取全部型号（慢）
     async getKindList(id) {
-      let workId='';
-      workId=id;
-      let result = await this.$axios.get(`/akyl/kind/kind_list?skip=0&limit=1000000&work_id=${workId}`);
-      if (result.data.msg === '成功') {
-        this.$set(this, 'kindList', result.data.kindList);
-      }
-      console.log(this.kindList)
+      let workId = '';
+      workId = id;
+      this.$axios.get(`/akyl/kind/kind_list?skip=0&limit=1000000&work_id=${workId}`).then(result => {
+        console.log(result);
+        if (result.data.msg === '成功') {
+          this.$set(this, 'kindList', result.data.kindList);
+        }
+      });
+
+      // if (result.data.msg === '成功') {
+      //   this.$set(this, 'kindList', result.data.kindList);
+      // }
+      // console.log(this.kindList)
     },
     //删除表单中内容
     closeSubForm(i) {
@@ -634,18 +618,13 @@ export default {
       }
     },
     reset() {
-      this.form = [];
-      this.selectKindList = [];
+      this.form = {};
+      this.subForm = [];
       this.form.user_name = this.userInfo.user_name;
       this.form.login_id = this.userInfo.login_id;
-      this.subForm = [];
-      this.subFormContent = {};
-      this.selectKindListContent = {};
-      this.subForm.push(this.subFormContent);
-      this.selectKindList.push(this.selectKindListContent);
     },
     //导出
-    exportExcel(){
+    exportExcel() {
       var tableStr = `
                       <caption><b>订单单</b></caption>
                       <tr style="text-align:center;">
@@ -671,14 +650,14 @@ export default {
                         <th>型号</th>
                         <th>数量</th>
                       </tr>`;
-      for(let item of this.orderSubList) {
+      for (let item of this.orderSubList) {
         tableStr += ` <tr style="text-align: center;">
                         <td>${item.kind_name}</td>
                         <td>${item.num}</td>
                       </tr>`;
-        }
+      }
       //Worksheet名
-      var worksheet = 'Sheet1'
+      var worksheet = 'Sheet1';
       var uri = 'data:application/vnd.ms-excel;base64,';
       // 真正要导出（下载）的HTML模板
       var exportTemplate = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" 
@@ -693,11 +672,11 @@ export default {
                           </body>
                       </html>`;
       //下载模板
-      window.location.href = uri + this.base64(exportTemplate)
+      window.location.href = uri + this.base64(exportTemplate);
     },
     //输出base64编码
-    base64 (s) { 
-      return window.btoa(unescape(encodeURIComponent(s))) 
+    base64(s) {
+      return window.btoa(unescape(encodeURIComponent(s)));
     },
   },
 };
