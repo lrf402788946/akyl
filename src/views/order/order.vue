@@ -180,7 +180,7 @@
                     filterable
                     placeholder="请选择型号"
                   >
-                    <el-option v-for="item2 in kindList" :key="item2.value" :label="item2.text" :value="item2.value"></el-option>
+                    <el-option v-for="item2 in kindList" :key="item2.id" :label="item2.code" :value="item2.kind"></el-option>
                   </el-select>
                 </td>
                 <td>
@@ -299,7 +299,7 @@
                     filterable
                     placeholder="请选择型号"
                   >
-                    <el-option v-for="item2 in kindList" :key="item2.value" :label="item2.text" :value="item2.value"></el-option>
+                    <el-option v-for="item2 in kindList" :key="item2.id" :label="item2.code" :value="item2.kind"></el-option>
                   </el-select>
                 </td>
                 <td>
@@ -614,11 +614,9 @@ export default {
       workId=id;
       let result = await this.$axios.get(`/akyl/kind/kind_list?skip=0&limit=1000000&work_id=${workId}`);
       if (result.data.msg === '成功') {
-        this.kindList = result.data.kindList.map(item => {
-          let newObject = { text: item.name, value: item.id };
-          return newObject;
-        });
+        this.$set(this, 'kindList', result.data.kindList);
       }
+      console.log(this.kindList)
     },
     //删除表单中内容
     closeSubForm(i) {
