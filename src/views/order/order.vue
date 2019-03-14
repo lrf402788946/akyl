@@ -374,7 +374,7 @@
         variant="primary"
         style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
         class="resetButton"
-        @click="closeAlert('delete'), $refs.deleteAlert.hide(), (deleteItem = '')"
+        @click="closeAlert('delete')"
         >返&nbsp;&nbsp;回</b-button
       >
     </b-modal>
