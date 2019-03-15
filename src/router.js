@@ -29,6 +29,7 @@ import cl from './views/statistic/cl.vue';
 import customer from './views/customer/customer.vue';
 import order from './views/order/order.vue';
 import pjl from './views/pjl/pjl.vue';
+import packageList from './views/packageList/packageList.vue';
 
 Vue.use(Router);
 const router = new Router({
@@ -180,9 +181,14 @@ const router = new Router({
           name: "pjl",
           component: pjl
         },
+        {
+          path: '/packageList',
+          name: 'packageList',
+          component: packageList,
+        },
       ]
     }
-  ]
+  ],
 });
 router.beforeEach((to, from, next) => {
   const is_login = sessionStorage.getItem('userInfo');
