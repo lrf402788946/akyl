@@ -30,6 +30,7 @@ import customer from './views/customer/customer.vue';
 import order from './views/order/order.vue';
 import pjl from './views/pjl/pjl.vue';
 import packageList from './views/packageList/packageList.vue';
+import xnk from './views/xnk/xnk.vue';
 
 Vue.use(Router);
 const router = new Router({
@@ -185,6 +186,11 @@ const router = new Router({
           path: '/packageList',
           name: 'packageList',
           component: packageList,
+        },
+        {
+          path: '/xnk',
+          name: 'xnk',
+          component: xnk,
         },
       ]
     }

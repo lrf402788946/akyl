@@ -119,6 +119,10 @@ export const TJ = {
              name: "批记录查询",
              router_name: "pjl"
            },
+           {
+            name: "虚拟库查询",
+            router_name: "xnk"
+          },
          ]
        };
 

@@ -109,16 +109,6 @@
             </tbody>
           </table>
         </div>
-        <el-pagination
-          layout="total, prev, pager, next"
-          :background="true"
-          :page-size="15"
-          prev-text="上一页"
-          next-text="下一页"
-          @current-change="toSearch"
-          :total="totalRow"
-        >
-        </el-pagination>
       </div>
     </div>
   </div>
