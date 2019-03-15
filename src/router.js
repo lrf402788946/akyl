@@ -28,6 +28,7 @@ import gxcx from './views/gxcx/gxcx.vue';
 import cl from './views/statistic/cl.vue';
 import customer from './views/customer/customer.vue';
 import order from './views/order/order.vue';
+import packageList from './views/packageList/packageList.vue';
 
 Vue.use(Router);
 const router = new Router({
@@ -173,6 +174,11 @@ const router = new Router({
           path: '/order',
           name: 'order',
           component: order,
+        },
+        {
+          path: '/packageList',
+          name: 'packageList',
+          component: packageList,
         },
       ],
     },

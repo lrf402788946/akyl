@@ -134,7 +134,7 @@
           <div class="col-lg-4 mb25">
             <!-- 0未出库，1出库 -->
             <div class="lh44">状态：</div>
-            <b-form-select v-model="form.status" :options="chooseStatus" />
+            <b-form-select v-model="form.status" :options="chooseStatus"  filterable placeholder="状态"/>
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">备注：</div>
@@ -151,7 +151,12 @@
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
                 <td>
-                  <el-select class="marginBot8" style="height:40px !important" v-model="selectKindList[index].selectKind" filterable placeholder="请选择工序">
+                  <el-select 
+                    class="marginBot8" 
+                    style="height:40px !important" 
+                    v-model="selectKindList[index].selectKind" 
+                    filterable placeholder="请选择工序"
+                  >
                     <el-option value="" label="全部工序">全部工序</el-option>
                     <el-option v-for="item1 in workList" :key="item1.value" :label="item1.text" :value="item1.value"> </el-option>
                   </el-select>
@@ -165,7 +170,7 @@
                     filterable
                     placeholder="请选择型号"
                   >
-                    <el-option v-for="item2 in kindList" :key="item2.id" :label="item2.code" :value="item2.kind"></el-option>
+                    <el-option v-for="item2 in kindList" :key="item2.id" :label="item2.code" :value="item2.id"></el-option>
                   </el-select>
                 </td>
                 <td>
@@ -232,7 +237,7 @@
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">客户：</div>
-            <b-form-input :value="getName(updateForm.cus_id)" :disabled="true" placeholder="订单日期"></b-form-input>
+            <b-form-input :value="getName(updateForm.cus_id)" :disabled="true" placeholder="客户"></b-form-input>
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">订单日期：</div>
@@ -266,7 +271,7 @@
               <tr v-for="(item, index) in orderSubList" :key="index">
                 <td>
                   <el-select class="marginBot" style="height:40px !important" :disabled="is_update" v-model="item.kind" filterable placeholder="请选择型号">
-                    <el-option v-for="item2 in kindList" :key="item2.id" :label="item2.code" :value="item2.kind"></el-option>
+                    <el-option v-for="item2 in kindList" :key="item2.id" :label="item2.code" :value="item2.id"></el-option>
                   </el-select>
                 </td>
                 <td>
@@ -590,17 +595,11 @@ export default {
     async getKindList(id) {
       let workId = '';
       workId = id;
-      this.$axios.get(`/akyl/kind/kind_list?skip=0&limit=1000000&work_id=${workId}`).then(result => {
-        console.log(result);
+      this.$axios.get(`/akyl/kind/kind_list?skip=0&limit=500000&work_id=${workId}`).then(result => {
         if (result.data.msg === '成功') {
           this.$set(this, 'kindList', result.data.kindList);
         }
       });
-
-      // if (result.data.msg === '成功') {
-      //   this.$set(this, 'kindList', result.data.kindList);
-      // }
-      // console.log(this.kindList)
     },
     //删除表单中内容
     closeSubForm(i) {

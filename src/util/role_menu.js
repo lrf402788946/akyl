@@ -139,5 +139,9 @@ export const DD = {
       name: '订单管理',
       router_name: 'order',
     },
+    {
+      name: '包装管理',
+      router_name: 'packageList',
+    },
   ],
 };
