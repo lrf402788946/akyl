@@ -28,6 +28,7 @@ import gxcx from './views/gxcx/gxcx.vue';
 import cl from './views/statistic/cl.vue';
 import customer from './views/customer/customer.vue';
 import order from './views/order/order.vue';
+import pjl from './views/pjl/pjl.vue';
 
 Vue.use(Router);
 const router = new Router({
@@ -35,148 +36,153 @@ const router = new Router({
   // mode: 'history',
   routes: [
     {
-      path: '/login',
-      name: 'login',
-      component: login,
+      path: "/login",
+      name: "login",
+      component: login
     },
     {
-      path: '/',
-      name: 'index',
+      path: "/",
+      name: "index",
       component: index,
       children: [
         {
-          path: '/',
-          name: 'index_contant',
-          component: index_contant,
+          path: "/",
+          name: "index_contant",
+          component: index_contant
         },
         {
-          path: '/lz',
-          name: 'lz',
-          component: lz,
+          path: "/lz",
+          name: "lz",
+          component: lz
         },
         {
-          path: '/zx',
-          name: 'zx',
-          component: zx,
+          path: "/zx",
+          name: "zx",
+          component: zx
         },
         {
-          path: '/user',
-          name: 'user',
-          component: user,
+          path: "/user",
+          name: "user",
+          component: user
         },
         {
-          path: '/role',
-          name: 'role',
-          component: role,
+          path: "/role",
+          name: "role",
+          component: role
         },
         {
-          path: '/user_role',
-          name: 'user_role',
-          component: user_role,
+          path: "/user_role",
+          name: "user_role",
+          component: user_role
         },
         {
-          path: '/post',
-          name: 'post',
-          component: post,
+          path: "/post",
+          name: "post",
+          component: post
         },
         {
-          path: '/dept',
-          name: 'dept',
-          component: dept,
+          path: "/dept",
+          name: "dept",
+          component: dept
         },
         {
-          path: '/kind',
-          name: 'kind',
-          component: kind,
+          path: "/kind",
+          name: "kind",
+          component: kind
         },
         {
-          path: '/set',
-          name: 'set',
-          component: akyl_set,
+          path: "/set",
+          name: "set",
+          component: akyl_set
         },
         {
-          path: '/work',
-          name: 'work',
-          component: akyl_work,
+          path: "/work",
+          name: "work",
+          component: akyl_work
         },
         {
-          path: '/thb',
-          name: 'thb',
-          component: thb,
+          path: "/thb",
+          name: "thb",
+          component: thb
         },
         {
-          path: '/staff',
-          name: 'staff',
-          component: staff,
+          path: "/staff",
+          name: "staff",
+          component: staff
         },
         {
-          path: '/bg',
-          name: 'bg',
-          component: bg,
+          path: "/bg",
+          name: "bg",
+          component: bg
         },
         {
-          path: '/gongxin',
-          name: 'gongxin',
-          component: gongxin,
+          path: "/gongxin",
+          name: "gongxin",
+          component: gongxin
         },
         {
-          path: '/pdt',
-          name: 'pdt',
-          component: pdt,
+          path: "/pdt",
+          name: "pdt",
+          component: pdt
         },
         {
-          path: '/gtx',
-          name: 'gtx',
-          component: gtx,
+          path: "/gtx",
+          name: "gtx",
+          component: gtx
         },
         {
-          path: '/update_pw',
-          name: 'update_pw',
-          component: update_pw,
+          path: "/update_pw",
+          name: "update_pw",
+          component: update_pw
         },
         {
-          path: '/rk',
-          name: 'rk',
-          component: rk,
+          path: "/rk",
+          name: "rk",
+          component: rk
         },
         {
-          path: '/ck',
-          name: 'ck',
-          component: ck,
+          path: "/ck",
+          name: "ck",
+          component: ck
         },
         {
-          path: '/material',
-          name: 'material',
-          component: material,
+          path: "/material",
+          name: "material",
+          component: material
         },
         {
-          path: '/zf',
-          name: 'zf',
-          component: zf,
+          path: "/zf",
+          name: "zf",
+          component: zf
         },
         {
-          path: '/gxcx',
-          name: 'gxcx',
-          component: gxcx,
+          path: "/gxcx",
+          name: "gxcx",
+          component: gxcx
         },
         {
-          path: '/cl',
-          name: 'cl',
-          component: cl,
+          path: "/cl",
+          name: "cl",
+          component: cl
         },
         {
-          path: '/customer',
-          name: 'customer',
-          component: customer,
+          path: "/customer",
+          name: "customer",
+          component: customer
         },
         {
-          path: '/order',
-          name: 'order',
-          component: order,
+          path: "/order",
+          name: "order",
+          component: order
         },
-      ],
-    },
-  ],
+        {
+          path: "/pjl",
+          name: "pjl",
+          component: pjl
+        },
+      ]
+    }
+  ]
 });
 router.beforeEach((to, from, next) => {
   const is_login = sessionStorage.getItem('userInfo');
