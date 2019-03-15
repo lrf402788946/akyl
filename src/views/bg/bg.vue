@@ -115,6 +115,7 @@
                 <td>批号</td>
                 <td>工序</td>
                 <td>类型</td>
+                <td>原材料批号</td>
                 <td style="width:7%">计数方式</td>
                 <td style="width:7%">工时(小时)</td>
                 <td style="width:7%">数量</td>
@@ -156,6 +157,9 @@
                   <el-select class="marginBot" placeholder="请先选择工序" style="height:40px !important" v-model="item.kind_id" filterable>
                     <el-option v-for="item in getOptions(index)" :key="item.value" :label="item.text" :value="item.value"> </el-option>
                   </el-select>
+                </td>
+                <td>
+                  <b-form-input v-model="item.ycl_no" placeholder="请输入原材料批号"></b-form-input>
                 </td>
                 <td>
                   <b-form-group>
@@ -296,6 +300,7 @@
                 <td>批号</td>
                 <td>工序</td>
                 <td>类型</td>
+                <td>原材料批号</td>
                 <td style="width:7%">计数方式</td>
                 <td style="width:7%">工时(小时)</td>
                 <td style="width:7%">数量</td>
@@ -340,6 +345,9 @@
                   </el-select>
                 </td>
                 <td>
+                  <b-form-input v-model="item.ycl_no" placeholder="请输入原材料批号"></b-form-input>
+                </td>
+                <td>
                   <b-form-group :disabled="is_update">
                     <b-form-radio-group
                       id="btnradios1"
@@ -375,7 +383,7 @@
                     onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"
                   ></b-form-input>
                 </td>
-                 <td v-if="tests(index)">
+                <td v-if="tests(index)">
                   <b-form-input v-model="item.zx_order_no" placeholder="请输入针芯批号" :disabled="true"></b-form-input>
                 </td>
                 <td v-else>
@@ -483,14 +491,16 @@ export default {
       subFormContent: {
         work_id: null,
         kind_id: null,
-        num: 0,
-        work_time: 0,
-        is_night: 0,
-        add_time: 0,
-        work_type: 0,
+        num: '',
+        work_time: '',
+        is_night: '',
+        add_time: '',
+        work_type: '',
         order_no: null,
         is_in: '1',
+        ycl_no:'',
       },
+      ycl_no: '',
       is_update: true,
       g_update: true,
       zx_order_no: '',
