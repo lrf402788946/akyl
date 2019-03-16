@@ -18,7 +18,7 @@
           <b-button
             variant="primary"
             style="font-size:14px !important; color:#fff !important; width: 100% !important;  padding: 6px 0 !important; margin-right:0 !important;"
-            @click="search()"
+            @click="searchButton()"
             >查&nbsp;&nbsp;询</b-button
           >
         </div>
@@ -57,6 +57,7 @@
         :page-size="15"
         prev-text="上一页"
         next-text="下一页"
+        :current-page="currentPage"
         @current-change="toSearch"
         :total="totalRow"
       >
@@ -86,20 +87,42 @@ export default {
       totalRow: 0,
       select_code:'',
       select_kind_code:'',
+      is_title_search:false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
+      skip:0,
     };
   },
   computed: {},
   created() {
     this.search();
   },
+  watch:{
+    is_title_search: {
+      handler(nV, oV) {
+        this.$set(this, 'currentPage', 1);
+        if (nV) {
+          this.titlesearch();
+        } else {
+          this.search();
+        }
+      }
+    },
+  },
   methods: {
     //分页
     toSearch(currentPage) {
       this.currentPage = currentPage;
-      this.search();
+      if (this.is_title_search) {
+        this.titlesearch();
+      }else{
+        this.search();
+      }
     },
     //查询
     async search() {
+      if (this.is_title_search) {
+        this.is_title_search = false;
+        return;
+      }
       if(this.select_code===null)select_code='';
       if(this.select_kind_code===null)select_kind_code='';
       let skip = (this.currentPage - 1) * this.limit;
@@ -110,6 +133,45 @@ export default {
       }
       if (result.data.msg === '没有数据') {
         this.list = '';
+        this.totalRow = 0;
+      }
+    },
+    async titlesearch() {
+      if (this.is_title_search) {
+        this.is_title_search = true;
+        return;
+      }
+      if(this.select_code===null)select_code='';
+      if(this.select_kind_code===null)select_kind_code='';
+      let skip = (this.currentPage - 1) * this.limit;
+      let result = await this.$axios.get(`/akyl/count/count_xnk?skip=${skip}&limit=${this.limit}&code=${this.select_code}&kind_code=${this.select_kind_code}`);
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.kindStoreList);
+        this.$set(this, 'totalRow', result.data.totalRow);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+        this.totalRow = 0;
+      }
+    },
+    //模糊查询按钮
+    async searchButton() {
+      this.currentPage = 1;
+      if (this.is_title_search) {
+        this.is_title_search = true;
+        return;
+      }
+      if(this.select_code===null)select_code='';
+      if(this.select_kind_code===null)select_kind_code='';
+      let skip = 0;
+      let result = await this.$axios.get(`/akyl/count/count_xnk?skip=${skip}&limit=${this.limit}&code=${this.select_code}&kind_code=${this.select_kind_code}`);
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.kindStoreList);
+        this.$set(this, 'totalRow', result.data.totalRow);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+        this.totalRow = 0;
       }
     },
     //统合弹框的开启与关闭,update是index,delete是id

@@ -27,7 +27,7 @@
               <b-button
                 variant="primary"
                 style="font-size: 12px !important; color: rgb(255, 255, 255) !important; width: 100% !important; padding: 6px 15px !important; margin-right: 0px !important;"
-                @click="titlesearch()"
+                @click="searchButton()"
                 >点击查询</b-button
               >
             </td>
@@ -93,6 +93,7 @@
           :page-size="15"
           prev-text="上一页"
           next-text="下一页"
+          :current-page="currentPage"
           @current-change="toSearch"
           :total="totalRow"
         >
@@ -385,6 +386,7 @@
 import Validator from 'async-validator';
 import entrance from '@/components/entrance.vue';
 import exportExcel from '@/components/exportExcel.vue';
+import { log } from 'util';
 export default {
   name: 'staff',
   components: {
@@ -456,6 +458,8 @@ export default {
       }),
       th: ['工号', '姓名', '性别', '个人电话', '出生日期', '身份证号', '部门', '职务', '岗位', '工作状态', '是否通勤', '入职时间', '备注'],
       filterVal: ['job_num', 'user_name', 'gender', 'phone_no', 'birthday', 'id_number', 'dept_id', 'level', 'post_id', 'status', 'tq', 'in_time', 'remark'],
+      is_title_search:false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
+      skip:0,
     };
   },
   created() {
@@ -463,20 +467,90 @@ export default {
     this.getOtherList();
   },
   computed: {},
+  watch:{
+    is_title_search: {
+      handler(nV, oV) {
+        this.$set(this, 'currentPage', 1);
+        if (nV) {
+          this.titlesearch();
+        } else {
+          this.search();
+        }
+      }
+    },
+  },
   methods: {
     //分页
     toSearch(currentPage) {
       this.currentPage = currentPage;
-      this.search();
+      if (this.is_title_search) {
+        this.titlesearch();
+      }else{
+        this.search();
+      }
     },
     //查询
     async search() {
-      let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(`/akyl/staff/staff_list?skip=${skip}&limit=${this.limit}`);
+      if (this.is_title_search) {
+        this.is_title_search = false;
+        return;
+      }
+      this.skip = (this.currentPage - 1) * this.limit;
+      let result = await this.$axios.get(
+        `/akyl/staff/staff_list?job_num=${this.select_staff_job_num}&user_name=${this.select_staff_user_name}&skip=${this.skip}&limit=${this.limit}`
+      );
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.staffList);
         this.$set(this, 'origin', result.data.staffList);
         this.$set(this, 'totalRow', result.data.totalRow);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+        this.origin = '';
+        this.totalRow = 0;
+      }
+    },
+    //模糊查询分页
+    async titlesearch() {
+      if(!this.is_title_search){
+        this.is_title_search = true;
+        return;
+      } 
+      this.skip = (this.currentPage - 1) * this.limit;
+      let result = await this.$axios.get(
+        `/akyl/staff/staff_list?job_num=${this.select_staff_job_num}&user_name=${this.select_staff_user_name}&skip=${this.skip}&limit=${this.limit}`
+      );
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.staffList);
+        this.$set(this, 'origin', result.data.staffList);
+        this.$set(this, 'totalRow', result.data.totalRow);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+        this.origin = '';
+        this.totalRow = 0;
+      }
+    },
+    //模糊查询按钮
+    async searchButton() {
+      this.currentPage = 1;
+      if(!this.is_title_search){
+        this.is_title_search = true;
+        return;
+      } 
+      this.skip = 0;
+      let result = await this.$axios.get(
+        `/akyl/staff/staff_list?job_num=${this.select_staff_job_num}&user_name=${this.select_staff_user_name}&skip=${this.skip}&limit=${this.limit}`
+      );
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.staffList);
+        this.$set(this, 'origin', result.data.staffList);
+        this.$set(this, 'totalRow', result.data.totalRow);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+        this.origin = '';
+        this.totalRow = 0;
       }
     },
     //验证,因为添加和修改内容不一致,所以需要分2个验证器去分别验证
@@ -585,21 +659,6 @@ export default {
       }, {});
       // eslint-disable-next-line no-console
       console.debug(errors, fields);
-    },
-    //模糊查询的方法，接口名不对
-    async titlesearch() {
-      let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(
-        `/akyl/staff/staff_list?job_num=${this.select_staff_job_num}&user_name=${this.select_staff_user_name}&skip=${skip}&limit=${this.limit}`
-      );
-      if (result.data.msg === '成功') {
-        this.$set(this, 'list', result.data.staffList);
-        this.$set(this, 'origin', result.data.staffList);
-        this.$set(this, 'totalRow', result.data.totalRow);
-      }
-      if (result.data.msg === '没有数据') {
-        this.list = '';
-      }
     },
   },
 };

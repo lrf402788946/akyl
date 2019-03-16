@@ -23,7 +23,7 @@
               <b-button
                 variant="primary"
                 style="font-size: 12px !important; color: rgb(255, 255, 255) !important; width: 100% !important; padding: 6px 15px !important; margin-right: 0px !important;"
-                @click="search()"
+                @click="searchButton()"
                 >点&nbsp;&nbsp;击&nbsp;&nbsp;查&nbsp;&nbsp;询</b-button
               >
             </td>
@@ -82,6 +82,7 @@
           :page-size="15"
           prev-text="上一页"
           next-text="下一页"
+          :current-page="currentPage"
           @current-change="toSearch"
           :total="totalRow"
         >
@@ -221,11 +222,25 @@ export default {
       }),
       th: ['客户编码', '客户名称', '联系人', '客户电话', '联系地址', '创建日期'],
       filterVal: ['code', 'name', 'user_name', 'tel', 'address', 'create_date'],
+      is_title_search:false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
+      skip:0,
     };
   },
   computed: {},
   created() {
     this.search();
+  },
+  watch:{
+    is_title_search: {
+      handler(nV, oV) {
+        this.$set(this, 'currentPage', 1);
+        if (nV) {
+          this.titlesearch();
+        } else {
+          this.search();
+        }
+      }
+    },
   },
   methods: {
     handleErrors(errors, fields) {
@@ -256,14 +271,59 @@ export default {
         });
       }
     },
+    //分页
     toSearch(currentPage) {
       this.currentPage = currentPage;
-      this.search();
+      if (this.is_title_search) {
+        this.titlesearch();
+      }else{
+        this.search();
+      }
     },
+    //查询方法
     async search() {
-      //查询方法
+      if (this.is_title_search) {
+        this.is_title_search = false;
+        return;
+      }
       if (this.select_name === null) this.select_name = '';
       let skip = (this.currentPage - 1) * this.limit; //111
+      let result = await this.$axios.get(`/akyl/customer/customer_list?skip=${skip}&limit=${this.limit}&name=${this.select_name}`);
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.customerList);
+        this.$set(this, 'totalRow', result.data.totalRow); //111
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+        this.totalRow = 0;
+      }
+    },
+    async titlesearch() {
+      if (this.is_title_search) {
+        this.is_title_search = true;
+        return;
+      }
+      if (this.select_name === null) this.select_name = '';
+      let skip = (this.currentPage - 1) * this.limit; //111
+      let result = await this.$axios.get(`/akyl/customer/customer_list?skip=${skip}&limit=${this.limit}&name=${this.select_name}`);
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.customerList);
+        this.$set(this, 'totalRow', result.data.totalRow); //111
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+        this.totalRow = 0;
+      }
+    },
+    //模糊查询按钮
+    async searchButton() {
+      this.currentPage = 1;
+      if (this.is_title_search) {
+        this.is_title_search = true;
+        return;
+      }
+      if (this.select_name === null) this.select_name = '';
+      let skip = 0;
       let result = await this.$axios.get(`/akyl/customer/customer_list?skip=${skip}&limit=${this.limit}&name=${this.select_name}`);
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.customerList);
