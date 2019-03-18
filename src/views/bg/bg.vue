@@ -345,7 +345,7 @@
                   </el-select>
                 </td>
                 <td>
-                  <b-form-input v-model="item.ycl_no" placeholder="请输入原材料批号"></b-form-input>
+                  <b-form-input v-model="item.ycl_no" placeholder="请输入原材料批号" :disabled="is_update"></b-form-input>
                 </td>
                 <td>
                   <b-form-group :disabled="is_update">
@@ -387,13 +387,13 @@
                   <b-form-input v-model="item.zx_order_no" placeholder="请输入针芯批号" :disabled="true"></b-form-input>
                 </td>
                 <td v-else>
-                  <b-form-input v-model="item.zx_order_no" placeholder="请输入针芯批号"></b-form-input>
+                  <b-form-input v-model="item.zx_order_no" placeholder="请输入针芯批号" :disabled="is_update"></b-form-input>
                 </td>
                 <td v-if="tests(index)">
                   <b-form-input v-model="item.th_order_no" placeholder="请输入弹簧批号" :disabled="true"></b-form-input>
                 </td>
                 <td v-else>
-                  <b-form-input v-model="item.th_order_no" placeholder="请输入弹簧批号"></b-form-input>
+                  <b-form-input v-model="item.th_order_no" placeholder="请输入弹簧批号" :disabled="is_update"></b-form-input>
                 </td>
                 <td>
                   <textarea
@@ -498,7 +498,7 @@ export default {
         work_type: '',
         order_no: null,
         is_in: '1',
-        ycl_no:'',
+        ycl_no: '',
       },
       ycl_no: '',
       is_update: true,
@@ -551,7 +551,7 @@ export default {
   methods: {
     tests(index) {
       let work_id = this.subForm[index].work_id;
-      let result = true; 
+      let result = true;
       for (const item of this.workList) {
         if (item.value === work_id && item.text === 'G') {
           result = false;
@@ -577,6 +577,7 @@ export default {
       }
       this.$set(this, 'totalRow', result.data.totalRow);
     },
+
     //请求各表
     async getOtherList() {
       //请求部门表
@@ -596,7 +597,6 @@ export default {
     },
     //当工序为G时，针芯批号跟弹簧批号可编辑
     async changepihao(index) {
-     console.log(this.subForm[index].work_id);
       if (this.subForm[index].work_id === 10) {
         console.log(111);
         this.g_update = false;
