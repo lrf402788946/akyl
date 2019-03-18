@@ -234,7 +234,7 @@ export default {
     }),
   },
   created() {
-    // this.search();
+    this.search();
     this.getOtherList();
   },
   watch:{
@@ -399,7 +399,6 @@ export default {
       let skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(`/akyl/count/count_order_no?order_no=${this.order_no}&code=${this.kind_name}&skip=${skip}&limit=${this.limit}`);
       if (result.data.msg === '成功') {
-        console.log(result);
         this.$set(this, 'alist', result.data.orderSubList);
         this.$set(this, 'totalRow', result.data.totalRow);
       }
@@ -459,7 +458,6 @@ export default {
     //获取对应的order_no
     async getordno(index) {
       let ordnonum = this.list[index].order_no;
-      console.log(ordnonum);
       this.ordno = ordnonum;
       this.$set(this, 'ordno', ordnonum);
       this.openAlert('show');

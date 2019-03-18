@@ -106,7 +106,7 @@ export default {
       this.kindList.unshift(defalut);
     },
     async search() {
-      if (this.work_id == null) {
+      if (this.work_id == '') {
         this.$message.error('请选择工序');
         return false;
       }
