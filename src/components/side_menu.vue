@@ -1,5 +1,5 @@
 <template lang="html">
-  <div id="sideMenu" style="height: 100vh; display: block; background: #1c2b36;">
+  <div id="sideMenu" style="height: 100%; display: block; background: #1c2b36;overflow-y: scroll !important;">
     <div class="base-main-left" id="menuBox">
       <div class="base-sidebar-menu">
         <span class="title">操作面板</span>
@@ -22,7 +22,7 @@
             </b-collapse>
           </span>
         </ul>
-        <div class="base-footer">
+        <div class="base-foot">
           爱康管理平台 <br />
           Compyright © 2019-2020 <br />
           当前版本：1.0
@@ -118,7 +118,7 @@ a {
   width: 240px;
   background-color: #1c2b36;
 }
-.base-footer {
+.base-foot {
   font-size: 14px;
   padding: 30px 0;
   color: #46687f;
@@ -127,8 +127,7 @@ a {
   height: 100px;
   line-height: 16px;
   text-align: center;
-  position: fixed;
-  bottom: 0;
+  
   letter-spacing: 1px;
   z-index: 999;
 }

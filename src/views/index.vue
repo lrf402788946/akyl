@@ -31,9 +31,9 @@ export default {
     $(window).resize(function() {
       $('#base-main').height($(window).height() - 60);
     });
-    $('#base-main-right').width($(window).width() - 241);
+    $('#base-main-right').width($(window).width() - 260);
     $(window).resize(function() {
-      $('#base-main-right').width($(window).width() - 241);
+      $('#base-main-right').width($(window).width() - 260);
     });
   },
   methods: {
