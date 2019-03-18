@@ -150,7 +150,6 @@ export default {
       this.$refs.updateAlert.hide();
       this.is_update = true;
       this.operateId = '';
-      this.updateForm = {};
     },
   },
 };
