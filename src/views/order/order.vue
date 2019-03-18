@@ -42,7 +42,7 @@
               <b-button
                 variant="primary"
                 style="font-size: 14px !important; color: rgb(255, 255, 255) !important; width: 60% !important; padding: 5px 10px !important; margin-top:28px; margin-right: 0px !important;"
-                @click="titlesearch()"
+                @click="searchButton()"
                 >点击查询</b-button
               >
             </div>
@@ -100,6 +100,7 @@
           :page-size="15"
           prev-text="上一页"
           next-text="下一页"
+          :current-page="currentPage"
           @current-change="toSearch"
           :total="totalRow"
         >
@@ -401,6 +402,8 @@ export default {
       select_cus_id: '',
       select_in_date: null,
       chooseStatus: [{ text: '状态', value: null, disabled: true }, { text: '未出库', value: '0' }, { text: '已经出库', value: '1' }],
+      is_title_search:false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
+      skip:0,
     };
   },
   computed: {
@@ -414,19 +417,129 @@ export default {
     this.getKindList('');
     this.searchName();
   },
+  watch:{
+    is_title_search: {
+      handler(nV, oV) {
+        this.$set(this, 'currentPage', 1);
+        if (nV) {
+          this.titlesearch();
+        } else {
+          this.search();
+        }
+      }
+    },
+  },
   methods: {
     //分页
     toSearch(currentPage) {
       this.currentPage = currentPage;
-      this.search();
+      if (this.is_title_search) {
+        this.titlesearch();
+      }else{
+        this.search();
+      }
     },
     //查询
     async search() {
+      if (this.is_title_search) {
+        this.is_title_search = false;
+        return;
+      }
+      if (this.select_order_num === null) this.select_order_num = '';
+      if (this.select_cus_id === null) this.select_cus_id = '';
+      if (this.select_in_date === null) this.select_in_date = '';
+      if (typeof this.select_in_date[0] != 'undefined') {
+        this.start = this.select_in_date[0];
+      } else {
+        this.start = '';
+      }
+      if (typeof this.select_in_date[1] != 'undefined') {
+        this.end = this.select_in_date[1];
+      } else {
+        this.end = '';
+      }
       let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(`/akyl/order/order_list?skip=${skip}&limit=${this.limit}`);
+      let result = await this.$axios.get(
+        `/akyl/order/order_list?skip=${skip}&limit=${this.limit}&order_num=${this.select_order_num}&cus_id=${this.select_cus_id}&start_time=${
+          this.start
+        }&end_time=${this.end}`
+      );
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.orderList);
         this.$set(this, 'totalRow', result.data.totalRow);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+        this.totalRow = 0;
+      }
+    },
+    //分页查询
+    async titlesearch() {
+      if (this.is_title_search) {
+        this.is_title_search = true;
+        return;
+      }
+      if (this.select_order_num === null) this.select_order_num = '';
+      if (this.select_cus_id === null) this.select_cus_id = '';
+      if (this.select_in_date === null) this.select_in_date = '';
+      if (typeof this.select_in_date[0] != 'undefined') {
+        this.start = this.select_in_date[0];
+      } else {
+        this.start = '';
+      }
+      if (typeof this.select_in_date[1] != 'undefined') {
+        this.end = this.select_in_date[1];
+      } else {
+        this.end = '';
+      }
+      let skip = (this.currentPage - 1) * this.limit;
+      let result = await this.$axios.get(
+        `/akyl/order/order_list?skip=${skip}&limit=${this.limit}&order_num=${this.select_order_num}&cus_id=${this.select_cus_id}&start_time=${
+          this.start
+        }&end_time=${this.end}`
+      );
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.orderList);
+        this.$set(this, 'totalRow', result.data.totalRow);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+        this.totalRow = 0;
+      }
+    },
+    //模糊查询按钮
+    async searchButton() {
+      this.currentPage = 1;
+      if (this.is_title_search) {
+        this.is_title_search = true;
+        return;
+      }
+      if (this.select_order_num === null) this.select_order_num = '';
+      if (this.select_cus_id === null) this.select_cus_id = '';
+      if (this.select_in_date === null) this.select_in_date = '';
+      if (typeof this.select_in_date[0] != 'undefined') {
+        this.start = this.select_in_date[0];
+      } else {
+        this.start = '';
+      }
+      if (typeof this.select_in_date[1] != 'undefined') {
+        this.end = this.select_in_date[1];
+      } else {
+        this.end = '';
+      }
+      let skip = 0;
+      let result = await this.$axios.get(
+        `/akyl/order/order_list?skip=${skip}&limit=${this.limit}&order_num=${this.select_order_num}&cus_id=${this.select_cus_id}&start_time=${
+          this.start
+        }&end_time=${this.end}`
+      );
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.orderList);
+        this.$set(this, 'totalRow', result.data.totalRow);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+        this.totalRow = 0;
       }
     },
     //获取订单号
@@ -488,36 +601,6 @@ export default {
           this.subForm = [];
           this.search();
         }
-      }
-    },
-    //查询按钮
-    async titlesearch() {
-      if (this.select_order_num === null) this.select_order_num = '';
-      if (this.select_cus_id === null) this.select_cus_id = '';
-      if (this.select_in_date === null) this.select_in_date = '';
-      if (typeof this.select_in_date[0] != 'undefined') {
-        this.start = this.select_in_date[0];
-      } else {
-        this.start = '';
-      }
-      if (typeof this.select_in_date[1] != 'undefined') {
-        this.end = this.select_in_date[1];
-      } else {
-        this.end = '';
-      }
-      let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(
-        `/akyl/order/order_list?skip=${skip}&limit=${this.limit}&order_num=${this.select_order_num}&cus_id=${this.select_cus_id}&start_time=${
-          this.start
-        }&end_time=${this.end}`
-      );
-      if (result.data.msg === '成功') {
-        this.$set(this, 'list', result.data.orderList);
-        this.$set(this, 'totalRow', result.data.totalRow);
-      }
-      if (result.data.msg === '没有数据') {
-        this.list = '';
-        this.totalRow = 0;
       }
     },
     //修改
@@ -651,7 +734,7 @@ export default {
                       </tr>`;
       for (let item of this.orderSubList) {
         tableStr += ` <tr style="text-align: center;">
-                        <td>${item.kind_name}</td>
+                        <td>${item.code}</td>
                         <td>${item.num}</td>
                       </tr>`;
       }

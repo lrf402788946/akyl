@@ -28,7 +28,7 @@
               <b-button
                 variant="primary"
                 style="font-size: 12px !important; color: rgb(255, 255, 255) !important; width: 100% !important; padding: 6px 15px !important; margin-right: 0px !important;"
-                @click="search()"
+                @click="searchButton()"
                 >点&nbsp;&nbsp;击&nbsp;&nbsp;查&nbsp;&nbsp;询</b-button
               >
             </td>
@@ -85,6 +85,7 @@
           :page-size="15"
           prev-text="上一页"
           next-text="下一页"
+          :current-page="currentPage"
           @current-change="toSearch"
           :total="totalRow"
         >
@@ -263,6 +264,8 @@ export default {
       operateId: '',
       th: ['工序', '型号代码', '型号名称', '计件定额'],
       filterVal: ['work_id', 'code', 'name', 'jj_price'],
+      is_title_search:false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
+      skip:0,
     };
   },
   computed: {},
@@ -271,17 +274,80 @@ export default {
     this.searchWork();
     this.searchMaterial();
   },
+  watch:{
+    is_title_search: {
+      handler(nV, oV) {
+        this.$set(this, 'currentPage', 1);
+        if (nV) {
+          this.titlesearch();
+        } else {
+          this.search();
+        }
+      }
+    },
+  },
   methods: {
     //分页
     toSearch(currentPage) {
       this.currentPage = currentPage;
-      this.search();
+      if (this.is_title_search) {
+        this.titlesearch();
+      }else{
+        this.search();
+      }
     },
     //查询
     async search() {
       if (this.select_kind_gxname === null) this.select_kind_gxname = '';
       if (this.select_kind_typecode === null) this.select_kind_typecode = '';
+      if (this.is_title_search) {
+        this.is_title_search = false;
+        return;
+      }
       let skip = (this.currentPage - 1) * this.limit;
+      let result = await this.$axios.get(
+        `/akyl/kind/kind_list?skip=${skip}&limit=${this.limit}&work_id=${this.select_kind_gxname}&code=${this.select_kind_typecode}`
+      );
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.kindList);
+        this.$set(this, 'origin', result.data.kindList);
+        this.$set(this, 'totalRow', result.data.totalRow);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+        this.origin = '';
+        this.totalRow = 0;
+      }
+    },
+    //模糊查询的方法
+    async titlesearch() {
+      if(!this.is_title_search){
+        this.is_title_search = true;
+        return;
+      } 
+      let skip = (this.currentPage - 1) * this.limit;
+      let result = await this.$axios.get(
+        `/akyl/kind/kind_list?skip=${skip}&limit=${this.limit}&work_id=${this.select_kind_gxname}&code=${this.select_kind_typecode}`
+      );
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.kindList);
+        this.$set(this, 'origin', result.data.kindList);
+        this.$set(this, 'totalRow', result.data.totalRow);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+        this.origin = '';
+        this.totalRow = 0;
+      }
+    },
+    //模糊查询按钮
+    async searchButton() {
+      this.currentPage = 1;
+      if(!this.is_title_search){
+        this.is_title_search = true;
+        return;
+      } 
+      let skip = 0;
       let result = await this.$axios.get(
         `/akyl/kind/kind_list?skip=${skip}&limit=${this.limit}&work_id=${this.select_kind_gxname}&code=${this.select_kind_typecode}`
       );
@@ -398,19 +464,6 @@ export default {
       }, {});
       // eslint-disable-next-line no-console
       console.debug(errors, fields);
-    },
-    //模糊查询的方法，接口名不对
-    async titlesearch() {
-      let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(
-        `/akyl/kind/kind_list?code=${this.select_kind_gxname}&code=${this.select_kind_typecode}&skip=${skip}&limit=${this.limit}`
-      );
-      if (result.data.msg === '成功') {
-        this.$set(this, 'list', result.data.kindList);
-      }
-      if (result.data.msg === '没有数据') {
-        this.list = '';
-      }
     },
     //打开修改型号的配重弹框
     async openPZ(id, name) {

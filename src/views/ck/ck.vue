@@ -36,7 +36,7 @@
             <b-button
               variant="primary"
               style="font-size: 14px !important; color: rgb(255, 255, 255) !important; width: 60% !important; padding: 5px 10px !important; margin-top:28px; margin-right: 0px !important;"
-              @click="search()"
+              @click="searchButton()"
               >点击查询</b-button
             >
           </div>
@@ -86,6 +86,7 @@
           :page-size="15"
           prev-text="上一页"
           next-text="下一页"
+          :current-page="currentPage"
           @current-change="toSearch"
           :total="totalRow"
         >
@@ -290,6 +291,8 @@ export default {
       type: [{ text: '弹簧柄库', value: '2' }, { text: '裸针库', value: '1' }, { text: '针芯库', value: '3' }, { text: '直废库', value: '4' }],
       th: ['订单号', '出库人', '出库日期', '备注'],
       filterVal: ['order_no', 'user_name', 'out_date', 'remark'],
+      is_title_search:false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
+      skip:0,
     };
   },
   computed: {
@@ -300,10 +303,25 @@ export default {
   created() {
     this.search();
   },
+  watch:{
+    is_title_search: {
+      handler(nV, oV) {
+        this.$set(this, 'currentPage', 1);
+        if (nV) {
+          this.titlesearch();
+        } else {
+          this.search();
+        }
+      }
+    },
+  },
   methods: {
     //查询
     async search() {
-      //查询方法
+      if (this.is_title_search) {
+        this.is_title_search = false;
+        return;
+      }
       if (this.timeValue === null) this.timeValue = '';
       if (typeof this.timeValue[0] != 'undefined') {
         this.start = this.timeValue[0];
@@ -321,16 +339,87 @@ export default {
           this.user_name
         }&start_time=${this.start}&end_time=${this.end}`
       );
-      this.$set(this, 'list', result.data.outMainList);
-      this.$set(this, 'totalRow', result.data.totalRow);
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.outMainList);
+        this.$set(this, 'totalRow', result.data.totalRow);
+      }
       if (result.data.msg === '没有数据') {
-        this.list = [];
+        this.list = '';
+        this.totalRow = 0;
+      }
+    },
+    async titlesearch() {
+      if (this.is_title_search) {
+        this.is_title_search = true;
+        return;
+      }
+      if (this.timeValue === null) this.timeValue = '';
+      if (typeof this.timeValue[0] != 'undefined') {
+        this.start = this.timeValue[0];
+      } else {
+        this.start = '';
+      }
+      if (typeof this.timeValue[1] != 'undefined') {
+        this.end = this.timeValue[1];
+      } else {
+        this.end = '';
+      }
+      let skip = (this.currentPage - 1) * this.limit;
+      let result = await this.$axios.get(
+        `/akyl/store/out_main_list?main_id=${this.userInfo.login_id}&skip=${skip}&limit=${this.limit}&order_no=${this.order_no}&user_name=${
+          this.user_name
+        }&start_time=${this.start}&end_time=${this.end}`
+      );
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.outMainList);
+        this.$set(this, 'totalRow', result.data.totalRow);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+        this.totalRow = 0;
+      }
+    },
+    //模糊查询按钮
+    async searchButton() {
+      this.currentPage = 1;
+      if (this.is_title_search) {
+        this.is_title_search = true;
+        return;
+      }
+      if (this.timeValue === null) this.timeValue = '';
+      if (typeof this.timeValue[0] != 'undefined') {
+        this.start = this.timeValue[0];
+      } else {
+        this.start = '';
+      }
+      if (typeof this.timeValue[1] != 'undefined') {
+        this.end = this.timeValue[1];
+      } else {
+        this.end = '';
+      }
+      let skip = 0;
+      let result = await this.$axios.get(
+        `/akyl/store/out_main_list?main_id=${this.userInfo.login_id}&skip=${skip}&limit=${this.limit}&order_no=${this.order_no}&user_name=${
+          this.user_name
+        }&start_time=${this.start}&end_time=${this.end}`
+      );
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.outMainList);
+        this.$set(this, 'totalRow', result.data.totalRow);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+        this.totalRow = 0;
       }
     },
     //分页
     toSearch(currentPage) {
       this.currentPage = currentPage;
-      this.search();
+      if (this.is_title_search) {
+        this.titlesearch();
+      }else{
+        this.search();
+      }
     },
     reset() {
       this.form = {};

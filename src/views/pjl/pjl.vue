@@ -41,7 +41,7 @@
               <b-button
                 variant="primary"
                 style="font-size: 14px !important; color: rgb(255, 255, 255) !important; width: 60% !important; padding: 5px 10px !important; margin-top:28px; margin-right: 0px !important;"
-                @click="titlesearch()"
+                @click="searchButton()"
                 >点击查询</b-button
               >
             </div>
@@ -78,6 +78,7 @@
           :page-size="15"
           prev-text="上一页"
           next-text="下一页"
+          :current-page="currentPage"
           @current-change="toSearch"
           :total="totalRow"
         >
@@ -223,6 +224,8 @@ export default {
         cp_no: [{ required: true, message: '请填写成品批号' }],
         bz_no: [{ required: true, message: '请填写包装批号' }],
       }),
+      is_title_search:false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
+      skip:0,
     };
   },
   computed: {
@@ -234,30 +237,132 @@ export default {
     // this.search();
     this.getOtherList();
   },
+  watch:{
+    is_title_search: {
+      handler(nV, oV) {
+        this.$set(this, 'currentPage', 1);
+        if (nV) {
+          this.titlesearch();
+        } else {
+          this.search();
+        }
+      }
+    },
+  },
   methods: {
     //分页
     toSearch(currentPage) {
       this.currentPage = currentPage;
-      this.search();
+      if (this.is_title_search) {
+        this.titlesearch();
+      }else{
+        this.search();
+      }
     },
     //查询
-    /*async search() {
-      let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(`/akyl/store/in_main_list?skip=${skip}&limit=${this.limit}`);
-      let result1 = await this.$axios.get(`/akyl/store/order_no?order_key=IN`);
-      this.$set(this.form, 'order_num', result1.data.order_num);
-      if (result.data.msg === '成功') {
-        this.$set(this, 'list', result.data.inMainList);
-        this.$set(this, 'totalRow', result.data.totalRow);
-      }
-    },*/
     async search() {
+      if (this.is_title_search) {
+        this.is_title_search = false;
+        return;
+      }
+      if (this.order_no === null) this.order_no = '';
+      if (this.cp_no === null) this.cp_no = '';
+      if (this.bz_no === null) this.bz_no = '';
+      if (this.select_in_date === null) this.select_in_date = '';
+      if (typeof this.select_in_date[0] != 'undefined') {
+        this.start = this.select_in_date[0];
+      } else {
+        this.start = '';
+      }
+      if (typeof this.select_in_date[1] != 'undefined') {
+        this.end = this.select_in_date[1];
+      } else {
+        this.end = '';
+      }
       let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(`/akyl/count/count_pjl?skip=${skip}&limit=${this.limit}`);
+      let result = await this.$axios.get(
+        `/akyl/count/count_pjl?order_no=${this.order_no}&cp_no=${this.cp_no}&start_time=${this.start}&end_time=${this.end}&bz_no=${
+          this.bz_no
+        }&skip=${skip}&limit=${this.limit}`
+      );
       if (result.data.msg === '成功') {
-        console.log(result);
         this.$set(this, 'list', result.data.orderSubList);
         this.$set(this, 'totalRow', result.data.totalRow);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+        this.totalRow = 0;
+      }
+    },
+    //条件查询方法
+    async titlesearch() {
+      if (this.is_title_search) {
+        this.is_title_search = true;
+        return;
+      }
+      if (this.order_no === null) this.order_no = '';
+      if (this.cp_no === null) this.cp_no = '';
+      if (this.bz_no === null) this.bz_no = '';
+      if (this.select_in_date === null) this.select_in_date = '';
+      if (typeof this.select_in_date[0] != 'undefined') {
+        this.start = this.select_in_date[0];
+      } else {
+        this.start = '';
+      }
+      if (typeof this.select_in_date[1] != 'undefined') {
+        this.end = this.select_in_date[1];
+      } else {
+        this.end = '';
+      }
+      let skip = (this.currentPage - 1) * this.limit;
+      let result = await this.$axios.get(
+        `/akyl/count/count_pjl?order_no=${this.order_no}&cp_no=${this.cp_no}&start_time=${this.start}&end_time=${this.end}&bz_no=${
+          this.bz_no
+        }&skip=${skip}&limit=${this.limit}`
+      );
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.orderSubList);
+        this.$set(this, 'totalRow', result.data.totalRow);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+        this.totalRow = 0;
+      }
+    },
+    //模糊查询按钮
+    async searchButton() {
+      this.currentPage = 1;
+      if (this.is_title_search) {
+        this.is_title_search = true;
+        return;
+      }
+      if (this.order_no === null) this.order_no = '';
+      if (this.cp_no === null) this.cp_no = '';
+      if (this.bz_no === null) this.bz_no = '';
+      if (this.select_in_date === null) this.select_in_date = '';
+      if (typeof this.select_in_date[0] != 'undefined') {
+        this.start = this.select_in_date[0];
+      } else {
+        this.start = '';
+      }
+      if (typeof this.select_in_date[1] != 'undefined') {
+        this.end = this.select_in_date[1];
+      } else {
+        this.end = '';
+      }
+      let skip = 0;
+      let result = await this.$axios.get(
+        `/akyl/count/count_pjl?order_no=${this.order_no}&cp_no=${this.cp_no}&start_time=${this.start}&end_time=${this.end}&bz_no=${
+          this.bz_no
+        }&skip=${skip}&limit=${this.limit}`
+      );
+      if (result.data.msg === '成功') {
+        this.$set(this, 'list', result.data.orderSubList);
+        this.$set(this, 'totalRow', result.data.totalRow);
+      }
+      if (result.data.msg === '没有数据') {
+        this.list = '';
+        this.totalRow = 0;
       }
     },
     async serarchXiangxi() {
