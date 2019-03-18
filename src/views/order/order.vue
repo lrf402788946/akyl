@@ -734,7 +734,7 @@ export default {
                       </tr>`;
       for (let item of this.orderSubList) {
         tableStr += ` <tr style="text-align: center;">
-                        <td>${item.kind_name}</td>
+                        <td>${item.code}</td>
                         <td>${item.num}</td>
                       </tr>`;
       }

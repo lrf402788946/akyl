@@ -45,6 +45,7 @@
           <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="针芯表"></exportExcel>
         </div>
         <div id="print">
+          <p align="right">总计：{{countNum}} 个</p>
           <table class="table table-bordered table-striped ">
             <tbody v-if="list.length > 0">
               <tr>
@@ -215,6 +216,7 @@ export default {
       filterVal: ['type', 'num', 'create_date'],
       is_title_search:false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
       skip:0,
+      countNum:0,
     };
   },
   computed: {},
@@ -257,10 +259,12 @@ export default {
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.zxList);
         this.$set(this, 'totalRow', result.data.totalRow);
+        this.$set(this, 'countNum', result.data.countNum);
       }
       if (result.data.msg === '没有数据') {
         this.list = '';
         this.totalRow = 0;
+        this.countNum = 0;
       }
     },
     //模糊查询的方法
@@ -276,10 +280,12 @@ export default {
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.zxList);
         this.$set(this, 'totalRow', result.data.totalRow);
+        this.$set(this, 'countNum', result.data.countNum);
       }
       if (result.data.msg === '没有数据') {
         this.list = '';
         this.totalRow = 0;
+        this.countNum = 0;
       }
     },
     //模糊查询按钮
@@ -296,10 +302,12 @@ export default {
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.zxList);
         this.$set(this, 'totalRow', result.data.totalRow);
+        this.$set(this, 'countNum', result.data.countNum);
       }
       if (result.data.msg === '没有数据') {
         this.list = '';
         this.totalRow = 0;
+        this.countNum = 0;
       }
     },
     async toUpdate() {
