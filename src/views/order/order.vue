@@ -550,7 +550,7 @@ export default {
     //查询客户姓名
     async searchName() {
       let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(`/akyl/customer/customer_list?skip=${skip}&limit=${this.limit}`);
+      let result = await this.$axios.get(`/akyl/customer/customer_list?skip=${skip}&limit=100000`);
       if (result.data.msg === '成功') {
         this.customerName = result.data.customerList.map(item => {
           let newObject = { text: item.name, value: item.id };
