@@ -512,8 +512,8 @@ export default {
       is_in: '',
       order_no: null,
       form: {
-        leave_time: 0,
-        fj_time: 0,
+        leave_time: '',
+        fj_time: '',
       },
       time_quantum: null,
       deptList: [],
@@ -804,9 +804,9 @@ export default {
     reset() {
       this.time_quantum = null;
       this.form = {};
-      this.form.all_time = 0;
-      this.form.fj_time = 0;
-      this.form.leave_time = 0;
+      this.form.all_time = '';
+      this.form.fj_time = '';
+      this.form.leave_time = '';
       this.form.dept_id = this.userInfo.dept_id;
       this.form.login_id = this.userInfo.login_id;
       this.subForm = [];
