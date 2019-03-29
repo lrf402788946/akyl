@@ -260,14 +260,16 @@
         @click="closeAlert('update')"
         class="resetButton"
         style="font-size:16px !important; margin-top:25px; float: right; margin-bottom:30px !important; margin-right: 0 !important; padding:6px 20px !important;"
-        >返&nbsp;&nbsp;回</b-button>
+        >返&nbsp;&nbsp;回</b-button
+      >
       <b-button
         variant="primary"
         @click="exportExcel()"
         class="resetButton"
         style="font-size:16px !important; margin-top:25px; float: right; margin-bottom:30px !important; margin-right: 30px !important; padding:6px 20px !important;"
-        >导&nbsp;&nbsp;出</b-button>
-      </b-modal>
+        >导&nbsp;&nbsp;出</b-button
+      >
+    </b-modal>
     <!--删除弹框-->
     <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
       <div class="d-block text-center">
@@ -342,8 +344,8 @@ export default {
       }),
       th: ['订单号', '入库人', '入库日期', '备注'],
       filterVal: ['order_no', 'user_name', 'in_date', 'remark'],
-      is_title_search:false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
-      skip:0,
+      is_title_search: false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
+      skip: 0,
     };
   },
   computed: {
@@ -356,7 +358,7 @@ export default {
     this.getOtherList();
     this.getWorkList();
   },
-  watch:{
+  watch: {
     is_title_search: {
       handler(nV, oV) {
         this.$set(this, 'currentPage', 1);
@@ -365,7 +367,7 @@ export default {
         } else {
           this.search();
         }
-      }
+      },
     },
   },
   methods: {
@@ -374,7 +376,7 @@ export default {
       this.currentPage = currentPage;
       if (this.is_title_search) {
         this.titlesearch();
-      }else{
+      } else {
         this.search();
       }
     },
@@ -692,7 +694,7 @@ export default {
       this.subForm.push(this.subFormContent);
     },
     //导出
-    exportExcel(){
+    exportExcel() {
       var tableStr = `
                       <caption><b>入库单</b></caption>
                       <tr style="text-align:center;">
@@ -714,16 +716,16 @@ export default {
                         <th>数量</th>
                         <th>&nbsp;</th>
                       </tr>`;
-      for(let item of this.subForm) {
+      for (let item of this.subForm) {
         tableStr += ` <tr style="text-align: center;">
                         <td>${item.type === 1 ? '裸针' : item.type === 2 ? '弹簧柄' : item.type === 3 ? '针芯' : '直废'}</td>
                         <td>${item.kind}</td>
                         <td>${item.num}</td>
                         <td>&nbsp;</td>
                       </tr>`;
-        }
+      }
       //Worksheet名
-      var worksheet = 'Sheet1'
+      var worksheet = 'Sheet1';
       var uri = 'data:application/vnd.ms-excel;base64,';
       // 真正要导出（下载）的HTML模板
       var exportTemplate = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" 
@@ -738,11 +740,11 @@ export default {
                           </body>
                       </html>`;
       //下载模板
-      window.location.href = uri + this.base64(exportTemplate)
+      window.location.href = uri + this.base64(exportTemplate);
     },
     //输出base64编码
-    base64 (s) { 
-      return window.btoa(unescape(encodeURIComponent(s))) 
+    base64(s) {
+      return window.btoa(unescape(encodeURIComponent(s)));
     },
   },
 };

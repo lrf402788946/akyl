@@ -1,11 +1,11 @@
 <template lang="html">
   <div id="material">
     <div class="form-inline">
-        <div class="base-form-title" style="width:100%;">
-          <a class="base-margin-left-20">虚拟库管理</a>
-          <div class="button-table"></div>
-        </div>
+      <div class="base-form-title" style="width:100%;">
+        <a class="base-margin-left-20">虚拟库管理</a>
+        <div class="button-table"></div>
       </div>
+    </div>
     <div class="base-padding-20 base-bg-fff">
       <div class="base-align-right" style="margin-bottom: 20px;">
         <div class="col-lg-3 mb25">
@@ -32,7 +32,6 @@
             <!-- <th>型号ID</th> -->
             <th>数量</th>
             <th>批号</th>
-            
             <th>原材料批号</th>
           </tr>
           <tr v-for="(item, index) in list" :key="index">
@@ -67,7 +66,7 @@
 </template>
 <script>
 import Validator from 'async-validator';
-import exportExcel from '@/components/exportExcel.vue';
+// import exportExcel from '@/components/exportExcel.vue';
 
 export default {
   name: 'xnk',
@@ -75,7 +74,7 @@ export default {
     title: '虚拟库管理',
   },
   components: {
-    exportExcel,
+    // exportExcel,
   },
   data() {
     return {
@@ -85,17 +84,17 @@ export default {
       currentPage: 1,
       limit: 15,
       totalRow: 0,
-      select_code:'',
-      select_kind_code:'',
-      is_title_search:false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
-      skip:0,
+      select_code: '',
+      select_kind_code: '',
+      is_title_search: false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
+      skip: 0,
     };
   },
   computed: {},
   created() {
     this.search();
   },
-  watch:{
+  watch: {
     is_title_search: {
       handler(nV, oV) {
         this.$set(this, 'currentPage', 1);
@@ -104,7 +103,7 @@ export default {
         } else {
           this.search();
         }
-      }
+      },
     },
   },
   methods: {
@@ -113,7 +112,7 @@ export default {
       this.currentPage = currentPage;
       if (this.is_title_search) {
         this.titlesearch();
-      }else{
+      } else {
         this.search();
       }
     },
@@ -123,8 +122,8 @@ export default {
         this.is_title_search = false;
         return;
       }
-      if(this.select_code===null)select_code='';
-      if(this.select_kind_code===null)select_kind_code='';
+      if (this.select_code === null) this.select_code = '';
+      if (this.select_kind_code === null) this.select_kind_code = '';
       let skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(`/akyl/count/count_xnk?skip=${skip}&limit=${this.limit}&code=${this.select_code}&kind_code=${this.select_kind_code}`);
       if (result.data.msg === '成功') {
@@ -141,8 +140,8 @@ export default {
         this.is_title_search = true;
         return;
       }
-      if(this.select_code===null)select_code='';
-      if(this.select_kind_code===null)select_kind_code='';
+      if (this.select_code === null) this.select_code = '';
+      if (this.select_kind_code === null) this.select_kind_code = '';
       let skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(`/akyl/count/count_xnk?skip=${skip}&limit=${this.limit}&code=${this.select_code}&kind_code=${this.select_kind_code}`);
       if (result.data.msg === '成功') {
@@ -161,8 +160,8 @@ export default {
         this.is_title_search = true;
         return;
       }
-      if(this.select_code===null)select_code='';
-      if(this.select_kind_code===null)select_kind_code='';
+      if (this.select_code === null) this.select_code = '';
+      if (this.select_kind_code === null) this.select_kind_code = '';
       let skip = 0;
       let result = await this.$axios.get(`/akyl/count/count_xnk?skip=${skip}&limit=${this.limit}&code=${this.select_code}&kind_code=${this.select_kind_code}`);
       if (result.data.msg === '成功') {
@@ -176,15 +175,15 @@ export default {
     },
     //统合弹框的开启与关闭,update是index,delete是id
     async operatAlert(idOrIndex) {
-    if (this.$refs.updateAlert.is_show) {
+      if (this.$refs.updateAlert.is_show) {
         //关上弹框
         this.$refs.updateAlert.hide();
         this.form = {};
-    } else {
+      } else {
         //打开弹框
         this.$refs.updateAlert.show();
         this.form = JSON.parse(JSON.stringify(this.list[idOrIndex]));
-    }
+      }
     },
   },
 };
@@ -391,7 +390,7 @@ li {
 .btn-primary:hover {
   background-color: #17a2b8 !important;
 }
-.col-lg-1{
+.col-lg-1 {
   float: left;
 }
 </style>

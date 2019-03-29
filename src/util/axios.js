@@ -8,10 +8,13 @@ axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 
 axios.interceptors.request.use(
   config => {
-    let loading = Loading.service({
-      fullscreen: true,
-      text: '请求中,请耐心等待',
-    });
+    let url = config.url;
+    if (filterUrl(url)) {
+      let loading = Loading.service({
+        fullscreen: true,
+        text: '请求中,请耐心等待',
+      });
+    }
     return config;
   },
   error => {
@@ -24,8 +27,11 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   response => {
-    let loading = Loading.service({});
-    loading.close();
+    let url = response.config.url;
+    if (filterUrl(url)) {
+      let loading = Loading.service({});
+      loading.close();
+    }
     return response;
   },
   error => {
@@ -35,5 +41,12 @@ axios.interceptors.response.use(
     console.error(error);
   }
 );
+
+let filterUrl = url => {
+  if (url.includes('save')) return true;
+  else if (url.includes('edit')) return true;
+  else if (url.includes('delete')) return true;
+  else return false;
+};
 
 export default axios;

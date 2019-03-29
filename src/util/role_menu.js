@@ -101,30 +101,34 @@ export const CW = {
 };
 
 export const TJ = {
-         name: "统计管理",
-         menu: [
-           {
-             name: "每人每天每型号数量",
-             router_name: "pdt"
-           },
-           {
-             name: "每工序每天每型号数量",
-             router_name: "gtx"
-           },
-           {
-             name: "材料统计",
-             router_name: "cl"
-           },
-           {
-             name: "批记录查询",
-             router_name: "pjl"
-           },
-           {
-            name: "虚拟库查询",
-            router_name: "xnk"
-          },
-         ]
-       };
+  name: '统计管理',
+  menu: [
+    {
+      name: '每人每天每型号数量',
+      router_name: 'pdt',
+    },
+    {
+      name: '每工序每天每型号数量',
+      router_name: 'gtx',
+    },
+    {
+      name: '材料统计',
+      router_name: 'cl',
+    },
+    {
+      name: '批记录查询',
+      router_name: 'pjl',
+    },
+    {
+      name: '虚拟库查询',
+      router_name: 'xnk',
+    },
+    {
+      name: '生产统计',
+      router_name: 'sc',
+    },
+  ],
+};
 
 export const CL = {
   name: '材料管理',

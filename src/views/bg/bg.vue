@@ -111,19 +111,19 @@
           <table class="table table-bordered table-striped ">
             <tbody>
               <tr>
-                <td>是否入库</td>
-                <td>批号</td>
-                <td>工序</td>
-                <td>类型</td>
-                <td>原材料批号</td>
-                <td style="width:7%">计数方式</td>
-                <td style="width:7%">工时(小时)</td>
+                <td style="width:4%">是否入库</td>
+                <td style="width:9%">批号</td>
+                <td style="width:8%">工序</td>
+                <td style="width:10%">类型</td>
+                <td style="width:9%">原材料批号</td>
+                <td style="width:3%">计数方式</td>
+                <td style="width:5.5%">工时(小时)</td>
                 <td style="width:7%">数量</td>
-                <td style="width:7%">加班</td>
-                <td style="width:10%">针芯批号</td>
-                <td style="width:10%">弹簧批号</td>
-                <td>备注</td>
-                <td>操作</td>
+                <td style="width:5.9%">加班</td>
+                <!-- <td style="width:8%">针芯批号</td>
+                <td style="width:8%">弹簧批号</td> -->
+                <td style="width:12%">备注</td>
+                <td style="width:6%">操作</td>
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
                 <td>
@@ -135,31 +135,30 @@
                       v-model="item.is_in"
                       :options="[{ text: '是', value: '0' }, { text: '否', value: '1', checked: true }]"
                       name="radiosBtnDefault"
+                      stacked
                     />
                   </b-form-group>
                 </td>
                 <td>
-                  <b-form-input v-model="item.order_no"></b-form-input>
+                  <b-form-input v-model="item.order_no" placeholder="批号"></b-form-input>
                 </td>
                 <td>
-                  <el-select
-                    @change="getKindList(index)"
-                    class="marginBot"
-                    style="height:40px !important"
-                    v-model="item.work_id"
-                    filterable
-                    placeholder="请选择工序"
-                  >
+                  <el-select @change="getKindList(index)" class="marginBot" style="height:40px !important" v-model="item.work_id" filterable placeholder="工序">
                     <el-option v-for="item in workList" :key="item.value" :label="item.text" :value="item.value"> </el-option>
                   </el-select>
+                  <div v-if="!tests(index)">
+                    <b-form-input v-model="item.zx_order_no" placeholder="针芯批号"></b-form-input>
+                    <br />
+                    <b-form-input v-model="item.th_order_no" placeholder="弹簧批号"></b-form-input>
+                  </div>
                 </td>
                 <td>
-                  <el-select class="marginBot" placeholder="请先选择工序" style="height:40px !important" v-model="item.kind_id" filterable>
+                  <el-select class="marginBot" placeholder="类型" style="height:40px !important" v-model="item.kind_id" filterable>
                     <el-option v-for="item in getOptions(index)" :key="item.value" :label="item.text" :value="item.value"> </el-option>
                   </el-select>
                 </td>
                 <td>
-                  <b-form-input v-model="item.ycl_no" placeholder="请输入原材料批号"></b-form-input>
+                  <b-form-input v-model="item.ycl_no" placeholder="原材料批号"></b-form-input>
                 </td>
                 <td>
                   <b-form-group>
@@ -170,6 +169,7 @@
                       v-model="item.work_type"
                       :options="[{ text: '计时', value: 0, checked: true }, { text: '计件', value: 1 }]"
                       name="radiosBtnDefault"
+                      stacked
                     />
                   </b-form-group>
                 </td>
@@ -182,7 +182,7 @@
                 <td>
                   <b-form-input v-model="item.add_time" type="number" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
                 </td>
-                <td v-if="tests(index)">
+                <!-- <td v-if="tests(index)">
                   <b-form-input v-model="item.zx_order_no" placeholder="请输入针芯批号" :disabled="true"></b-form-input>
                 </td>
                 <td v-else>
@@ -193,7 +193,7 @@
                 </td>
                 <td v-else>
                   <b-form-input v-model="item.th_order_no" placeholder="请输入弹簧批号"></b-form-input>
-                </td>
+                </td> -->
                 <td>
                   <textarea v-model="item.remark" class="form-control" rows="3" style="height: 44px !important;" placeholder="备注"></textarea>
                 </td>
