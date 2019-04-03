@@ -229,7 +229,6 @@
         style="font-size:13px !important; margin-top:40px;font-family: '微软雅黑'; float: right; margin-bottom:25px !important; margin-right: 22px !important; padding:4px 10px !important;"
         ><i class="base-margin-right-5 fa fa-file-text-o"></i>导&nbsp;&nbsp;出</b-button
       >
-      
     </b-modal>
   </div>
 </template>

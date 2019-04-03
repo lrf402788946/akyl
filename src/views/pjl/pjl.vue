@@ -110,7 +110,7 @@
               >点击查询</b-button
             >
           </div>
-         <br />
+          <br />
           <table class="table table-bordered table-striped ">
             <tbody>
               <tr>
@@ -158,15 +158,16 @@
         @click="closeAlert('update')"
         class="resetButton"
         style="font-size:16px !important; margin-top:25px; float: right; margin-bottom:30px !important; margin-right: 0 !important; padding:6px 20px !important;"
-        >返&nbsp;&nbsp;回</b-button>
-        <!--
+        >返&nbsp;&nbsp;回</b-button
+      >
+      <!--
       <b-button
         variant="primary"
         @click="exportExcel()"
         class="resetButton"
         style="font-size:16px !important; margin-top:25px; float: right; margin-bottom:30px !important; margin-right: 30px !important; padding:6px 20px !important;"
         >导&nbsp;&nbsp;出</b-button> -->
-      </b-modal>
+    </b-modal>
   </div>
 </template>
 
@@ -224,8 +225,8 @@ export default {
         cp_no: [{ required: true, message: '请填写成品批号' }],
         bz_no: [{ required: true, message: '请填写包装批号' }],
       }),
-      is_title_search:false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
-      skip:0,
+      is_title_search: false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
+      skip: 0,
     };
   },
   computed: {
@@ -237,7 +238,7 @@ export default {
     this.search();
     this.getOtherList();
   },
-  watch:{
+  watch: {
     is_title_search: {
       handler(nV, oV) {
         this.$set(this, 'currentPage', 1);
@@ -246,7 +247,7 @@ export default {
         } else {
           this.search();
         }
-      }
+      },
     },
   },
   methods: {
@@ -255,7 +256,7 @@ export default {
       this.currentPage = currentPage;
       if (this.is_title_search) {
         this.titlesearch();
-      }else{
+      } else {
         this.search();
       }
     },
@@ -426,35 +427,6 @@ export default {
         }
       });
     },
-    //条件查询方法
-    async titlesearch() {
-      if (this.order_no === null) this.order_no = '';
-      if (this.cp_no === null) this.cp_no = '';
-      if (this.bz_no === null) this.bz_no = '';
-      if (this.select_in_date === null) this.select_in_date = '';
-      if (typeof this.select_in_date[0] != 'undefined') {
-        this.start = this.select_in_date[0];
-      } else {
-        this.start = '';
-      }
-      if (typeof this.select_in_date[1] != 'undefined') {
-        this.end = this.select_in_date[1];
-      } else {
-        this.end = '';
-      }
-      let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(
-        `/akyl/count/count_pjl?order_no=${this.order_no}&cp_no=${this.cp_no}&start_time=${this.start}&end_time=${this.end}&bz_no=${
-          this.bz_no
-        }&skip=${skip}&limit=${this.limit}`
-      );
-      if (result.data.msg === '成功') {
-        this.$set(this, 'list', result.data.orderSubList);
-      }
-      if (result.data.msg === '没有数据') {
-        this.list = '';
-      }
-    },
     //获取对应的order_no
     async getordno(index) {
       let ordnonum = this.list[index].order_no;
@@ -466,7 +438,7 @@ export default {
     openAlert(type, id) {
       this.subForm = [];
       if (type === 'show') {
-         this.$refs.updateAlert.show();
+        this.$refs.updateAlert.show();
       }
     },
     //关闭弹框
@@ -507,7 +479,7 @@ export default {
       this.subForm.splice(i, 1);
     },
     //导出
-    exportExcel(){
+    exportExcel() {
       var tableStr = `
                       <caption><b>入库单</b></caption>
                       <tr style="text-align:center;">
@@ -529,16 +501,16 @@ export default {
                         <th>数量</th>
                         <th>&nbsp;</th>
                       </tr>`;
-      for(let item of this.subForm) {
+      for (let item of this.subForm) {
         tableStr += ` <tr style="text-align: center;">
                         <td>${item.type === 1 ? '裸针' : item.type === 2 ? '弹簧柄' : item.type === 3 ? '针芯' : '直废'}</td>
                         <td>${item.kind}</td>
                         <td>${item.num}</td>
                         <td>&nbsp;</td>
                       </tr>`;
-        }
+      }
       //Worksheet名
-      var worksheet = 'Sheet1'
+      var worksheet = 'Sheet1';
       var uri = 'data:application/vnd.ms-excel;base64,';
       // 真正要导出（下载）的HTML模板
       var exportTemplate = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" 
@@ -553,11 +525,11 @@ export default {
                           </body>
                       </html>`;
       //下载模板
-      window.location.href = uri + this.base64(exportTemplate)
+      window.location.href = uri + this.base64(exportTemplate);
     },
     //输出base64编码
-    base64 (s) { 
-      return window.btoa(unescape(encodeURIComponent(s))) 
+    base64(s) {
+      return window.btoa(unescape(encodeURIComponent(s)));
     },
   },
 };

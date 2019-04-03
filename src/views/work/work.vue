@@ -208,15 +208,15 @@ export default {
       }),
       th: ['工序代码', '工序名称', '工序顺序'],
       filterVal: ['code', 'name', 'sort'],
-      is_title_search:false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
-      skip:0,
+      is_title_search: false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
+      skip: 0,
     };
   },
   computed: {},
   created() {
     this.search();
   },
-  watch:{
+  watch: {
     is_title_search: {
       handler(nV, oV) {
         this.$set(this, 'currentPage', 1);
@@ -225,7 +225,7 @@ export default {
         } else {
           this.search();
         }
-      }
+      },
     },
   },
   methods: {
@@ -235,7 +235,7 @@ export default {
       this.currentPage = currentPage;
       if (this.is_title_search) {
         this.titlesearch();
-      }else{
+      } else {
         this.search();
       }
     },
@@ -260,7 +260,7 @@ export default {
     },
     //模糊查询的方法
     async titlesearch() {
-      if(!this.is_title_search){
+      if (!this.is_title_search) {
         this.is_title_search = true;
         return;
       }
@@ -280,7 +280,7 @@ export default {
     //模糊查询按钮
     async searchButton() {
       this.currentPage = 1;
-      if(!this.is_title_search){
+      if (!this.is_title_search) {
         this.is_title_search = true;
         return;
       }

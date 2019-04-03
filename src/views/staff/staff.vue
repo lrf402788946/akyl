@@ -458,8 +458,8 @@ export default {
       }),
       th: ['工号', '姓名', '性别', '个人电话', '出生日期', '身份证号', '部门', '职务', '岗位', '工作状态', '是否通勤', '入职时间', '备注'],
       filterVal: ['job_num', 'user_name', 'gender', 'phone_no', 'birthday', 'id_number', 'dept_id', 'level', 'post_id', 'status', 'tq', 'in_time', 'remark'],
-      is_title_search:false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
-      skip:0,
+      is_title_search: false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
+      skip: 0,
     };
   },
   created() {
@@ -467,7 +467,7 @@ export default {
     this.getOtherList();
   },
   computed: {},
-  watch:{
+  watch: {
     is_title_search: {
       handler(nV, oV) {
         this.$set(this, 'currentPage', 1);
@@ -476,7 +476,7 @@ export default {
         } else {
           this.search();
         }
-      }
+      },
     },
   },
   methods: {
@@ -485,7 +485,7 @@ export default {
       this.currentPage = currentPage;
       if (this.is_title_search) {
         this.titlesearch();
-      }else{
+      } else {
         this.search();
       }
     },
@@ -512,10 +512,10 @@ export default {
     },
     //模糊查询分页
     async titlesearch() {
-      if(!this.is_title_search){
+      if (!this.is_title_search) {
         this.is_title_search = true;
         return;
-      } 
+      }
       this.skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(
         `/akyl/staff/staff_list?job_num=${this.select_staff_job_num}&user_name=${this.select_staff_user_name}&skip=${this.skip}&limit=${this.limit}`
@@ -534,10 +534,10 @@ export default {
     //模糊查询按钮
     async searchButton() {
       this.currentPage = 1;
-      if(!this.is_title_search){
+      if (!this.is_title_search) {
         this.is_title_search = true;
         return;
-      } 
+      }
       this.skip = 0;
       let result = await this.$axios.get(
         `/akyl/staff/staff_list?job_num=${this.select_staff_job_num}&user_name=${this.select_staff_user_name}&skip=${this.skip}&limit=${this.limit}`

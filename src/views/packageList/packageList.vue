@@ -22,7 +22,7 @@
             </div>
             <div class="col-lg-3 marginBot4">
               <p class="marginBot4">包装状态:</p>
-              <b-form-select v-model="select_status" :options="chooseStatus"/>
+              <b-form-select v-model="select_status" :options="chooseStatus" />
             </div>
             <div class="col-lg-4 marginBot4">
               <p class="marginBot4">包装日期查询:</p>
@@ -134,7 +134,7 @@
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">包装状态：</div>
-            <b-form-select v-model="updateForm.status" :options="updateChooseStatus" :disabled="true   " />
+            <b-form-select v-model="updateForm.status" :options="updateChooseStatus" :disabled="true" />
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">半成品批号：</div>
@@ -219,10 +219,10 @@ export default {
       select_cp_no: '',
       select_status: '',
       select_in_date: null,
-      chooseStatus: [{ text: '所有状态', value: '' },{ text: '未包装', value: '0' }, { text: '已经包装', value: '1' }],
+      chooseStatus: [{ text: '所有状态', value: '' }, { text: '未包装', value: '0' }, { text: '已经包装', value: '1' }],
       updateChooseStatus: [{ text: '未包装', value: '0' }, { text: '已经包装', value: '1' }],
-      is_title_search:false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
-      skip:0,
+      is_title_search: false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
+      skip: 0,
     };
   },
   computed: {
@@ -234,7 +234,7 @@ export default {
     this.search();
     this.searchName();
   },
-  watch:{
+  watch: {
     is_title_search: {
       handler(nV, oV) {
         this.$set(this, 'currentPage', 1);
@@ -243,7 +243,7 @@ export default {
         } else {
           this.search();
         }
-      }
+      },
     },
   },
   methods: {
@@ -252,7 +252,7 @@ export default {
       this.currentPage = currentPage;
       if (this.is_title_search) {
         this.titlesearch();
-      }else{
+      } else {
         this.search();
       }
     },
@@ -277,9 +277,9 @@ export default {
       }
       let skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(
-        `/akyl/order/package_list?skip=${skip}&limit=${this.limit}&status=${this.select_status}&order_num=${this.select_order_num}&cp_no=${this.select_cp_no}&start_time=${
-          this.start
-        }&end_time=${this.end}`
+        `/akyl/order/package_list?skip=${skip}&limit=${this.limit}&status=${this.select_status}&order_num=${this.select_order_num}&cp_no=${
+          this.select_cp_no
+        }&start_time=${this.start}&end_time=${this.end}`
       );
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.orderList);
@@ -311,9 +311,9 @@ export default {
       }
       let skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(
-        `/akyl/order/package_list?skip=${skip}&limit=${this.limit}&status=${this.select_status}&order_num=${this.select_order_num}&cp_no=${this.select_cp_no}&start_time=${
-          this.start
-        }&end_time=${this.end}`
+        `/akyl/order/package_list?skip=${skip}&limit=${this.limit}&status=${this.select_status}&order_num=${this.select_order_num}&cp_no=${
+          this.select_cp_no
+        }&start_time=${this.start}&end_time=${this.end}`
       );
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.orderList);
@@ -346,9 +346,9 @@ export default {
       }
       let skip = 0;
       let result = await this.$axios.get(
-        `/akyl/order/package_list?skip=${skip}&limit=${this.limit}&status=${this.select_status}&order_num=${this.select_order_num}&cp_no=${this.select_cp_no}&start_time=${
-          this.start
-        }&end_time=${this.end}`
+        `/akyl/order/package_list?skip=${skip}&limit=${this.limit}&status=${this.select_status}&order_num=${this.select_order_num}&cp_no=${
+          this.select_cp_no
+        }&start_time=${this.start}&end_time=${this.end}`
       );
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.orderList);
@@ -392,13 +392,13 @@ export default {
       });
     },
     //判断是否为已经包装来断定可否修改
-    isUpdate(status){
+    isUpdate(status) {
       let id = this.updateForm.order_id;
-      console.log(id)
-      if (status==1) {
-        this.is_update=true
-      }else{
-        this.is_update=false
+      console.log(id);
+      if (status == 1) {
+        this.is_update = true;
+      } else {
+        this.is_update = false;
       }
     },
     //修改
@@ -407,13 +407,13 @@ export default {
       let order_no = this.updateForm.order_no;
       let bz_no = this.updateForm.bz_no;
       let cp_no = this.updateForm.cp_no;
-      let result = await this.$axios.post('/akyl/order/package_edit', { data: { id : id, order_no : order_no, bz_no : bz_no, cp_no : cp_no } });
-        if (result.data.msg === '成功') {
-          this.closeAlert('update');
-          this.updateForm = new Array();
-          this.is_update = true;
-          this.search();
-        }
+      let result = await this.$axios.post('/akyl/order/package_edit', { data: { id: id, order_no: order_no, bz_no: bz_no, cp_no: cp_no } });
+      if (result.data.msg === '成功') {
+        this.closeAlert('update');
+        this.updateForm = new Array();
+        this.is_update = true;
+        this.search();
+      }
     },
     //打开与关闭修改和删除的弹框
     async openAlert(type, id) {
@@ -428,7 +428,7 @@ export default {
     closeAlert(type) {
       if (type === 'update') {
         this.$refs.updateAlert.hide();
-      } 
+      }
       // this.form.user_name = this.userInfo.user_name;
       // this.form.login_id = this.userInfo.login_id;
       this.is_update = true;

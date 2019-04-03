@@ -121,12 +121,7 @@
               </tr>
               <tr v-for="(item, index) in form1" :key="index">
                 <td>
-                  <el-select 
-                    class="marginBot" 
-                    style="height:40px !important" 
-                    v-model="item.type" 
-                    filterable placeholder="请选择类别"
-                  >
+                  <el-select class="marginBot" style="height:40px !important" v-model="item.type" filterable placeholder="请选择类别">
                     <el-option v-for="item1 in type" :key="item1.value" :label="item1.text" :value="item1.value"> </el-option>
                   </el-select>
                 </td>
@@ -291,8 +286,8 @@ export default {
       type: [{ text: '弹簧柄库', value: '2' }, { text: '裸针库', value: '1' }, { text: '针芯库', value: '3' }, { text: '直废库', value: '4' }],
       th: ['订单号', '出库人', '出库日期', '备注'],
       filterVal: ['order_no', 'user_name', 'out_date', 'remark'],
-      is_title_search:false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
-      skip:0,
+      is_title_search: false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
+      skip: 0,
     };
   },
   computed: {
@@ -303,7 +298,7 @@ export default {
   created() {
     this.search();
   },
-  watch:{
+  watch: {
     is_title_search: {
       handler(nV, oV) {
         this.$set(this, 'currentPage', 1);
@@ -312,7 +307,7 @@ export default {
         } else {
           this.search();
         }
-      }
+      },
     },
   },
   methods: {
@@ -417,7 +412,7 @@ export default {
       this.currentPage = currentPage;
       if (this.is_title_search) {
         this.titlesearch();
-      }else{
+      } else {
         this.search();
       }
     },
@@ -532,7 +527,7 @@ export default {
       }
     },
     //导出
-    exportExcel(){
+    exportExcel() {
       var tableStr = `
                       <caption><b>出库单</b></caption>
                       <tr style="text-align:center;">
@@ -554,16 +549,16 @@ export default {
                         <th>数量</th>
                         <th>&nbsp;</th>
                       </tr>`;
-      for(let item of this.updateForm1) {
+      for (let item of this.updateForm1) {
         tableStr += ` <tr style="text-align: center;">
                         <td>${item.type === 1 ? '裸针' : item.type === 2 ? '弹簧柄' : item.type === 3 ? '针芯' : '直废'}</td>
                         <td>${item.kind}</td>
                         <td>${item.num}</td>
                         <td>&nbsp;</td>
                       </tr>`;
-        }
+      }
       //Worksheet名
-      var worksheet = 'Sheet1'
+      var worksheet = 'Sheet1';
       var uri = 'data:application/vnd.ms-excel;base64,';
       // 真正要导出（下载）的HTML模板
       var exportTemplate = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" 
@@ -578,11 +573,11 @@ export default {
                           </body>
                       </html>`;
       //下载模板
-      window.location.href = uri + this.base64(exportTemplate)
+      window.location.href = uri + this.base64(exportTemplate);
     },
     //输出base64编码
-    base64 (s) { 
-      return window.btoa(unescape(encodeURIComponent(s))) 
+    base64(s) {
+      return window.btoa(unescape(encodeURIComponent(s)));
     },
   },
 };

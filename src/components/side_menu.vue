@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { YH, XT, YW, CW, TJ, CK, CL ,DD } from '@/util/role_menu.js';
+import { YH, XT, YW, CW, TJ, CK, CL, DD } from '@/util/role_menu.js';
 import { mapState } from 'vuex';
 export default {
   name: 'sideMenu',
@@ -127,7 +127,7 @@ a {
   height: 100px;
   line-height: 16px;
   text-align: center;
-  
+
   letter-spacing: 1px;
   z-index: 999;
 }

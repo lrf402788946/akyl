@@ -14,7 +14,14 @@
           </tr>
           <tr>
             <td>
-              <el-select @click.native="searchName()" class="marginBot8" style="height:40px !important" v-model="select_name" filterable placeholder="请选择客户">
+              <el-select
+                @click.native="searchName()"
+                class="marginBot8"
+                style="height:40px !important"
+                v-model="select_name"
+                filterable
+                placeholder="请选择客户"
+              >
                 <el-option value="" label="全部客户">全部客户</el-option>
                 <el-option v-for="item1 in list1" :key="item1.value" :label="item1.text" :value="item1.value"> </el-option>
               </el-select>
@@ -29,6 +36,7 @@
             </td>
           </tr>
         </table>
+
         <!-- 导出 -->
         <div>
           <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="客户表"></exportExcel>
@@ -162,7 +170,7 @@
                 <p class="marginBot4">创建日期</p>
                 <b-form-input :disabled="true" v-model="updateForm.create_date"></b-form-input>
               </div>
-              
+
               <div class="col-lg-12 marginBot4">
                 <b-button
                   variant="secondary"
@@ -203,7 +211,7 @@ export default {
   },
   data() {
     return {
-      select_name:'',
+      select_name: '',
       list: [],
       list1: [],
       form: {},
@@ -222,15 +230,15 @@ export default {
       }),
       th: ['客户编码', '客户名称', '联系人', '客户电话', '联系地址', '创建日期'],
       filterVal: ['code', 'name', 'user_name', 'tel', 'address', 'create_date'],
-      is_title_search:false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
-      skip:0,
+      is_title_search: false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
+      skip: 0,
     };
   },
   computed: {},
   created() {
     this.search();
   },
-  watch:{
+  watch: {
     is_title_search: {
       handler(nV, oV) {
         this.$set(this, 'currentPage', 1);
@@ -239,7 +247,7 @@ export default {
         } else {
           this.search();
         }
-      }
+      },
     },
   },
   methods: {
@@ -276,7 +284,7 @@ export default {
       this.currentPage = currentPage;
       if (this.is_title_search) {
         this.titlesearch();
-      }else{
+      } else {
         this.search();
       }
     },
@@ -344,7 +352,7 @@ export default {
           return newObject;
         });
       }
-    },    
+    },
     async toUpdate() {
       //修改方法
       let result = await this.$axios.post(`/akyl/customer/customer_edit`, { data: this.updateForm });
