@@ -60,7 +60,7 @@
     </div>
 
     <!--添加弹框-->
-    <b-modal id="addAlert" title="新添报工单" ref="addAlert" size="xl" hide-footer>
+    <b-modal id="addAlert-1" title="新添报工单" ref="addAlert" size="xl" hide-footer>
       <div class="d-block text-center">
         <div class="row">
           <div class="col-lg-4 mb25">
@@ -112,9 +112,9 @@
             <tbody>
               <tr>
                 <td style="width:4%">是否入库</td>
-                <td style="width:9%">批号</td>
                 <td style="width:8%">工序</td>
                 <td style="width:10%">类型</td>
+                <td style="width:9%">批号</td>
                 <td style="width:9%">原材料批号</td>
                 <td style="width:3%">计数方式</td>
                 <td style="width:5.5%">工时(小时)</td>
@@ -140,9 +140,6 @@
                   </b-form-group>
                 </td>
                 <td>
-                  <b-form-input v-model="item.order_no" placeholder="批号"></b-form-input>
-                </td>
-                <td>
                   <el-select @change="getKindList(index)" class="marginBot" style="height:40px !important" v-model="item.work_id" filterable placeholder="工序">
                     <el-option v-for="item in workList" :key="item.value" :label="item.text" :value="item.value"> </el-option>
                   </el-select>
@@ -153,9 +150,19 @@
                   </div>
                 </td>
                 <td>
-                  <el-select class="marginBot" placeholder="类型" style="height:40px !important" v-model="item.kind_id" filterable>
-                    <el-option v-for="item in getOptions(index)" :key="item.value" :label="item.text" :value="item.value"> </el-option>
+                  <el-select
+                    @change="getIndex(index, item.work_id, item.kind_id)"
+                    class="marginBot"
+                    placeholder="类型"
+                    style="height:40px !important"
+                    v-model="item.kind_id"
+                    filterable
+                  >
+                    <el-option v-b-modal.alertOrderNo v-for="item in getOptions(index)" :key="item.value" :label="item.text" :value="item.value"> </el-option>
                   </el-select>
+                </td>
+                <td>
+                  <b-form-input v-model="item.order_no" placeholder="批号"></b-form-input>
                 </td>
                 <td>
                   <b-form-input v-model="item.ycl_no" placeholder="原材料批号"></b-form-input>
@@ -182,18 +189,6 @@
                 <td>
                   <b-form-input v-model="item.add_time" type="number" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
                 </td>
-                <!-- <td v-if="tests(index)">
-                  <b-form-input v-model="item.zx_order_no" placeholder="请输入针芯批号" :disabled="true"></b-form-input>
-                </td>
-                <td v-else>
-                  <b-form-input v-model="item.zx_order_no" placeholder="请输入针芯批号"></b-form-input>
-                </td>
-                <td v-if="tests(index)">
-                  <b-form-input v-model="item.th_order_no" placeholder="请输入弹簧批号" :disabled="true"></b-form-input>
-                </td>
-                <td v-else>
-                  <b-form-input v-model="item.th_order_no" placeholder="请输入弹簧批号"></b-form-input>
-                </td> -->
                 <td>
                   <textarea v-model="item.remark" class="form-control" rows="3" style="height: 44px !important;" placeholder="备注"></textarea>
                 </td>
@@ -296,19 +291,19 @@
           <table class="table table-bordered table-striped ">
             <tbody>
               <tr>
-                <td>是否入库</td>
-                <td>批号</td>
-                <td>工序</td>
-                <td>类型</td>
-                <td>原材料批号</td>
-                <td style="width:7%">计数方式</td>
-                <td style="width:7%">工时(小时)</td>
+                <td style="width:4%">是否入库</td>
+                <td style="width:8%">工序</td>
+                <td style="width:10%">类型</td>
+                <td style="width:9%">批号</td>
+                <td style="width:9%">原材料批号</td>
+                <td style="width:3%">计数方式</td>
+                <td style="width:5.5%">工时(小时)</td>
                 <td style="width:7%">数量</td>
-                <td style="width:7%">加班</td>
-                <td style="width:10%">针芯批号</td>
-                <td style="width:10%">弹簧批号</td>
-                <td>备注</td>
-                <td>操作</td>
+                <td style="width:5.9%">加班</td>
+                <!-- <td style="width:8%">针芯批号</td>
+                <td style="width:8%">弹簧批号</td> -->
+                <td style="width:12%">备注</td>
+                <td v-if="!is_update" style="width:6%">操作</td>
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
                 <td>
@@ -320,11 +315,9 @@
                       v-model="item.is_in"
                       :options="[{ text: '是', value: '0' }, { text: '否', value: '1' }]"
                       name="radiosBtnDefault"
+                      stacked
                     />
                   </b-form-group>
-                </td>
-                <td>
-                  <b-form-input v-model="item.order_no" :disabled="is_update"></b-form-input>
                 </td>
                 <td>
                   <el-select
@@ -338,11 +331,19 @@
                   >
                     <el-option v-for="item in workList" :key="item.value" :label="item.text" :value="item.value"> </el-option>
                   </el-select>
+                  <div v-if="!tests(index)">
+                    <b-form-input v-model="item.zx_order_no" placeholder="针芯批号"></b-form-input>
+                    <br />
+                    <b-form-input v-model="item.th_order_no" placeholder="弹簧批号"></b-form-input>
+                  </div>
                 </td>
                 <td>
                   <el-select :disabled="is_update" class="marginBot" style="height:40px !important" v-model="item.kind_id" filterable placeholder="请选择类型">
                     <el-option v-for="item in getOptions(index)" :key="item.value" :label="item.text" :value="item.value"> </el-option>
                   </el-select>
+                </td>
+                <td>
+                  <b-form-input v-model="item.order_no" :disabled="is_update"></b-form-input>
                 </td>
                 <td>
                   <b-form-input v-model="item.ycl_no" placeholder="请输入原材料批号" :disabled="is_update"></b-form-input>
@@ -356,6 +357,7 @@
                       v-model="item.work_type"
                       :options="[{ text: '计时', value: 0 }, { text: '计件', value: 1 }]"
                       name="radiosBtnDefault"
+                      stacked
                     />
                   </b-form-group>
                 </td>
@@ -383,18 +385,6 @@
                     onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"
                   ></b-form-input>
                 </td>
-                <td v-if="tests(index)">
-                  <b-form-input v-model="item.zx_order_no" placeholder="请输入针芯批号" :disabled="true"></b-form-input>
-                </td>
-                <td v-else>
-                  <b-form-input v-model="item.zx_order_no" placeholder="请输入针芯批号" :disabled="is_update"></b-form-input>
-                </td>
-                <td v-if="tests(index)">
-                  <b-form-input v-model="item.th_order_no" placeholder="请输入弹簧批号" :disabled="true"></b-form-input>
-                </td>
-                <td v-else>
-                  <b-form-input v-model="item.th_order_no" placeholder="请输入弹簧批号" :disabled="is_update"></b-form-input>
-                </td>
                 <td>
                   <textarea
                     v-model="item.remark"
@@ -406,6 +396,7 @@
                   ></textarea>
                 </td>
                 <b-button
+                  v-if="!is_update"
                   variant="danger"
                   @click="closeSubForm(index)"
                   class="resetButton"
@@ -418,6 +409,7 @@
         </div>
       </div>
       <b-button
+        v-if="!is_update"
         variant="primary"
         :disabled="is_update"
         @click="addSubForm('add')"
@@ -445,7 +437,7 @@
         variant="secondary"
         @click="closeAlert('update')"
         class="resetButton"
-        style="font-size:16px !important; width:30% !important; margin-top:25px; margin-bottom:30px !important; margin-right: 0 !important; padding:6px 80px !important;"
+        style="font-size:16px !important; width:30% !important; margin-top:25px; margin-bottom:30px !important; margin-right: 0px !important; padding:6px 80px !important;"
         >返&nbsp;&nbsp;回</b-button
       ></b-modal
     >
@@ -453,7 +445,7 @@
     <!--删除弹框-->
     <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
       <div class="d-block text-center">
-        <b-alert variant="danger" show>删除部门可能会影响您的管理,确认删除吗?</b-alert>
+        <b-alert variant="danger" show>请确认是否删除?</b-alert>
       </div>
       <b-button
         variant="danger"
@@ -466,6 +458,32 @@
         style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
         class="resetButton"
         @click="closeAlert('delete'), $refs.deleteAlert.hide(), (deleteItem = '')"
+        >返&nbsp;&nbsp;回</b-button
+      >
+    </b-modal>
+
+    <!--批号弹框-->
+    <b-modal id="alertOrderNo" title="批号选/填" ref="alertOrderNo" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
+      <div class="d-block">
+        <div>批号选择：</div>
+        <el-select class="marginBot" placeholder="批号" size="medium" style="height:34px !important" v-model="orderNo1" filterable>
+          <el-option v-for="item in orderNoList" :key="item.id" :label="item.order_no" :value="item.order_no"> </el-option>
+        </el-select>
+        <div>手动添加：</div>
+        <b-form-input v-model="orderNo2" style="height:34px !important;width:226px;" placeholder="批号"></b-form-input>
+      </div>
+      <b-button
+        variant="secondary"
+        @click="chooseOrderNo()"
+        class="resetButton"
+        style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+        >确&nbsp;&nbsp;定</b-button
+      >
+      <b-button
+        variant="secondary"
+        @click="closeOrderNo()"
+        class="resetButton"
+        style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
         >返&nbsp;&nbsp;回</b-button
       >
     </b-modal>
@@ -525,6 +543,10 @@ export default {
         dept_id: [{ required: true, message: '请选择部门' }],
         create_time: [{ required: true, message: '请选择创建日期' }],
       }),
+      orderNoIndex: '',
+      orderNoList: {},
+      orderNo1: '',
+      orderNo2: '',
     };
   },
   computed: {
@@ -577,7 +599,6 @@ export default {
       }
       this.$set(this, 'totalRow', result.data.totalRow);
     },
-
     //请求各表
     async getOtherList() {
       //请求部门表
@@ -595,13 +616,38 @@ export default {
         return newObject;
       });
     },
+    //获取批号
+    async getIndex(index, kindId, workId) {
+      this.orderNoIndex = index;
+      let result = await this.$axios.get(`/akyl/bg/order_no_sel?work_id=${kindId}&kind_id=${workId}`);
+      if (result.data.totalRow === 0) {
+        let array = [];
+        this.$set(this, 'orderNoList', array);
+      } else {
+        this.$set(this, 'orderNoList', result.data.kindStoreList);
+      }
+    },
+    //关闭批号弹窗
+    closeOrderNo() {
+      this.$refs.alertOrderNo.hide();
+    },
+    //保存批号写入弹窗
+    chooseOrderNo() {
+      if ((this.orderNo1 != '') & (this.orderNo2 === '')) {
+        this.subForm[this.orderNoIndex].order_no = this.orderNo1;
+        this.closeOrderNo();
+      } else if ((this.orderNo2 != '') & (this.orderNo1 === '')) {
+        this.subForm[this.orderNoIndex].order_no = this.orderNo2;
+        this.closeOrderNo();
+      } else {
+        this.$message.error('请选择或填入一个批号');
+      }
+    },
     //当工序为G时，针芯批号跟弹簧批号可编辑
     async changepihao(index) {
       if (this.subForm[index].work_id === 10) {
-        console.log(111);
         this.g_update = false;
       } else {
-        console.log(222);
         this.g_update = true;
       }
     },

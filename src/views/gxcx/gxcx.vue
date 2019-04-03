@@ -11,15 +11,36 @@
       <div class="base-padding-20 base-bg-fff">
         <div class="row">
           <div class="col-lg-4 mb25">
-            <el-date-picker style="width: 100%;" v-model="create_time" value-format="yyyy-MM-dd" format="yyyy-MM-dd" type="date"> </el-date-picker>
+            <el-date-picker
+              style="width: 100%;"
+              v-model="create_time"
+              value-format="yyyy-MM-dd"
+              format="yyyy-MM-dd"
+              type="date"
+              placeholder="选择日期"
+            ></el-date-picker>
           </div>
           <div class="col-lg-3 mb25">
             <el-select class="marginBot" style="height:40px !important" v-model="dept_id" filterable placeholder="请选择部门">
               <el-option v-for="item in deptList" :key="item.value" :label="item.text" :value="item.value"> </el-option>
             </el-select>
           </div>
+          <br />
           <div class="col-lg-3 mb25">
-            <b-form-input v-model="job_num" placeholder="工号" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+            <b-form-input
+              style="height:40px !important"
+              v-model="job_num"
+              placeholder="工号"
+              onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
+          </div>
+          <div class="col-lg-3 mb25">
+            <b-form-input
+              style="height:40px !important"
+              v-model="name"
+              placeholder="姓名"
+              onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
+            ></b-form-input>
           </div>
           <div class="col-lg-2 mb25">
             <b-button
@@ -30,23 +51,25 @@
             >
           </div>
           <table class="table table-bordered table-striped ">
-            <tbody v-if="list.length > 0">
+            <tbody v-if="list != []">
               <tr>
-                <th>工号</th>
-                <th>计时工资</th>
-                <th>计件工资</th>
-                <th>加班工资</th>
-                <th>加班补助工资</th>
-                <th>满勤奖</th>
-                <th>通勤补助</th>
-                <th>夜班工资补助</th>
-                <th>保险工资</th>
-                <th>工龄补助</th>
-                <th>工资总和</th>
-                <th>扣除工资</th>
-                <th>操作</th>
+                <th width="7%">姓名</th>
+                <th width="7%">工号</th>
+                <th width="7%">计时工资</th>
+                <th width="7%">计件工资</th>
+                <th width="7%">加班工资</th>
+                <th width="7%">加班补助工资</th>
+                <th width="7%">满勤奖</th>
+                <th width="7%">通勤补助</th>
+                <th width="7%">夜班工资补助</th>
+                <th width="7%">保险工资</th>
+                <th width="7%">工龄补助</th>
+                <th width="7%">工资总和</th>
+                <th width="7%">扣除工资</th>
+                <th width="7%">操作</th>
               </tr>
               <tr v-for="(item, index) in list" :key="index">
+                <td>{{ item.user_name }}</td>
                 <td>{{ item.job_num }}</td>
                 <td>{{ item.gz_js }}</td>
                 <td>{{ item.gz_jj }}</td>
@@ -77,17 +100,17 @@
         <div class="d-block text-center">
           <div class="row">
             <div class="col-lg-4 marginBot4">
-              <p class="marginBot4">工号</p>
-              <b-form-input v-model="staff.job_num" :readonly="true" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))">
-              </b-form-input>
-            </div>
-            <div class="col-lg-4 marginBot4">
               <p class="marginBot4">姓名</p>
               <b-form-input
                 v-model="staff.user_name"
                 :readonly="true"
                 onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
               ></b-form-input>
+            </div>
+            <div class="col-lg-4 marginBot4">
+              <p class="marginBot4">工号</p>
+              <b-form-input v-model="staff.job_num" :readonly="true" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))">
+              </b-form-input>
             </div>
             <div class="col-lg-4 marginBot4">
               <p class="marginBot4">性别</p>
@@ -209,7 +232,7 @@
           variant="secondary"
           @click="closeAlert('update')"
           class="resetButton"
-          style="font-size:16px !important; width:30% !important; margin-top:25px; margin-bottom:30px !important; margin-right: 0 !important; padding:6px 80px !important;"
+          style="font-size:16px !important; width:30% !important; margin-top:25px; margin-bottom:30px !important; margin-left: 720px !important; padding:6px 80px !important;"
           >返&nbsp;&nbsp;回</b-button
         >
       </b-modal>
@@ -239,6 +262,7 @@ export default {
       create_time: '',
       deptList: [],
       postList: [],
+      name: '',
     };
   },
   computed: {
@@ -263,9 +287,11 @@ export default {
       }
       let skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(
-        `/akyl/wages/wages_curdate?skip=${skip}&limit=${this.limit}&dept_id=${this.dept_id}&job_num=${this.job_num}&create_time=${this.create_time}`
+        `/akyl/wages/wages_curdate?skip=${skip}&limit=${this.limit}&dept_id=${this.dept_id}&job_num=${this.job_num}&create_time=${this.create_time}&user_name=${
+          this.name
+        }`
       );
-      if (result.data.wagesList.length === 0) {
+      if (result.data.rescode === 1) {
         let array = [];
         this.$set(this, 'list', array);
       } else {
@@ -288,7 +314,6 @@ export default {
       }
       result = await this.$axios.get(`/akyl/post/post_list?skip=0&limit=100`);
       if (result.data.rescode === '0') {
-        result = await this.$axios.get('/akyl/post/post_list?skip=0&limit=100');
         this.postList = result.data.postList.map(item => {
           let newObject = { text: item.name, value: item.id };
           return newObject;
@@ -298,11 +323,10 @@ export default {
     //查询子表
     async searchSubForm(item) {
       let result = await this.$axios.get(`/akyl/wages/wages_curdate_detail?job_num=${item.job_num}&create_time=${item.gz_month}`);
-      if (result.data.rescode === '0') {
-        if (result.data.jobReportSubList.length > 0) {
-          this.$set(this, 'subList', result.data.jobReportSubList);
-          this.$set(this, 'staff', result.data.staff);
-        }
+      if (result.data.rescode === 0) {
+        this.$set(this, 'subList', result.data.jobReportSubList);
+        this.$set(this, 'staff', result.data.staff);
+      } else {
         this.$set(this, 'staff', result.data.staff);
       }
     },

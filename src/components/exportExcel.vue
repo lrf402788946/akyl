@@ -17,7 +17,7 @@ import _ from 'lodash';
 import needAllDataList from '@/util/exportExcelNeedAllData.js';
 export default {
   name: 'exportExcel',
-  props:{
+  props: {
     exportTitle: { type: Array, defalut: [] },
     db_nameList: { type: Array, defalut: [] },
     dataName: { type: String, defalut: '' },
@@ -27,7 +27,7 @@ export default {
   components: {},
   data() {
     return {
-      list:[],
+      list: [],
       limit: 10000,
     };
   },
@@ -41,18 +41,18 @@ export default {
       let name1 = this.$route.name;
       let skip = 0;
       let result;
-      if(name1 === 'gongxin'){
+      if (name1 === 'gongxin') {
         result = await this.$axios.get(`/akyl/wages/wages_list?skip=${skip}&limit=${this.limit}&create_time=${this.$parent.$data.value1}`);
         this.$set(this, 'list', result.data.wagesList);
-      }else if(name1 === 'material'){
+      } else if (name1 === 'material') {
         result = await this.$axios.get(`/akyl/cl/cl_list?skip=${skip}&limit=${this.limit}`);
         this.$set(this, 'list', result.data.cList);
-      }else if(name1 === 'customer'){
+      } else if (name1 === 'customer') {
         result = await this.$axios.get(`/akyl/customer/customer_list?skip=${skip}&limit=${this.limit}&name=${this.$parent.select_name}`);
         this.$set(this, 'list', result.data.customerList);
       } else {
         result = await this.$axios.get(`/akyl/${name1}/${name1}_list?skip=${skip}&limit=${this.limit}`);
-        this.$set(this, 'list', _.get(result.data, name1+'List'));
+        this.$set(this, 'list', _.get(result.data, name1 + 'List'));
       }
     },
     async excel() {

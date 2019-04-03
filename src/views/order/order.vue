@@ -135,7 +135,7 @@
           <div class="col-lg-4 mb25">
             <!-- 0未出库，1出库 -->
             <div class="lh44">状态：</div>
-            <b-form-select v-model="form.status" :options="chooseStatus"  filterable placeholder="状态"/>
+            <b-form-select v-model="form.status" :options="chooseStatus" filterable placeholder="状态" />
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">备注：</div>
@@ -147,17 +147,12 @@
               <tr>
                 <td>工序</td>
                 <td>型号</td>
-                <td>数量</td>
+                <td>数量(万支)</td>
                 <td>操作</td>
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
                 <td>
-                  <el-select 
-                    class="marginBot8" 
-                    style="height:40px !important" 
-                    v-model="selectKindList[index].selectKind" 
-                    filterable placeholder="请选择工序"
-                  >
+                  <el-select class="marginBot8" style="height:40px !important" v-model="selectKindList[index].selectKind" filterable placeholder="请选择工序">
                     <el-option value="" label="全部工序">全部工序</el-option>
                     <el-option v-for="item1 in workList" :key="item1.value" :label="item1.text" :value="item1.value"> </el-option>
                   </el-select>
@@ -221,8 +216,8 @@
           <div class="col-lg-4 mb25">
             <div class="lh44">订单号：</div>
             <b-form-input
+              :disabled="is_update"
               v-model="updateForm.order_num"
-              :disabled="true"
               placeholder="订单号"
               onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
@@ -266,7 +261,7 @@
             <tbody>
               <tr>
                 <td>型号</td>
-                <td>数量</td>
+                <td>数量(万支)</td>
                 <td>操作</td>
               </tr>
               <tr v-for="(item, index) in orderSubList" :key="index">
@@ -402,8 +397,8 @@ export default {
       select_cus_id: '',
       select_in_date: null,
       chooseStatus: [{ text: '状态', value: null, disabled: true }, { text: '未出库', value: '0' }, { text: '已经出库', value: '1' }],
-      is_title_search:false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
-      skip:0,
+      is_title_search: false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
+      skip: 0,
     };
   },
   computed: {
@@ -417,7 +412,7 @@ export default {
     this.getKindList('');
     this.searchName();
   },
-  watch:{
+  watch: {
     is_title_search: {
       handler(nV, oV) {
         this.$set(this, 'currentPage', 1);
@@ -426,7 +421,7 @@ export default {
         } else {
           this.search();
         }
-      }
+      },
     },
   },
   methods: {
@@ -435,7 +430,7 @@ export default {
       this.currentPage = currentPage;
       if (this.is_title_search) {
         this.titlesearch();
-      }else{
+      } else {
         this.search();
       }
     },
@@ -708,7 +703,7 @@ export default {
     //导出
     exportExcel() {
       var tableStr = `
-                      <caption><b>订单单</b></caption>
+                      <caption><b>订单详情单</b></caption>
                       <tr style="text-align:center;">
                         <th>订单号</th>
                         <th>操作人</th>
@@ -730,7 +725,7 @@ export default {
                       <tr></tr>
                       <tr style="text-align:center;">
                         <th>型号</th>
-                        <th>数量</th>
+                        <th>数量(万支)</th>
                       </tr>`;
       for (let item of this.orderSubList) {
         tableStr += ` <tr style="text-align: center;">

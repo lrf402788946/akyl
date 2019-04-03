@@ -264,8 +264,8 @@ export default {
       operateId: '',
       th: ['工序', '型号代码', '型号名称', '计件定额'],
       filterVal: ['work_id', 'code', 'name', 'jj_price'],
-      is_title_search:false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
-      skip:0,
+      is_title_search: false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
+      skip: 0,
     };
   },
   computed: {},
@@ -274,7 +274,7 @@ export default {
     this.searchWork();
     this.searchMaterial();
   },
-  watch:{
+  watch: {
     is_title_search: {
       handler(nV, oV) {
         this.$set(this, 'currentPage', 1);
@@ -283,7 +283,7 @@ export default {
         } else {
           this.search();
         }
-      }
+      },
     },
   },
   methods: {
@@ -292,7 +292,7 @@ export default {
       this.currentPage = currentPage;
       if (this.is_title_search) {
         this.titlesearch();
-      }else{
+      } else {
         this.search();
       }
     },
@@ -321,10 +321,10 @@ export default {
     },
     //模糊查询的方法
     async titlesearch() {
-      if(!this.is_title_search){
+      if (!this.is_title_search) {
         this.is_title_search = true;
         return;
-      } 
+      }
       let skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(
         `/akyl/kind/kind_list?skip=${skip}&limit=${this.limit}&work_id=${this.select_kind_gxname}&code=${this.select_kind_typecode}`
@@ -343,10 +343,10 @@ export default {
     //模糊查询按钮
     async searchButton() {
       this.currentPage = 1;
-      if(!this.is_title_search){
+      if (!this.is_title_search) {
         this.is_title_search = true;
         return;
-      } 
+      }
       let skip = 0;
       let result = await this.$axios.get(
         `/akyl/kind/kind_list?skip=${skip}&limit=${this.limit}&work_id=${this.select_kind_gxname}&code=${this.select_kind_typecode}`

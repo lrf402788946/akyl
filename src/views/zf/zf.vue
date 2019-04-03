@@ -42,9 +42,9 @@
           <entrance @research="search"></entrance>
         </div>
         <div style="margin:10px 0;">
-         <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="直废表"></exportExcel>
+          <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="直废表"></exportExcel>
         </div>
-        <p align="right">总计：{{countNum}} 个</p>
+        <p align="right">总计：{{ countNum }} 个</p>
         <table class="table table-bordered table-striped ">
           <tbody v-if="list.length > 0">
             <tr>
@@ -215,16 +215,16 @@ export default {
       }),
       th: ['型号', '数量', '创建日期'],
       filterVal: ['type', 'num', 'create_date'],
-      is_title_search:false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
-      skip:0,
-      countNum:0,
+      is_title_search: false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
+      skip: 0,
+      countNum: 0,
     };
   },
   computed: {},
   created() {
     this.search();
   },
-  watch:{
+  watch: {
     is_title_search: {
       handler(nV, oV) {
         this.$set(this, 'currentPage', 1);
@@ -233,7 +233,7 @@ export default {
         } else {
           this.search();
         }
-      }
+      },
     },
   },
   methods: {
@@ -243,7 +243,7 @@ export default {
       this.currentPage = currentPage;
       if (this.is_title_search) {
         this.titlesearch();
-      }else{
+      } else {
         this.search();
       }
     },
@@ -254,7 +254,7 @@ export default {
         return;
       }
       let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(`/akyl/zf/zf_list?skip=${skip}&limit=${this.limit}`);
+      let result = await this.$axios.get(`/akyl/zf/zf_list?skip=${skip}&limit=${this.limit}&type=${this.select_zf_type}`);
       this.$set(this, 'list', result.data.zfList);
       this.$set(this, 'totalRow', result.data.totalRow);
       if (result.data.msg === '成功') {
@@ -275,7 +275,7 @@ export default {
         return;
       }
       let skip = (this.currentPage - 1) * this.limit;
-      let result = await this.$axios.get(`/akyl/zf/zf_list?skip=${skip}&limit=${this.limit}`);
+      let result = await this.$axios.get(`/akyl/zf/zf_list?skip=${skip}&limit=${this.limit}&type=${this.select_zf_type}`);
       this.$set(this, 'list', result.data.zfList);
       this.$set(this, 'totalRow', result.data.totalRow);
       if (result.data.msg === '成功') {
@@ -297,7 +297,7 @@ export default {
         return;
       }
       let skip = 0;
-      let result = await this.$axios.get(`/akyl/zf/zf_list?skip=${skip}&limit=${this.limit}`);
+      let result = await this.$axios.get(`/akyl/zf/zf_list?skip=${skip}&limit=${this.limit}&type=${this.select_zf_type}`);
       this.$set(this, 'list', result.data.zfList);
       this.$set(this, 'totalRow', result.data.totalRow);
       if (result.data.msg === '成功') {
@@ -349,8 +349,8 @@ export default {
         this.$refs.toAdd.hide();
       } else {
         this.$message.error(result.data.msg);
-      };
-      this.form={};
+      }
+      this.form = {};
     },
     openAlert(type, id) {
       if (type === 'update') {

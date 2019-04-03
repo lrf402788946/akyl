@@ -24,7 +24,7 @@
         </div>
       </div>
       <table class="table table-bordered table-striped ">
-        <tbody v-if="list.length > 0">
+        <tbody v-if="list != []">
           <tr>
             <th>工序</th>
             <!-- <th>工序ID</th> -->
@@ -131,7 +131,7 @@ export default {
         this.$set(this, 'totalRow', result.data.totalRow);
       }
       if (result.data.msg === '没有数据') {
-        this.list = '';
+        this.list = [];
         this.totalRow = 0;
       }
     },
@@ -149,7 +149,7 @@ export default {
         this.$set(this, 'totalRow', result.data.totalRow);
       }
       if (result.data.msg === '没有数据') {
-        this.list = '';
+        this.list = [];
         this.totalRow = 0;
       }
     },
@@ -169,7 +169,7 @@ export default {
         this.$set(this, 'totalRow', result.data.totalRow);
       }
       if (result.data.msg === '没有数据') {
-        this.list = '';
+        this.list = [];
         this.totalRow = 0;
       }
     },
