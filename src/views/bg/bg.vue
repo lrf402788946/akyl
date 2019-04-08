@@ -60,7 +60,32 @@
     </div>
 
     <!--添加弹框-->
-    <b-modal id="addAlert-1" title="新添报工单" ref="addAlert" size="xl" hide-footer>
+    <!-- <b-modal id="addAlert-1" title="新添报工单" ref="addAlert" size="xl" hide-footer> -->
+    <el-dialog width="85%" title="新添报工单" :visible.sync="outerVisible">
+      <el-dialog width="35%" title="请选择或填入批号" :visible.sync="innerVisible" append-to-body>
+        <div class="d-block">
+          <div>批号选择：</div>
+          <el-select class="marginBot" placeholder="批号" size="medium" style="height:34px !important" v-model="orderNo1" filterable>
+            <el-option v-for="item in orderNoList" :key="item.id" :label="item.order_no" :value="item.order_no"> </el-option>
+          </el-select>
+          <div>手动添加：</div>
+          <b-form-input v-model="orderNo2" style="height:34px !important;" placeholder="批号"></b-form-input>
+        </div>
+        <b-button
+          variant="secondary"
+          @click="chooseOrderNo()"
+          class="resetButton"
+          style="font-size:16px !important; background-color: #17a2b8 !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+          >确&nbsp;&nbsp;定</b-button
+        >
+        <b-button
+          variant="secondary"
+          @click="closeOrderNo()"
+          class="resetButton"
+          style="font-size:16px !important; margin-top:25px; background-color: #17a2b8 !important; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+          >返&nbsp;&nbsp;回</b-button
+        >
+      </el-dialog>
       <div class="d-block text-center">
         <div class="row">
           <div class="col-lg-4 mb25">
@@ -112,14 +137,14 @@
             <tbody>
               <tr>
                 <td style="width:4%">是否入库</td>
-                <td style="width:8%">工序</td>
-                <td style="width:10%">类型</td>
+                <td style="width:7.5%">工序</td>
+                <td style="width:12%">类型</td>
                 <td style="width:9%">批号</td>
                 <td style="width:9%">原材料批号</td>
                 <td style="width:3%">计数方式</td>
                 <td style="width:5.5%">工时(小时)</td>
-                <td style="width:7%">数量</td>
-                <td style="width:5.9%">加班</td>
+                <td style="width:7.5%">数量</td>
+                <td style="width:5.5%">加班</td>
                 <!-- <td style="width:8%">针芯批号</td>
                 <td style="width:8%">弹簧批号</td> -->
                 <td style="width:12%">备注</td>
@@ -158,7 +183,8 @@
                     v-model="item.kind_id"
                     filterable
                   >
-                    <el-option v-b-modal.alertOrderNo v-for="item in getOptions(index)" :key="item.value" :label="item.text" :value="item.value"> </el-option>
+                    <!-- <el-option v-b-modal.alertOrderNo v-for="item in getOptions(index)" :key="item.value" :label="item.text" :value="item.value"> </el-option> -->
+                    <el-option v-for="item in getOptions(index)" :key="item.value" :label="item.text" :value="item.value"> </el-option>
                   </el-select>
                 </td>
                 <td>
@@ -225,10 +251,36 @@
         style="font-size:16px !important; margin-top:25px; margin-bottom:30px !important; width:30% !important; margin-right: 0 !important; padding:6px 80px !important;"
         >重&nbsp;&nbsp;置</b-button
       >
-    </b-modal>
+    </el-dialog>
+    <!-- </b-modal> -->
 
     <!--修改弹框-->
-    <b-modal id="updateAlert" title="修改报工单" ref="updateAlert" size="xl" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
+    <!-- <b-modal id="updateAlert" title="修改报工单" ref="updateAlert" size="xl" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> -->
+    <el-dialog width="85%" title="修改报工单" :visible.sync="outerVisibleUpdate">
+      <el-dialog width="35%" title="请选择或填入批号" :visible.sync="innerVisibleUpdate" append-to-body>
+        <div class="d-block">
+          <div>批号选择：</div>
+          <el-select class="marginBot" placeholder="批号" size="medium" style="height:34px !important" v-model="orderNo1" filterable>
+            <el-option v-for="item in orderNoList" :key="item.id" :label="item.order_no" :value="item.order_no"> </el-option>
+          </el-select>
+          <div>手动添加：</div>
+          <b-form-input v-model="orderNo2" style="height:34px !important;" placeholder="批号"></b-form-input>
+        </div>
+        <b-button
+          variant="secondary"
+          @click="chooseOrderNoUpdate()"
+          class="resetButton"
+          style="font-size:16px !important; background-color: #17a2b8 !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+          >确&nbsp;&nbsp;定</b-button
+        >
+        <b-button
+          variant="secondary"
+          @click="closeOrderNo()"
+          class="resetButton"
+          style="font-size:16px !important; margin-top:25px; background-color: #17a2b8 !important; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
+          >返&nbsp;&nbsp;回</b-button
+        >
+      </el-dialog>
       <div class="d-block text-center">
         <div class="row">
           <div class="col-lg-4 mb25">
@@ -338,7 +390,15 @@
                   </div>
                 </td>
                 <td>
-                  <el-select :disabled="is_update" class="marginBot" style="height:40px !important" v-model="item.kind_id" filterable placeholder="请选择类型">
+                  <el-select
+                    :disabled="is_update"
+                    @change="getIndexUpdate(index, item.work_id, item.kind_id)"
+                    class="marginBot"
+                    style="height:40px !important"
+                    v-model="item.kind_id"
+                    filterable
+                    placeholder="请选择类型"
+                  >
                     <el-option v-for="item in getOptions(index)" :key="item.value" :label="item.text" :value="item.value"> </el-option>
                   </el-select>
                 </td>
@@ -355,7 +415,7 @@
                       buttons
                       button-variant="outline-primary"
                       v-model="item.work_type"
-                      :options="[{ text: '计时', value: 0 }, { text: '计件', value: 1 }]"
+                      :options="[{ text: '计时', value: 0 , checked: true }, { text: '计件', value: 1 }]"
                       name="radiosBtnDefault"
                       stacked
                     />
@@ -439,8 +499,10 @@
         class="resetButton"
         style="font-size:16px !important; width:30% !important; margin-top:25px; margin-bottom:30px !important; margin-right: 0px !important; padding:6px 80px !important;"
         >返&nbsp;&nbsp;回</b-button
-      ></b-modal
-    >
+      >
+    </el-dialog>
+    <!-- </b-modal
+    > -->
 
     <!--删除弹框-->
     <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
@@ -461,32 +523,6 @@
         >返&nbsp;&nbsp;回</b-button
       >
     </b-modal>
-
-    <!--批号弹框-->
-    <b-modal id="alertOrderNo" title="批号选/填" ref="alertOrderNo" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
-      <div class="d-block">
-        <div>批号选择：</div>
-        <el-select class="marginBot" placeholder="批号" size="medium" style="height:34px !important" v-model="orderNo1" filterable>
-          <el-option v-for="item in orderNoList" :key="item.id" :label="item.order_no" :value="item.order_no"> </el-option>
-        </el-select>
-        <div>手动添加：</div>
-        <b-form-input v-model="orderNo2" style="height:34px !important;width:226px;" placeholder="批号"></b-form-input>
-      </div>
-      <b-button
-        variant="secondary"
-        @click="chooseOrderNo()"
-        class="resetButton"
-        style="font-size:16px !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
-        >确&nbsp;&nbsp;定</b-button
-      >
-      <b-button
-        variant="secondary"
-        @click="closeOrderNo()"
-        class="resetButton"
-        style="font-size:16px !important; margin-top:25px; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
-        >返&nbsp;&nbsp;回</b-button
-      >
-    </b-modal>
   </div>
 </template>
 
@@ -494,6 +530,7 @@
 import Validator from 'async-validator';
 import { mapState } from 'vuex';
 import _ from 'lodash';
+import { constants } from 'crypto';
 
 export default {
   name: 'bg',
@@ -540,13 +577,16 @@ export default {
       temporaryList: [],
       mainValidator: new Validator({
         job_num: [{ required: true, message: '请填写工号' }],
-        dept_id: [{ required: true, message: '请选择部门' }],
         create_time: [{ required: true, message: '请选择创建日期' }],
       }),
       orderNoIndex: '',
       orderNoList: {},
       orderNo1: '',
       orderNo2: '',
+      outerVisible: false,
+      innerVisible: false,
+      outerVisibleUpdate: false,
+      innerVisibleUpdate: false,
     };
   },
   computed: {
@@ -616,8 +656,9 @@ export default {
         return newObject;
       });
     },
-    //获取批号
+    //获取批号add
     async getIndex(index, kindId, workId) {
+      this.innerVisible = true;
       this.orderNoIndex = index;
       let result = await this.$axios.get(`/akyl/bg/order_no_sel?work_id=${kindId}&kind_id=${workId}`);
       if (result.data.totalRow === 0) {
@@ -627,18 +668,49 @@ export default {
         this.$set(this, 'orderNoList', result.data.kindStoreList);
       }
     },
-    //关闭批号弹窗
-    closeOrderNo() {
-      this.$refs.alertOrderNo.hide();
+    //获取批号update
+    async getIndexUpdate(index, kindId, workId) {
+      this.innerVisibleUpdate = true;
+      this.orderNoIndex = index;
+      let result = await this.$axios.get(`/akyl/bg/order_no_sel?work_id=${kindId}&kind_id=${workId}`);
+      if (result.data.totalRow === 0) {
+        let array = [];
+        this.$set(this, 'orderNoList', array);
+      } else {
+        this.$set(this, 'orderNoList', result.data.kindStoreList);
+      }
     },
-    //保存批号写入弹窗
+    //关闭批号写入弹窗
+    closeOrderNo() {
+      this.innerVisible = false;
+      this.innerVisibleUpdate = false;
+      this.orderNo1 = '';
+      this.orderNo2 = '';
+    },
+    //保存批号写入弹窗add
     chooseOrderNo() {
-      if ((this.orderNo1 != '') & (this.orderNo2 === '')) {
-        this.subForm[this.orderNoIndex].order_no = this.orderNo1;
-        this.closeOrderNo();
-      } else if ((this.orderNo2 != '') & (this.orderNo1 === '')) {
+      if (this.orderNo2 != '') {
         this.subForm[this.orderNoIndex].order_no = this.orderNo2;
-        this.closeOrderNo();
+        this.innerVisible = false;
+        this.orderNo1 = '';
+        this.orderNo2 = '';
+      } else if ((this.orderNo1 != '') & (this.orderNo2 === '')) {
+        this.subForm[this.orderNoIndex].order_no = this.orderNo1;
+        this.innerVisible = false;
+        this.orderNo1 = '';
+        this.orderNo2 = '';
+      } else {
+        this.$message.error('请选择或填入一个批号');
+      }
+    },
+    //保存批号写入弹窗update
+    chooseOrderNoUpdate() {
+      if (this.orderNo2 != '') {
+        this.subForm[this.orderNoIndex].order_no = this.orderNo2;
+        this.innerVisibleUpdate = false;
+      } else if ((this.orderNo1 != '') & (this.orderNo2 === '')) {
+        this.subForm[this.orderNoIndex].order_no = this.orderNo1;
+        this.innerVisibleUpdate = false;
       } else {
         this.$message.error('请选择或填入一个批号');
       }
@@ -653,9 +725,9 @@ export default {
     },
     //请求类型表(应该是二级联动工序表)
     async getKindList(index) {
-      if (!this.$refs.updateAlert.is_show) {
-        this.subForm[index].kind_id = '';
-      }
+      // if (this.innerVisible != true) {
+      //   this.subForm[index].kind_id = '';
+      // }
       let subFormKindList = [];
       let result = await this.$axios.get(`/akyl/kind/kind_list?skip=0&limit=1000&work_id=${this.subForm[index].work_id}`);
       if (result.data.totalRow > 0) {
@@ -734,7 +806,7 @@ export default {
         result = await this.$axios.post('/akyl/bg/job_report_sub_save', { data: { subForm: this.subForm, id: id } });
         if (result.data.msg === '成功') {
           this.$message.success('添加成功');
-          this.$refs.addAlert.hide();
+          this.outerVisible = false;
           this.form = {};
           this.subForm = [];
           this.time_quantum = '';
@@ -770,10 +842,12 @@ export default {
           this.$message.success('修改成功');
           this.closeAlert('update');
           this.form = {};
+          this.subForm = [];
           this.time_quantum = '';
           this.is_update = true;
           this.g_update = true;
           this.search();
+          this.outerVisibleUpdate = false;
         } else {
           this.$message.error('修改失败');
         }
@@ -795,10 +869,10 @@ export default {
     //打开与关闭修改和删除的弹框
     openAlert(type, id) {
       if (type === 'update') {
-        this.$refs.updateAlert.show();
         this.search();
         this.updateForm = JSON.parse(JSON.stringify(this.list[id]));
         this.searchSubForm(this.updateForm.id);
+        this.outerVisibleUpdate = true;
       } else if (type === 'delete') {
         this.$refs.deleteAlert.show();
         this.operateId = id;
@@ -807,13 +881,13 @@ export default {
         this.form.dept_id = this.userInfo.dept_id;
         this.form.login_id = this.userInfo.login_id;
         this.addSubForm('open');
-        this.$refs.addAlert.show();
+        this.outerVisible = true;
       }
     },
     //关闭弹框
     closeAlert(type) {
       if (type === 'update') {
-        this.$refs.updateAlert.hide();
+        this.outerVisibleUpdate = false;
       } else if (type === 'delete') {
         this.$refs.deleteAlert.hide();
       }

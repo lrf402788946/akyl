@@ -104,11 +104,11 @@ export const TJ = {
   name: '统计管理',
   menu: [
     {
-      name: '每人每天每型号数量',
+      name: '型号统计',
       router_name: 'pdt',
     },
     {
-      name: '每工序每天每型号数量',
+      name: '工序统计',
       router_name: 'gtx',
     },
     {

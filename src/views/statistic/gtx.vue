@@ -2,7 +2,7 @@
   <div id="gtx">
     <div class="form-inline">
       <div class="base-form-title" style="width:100%;">
-        <a class="base-margin-left-20">统计二</a>
+        <a class="base-margin-left-20">工序统计</a>
         <div class="button-table"></div>
       </div>
     </div>
@@ -43,7 +43,7 @@
           >
         </div>
       </div>
-
+      <p align="right">总计：{{ countNum }} 个</p>
       <table class="table table-bordered table-striped ">
         <tbody v-if="list.length > 0">
           <tr>
@@ -79,6 +79,7 @@ export default {
       kindList: [{ text: '全部', value: '' }],
       work_id: '',
       kind_id: '',
+      countNum: 0,
     };
   },
   computed: {},
@@ -119,9 +120,11 @@ export default {
       );
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.dataList);
+        this.$set(this, 'countNum', result.data.countSum);
       }
       if (result.data.msg === '没有数据') {
         this.list = '';
+        this.countSum = 0;
       }
     },
   },

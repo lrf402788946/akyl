@@ -67,25 +67,13 @@
     </div>
     <!--详情弹框-->
     <b-modal id="detailsAlert" title="生产统计" size="xl" ref="detailsAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
-      <!-- <div class="d-block">
-        <table class="table table-bordered table-striped " id="tabDiv1">
-          <tr>
-            <td style="width:200px;">客户名称： {{ titleList.cus_name }}</td>
-            <td style="width:200px;">合同号： {{ titleList.order_num }}</td>
-          </tr>
-          <tr>
-            <td style="width:200px;">产品批号： {{ cp_no }}</td>
-            <td style="width:200px;">合同评审：</td>
-          </tr>
-        </table>
-      </div> -->
       <div class="d-block">
         <el-tabs type="border-card">
           <el-tab-pane label="编号：PJL">
             <table class="table table-bordered table-striped " id="tabDiv2">
               <tr>
                 <td style="width:120px;">客户名称：</td>
-                <td style="width:120px;">{{ titleList.cus_name }}</td>
+                <td style="width:120px;">{{ titleList.name }}</td>
                 <td style="width:120px;">合同号：</td>
                 <td style="width:120px;">{{ titleList.order_num }}</td>
                 <td style="width:120px;">产品批号：</td>
@@ -109,15 +97,15 @@
                 <td>无菌检测报告</td>
               </tr>
               <tr v-for="(item, index) in pageListOne" :key="index">
-                <td>{{ item.code }}</td>
+                <td>{{ item.kind }}</td>
                 <td>{{ item.num }}</td>
                 <td>{{ item.bz_no }}</td>
                 <td>{{ item.update_time }}</td>
                 <td></td>
+                <td>{{ item.jy_bg }}</td>
+                <td>{{ item.mj_bg }}</td>
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{ item.wj_bg }}</td>
               </tr>
             </table>
           </el-tab-pane>

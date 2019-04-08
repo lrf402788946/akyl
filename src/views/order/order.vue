@@ -145,29 +145,13 @@
           <table class="table table-bordered table-striped ">
             <tbody>
               <tr>
-                <td>工序</td>
                 <td>型号</td>
                 <td>数量(万支)</td>
                 <td>操作</td>
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
                 <td>
-                  <el-select class="marginBot8" style="height:40px !important" v-model="selectKindList[index].selectKind" filterable placeholder="请选择工序">
-                    <el-option value="" label="全部工序">全部工序</el-option>
-                    <el-option v-for="item1 in workList" :key="item1.value" :label="item1.text" :value="item1.value"> </el-option>
-                  </el-select>
-                </td>
-                <td>
-                  <el-select
-                    @click.native="getKindList(selectKind)"
-                    class="marginBot"
-                    style="height:40px !important"
-                    v-model="item.kind"
-                    filterable
-                    placeholder="请选择型号"
-                  >
-                    <el-option v-for="item2 in kindList" :key="item2.id" :label="item2.code" :value="item2.id"></el-option>
-                  </el-select>
+                  <b-form-input v-model="item.kind"></b-form-input>
                 </td>
                 <td>
                   <b-form-input v-model="item.num" type="number" onkeypress="return( /[\d]/.test(String.fromCharCode(event.keyCode) ) )"></b-form-input>
@@ -262,13 +246,11 @@
               <tr>
                 <td>型号</td>
                 <td>数量(万支)</td>
-                <td>操作</td>
+                <td v-if="!is_update">操作</td>
               </tr>
               <tr v-for="(item, index) in orderSubList" :key="index">
                 <td>
-                  <el-select class="marginBot" style="height:40px !important" :disabled="is_update" v-model="item.kind" filterable placeholder="请选择型号">
-                    <el-option v-for="item2 in kindList" :key="item2.id" :label="item2.code" :value="item2.id"></el-option>
-                  </el-select>
+                  <b-form-input v-model="item.kind" :disabled="is_update"></b-form-input>
                 </td>
                 <td>
                   <b-form-input
@@ -278,7 +260,7 @@
                     onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"
                   ></b-form-input>
                 </td>
-                <td>
+                <td v-if="!is_update">
                   <b-button
                     variant="danger"
                     :disabled="is_update"
@@ -294,11 +276,12 @@
         </div>
       </div>
       <b-button
+        v-if="!is_update"
         variant="primary"
         :disabled="is_update"
         @click="addSubForm('update')"
         class="resetButton"
-        style="font-size:16px !important; margin:10px 5% 30px 5% !important; background-color: #17a2b8 !important;  width:30% !important; padding:6px 80px !important;"
+        style="font-size:16px !important; margin:10px 5% 30px 5% !important; background-color: #17a2b8 !important;  width:22% !important; padding:6px 80px !important;"
         >添&nbsp;&nbsp;加</b-button
       >
       <b-button
@@ -306,14 +289,15 @@
         variant="primary"
         @click="is_update = false"
         class="resetButton"
-        style="font-size:16px !important; margin:10px 5% 30px 5% !important; background-color: #17a2b8 !important;  width:30% !important; padding:6px 80px !important;"
+        style="font-size:16px !important; margin:10px 5% 30px 5% !important; background-color: #17a2b8 !important;  width:22% !important; padding:6px 80px !important;"
         >修&nbsp;&nbsp;改</b-button
       >
       <b-button
+        v-if="is_update"
         variant="primary"
         @click="exportExcel()"
         class="resetButton"
-        style="font-size:16px !important; margin:10px 5% 30px 5% !important; background-color: #17a2b8 !important;  width:30% !important; padding:6px 80px !important;"
+        style="font-size:16px !important; margin:10px 5% 30px 5% !important; background-color: #17a2b8 !important;  width:22% !important; padding:6px 80px !important;"
         >导&nbsp;&nbsp;出</b-button
       >
       <b-button
@@ -321,14 +305,14 @@
         variant="primary"
         @click="toValidate('update')"
         class="resetButton"
-        style="font-size:16px !important; margin:10px 5% 30px 5% !important; background-color: #17a2b8 !important;  width:30% !important; padding:6px 80px !important;"
+        style="font-size:16px !important; margin:10px 5% 30px 5% !important; background-color: #17a2b8 !important;  width:22% !important; padding:6px 80px !important;"
         >保&nbsp;&nbsp;存</b-button
       >
       <b-button
         variant="secondary"
         @click="closeAlert('update')"
         class="resetButton"
-        style="font-size:16px !important; margin:10px 5% 30px 5% !important; background-color: #ccc !important;  width:30% !important; padding:6px 80px !important;"
+        style="font-size:16px !important; margin:10px 5% 30px 5% !important; background-color: #ccc !important;  width:22% !important; padding:6px 80px !important;"
         >返&nbsp;&nbsp;回</b-button
       >
     </b-modal>
@@ -408,8 +392,6 @@ export default {
   },
   created() {
     this.search();
-    this.searchWork();
-    this.getKindList('');
     this.searchName();
   },
   watch: {
@@ -561,16 +543,6 @@ export default {
         }
       }
     },
-    //查询工序表,关联用
-    async searchWork() {
-      let result = await this.$axios.get(`/akyl/work/work_list?skip=0&limit=100`);
-      if (result.data.msg === '成功') {
-        this.workList = result.data.workList.map(item => {
-          let newObject = { text: item.name, value: item.id };
-          return newObject;
-        });
-      }
-    },
     //验证
     toValidate(type) {
       this.mainValidator.validate(type === 'add' ? this.form : this.updateForm, (errors, fields) => {
@@ -632,9 +604,6 @@ export default {
         this.updateForm = JSON.parse(JSON.stringify(this.list[id]));
         let result = await this.$axios.get(`/akyl/order/order_info?skip=0&limit=10000&order_id=${this.updateForm.id}`);
         if (result.data.msg === '成功') {
-          let newArray = result.data.orderSubList.map(item => {
-            item.kind = item.kind * 1;
-          });
           this.$set(this, 'orderSubList', result.data.orderSubList);
         }
       } else if (type === 'delete') {
@@ -669,16 +638,6 @@ export default {
       }, {});
       console.debug(errors, fields);
     },
-    //获取全部型号（慢）
-    async getKindList(id) {
-      let workId = '';
-      workId = id;
-      this.$axios.get(`/akyl/kind/kind_list?skip=0&limit=500000&work_id=${workId}`).then(result => {
-        if (result.data.msg === '成功') {
-          this.$set(this, 'kindList', result.data.kindList);
-        }
-      });
-    },
     //删除表单中内容
     closeSubForm(i) {
       this.subForm.splice(i, 1);
@@ -688,7 +647,6 @@ export default {
     addSubForm(type) {
       if (type === 'add') {
         this.subForm.push(JSON.parse(JSON.stringify(this.subFormContent)));
-        this.selectKindList.push(JSON.parse(JSON.stringify(this.selectKindListContent)));
       }
       if (type === 'update') {
         this.orderSubList.push(JSON.parse(JSON.stringify(this.orderSubListContent)));

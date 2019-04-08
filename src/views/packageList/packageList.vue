@@ -61,24 +61,24 @@
               <!-- <th>order_id订单Id</th> -->
               <th>创建日期</th>
               <th>包装状态</th>
-              <th>半成品批号</th>
+              <!-- <th>半成品批号</th>
               <th>包装批号</th>
-              <th>产品批号</th>
+              <th>产品批号</th> -->
               <th>操作</th>
             </tr>
             <tr v-for="(item, index) in list" :key="index">
               <!-- <td>{{ item.cus_id }}</td> -->
               <td>{{ item.order_num }}</td>
               <td>{{ item.in_date }}</td>
-              <td>{{ item.code }}</td>
+              <td>{{ item.kind }}</td>
               <td>{{ item.name }}</td>
               <td>{{ item.num }}</td>
               <!-- <td>{{ item.order_id }}</td> -->
               <td>{{ item.update_time }}</td>
               <td>{{ item.status == '0' ? '未包装' : '已经包装' }}</td>
-              <td>{{ item.order_no }}</td>
+              <!-- <td>{{ item.order_no }}</td>
               <td>{{ item.bz_no }}</td>
-              <td>{{ item.cp_no }}</td>
+              <td>{{ item.cp_no }}</td> -->
               <td>
                 <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update', index)">详&nbsp;&nbsp;情</b-button>
               </td>
@@ -118,7 +118,7 @@
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">型号：</div>
-            <b-form-input v-model="updateForm.code" :disabled="true"></b-form-input>
+            <b-form-input v-model="updateForm.kind" :disabled="true"></b-form-input>
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">客户名称：</div>
@@ -147,6 +147,19 @@
           <div class="col-lg-4 mb25">
             <div class="lh44">产品批号：</div>
             <b-form-input v-model="updateForm.cp_no" :disabled="is_update"></b-form-input>
+          </div>
+
+          <div class="col-lg-4 mb25">
+            <div class="lh44">检验报告：</div>
+            <b-form-input v-model="updateForm.jy_bg" :disabled="is_update"></b-form-input>
+          </div>
+          <div class="col-lg-4 mb25">
+            <div class="lh44">灭菌报告：</div>
+            <b-form-input v-model="updateForm.mj_bg" :disabled="is_update"></b-form-input>
+          </div>
+          <div class="col-lg-4 mb25">
+            <div class="lh44">无菌检验报告：</div>
+            <b-form-input v-model="updateForm.wj_bg" :disabled="is_update"></b-form-input>
           </div>
         </div>
       </div>
@@ -394,7 +407,6 @@ export default {
     //判断是否为已经包装来断定可否修改
     isUpdate(status) {
       let id = this.updateForm.order_id;
-      console.log(id);
       if (status == 1) {
         this.is_update = true;
       } else {
@@ -407,7 +419,12 @@ export default {
       let order_no = this.updateForm.order_no;
       let bz_no = this.updateForm.bz_no;
       let cp_no = this.updateForm.cp_no;
-      let result = await this.$axios.post('/akyl/order/package_edit', { data: { id: id, order_no: order_no, bz_no: bz_no, cp_no: cp_no } });
+      let jy_bg = this.updateForm.jy_bg;
+      let mj_bg = this.updateForm.mj_bg;
+      let wj_bg = this.updateForm.wj_bg;
+      let result = await this.$axios.post('/akyl/order/package_edit', {
+        data: { id: id, order_no: order_no, bz_no: bz_no, cp_no: cp_no, jy_bg: jy_bg, mj_bg: mj_bg, wj_bg: wj_bg },
+      });
       if (result.data.msg === '成功') {
         this.closeAlert('update');
         this.updateForm = new Array();
