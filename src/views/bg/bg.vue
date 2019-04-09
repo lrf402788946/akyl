@@ -550,7 +550,7 @@ export default {
         work_time: '',
         is_night: '',
         add_time: '',
-        work_type: '',
+        work_type: '0',
         order_no: null,
         is_in: '1',
         ycl_no: '',
@@ -570,7 +570,7 @@ export default {
         leave_time: '',
         fj_time: '',
       },
-      time_quantum: null,
+      time_quantum: '0',
       deptList: [],
       kindList: [],
       workList: [],
@@ -809,7 +809,7 @@ export default {
           this.outerVisible = false;
           this.form = {};
           this.subForm = [];
-          this.time_quantum = '';
+          this.time_quantum = '0';
           this.search();
         } else {
           this.$message.error('添加失败');

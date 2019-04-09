@@ -28,7 +28,7 @@ export default {
   data() {
     return {
       list: [],
-      limit: 10000,
+      limit: 100000,
     };
   },
   computed: {},

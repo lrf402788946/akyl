@@ -53,7 +53,7 @@
                 打&nbsp;&nbsp;印</b-button
               >
             </div>
-            <!-- <div class="col-lg-4" style="padding-left:10px !important; padding-right:10px !important;">
+            <div class="col-lg-4" style="padding-left:10px !important; padding-right:10px !important;">
               <b-button
                 variant="primary"
                 @click="excel()"
@@ -61,11 +61,8 @@
               >
                 导&nbsp;&nbsp;出</b-button
               >
-            </div> -->
+            </div>
           </div>
-        </div>
-        <div style="margin:10px 0;">
-          <exportExcel :exportTitle="th" :db_nameList="filterVal" dataName="list" fileName="工资表"></exportExcel>
         </div>
         <div id="print">
           <center>
@@ -125,7 +122,7 @@ export default {
     title: '工资管理',
   },
   components: {
-    exportExcel,
+    // exportExcel,
   },
   data() {
     return {
@@ -152,21 +149,21 @@ export default {
       roleValidator: new Validator({
         value1: { type: 'string', required: true, message: '请填写查询日期！' },
       }),
-      th: [
-        '工号',
-        '计时工资',
-        '计件工资',
-        '加班工资',
-        '加班补助工资',
-        '满勤奖工资',
-        '通勤奖工资',
-        '夜班补助工资',
-        '保险补助工资',
-        '工龄补助工资',
-        '工资总和',
-        '扣除工资',
-      ],
-      filterVal: ['job_num', 'gz_js', 'gz_jj', 'gz_jb', 'gz_jbbz', 'gz_mqj', 'gz_tq', 'gz_yb', 'gz_bxbz', 'gz_glbz', 'gz_count', 'gz_kc'],
+      // th: [
+      //   '工号',
+      //   '计时工资',
+      //   '计件工资',
+      //   '加班工资',
+      //   '加班补助工资',
+      //   '满勤奖工资',
+      //   '通勤奖工资',
+      //   '夜班补助工资',
+      //   '保险补助工资',
+      //   '工龄补助工资',
+      //   '工资总和',
+      //   '扣除工资',
+      // ],
+      // filterVal: ['job_num', 'gz_js', 'gz_jj', 'gz_jb', 'gz_jbbz', 'gz_mqj', 'gz_tq', 'gz_yb', 'gz_bxbz', 'gz_glbz', 'gz_count', 'gz_kc'],
     };
   },
   computed: {},
@@ -211,7 +208,6 @@ export default {
     },
     //验证
     toValidate(value1) {
-      console.log(value1);
       if (value1 === '') {
         this.roleValidator.validate(this.form, (errors, fields) => {
           if (errors) {
@@ -235,7 +231,6 @@ export default {
     },
     //打印
     doPrint() {
-      console.log(this.biaotoushow);
       let subOutputRankPrint = document.getElementById('print');
       let newContent = subOutputRankPrint.innerHTML;
       let oldContent = document.body.innerHTML;
@@ -245,26 +240,26 @@ export default {
       document.body.innerHTML = oldContent;
       return false;
     },
-    // excel() {
-    //   const th = [
-    //     '工号',
-    //     '计时工资',
-    //     '计件工资',
-    //     '加班工资',
-    //     '加班补助工资',
-    //     '满勤奖工资',
-    //     '通勤奖工资',
-    //     '夜班补助工资',
-    //     '保险补助工资',
-    //     '工龄补助工资',
-    //     '工资总和',
-    //     '扣除工资',
-    //   ];
-    //   const filterVal = ['job_num', 'gz_js', 'gz_jj', 'gz_jb', 'gz_jbbz', 'gz_mqj', 'gz_tq', 'gz_yb', 'gz_bxbz', 'gz_glbz', 'gz_count', 'gz_kc'];
-    //   const data = this.list.map(v => filterVal.map(k => v[k]));
-    //   const [fileName, fileType, sheetName] = ['工资报表', 'xlsx', '工资报表'];
-    //   this.$toExcel({ th, data, fileName, fileType, sheetName });
-    // },
+    excel() {
+      const th = [
+        '工号',
+        '计时工资',
+        '计件工资',
+        '加班工资',
+        '加班补助工资',
+        '满勤奖工资',
+        '通勤奖工资',
+        '夜班补助工资',
+        '保险补助工资',
+        '工龄补助工资',
+        '工资总和',
+        '扣除工资',
+      ];
+      const filterVal = ['job_num', 'gz_js', 'gz_jj', 'gz_jb', 'gz_jbbz', 'gz_mqj', 'gz_tq', 'gz_yb', 'gz_bxbz', 'gz_glbz', 'gz_count', 'gz_kc'];
+      const data = this.list.map(v => filterVal.map(k => v[k]));
+      const [fileName, fileType, sheetName] = ['工资报表', 'xlsx', '工资报表'];
+      this.$toExcel({ th, data, fileName, fileType, sheetName });
+    },
   },
 };
 </script>
