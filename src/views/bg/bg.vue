@@ -415,7 +415,7 @@
                       buttons
                       button-variant="outline-primary"
                       v-model="item.work_type"
-                      :options="[{ text: '计时', value: 0 , checked: true }, { text: '计件', value: 1 }]"
+                      :options="[{ text: '计时', value: 0, checked: true }, { text: '计件', value: 1 }]"
                       name="radiosBtnDefault"
                       stacked
                     />
@@ -570,7 +570,7 @@ export default {
         leave_time: '',
         fj_time: '',
       },
-      time_quantum: '0',
+      time_quantum: 0,
       deptList: [],
       kindList: [],
       workList: [],
@@ -809,7 +809,7 @@ export default {
           this.outerVisible = false;
           this.form = {};
           this.subForm = [];
-          this.time_quantum = '0';
+          this.time_quantum = 0;
           this.search();
         } else {
           this.$message.error('添加失败');
@@ -843,7 +843,7 @@ export default {
           this.closeAlert('update');
           this.form = {};
           this.subForm = [];
-          this.time_quantum = '';
+          this.time_quantum = 0;
           this.is_update = true;
           this.g_update = true;
           this.search();
@@ -922,7 +922,7 @@ export default {
       }
     },
     reset() {
-      this.time_quantum = null;
+      this.time_quantum = 0;
       this.form = {};
       this.form.all_time = '';
       this.form.fj_time = '';
