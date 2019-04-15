@@ -90,7 +90,10 @@
         <div class="row">
           <div class="col-lg-4 mb25">
             <div class="lh44">工号：</div>
-            <b-form-input v-model="form.job_num" placeholder="工号" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+            <!-- <b-form-input v-model="form.job_num" placeholder="工号" onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"></b-form-input> -->
+            <el-select class="marginBot" style="height:40px !important" v-model="form.job_num" filterable placeholder="工号">
+              <el-option v-for="item in staffList" :key="item.id" :label="item.job_num" :value="item.job_num"> </el-option>
+            </el-select>
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">部门：</div>
@@ -207,13 +210,28 @@
                   </b-form-group>
                 </td>
                 <td>
-                  <b-form-input v-model="item.work_time" type="number" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+                  <b-form-input
+                    v-model="item.work_time"
+                    type="number"
+                    onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"
+                    placeholder="工时"
+                  ></b-form-input>
                 </td>
                 <td>
-                  <b-form-input v-model="item.num" type="number" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+                  <b-form-input
+                    v-model="item.num"
+                    type="number"
+                    onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"
+                    placeholder="数量"
+                  ></b-form-input>
                 </td>
                 <td>
-                  <b-form-input v-model="item.add_time" type="number" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
+                  <b-form-input
+                    v-model="item.add_time"
+                    type="number"
+                    onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"
+                    placeholder="加班"
+                  ></b-form-input>
                 </td>
                 <td>
                   <textarea v-model="item.remark" class="form-control" rows="3" style="height: 44px !important;" placeholder="备注"></textarea>
@@ -285,12 +303,15 @@
         <div class="row">
           <div class="col-lg-4 mb25">
             <div class="lh44">工号：</div>
-            <b-form-input
+            <!-- <b-form-input
               v-model="updateForm.job_num"
               :disabled="is_update"
               placeholder="工号"
               onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
-            ></b-form-input>
+            ></b-form-input> -->
+            <el-select :disabled="is_update" class="marginBot" style="height:40px !important;" v-model="updateForm.job_num" filterable placeholder="工号">
+              <el-option v-for="item in staffList" :key="item.id" :label="item.job_num" :value="item.job_num"> </el-option>
+            </el-select>
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">部门：</div>
@@ -544,16 +565,14 @@ export default {
       list: [],
       subForm: [],
       subFormContent: {
-        work_id: null,
-        kind_id: null,
-        num: '',
-        work_time: '',
         is_night: '',
-        add_time: '',
-        work_type: '0',
-        order_no: null,
+        work_type: 0,
         is_in: '1',
-        ycl_no: '',
+        add_time: null,
+        num: null,
+        work_time: null,
+        kind_id: null,
+        work_id: null,
       },
       ycl_no: '',
       is_update: true,
@@ -587,6 +606,8 @@ export default {
       innerVisible: false,
       outerVisibleUpdate: false,
       innerVisibleUpdate: false,
+      contractPrice: '',
+      staffList: [],
     };
   },
   computed: {
@@ -598,6 +619,7 @@ export default {
     this.search();
     this.getOtherList();
     this.getWorkList();
+    this.searchJobNum();
   },
   watch: {
     time_quantum: {
@@ -647,6 +669,11 @@ export default {
         let newObject = { text: item.dept_name, value: item.id };
         return newObject;
       });
+    },
+    //查询员工工号
+    async searchJobNum() {
+      let result = await this.$axios.get(`/akyl/staff/staff_list?skip=0&limit=10000`);
+      this.$set(this, 'staffList', result.data.staffList);
     },
     //请求工序表
     async getWorkList() {
@@ -756,6 +783,7 @@ export default {
         }
       }
     },
+    //获取类型
     getOptions(index) {
       let result = [];
       for (let i = 0; i < this.temporaryList.length; i++) {
@@ -800,6 +828,24 @@ export default {
         this.$message.error('请假时间+工作时间+放假时间不等于总工时.时间输入有误');
         return false;
       }
+      for (let index = 0; index < this.subForm.length; index++) {
+        if (this.subForm[index].work_id === null) {
+          this.$message.error('请选择工序');
+          return false;
+        }
+        if (this.subForm[index].kind_id === null) {
+          this.$message.error('请选择类型');
+          return false;
+        }
+        if ((this.subForm[index].work_time === null) | (this.subForm[index].work_time === '')) {
+          this.$message.error('请添加工时');
+          return false;
+        }
+        if ((this.subForm[index].num === null) | (this.subForm[index].num === '')) {
+          this.$message.error('请添加数量');
+          return false;
+        }
+      }
       let result = await this.$axios.post('/akyl/bg/job_report_main_save', { data: this.form });
       if (result.data.msg === '成功') {
         let id = result.data.id;
@@ -834,6 +880,24 @@ export default {
       if (should_work_time !== all_work_time) {
         this.$message.error('请假时间加工作时间不等于总工时.时间输入有误');
         return false;
+      }
+      for (let index = 0; index < this.subForm.length; index++) {
+        if (this.subForm[index].work_id === null) {
+          this.$message.error('请选择工序');
+          return false;
+        }
+        if (this.subForm[index].kind_id === null) {
+          this.$message.error('请选择类型');
+          return false;
+        }
+        if ((this.subForm[index].work_time === null) | (this.subForm[index].work_time === '')) {
+          this.$message.error('请添加工时');
+          return false;
+        }
+        if ((this.subForm[index].num === null) | (this.subForm[index].num === '')) {
+          this.$message.error('请添加数量');
+          return false;
+        }
       }
       let result = await this.$axios.post('/akyl/bg/job_report_main_edit', { data: this.updateForm });
       if (result.data.msg === '成功') {
@@ -877,6 +941,7 @@ export default {
         this.$refs.deleteAlert.show();
         this.operateId = id;
       } else if (type === 'add') {
+        this.form.all_time = 9.5;
         this.temporaryList.splice(0, this.temporaryList.length);
         this.form.dept_id = this.userInfo.dept_id;
         this.form.login_id = this.userInfo.login_id;
@@ -914,9 +979,29 @@ export default {
     //添加字表数据
     addSubForm(type) {
       if (type === 'add') {
+        this.subFormContent = {
+          is_night: '',
+          work_type: 0,
+          is_in: '1',
+          add_time: null,
+          num: null,
+          work_time: null,
+          kind_id: null,
+          work_id: null,
+        };
         this.subForm.push(JSON.parse(JSON.stringify(this.subFormContent)));
       } else {
         if (!this.subForm.length > 0) {
+          this.subFormContent = {
+            is_night: '',
+            work_type: 0,
+            is_in: '1',
+            add_time: null,
+            num: null,
+            work_time: null,
+            kind_id: null,
+            work_id: null,
+          };
           this.subForm.push(JSON.parse(JSON.stringify(this.subFormContent)));
         }
       }
@@ -930,6 +1015,16 @@ export default {
       this.form.dept_id = this.userInfo.dept_id;
       this.form.login_id = this.userInfo.login_id;
       this.subForm = [];
+      this.subFormContent = {
+        is_night: '',
+        work_type: 0,
+        is_in: '1',
+        add_time: null,
+        num: null,
+        work_time: null,
+        kind_id: null,
+        work_id: null,
+      };
       this.subForm.push(this.subFormContent);
     },
   },

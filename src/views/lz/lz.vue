@@ -82,6 +82,7 @@
         ></el-pagination>
       </div>
     </div>
+    <!-- 添加裸针 -->
     <b-modal id="toAdd" title="添加裸针" ref="toAdd" hide-footer>
       <div style="margin-bottom: 7px;">型号:</div>
       <b-form-input v-model="form.type"></b-form-input>
@@ -198,9 +199,11 @@ export default {
   data() {
     return {
       list: [],
-      create_date_today: new Date().getYear() + 1900 + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate(),
+      // create_date_today: new Date().getYear() + 1900 + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate(),
+      create_date_today: '',
       form: {
-        create_date: new Date().getYear() + 1900 + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate(),
+        // create_date: new Date().getYear() + 1900 + '-' + new Date().getMonth() + 1 + '-' + new Date().getDate(),
+        create_date: '',
       },
       deleteItem: '',
       updateForm: {
