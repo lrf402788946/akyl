@@ -853,9 +853,10 @@ export default {
         if (result.data.msg === '成功') {
           this.$message.success('添加成功');
           this.outerVisible = false;
-          this.form = {};
-          this.subForm = [];
-          this.time_quantum = 0;
+          this.form.job_num = '';
+          // this.form = {};
+          // this.subForm = [];
+          // this.time_quantum = 0;
           this.search();
         } else {
           this.$message.error('添加失败');
@@ -899,6 +900,12 @@ export default {
           return false;
         }
       }
+      if (this.time_quantum != 1) {
+        this.updateForm.all_time = 9.5;
+      }
+      if (this.time_quantum === 1) {
+        this.updateForm.all_time = 8.5;
+      }
       let result = await this.$axios.post('/akyl/bg/job_report_main_edit', { data: this.updateForm });
       if (result.data.msg === '成功') {
         result = await this.$axios.post('/akyl/bg/job_report_sub_edit', { data: { subForm: this.subForm, id: this.updateForm.id } });
@@ -941,10 +948,17 @@ export default {
         this.$refs.deleteAlert.show();
         this.operateId = id;
       } else if (type === 'add') {
-        this.form.all_time = 9.5;
+        if (this.time_quantum != 1) {
+          this.form.all_time = 9.5;
+        }
+        if (this.time_quantum === 1) {
+          this.form.all_time = 8.5;
+        }
         this.temporaryList.splice(0, this.temporaryList.length);
         this.form.dept_id = this.userInfo.dept_id;
         this.form.login_id = this.userInfo.login_id;
+        this.form.fj_time = 0;
+        this.form.leave_time = 0;
         this.addSubForm('open');
         this.outerVisible = true;
       }

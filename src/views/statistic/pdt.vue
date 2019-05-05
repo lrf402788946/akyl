@@ -102,7 +102,7 @@ export default {
       // let defalut = { text: '请选择部门', value: null, disabled: true };
       // this.deptList.unshift(defalut);
       //请求类型表
-      result = await this.$axios.get('/akyl/kind/kind_list?skip=0&limit=100');
+      result = await this.$axios.get('/akyl/kind/kind_list?skip=0&limit=999999');
       this.kindList = result.data.kindList.map(item => {
         let newObject = { text: item.name, value: item.id };
         return newObject;

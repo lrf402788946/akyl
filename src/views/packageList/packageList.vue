@@ -223,8 +223,12 @@ export default {
       start: '',
       end: '',
       mainValidator: new Validator({
-        // cus_id: [{ required: true, message: '请选择客户' }],
-        // status: [{ required: true, message: '请选择是否出库' }],
+        order_no: [{ required: true, message: '请填写半成品批号' }],
+        bz_no: [{ required: true, message: '请填写包装批号' }],
+        cp_no: [{ required: true, message: '请填写产品批号' }],
+        jy_bg: [{ required: true, message: '请填写检验报告' }],
+        mj_bg: [{ required: true, message: '请填写灭菌报告' }],
+        wj_bg: [{ required: true, message: '请填写无菌检验报告' }],
       }),
       th: ['包装号', '包装人', '包装日期', '备注'],
       filterVal: ['order_no', 'user_name', 'in_date', 'remark'],
@@ -408,7 +412,7 @@ export default {
     isUpdate(status) {
       let id = this.updateForm.order_id;
       if (status == 1) {
-        this.is_update = true;
+        this.is_update = false;
       } else {
         this.is_update = false;
       }

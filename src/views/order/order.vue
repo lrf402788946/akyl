@@ -147,6 +147,7 @@
               <tr>
                 <td>型号</td>
                 <td>数量(万支)</td>
+                <td>备注</td>
                 <td>操作</td>
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
@@ -154,7 +155,15 @@
                   <b-form-input v-model="item.kind"></b-form-input>
                 </td>
                 <td>
-                  <b-form-input v-model="item.num" type="number" onkeypress="return( /[\d]/.test(String.fromCharCode(event.keyCode) ) )"></b-form-input>
+                  <b-form-input
+                    v-model="item.num"
+                    @change="getCount(subForm)"
+                    type="number"
+                    onkeypress="return( /[\d]/.test(String.fromCharCode(event.keyCode) ) )"
+                  ></b-form-input>
+                </td>
+                <td>
+                  <b-form-input v-model="item.remark"></b-form-input>
                 </td>
                 <td>
                   <b-button
@@ -168,6 +177,7 @@
               </tr>
             </tbody>
           </table>
+          <div style="margin-left:75% !important">合计:&nbsp;&nbsp;&nbsp;{{ count }}&nbsp;&nbsp;&nbsp;万支</div>
         </div>
       </div>
       <b-button
@@ -246,6 +256,7 @@
               <tr>
                 <td>型号</td>
                 <td>数量(万支)</td>
+                <td>备注</td>
                 <td v-if="!is_update">操作</td>
               </tr>
               <tr v-for="(item, index) in orderSubList" :key="index">
@@ -255,10 +266,14 @@
                 <td>
                   <b-form-input
                     v-model="item.num"
+                    @change="getCount(orderSubList)"
                     :disabled="is_update"
                     type="number"
                     onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"
                   ></b-form-input>
+                </td>
+                <td>
+                  <b-form-input v-model="item.remark" :disabled="is_update"></b-form-input>
                 </td>
                 <td v-if="!is_update">
                   <b-button
@@ -273,6 +288,7 @@
               </tr>
             </tbody>
           </table>
+          <div style="margin-left:75% !important">合计:&nbsp;&nbsp;&nbsp;{{ count }}&nbsp;&nbsp;&nbsp;万支</div>
         </div>
       </div>
       <b-button
@@ -383,6 +399,7 @@ export default {
       chooseStatus: [{ text: '状态', value: null, disabled: true }, { text: '未出库', value: '0' }, { text: '已经出库', value: '1' }],
       is_title_search: false, //是否是模糊查询： true：是模糊查询； false： 不是模糊查询
       skip: 0,
+      count: 0,
     };
   },
   computed: {
@@ -558,6 +575,19 @@ export default {
     },
     //添加
     async add() {
+      if (this.subForm.length === 0) {
+        return this.$message.error('请填入订单明细');
+      }
+      if (this.subForm.length != 0) {
+        for (let index = 0; index < this.subForm.length; index++) {
+          if ((this.subForm[index].kind === undefined) | (this.subForm[index].kind === '')) {
+            return this.$message.error('请填入型号');
+          }
+          if ((this.subForm[index].num === undefined) | (this.subForm[index].num === '')) {
+            return this.$message.error('请填入数量');
+          }
+        }
+      }
       let result = await this.$axios.post('/akyl/order/order_save', { data: this.form });
       if (result.data.msg === '成功') {
         let id = result.data.id;
@@ -572,9 +602,21 @@ export default {
     },
     //修改
     async update() {
+      if (this.orderSubList.length === 0) {
+        return this.$message.error('请填入订单明细');
+      }
+      if (this.orderSubList.length != 0) {
+        for (let index = 0; index < this.orderSubList.length; index++) {
+          if ((this.orderSubList[index].kind === undefined) | (this.orderSubList[index].kind === '')) {
+            return this.$message.error('请填入型号');
+          }
+          if ((this.orderSubList[index].num === undefined) | (this.orderSubList[index].num === '')) {
+            return this.$message.error('请填入数量');
+          }
+        }
+      }
       let result = await this.$axios.post('/akyl/order/order_edit', { data: this.updateForm });
       let id = this.updateForm.id;
-      console.log(this.orderSubList);
       if (result.data.msg === '成功') {
         for (let index = 0; index < this.orderSubList.length; index++) {
           delete this.orderSubList[index].kind_name;
@@ -597,6 +639,7 @@ export default {
     },
     //打开与关闭修改和删除的弹框
     async openAlert(type, id) {
+      this.count = 0;
       this.subForm = [];
       this.orderSubList = [];
       if (type === 'update') {
@@ -605,6 +648,7 @@ export default {
         let result = await this.$axios.get(`/akyl/order/order_info?skip=0&limit=10000&order_id=${this.updateForm.id}`);
         if (result.data.msg === '成功') {
           this.$set(this, 'orderSubList', result.data.orderSubList);
+          this.getCount(this.orderSubList);
         }
       } else if (type === 'delete') {
         this.$refs.deleteAlert.show();
@@ -614,6 +658,13 @@ export default {
         this.form.user_name = this.userInfo.user_name;
         this.addSubForm('open');
         this.$refs.addAlert.show();
+      }
+    },
+    //获取总数量
+    getCount(list) {
+      this.count = 0;
+      for (let index = 0; index < list.length; index++) {
+        this.count += JSON.parse(JSON.stringify(list[index].num * 1));
       }
     },
     //关闭弹框
@@ -684,13 +735,20 @@ export default {
                       <tr style="text-align:center;">
                         <th>型号</th>
                         <th>数量(万支)</th>
+                        <th>备注</th>
                       </tr>`;
       for (let item of this.orderSubList) {
         tableStr += ` <tr style="text-align: center;">
                         <td>${item.code}</td>
                         <td>${item.num}</td>
+                        <td>${item.remark}</td>
                       </tr>`;
       }
+      tableStr += ` <tr style="text-align: center;">
+                        <td>合计：</td>
+                        <td>${this.count}</td>
+                        <td></td>
+                      </tr>`;
       //Worksheet名
       var worksheet = 'Sheet1';
       var uri = 'data:application/vnd.ms-excel;base64,';
