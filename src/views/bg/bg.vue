@@ -720,8 +720,6 @@ export default {
       } else {
         result = this.workList;
       }
-
-      console.log(result);
       cb(result);
     },
     getIndexAndType(index, type) {
@@ -994,7 +992,7 @@ export default {
       let result = await this.$axios.post('/akyl/bg/job_report_main_save', { data: newFrom });
       if (result.data.msg === '成功') {
         let id = result.data.id;
-        if (this.subForm[0].id != null) {
+        if (this.subForm[0].work_name != null) {
           let newSubFrom = this.subForm.map(item => {
             delete item.work_name;
             delete item.create_time;
