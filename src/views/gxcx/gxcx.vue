@@ -323,7 +323,7 @@ export default {
     //查询子表
     async searchSubForm(item) {
       let result = await this.$axios.get(`/akyl/wages/wages_curdate_detail?job_num=${item.job_num}&create_time=${item.gz_month}`);
-      if (result.data.rescode === 0) {
+      if (result.data.rescode === '0') {
         this.$set(this, 'subList', result.data.jobReportSubList);
         this.$set(this, 'staff', result.data.staff);
       } else {

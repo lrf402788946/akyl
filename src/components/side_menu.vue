@@ -62,6 +62,7 @@ export default {
                 newMenu.push(YW);
                 newMenu.push(CK);
                 newMenu.push(TJ);
+                newMenu.push(DD);
                 break;
               case 'ROLE_CW':
                 newMenu.push(CW);
@@ -75,6 +76,9 @@ export default {
                 newMenu.push(CK);
                 newMenu.push(TJ);
                 break;
+              case 'ROLE_XS':
+                newMenu.push(DD);
+                break;
               default:
                 break;
             }
@@ -86,7 +90,7 @@ export default {
             newMenu.push(CK);
             newMenu.push(CW);
             newMenu.push(TJ);
-            newMenu.push(CL);
+            // newMenu.push(CL);
             newMenu.push(DD);
             break;
           }

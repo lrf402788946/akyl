@@ -176,7 +176,7 @@
             <tbody>
               <tr>
                 <td>材料</td>
-                <td>数量</td>
+                <td>配重</td>
                 <td>操作</td>
               </tr>
               <tr v-for="(item, index) in pzForm" :key="index">

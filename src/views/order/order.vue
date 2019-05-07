@@ -119,18 +119,26 @@
           </div>
           <div class="col-lg-4 mb25">
             <div class="lh44">客户：</div>
-            <el-select @change="getOrderNum()" class="marginBot" style="height:40px !important" v-model="form.cus_id" filterable placeholder="请选择客户">
+            <el-select class="marginBot" style="height:40px !important" v-model="form.cus_id" filterable placeholder="请选择客户">
               <el-option v-for="item2 in customerName" :key="item2.value" :label="item2.text" :value="item2.value"></el-option>
             </el-select>
           </div>
           <div class="col-lg-4 mb25">
-            <div class="lh44">订单号：</div>
-            <b-form-input :disabled="true" v-model="form.order_num" placeholder="订单号"></b-form-input>
+            <div class="lh44">订单日期：</div>
+            <el-date-picker
+              @change="getOrderNum()"
+              v-model="form.in_date"
+              placeholder="订单日期"
+              value-format="yyyy-MM-dd"
+              format="yyyy-MM-dd"
+              type="date"
+              style="width: 100%;"
+            >
+            </el-date-picker>
           </div>
           <div class="col-lg-4 mb25">
-            <div class="lh44">订单日期：</div>
-            <el-date-picker style="width: 100%;" v-model="form.in_date" placeholder="订单日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd" type="date">
-            </el-date-picker>
+            <div class="lh44">订单号：</div>
+            <b-form-input :disabled="true" v-model="form.order_num" placeholder="订单号"></b-form-input>
           </div>
           <div class="col-lg-4 mb25">
             <!-- 0未出库，1出库 -->
@@ -538,7 +546,7 @@ export default {
     },
     //获取订单号
     async getOrderNum() {
-      let result = await this.$axios.get(`/akyl/order/order_num?cus_id=${this.form.cus_id}`);
+      let result = await this.$axios.get(`/akyl/order/order_num?cus_id=${this.form.cus_id}&order_date=${this.form.in_date}`);
       this.$set(this.form, 'order_num', result.data.order_num);
     },
     //查询客户姓名

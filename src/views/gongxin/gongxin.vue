@@ -72,6 +72,7 @@
             <tbody v-if="list.length > 0">
               <tr>
                 <th>工号</th>
+                <th>姓名</th>
                 <th>计时工资</th>
                 <th>计件工资</th>
                 <th>加班工资</th>
@@ -86,6 +87,7 @@
               </tr>
               <tr v-for="(item, index) in list" :key="index">
                 <td>{{ item.job_num }}</td>
+                <td>{{ item.user_name }}</td>
                 <td>{{ item.gz_js }}</td>
                 <td>{{ item.gz_jj }}</td>
                 <td>{{ item.gz_jb }}</td>
