@@ -91,32 +91,7 @@
     </div>
 
     <!--添加弹框-->
-    <!-- <b-modal id="addAlert-1" title="新添报工单" ref="addAlert" size="xl" hide-footer> -->
     <el-dialog width="85%" title="新添报工单" :visible.sync="outerVisible">
-      <el-dialog width="35%" title="请选择或填入半成品批号" :visible.sync="innerVisible" append-to-body>
-        <div class="d-block">
-          <div>半成品批号选择：</div>
-          <el-select class="marginBot" placeholder="半成品批号" size="medium" style="height:34px !important" v-model="orderNo1" filterable>
-            <el-option v-for="item in orderNoList" :key="item.id" :label="item.order_no" :value="item.order_no"> </el-option>
-          </el-select>
-          <div>手动添加：</div>
-          <b-form-input v-model="orderNo2" style="height:34px !important;" placeholder="半成品批号"></b-form-input>
-        </div>
-        <b-button
-          variant="secondary"
-          @click="chooseOrderNo()"
-          class="resetButton"
-          style="font-size:16px !important; background-color: #17a2b8 !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
-          >确&nbsp;&nbsp;定</b-button
-        >
-        <b-button
-          variant="secondary"
-          @click="closeOrderNo()"
-          class="resetButton"
-          style="font-size:16px !important; margin-top:25px; background-color: #17a2b8 !important; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
-          >返&nbsp;&nbsp;回</b-button
-        >
-      </el-dialog>
       <div class="d-block text-center">
         <div class="row">
           <div class="col-lg-4 mb25">
@@ -184,8 +159,6 @@
                 <td style="width:5.5%">工时(小时)</td>
                 <td style="width:7.5%">数量</td>
                 <td style="width:5.5%">加班</td>
-                <!-- <td style="width:8%">针芯批号</td>
-                <td style="width:8%">弹簧批号</td> -->
                 <td style="width:12%">备注</td>
                 <td style="width:6%">操作</td>
               </tr>
@@ -197,7 +170,7 @@
                       buttons
                       button-variant="outline-primary"
                       v-model="item.is_in"
-                      :options="[{ text: '是', value: '0', checked: true }, { text: '否', value: '1' }]"
+                      :options="[{ text: '是', value: '0' }, { text: '否', value: '1', checked: true }]"
                       name="radiosBtnDefault"
                       stacked
                     />
@@ -226,9 +199,32 @@
                     <el-option v-for="item in workList" :key="item.value" :label="item.text" :value="item.value"> </el-option>
                   </el-select> -->
                   <div v-if="!isG(subFormIndex)">
-                    <b-form-input v-model="item.zx_order_no" placeholder="针芯批号"></b-form-input>
+                    <!-- <b-form-input v-model="item.zx_order_no" placeholder="针芯批号"></b-form-input> -->
+                    <el-autocomplete
+                      @select="inputSelectZxPh"
+                      @focus="getPhIndex(subFormIndex)"
+                      class="inline-input"
+                      v-model="item.zx_order_no"
+                      :fetch-suggestions="zxOrderNoSearch"
+                      placeholder="针芯批号"
+                    >
+                      <template slot-scope="scope">
+                        {{ scope.item.order_no }}
+                      </template>
+                    </el-autocomplete>
                     <br />
-                    <b-form-input v-model="item.th_order_no" placeholder="弹簧批号"></b-form-input>
+                    <el-autocomplete
+                      @select="inputSelectThPh"
+                      @focus="getPhIndex(subFormIndex)"
+                      class="inline-input"
+                      v-model="item.th_order_no"
+                      :fetch-suggestions="thOrderNoSearch"
+                      placeholder="弹簧批号"
+                    >
+                      <template slot-scope="scope">
+                        {{ scope.item.order_no }}
+                      </template>
+                    </el-autocomplete>
                   </div>
                 </td>
                 <td>
@@ -245,7 +241,18 @@
                   </el-select>
                 </td>
                 <td>
-                  <b-form-input v-model="item.order_no" placeholder="半成品批号"></b-form-input>
+                  <el-autocomplete
+                    @select="inputSelectOnPh"
+                    @focus="getPhIndex(subFormIndex)"
+                    class="inline-input"
+                    v-model="item.order_no"
+                    :fetch-suggestions="orderNoSearch"
+                    placeholder="半成品批号"
+                  >
+                    <template slot-scope="scope">
+                      {{ scope.item.order_no }}
+                    </template>
+                  </el-autocomplete>
                 </td>
                 <td>
                   <b-form-input v-model="item.ycl_no" placeholder="原材料批号"></b-form-input>
@@ -324,35 +331,9 @@
         >重&nbsp;&nbsp;置</b-button
       >
     </el-dialog>
-    <!-- </b-modal> -->
 
     <!--修改弹框-->
-    <!-- <b-modal id="updateAlert" title="修改报工单" ref="updateAlert" size="xl" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close> -->
     <el-dialog width="85%" title="修改报工单" :visible.sync="outerVisibleUpdate">
-      <el-dialog width="35%" title="请选择或填入批号" :visible.sync="innerVisibleUpdate" append-to-body>
-        <div class="d-block">
-          <div>半成品批号选择：</div>
-          <el-select class="marginBot" placeholder="半成品批号" size="medium" style="height:34px !important" v-model="orderNo1" filterable>
-            <el-option v-for="item in orderNoList" :key="item.id" :label="item.order_no" :value="item.order_no"> </el-option>
-          </el-select>
-          <div>手动添加：</div>
-          <b-form-input v-model="orderNo2" style="height:34px !important;" placeholder="半成品批号"></b-form-input>
-        </div>
-        <b-button
-          variant="secondary"
-          @click="chooseOrderNoUpdate()"
-          class="resetButton"
-          style="font-size:16px !important; background-color: #17a2b8 !important; margin-top:25px; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
-          >确&nbsp;&nbsp;定</b-button
-        >
-        <b-button
-          variant="secondary"
-          @click="closeOrderNo()"
-          class="resetButton"
-          style="font-size:16px !important; margin-top:25px; background-color: #17a2b8 !important; float:right; padding:6px 80px !important;margin-bottom:30px !important;margin-right:0 !important;"
-          >返&nbsp;&nbsp;回</b-button
-        >
-      </el-dialog>
       <div class="d-block text-center">
         <div class="row">
           <div class="col-lg-4 mb25">
@@ -360,7 +341,7 @@
             <!-- <el-select :disabled="is_update" class="marginBot" style="height:40px !important;" v-model="updateForm.job_num" filterable placeholder="工号">
               <el-option v-for="item in staffList" :key="item.id" :label="item.job_num" :value="item.job_num"> </el-option>
             </el-select> -->
-            <el-autocomplete v-model="updateForm.job_num" :fetch-suggestions="querySearch" placeholder="工号" @select="handleSelect">
+            <el-autocomplete :disabled="is_update" v-model="updateForm.job_num" :fetch-suggestions="querySearch" placeholder="工号" @select="handleSelect">
               <template slot-scope="scope">
                 {{ scope.item.job_num }}
               </template>
@@ -426,8 +407,6 @@
                 <td style="width:5.5%">工时(小时)</td>
                 <td style="width:7%">数量</td>
                 <td style="width:5.9%">加班</td>
-                <!-- <td style="width:8%">针芯批号</td>
-                <td style="width:8%">弹簧批号</td> -->
                 <td style="width:12%">备注</td>
                 <td v-if="!is_update" style="width:6%">操作</td>
               </tr>
@@ -470,9 +449,34 @@
                     </template>
                   </el-autocomplete>
                   <div v-if="!isG(index)">
-                    <b-form-input v-model="item.zx_order_no" placeholder="针芯批号"></b-form-input>
+                    <!-- <b-form-input v-model="item.zx_order_no" placeholder="针芯批号"></b-form-input> -->
+                    <el-autocomplete
+                      :disabled="is_update"
+                      @select="inputSelectThPh"
+                      @focus="getPhIndex(index)"
+                      class="inline-input"
+                      v-model="item.zx_order_no"
+                      :fetch-suggestions="zxOrderNoSearch"
+                      placeholder="针芯批号"
+                    >
+                      <template slot-scope="scope">
+                        {{ scope.item.order_no }}
+                      </template>
+                    </el-autocomplete>
                     <br />
-                    <b-form-input v-model="item.th_order_no" placeholder="弹簧批号"></b-form-input>
+                    <el-autocomplete
+                      :disabled="is_update"
+                      @select="inputSelectThPh"
+                      @focus="getPhIndex(index)"
+                      class="inline-input"
+                      v-model="item.th_order_no"
+                      :fetch-suggestions="thOrderNoSearch"
+                      placeholder="弹簧批号"
+                    >
+                      <template slot-scope="scope">
+                        {{ scope.item.order_no }}
+                      </template>
+                    </el-autocomplete>
                   </div>
                 </td>
                 <td>
@@ -490,7 +494,19 @@
                   </el-select>
                 </td>
                 <td>
-                  <b-form-input v-model="item.order_no" :disabled="is_update"></b-form-input>
+                  <el-autocomplete
+                    @select="inputSelectOnPh"
+                    @focus="getPhIndex(index)"
+                    :disabled="is_update"
+                    class="inline-input"
+                    v-model="item.order_no"
+                    :fetch-suggestions="orderNoSearch"
+                    placeholder="半成品批号"
+                  >
+                    <template slot-scope="scope">
+                      {{ scope.item.order_no }}
+                    </template>
+                  </el-autocomplete>
                 </td>
                 <td>
                   <b-form-input v-model="item.ycl_no" placeholder="请输入原材料批号" :disabled="is_update"></b-form-input>
@@ -588,8 +604,6 @@
         >返&nbsp;&nbsp;回</b-button
       >
     </el-dialog>
-    <!-- </b-modal
-    > -->
 
     <!--删除弹框-->
     <b-modal id="deleteAlert" title="确认删除" ref="deleteAlert" hide-footer no-close-on-esc no-close-on-backdrop hide-header-close>
@@ -634,7 +648,7 @@ export default {
       subFormContent: {
         is_night: '',
         work_type: 0,
-        is_in: '0',
+        is_in: '1',
         add_time: null,
         num: null,
         work_time: null,
@@ -643,7 +657,6 @@ export default {
       },
       ycl_no: '',
       is_update: true,
-      g_update: true,
       zx_order_no: '',
       th_order_no: '',
       operateId: '',
@@ -667,18 +680,17 @@ export default {
       }),
       orderNoIndex: '',
       orderNoList: {},
-      orderNo1: '',
-      orderNo2: '',
       outerVisible: false,
-      innerVisible: false,
       outerVisibleUpdate: false,
-      innerVisibleUpdate: false,
       contractPrice: '',
       staffList: [],
       select_create_time: '',
       select_job_num: '',
       midIndex: 0,
+      phIndex: 0,
       midType: '',
+      zxOrderNoList: [],
+      thOrderNoList: [],
     };
   },
   computed: {
@@ -704,6 +716,7 @@ export default {
     },
   },
   methods: {
+    //工号选择
     queryWork(queryString, cb) {
       let result;
       if (queryString != undefined) {
@@ -726,7 +739,23 @@ export default {
       this.midIndex = index;
       this.midType = type;
     },
-    inputSelect(item) {
+    getPhIndex(index) {
+      this.phIndex = index;
+    },
+    inputSelectZxPh(item) {
+      this.$set(this.subForm[this.phIndex], `zx_order_no`, item.order_no);
+    },
+    inputSelectThPh(item) {
+      this.$set(this.subForm[this.phIndex], `th_order_no`, item.order_no);
+    },
+    inputSelectOnPh(item) {
+      this.$set(this.subForm[this.phIndex], `order_no`, item.order_no);
+    },
+    async inputSelect(item) {
+      let result = await this.$axios.get(`/akyl/bg/order_no_lt_sel?kind_id=${item.id}&type=1`);
+      this.$set(this, 'zxOrderNoList', result.data.kindStoreList);
+      result = await this.$axios.get(`/akyl/bg/order_no_lt_sel?kind_id=${item.id}&type=0`);
+      this.$set(this, 'thOrderNoList', result.data.kindStoreList);
       this.$set(this.subForm[this.midIndex], `${this.midType}_name`, item.code);
       this.$set(this.subForm[this.midIndex], `${this.midType}_id`, item.id);
       if (this.midType === 'work') {
@@ -761,6 +790,55 @@ export default {
         }
       }
       return result;
+    },
+    //半成品批号选择
+    orderNoSearch(queryString, cb) {
+      if (this.orderNoList === undefined) {
+        return;
+      }
+      let restaurants = this.orderNoList;
+      let result = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
+      // 调用 callback 返回建议列表的数据
+      cb(result);
+    },
+    createFilter(queryString) {
+      return restaurant => {
+        return restaurant.order_no.toLowerCase().indexOf(queryString.toLowerCase()) === 0;
+      };
+    },
+    //针芯批号选择
+    zxOrderNoSearch(queryString, cb) {
+      let restaurants = this.zxOrderNoList != undefined ? this.zxOrderNoList : [];
+      restaurants = restaurants.filter(item => {
+        return item.order_no != null;
+      });
+      let result;
+      if (queryString !== undefined) {
+        result = restaurants.filter(item => {
+          return item.order_no.toLowerCase().indexOf(queryString.toLowerCase()) >= 0;
+        });
+      } else {
+        result = restaurants;
+      }
+      // 调用 callback 返回建议列表的数据
+      cb(result);
+    },
+    //弹簧批号选择
+    thOrderNoSearch(queryString, cb) {
+      let restaurants = this.thOrderNoList != undefined ? this.thOrderNoList : [];
+      restaurants = restaurants.filter(item => {
+        return item.order_no != null;
+      });
+      let result;
+      if (queryString !== undefined) {
+        result = restaurants.filter(item => {
+          return item.order_no.toLowerCase().indexOf(queryString.toLowerCase()) >= 0;
+        });
+      } else {
+        result = restaurants;
+      }
+      // 调用 callback 返回建议列表的数据
+      cb(result);
     },
     //分页
     toSearch(currentPage) {
@@ -811,7 +889,7 @@ export default {
     },
     //获取批号add
     async getIndex(index, kindId, workId) {
-      this.innerVisible = true;
+      // this.innerVisible = true;
       this.orderNoIndex = index;
       let result = await this.$axios.get(`/akyl/bg/order_no_sel?work_id=${kindId}&kind_id=${workId}`);
       if (result.data.totalRow === 0) {
@@ -823,7 +901,7 @@ export default {
     },
     //获取批号update
     async getIndexUpdate(index, kindId, workId) {
-      this.innerVisibleUpdate = true;
+      // this.innerVisibleUpdate = true;
       this.orderNoIndex = index;
       let result = await this.$axios.get(`/akyl/bg/order_no_sel?work_id=${kindId}&kind_id=${workId}`);
       if (result.data.totalRow === 0) {
@@ -833,60 +911,23 @@ export default {
         this.$set(this, 'orderNoList', result.data.kindStoreList);
       }
     },
-    //关闭批号写入弹窗
-    closeOrderNo() {
-      this.innerVisible = false;
-      this.innerVisibleUpdate = false;
-      this.orderNo1 = '';
-      this.orderNo2 = '';
-    },
-    //保存批号写入弹窗add
-    chooseOrderNo() {
-      if (this.orderNo2 != '') {
-        this.subForm[this.orderNoIndex].order_no = this.orderNo2;
-        this.innerVisible = false;
-        this.orderNo1 = '';
-        this.orderNo2 = '';
-      } else if ((this.orderNo1 != '') & (this.orderNo2 === '')) {
-        this.subForm[this.orderNoIndex].order_no = this.orderNo1;
-        this.innerVisible = false;
-        this.orderNo1 = '';
-        this.orderNo2 = '';
-      } else {
-        this.$message.error('请选择或填入一个批号');
-      }
-    },
-    //保存批号写入弹窗update
-    chooseOrderNoUpdate() {
-      if (this.orderNo2 != '') {
-        this.subForm[this.orderNoIndex].order_no = this.orderNo2;
-        this.innerVisibleUpdate = false;
-      } else if ((this.orderNo1 != '') & (this.orderNo2 === '')) {
-        this.subForm[this.orderNoIndex].order_no = this.orderNo1;
-        this.innerVisibleUpdate = false;
-      } else {
-        this.$message.error('请选择或填入一个批号');
-      }
-    },
-    //当工序为G时，针芯批号跟弹簧批号可编辑
-    async changepihao(index) {
-      if (this.subForm[index].work_id === 10) {
-        this.g_update = false;
-      } else {
-        this.g_update = true;
-      }
-    },
     //请求类型表(应该是二级联动工序表)
     async getKindList(workId) {
       // if (this.innerVisible != true) {
       //   this.subForm[index].kind_id = '';
       // }
-      // if (this.subForm[index].work_id === 6) {
-      //   this.subForm[index].kind_id = 6025;
-      //   this.subForm[index].num = 0;
-      //   this.subForm[index].work_type = 0;
-      //   return;
-      // }
+      if (this.subForm[0].work_name === '51.0') {
+        this.subForm[0].kind_id = 6025;
+        this.subForm[0].num = 0;
+        this.subForm[0].work_type = 0;
+        if (this.time_quantum === 1) {
+          this.subForm[0].work_time = 8.5;
+        }
+        if (this.time_quantum === 0) {
+          this.subForm[0].work_time = 9.5;
+        }
+        return;
+      }
       let subFormKindList = [];
       let result = await this.$axios.get(`/akyl/kind/kind_list?skip=0&limit=1000&work_id=${workId}`);
       if (result.data.totalRow > 0) {
@@ -1009,12 +1050,6 @@ export default {
             delete item.create_time;
             delete item.id;
             delete item.job_report_main;
-            delete item.order_no;
-            delete item.remark;
-            delete item.th_order_no;
-            delete item.ycl_no;
-            delete item.zx_order_no;
-            // delete item.kind_name;
             return item;
           });
           result = await this.$axios.post('/akyl/bg/job_report_sub_save', { data: { subForm: newSubFrom, id: id } });
@@ -1048,7 +1083,6 @@ export default {
       all_work_time += this.updateForm.leave_time * 1;
       all_work_time += this.updateForm.fj_time * 1;
       let should_work_time = this.time_quantum === 0 ? 9.5 : 8.5;
-      // console.log(all_work_time);
       if (should_work_time !== all_work_time) {
         this.$message.error('请假时间加工作时间不等于总工时.时间输入有误');
         return false;
@@ -1095,11 +1129,6 @@ export default {
             delete this.subForm[index].create_time;
             delete this.subForm[index].id;
             delete this.subForm[index].job_report_main;
-            delete this.subForm[index].order_no;
-            delete this.subForm[index].remark;
-            delete this.subForm[index].th_order_no;
-            delete this.subForm[index].ycl_no;
-            delete this.subForm[index].zx_order_no;
             delete this.subForm[index].work_name;
           }
         }
@@ -1111,7 +1140,6 @@ export default {
           this.subForm = [];
           this.time_quantum = 0;
           this.is_update = true;
-          this.g_update = true;
           this.search();
           this.outerVisibleUpdate = false;
         } else {
@@ -1164,7 +1192,6 @@ export default {
         this.$refs.deleteAlert.hide();
       }
       this.is_update = true;
-      this.g_update = true;
       this.operateId = '';
       this.subForm.splice(0, this.subForm.length);
     },
@@ -1192,7 +1219,7 @@ export default {
         this.subFormContent = {
           is_night: '',
           work_type: 0,
-          is_in: '0',
+          is_in: '1',
           add_time: null,
           num: null,
           work_time: null,
@@ -1206,7 +1233,7 @@ export default {
           this.subFormContent = {
             is_night: '',
             work_type: 0,
-            is_in: '0',
+            is_in: '1',
             add_time: null,
             num: null,
             work_time: null,
@@ -1236,7 +1263,7 @@ export default {
       this.subFormContent = {
         is_night: '',
         work_type: 0,
-        is_in: '0',
+        is_in: '1',
         add_time: null,
         num: null,
         work_time: null,
