@@ -65,9 +65,9 @@
               <td>{{ item.all_time }}</td>
               <td>{{ item.leave_time }}</td>
               <td>
-                <b-button variant="primary" style="color:white; margin-right:5px;" @click="openAlert('update', index)">详&nbsp;&nbsp;情</b-button>
-                <b-button variant="primary" style="color:white; margin-right:5px;" @click="copyBgList(index)">复&nbsp;&nbsp;制</b-button>
-                <b-button variant="danger" style="color:white;" @click="openAlert('delete', item.id)">删&nbsp;&nbsp;除</b-button>
+                <b-button @click="openAlert('update', index)" variant="primary" style="color:white; margin-right:5px;">详&nbsp;&nbsp;情</b-button>
+                <b-button @click="copyBgList(index)" variant="primary" style="color:white; margin-right:5px;">复&nbsp;&nbsp;制</b-button>
+                <b-button @click="openAlert('delete', item.id)" variant="danger" style="color:white;">删&nbsp;&nbsp;除</b-button>
               </td>
             </tr>
           </tbody>
@@ -646,7 +646,7 @@ export default {
       g_update: true,
       zx_order_no: '',
       th_order_no: '',
-      operateId: {},
+      operateId: '',
       currentPage: 1,
       limit: 15,
       totalRow: 0,
@@ -769,6 +769,9 @@ export default {
     },
     //查询
     async search() {
+      if (this.select_create_time === null) {
+        this.select_create_time = '';
+      }
       let skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(
         `/akyl/bg/job_report_list?skip=${skip}&limit=${this.limit}&dept_id=${this.userInfo.dept_id}&create_time=${this.select_create_time}&job_num=${
@@ -957,10 +960,15 @@ export default {
       this.subForm.forEach(item => {
         all_work_time = all_work_time * 1 + item.work_time * 1;
       });
+      if (this.form.fj_time === null) {
+        this.form.fj_time = 0;
+      }
+      if (this.form.leave_time === null) {
+        this.form.leave_time = 0;
+      }
       all_work_time += this.form.leave_time * 1;
       all_work_time += this.form.fj_time * 1;
       let should_work_time = this.time_quantum === 0 ? 9.5 : 8.5;
-      // console.log(all_work_time);
       if (should_work_time !== all_work_time) {
         this.$message.error('请假时间+工作时间+放假时间不等于总工时.时间输入有误');
         return false;
@@ -988,6 +996,9 @@ export default {
       if (filterList.length <= 0) {
         this.$message.error('没有此工号');
         throw new Error('job_num无对应数据');
+      }
+      if (newFrom.id != null) {
+        delete newFrom.id;
       }
       let result = await this.$axios.post('/akyl/bg/job_report_main_save', { data: newFrom });
       if (result.data.msg === '成功') {
@@ -1141,8 +1152,6 @@ export default {
         // this.temporaryList.splice(0, this.temporaryList.length);
         this.form.dept_id = this.userInfo.dept_id;
         this.form.login_id = this.userInfo.login_id;
-        this.form.fj_time = 0;
-        this.form.leave_time = 0;
         this.addSubForm('open');
         this.outerVisible = true;
       }
@@ -1207,6 +1216,13 @@ export default {
           this.subForm.push(JSON.parse(JSON.stringify(this.subFormContent)));
         }
       }
+    },
+    copyBgList(index) {
+      this.outerVisible = true;
+      this.form = JSON.parse(JSON.stringify(this.list[index]));
+      this.searchSubForm(this.form.id);
+      this.form.job_num = '';
+      // this.time_quantum = 0;
     },
     reset() {
       this.time_quantum = 0;
