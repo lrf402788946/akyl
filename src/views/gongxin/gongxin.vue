@@ -71,19 +71,19 @@
           <table class="table table-bordered table-striped ">
             <tbody v-if="list.length > 0">
               <tr>
-                <th>工号</th>
-                <th>姓名</th>
-                <th>计时工资</th>
-                <th>计件工资</th>
-                <th>加班工资</th>
-                <th>加班补助工资</th>
-                <th>满勤奖工资</th>
-                <th>通勤奖工资</th>
-                <th>夜班补助工资</th>
-                <th>保险补助工资</th>
-                <th>工龄补助工资</th>
-                <th>工资总和</th>
-                <th>扣除工资</th>
+                <th width="6%">工号</th>
+                <th width="6%">姓名</th>
+                <th width="6%">计时工资</th>
+                <th width="6%">计件工资</th>
+                <th width="6%">加班工资</th>
+                <th width="6%">加班补助工资</th>
+                <th width="6%">满勤奖工资</th>
+                <th width="6%">通勤奖工资</th>
+                <th width="6%">夜班补助工资</th>
+                <th width="6%">保险补助工资</th>
+                <th width="6%">工龄补助工资</th>
+                <th width="6%">工资总和</th>
+                <th width="6%">扣除工资</th>
               </tr>
               <tr v-for="(item, index) in list" :key="index">
                 <td>{{ item.job_num }}</td>

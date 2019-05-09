@@ -1180,7 +1180,17 @@ export default {
         // this.temporaryList.splice(0, this.temporaryList.length);
         this.form.dept_id = this.userInfo.dept_id;
         this.form.login_id = this.userInfo.login_id;
-        this.addSubForm('open');
+        if (this.subForm.length === 0) {
+          this.addSubForm('open');
+        } else {
+          for (let i = 0; i < this.subForm.length; i++) {
+            for (let index = 0; index < this.workList.length; index++) {
+              if (this.workList[index].id === this.subForm[i].work_id) {
+                this.$set(this.subForm[i], `work_name`, this.workList[index].code);
+              }
+            }
+          }
+        }
         this.outerVisible = true;
       }
     },

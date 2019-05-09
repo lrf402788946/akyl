@@ -47,12 +47,14 @@
       <table class="table table-bordered table-striped ">
         <tbody v-if="list.length > 0">
           <tr>
-            <th>型号</th>
-            <th>数量</th>
-            <th>配重</th>
+            <th width="20%">型号</th>
+            <th width="20%">名称</th>
+            <th width="20%">数量</th>
+            <th width="20%">配重</th>
           </tr>
           <tr v-for="(item, index) in list" :key="index">
             <td>{{ item.code }}</td>
+            <td>{{ item.name }}</td>
             <td>{{ item.nums === null ? 0 : item.nums }}</td>
             <td v-html="item.pz"></td>
           </tr>

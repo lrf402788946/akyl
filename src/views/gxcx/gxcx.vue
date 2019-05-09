@@ -53,20 +53,20 @@
           <table class="table table-bordered table-striped ">
             <tbody v-if="list != []">
               <tr>
-                <th width="7%">姓名</th>
-                <th width="7%">工号</th>
-                <th width="7%">计时工资</th>
-                <th width="7%">计件工资</th>
-                <th width="7%">加班工资</th>
-                <th width="7%">加班补助工资</th>
-                <th width="7%">满勤奖</th>
-                <th width="7%">通勤补助</th>
-                <th width="7%">夜班工资补助</th>
-                <th width="7%">保险工资</th>
-                <th width="7%">工龄补助</th>
-                <th width="7%">工资总和</th>
-                <th width="7%">扣除工资</th>
-                <th width="7%">操作</th>
+                <th width="6%">姓名</th>
+                <th width="6%">工号</th>
+                <th width="6%">计时工资</th>
+                <th width="6%">计件工资</th>
+                <th width="6%">加班工资</th>
+                <th width="6%">加班补助工资</th>
+                <th width="6%">满勤奖</th>
+                <th width="6%">通勤补助</th>
+                <th width="6%">夜班工资补助</th>
+                <th width="6%">保险工资</th>
+                <th width="6%">工龄补助</th>
+                <th width="6%">工资总和</th>
+                <th width="6%">扣除工资</th>
+                <th width="6%">操作</th>
               </tr>
               <tr v-for="(item, index) in list" :key="index">
                 <td>{{ item.user_name }}</td>
