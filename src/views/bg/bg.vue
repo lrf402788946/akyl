@@ -153,8 +153,7 @@
                 <td style="width:4%">是否入库</td>
                 <td style="width:7.5%">工序</td>
                 <td style="width:12%">类型</td>
-                <td style="width:9%">半成品批号</td>
-                <td style="width:9%">原材料批号</td>
+                <td style="width:18%">批号</td>
                 <td style="width:3%">计数方式</td>
                 <td style="width:5.5%">工时(小时)</td>
                 <td style="width:7.5%">数量</td>
@@ -198,34 +197,6 @@
                   >
                     <el-option v-for="item in workList" :key="item.value" :label="item.text" :value="item.value"> </el-option>
                   </el-select> -->
-                  <div v-if="!isG(subFormIndex)">
-                    <!-- <b-form-input v-model="item.zx_order_no" placeholder="针芯批号"></b-form-input> -->
-                    <el-autocomplete
-                      @select="inputSelectZxPh"
-                      @focus="getPhIndex(subFormIndex)"
-                      class="inline-input"
-                      v-model="item.zx_order_no"
-                      :fetch-suggestions="zxOrderNoSearch"
-                      placeholder="针芯批号"
-                    >
-                      <template slot-scope="scope">
-                        {{ scope.item.order_no }}
-                      </template>
-                    </el-autocomplete>
-                    <br />
-                    <el-autocomplete
-                      @select="inputSelectThPh"
-                      @focus="getPhIndex(subFormIndex)"
-                      class="inline-input"
-                      v-model="item.th_order_no"
-                      :fetch-suggestions="thOrderNoSearch"
-                      placeholder="弹簧批号"
-                    >
-                      <template slot-scope="scope">
-                        {{ scope.item.order_no }}
-                      </template>
-                    </el-autocomplete>
-                  </div>
                 </td>
                 <td>
                   <el-select
@@ -241,21 +212,59 @@
                   </el-select>
                 </td>
                 <td>
-                  <el-autocomplete
-                    @select="inputSelectOnPh"
-                    @focus="getPhIndex(subFormIndex)"
-                    class="inline-input"
-                    v-model="item.order_no"
-                    :fetch-suggestions="orderNoSearch"
-                    placeholder="半成品批号"
-                  >
-                    <template slot-scope="scope">
-                      {{ scope.item.order_no }}
-                    </template>
-                  </el-autocomplete>
-                </td>
-                <td>
-                  <b-form-input v-model="item.ycl_no" placeholder="原材料批号"></b-form-input>
+                  <div v-if="isShow('on', subFormIndex) === '1'">
+                    半成品
+                    <el-autocomplete
+                      size="mini"
+                      @select="inputSelectOnPh"
+                      @focus="getPhIndex(subFormIndex)"
+                      class="inline-input"
+                      v-model="item.order_no"
+                      :fetch-suggestions="orderNoSearch"
+                      placeholder="半成品批号"
+                    >
+                      <template slot-scope="scope">
+                        {{ scope.item.order_no }}
+                      </template>
+                    </el-autocomplete>
+                  </div>
+                  <div v-if="isShow('ycl', subFormIndex) === '1'">
+                    原材料
+                    <!-- <el-autocomplete size="mini" class="inline-input" v-model="item.ycl_no" placeholder="原材料批号"> </el-autocomplete> -->
+                    <el-input style="width:77% !important" size="mini" placeholder="原材料批号" v-model="item.ycl_no"> </el-input>
+                  </div>
+                  <div v-if="isShow('zx', subFormIndex) === '1'">
+                    针&nbsp;&nbsp;&nbsp;&nbsp;芯
+                    <el-autocomplete
+                      size="mini"
+                      @select="inputSelectZxPh"
+                      @focus="getPhIndex(subFormIndex)"
+                      class="inline-input"
+                      v-model="item.zx_order_no"
+                      :fetch-suggestions="zxOrderNoSearch"
+                      placeholder="针芯批号"
+                    >
+                      <template slot-scope="scope">
+                        {{ scope.item.order_no }}
+                      </template>
+                    </el-autocomplete>
+                  </div>
+                  <div v-if="isShow('th', subFormIndex) === '1'">
+                    弹簧柄
+                    <el-autocomplete
+                      size="mini"
+                      @select="inputSelectThPh"
+                      @focus="getPhIndex(subFormIndex)"
+                      class="inline-input"
+                      v-model="item.th_order_no"
+                      :fetch-suggestions="thOrderNoSearch"
+                      placeholder="弹簧柄批号"
+                    >
+                      <template slot-scope="scope">
+                        {{ scope.item.order_no }}
+                      </template>
+                    </el-autocomplete>
+                  </div>
                 </td>
                 <td>
                   <b-form-group>
@@ -401,14 +410,13 @@
                 <td style="width:4%">是否入库</td>
                 <td style="width:8%">工序</td>
                 <td style="width:10%">类型</td>
-                <td style="width:9%">半成品批号</td>
-                <td style="width:9%">原材料批号</td>
+                <td style="width:18%">批号</td>
                 <td style="width:3%">计数方式</td>
                 <td style="width:5.5%">工时(小时)</td>
                 <td style="width:7%">数量</td>
                 <td style="width:5.9%">加班</td>
                 <td style="width:12%">备注</td>
-                <td v-if="!is_update" style="width:6%">操作</td>
+                <td style="width:6%">操作</td>
               </tr>
               <tr v-for="(item, index) in subForm" :key="index">
                 <td>
@@ -448,36 +456,6 @@
                       {{ scope.item.code }}
                     </template>
                   </el-autocomplete>
-                  <div v-if="!isG(index)">
-                    <!-- <b-form-input v-model="item.zx_order_no" placeholder="针芯批号"></b-form-input> -->
-                    <el-autocomplete
-                      :disabled="is_update"
-                      @select="inputSelectThPh"
-                      @focus="getPhIndex(index)"
-                      class="inline-input"
-                      v-model="item.zx_order_no"
-                      :fetch-suggestions="zxOrderNoSearch"
-                      placeholder="针芯批号"
-                    >
-                      <template slot-scope="scope">
-                        {{ scope.item.order_no }}
-                      </template>
-                    </el-autocomplete>
-                    <br />
-                    <el-autocomplete
-                      :disabled="is_update"
-                      @select="inputSelectThPh"
-                      @focus="getPhIndex(index)"
-                      class="inline-input"
-                      v-model="item.th_order_no"
-                      :fetch-suggestions="thOrderNoSearch"
-                      placeholder="弹簧批号"
-                    >
-                      <template slot-scope="scope">
-                        {{ scope.item.order_no }}
-                      </template>
-                    </el-autocomplete>
-                  </div>
                 </td>
                 <td>
                   <el-select
@@ -494,22 +472,62 @@
                   </el-select>
                 </td>
                 <td>
-                  <el-autocomplete
-                    @select="inputSelectOnPh"
-                    @focus="getPhIndex(index)"
-                    :disabled="is_update"
-                    class="inline-input"
-                    v-model="item.order_no"
-                    :fetch-suggestions="orderNoSearch"
-                    placeholder="半成品批号"
-                  >
-                    <template slot-scope="scope">
-                      {{ scope.item.order_no }}
-                    </template>
-                  </el-autocomplete>
-                </td>
-                <td>
-                  <b-form-input v-model="item.ycl_no" placeholder="请输入原材料批号" :disabled="is_update"></b-form-input>
+                  <div v-if="isShow('on', index) === '1'">
+                    半成品
+                    <el-autocomplete
+                      size="mini"
+                      @select="inputSelectOnPh"
+                      @focus="getPhIndex(index)"
+                      :disabled="is_update"
+                      class="inline-input"
+                      v-model="item.order_no"
+                      :fetch-suggestions="orderNoSearch"
+                      placeholder="半成品批号"
+                    >
+                      <template slot-scope="scope">
+                        {{ scope.item.order_no }}
+                      </template>
+                    </el-autocomplete>
+                  </div>
+                  <div v-if="isShow('ycl', index) === '1'">
+                    原材料
+                    <!-- <el-autocomplete :disabled="is_update" size="mini" class="inline-input" v-model="item.ycl_no" placeholder="原材料批号"> </el-autocomplete> -->
+                    <el-input style="width:75% !important" :disabled="is_update" size="mini" placeholder="原材料批号" v-model="item.ycl_no"> </el-input>
+                  </div>
+                  <div v-if="isShow('zx', index) === '1'">
+                    针&nbsp;&nbsp;&nbsp;&nbsp;芯
+                    <el-autocomplete
+                      size="mini"
+                      :disabled="is_update"
+                      @select="inputSelectThPh"
+                      @focus="getPhIndex(index)"
+                      class="inline-input"
+                      v-model="item.zx_order_no"
+                      :fetch-suggestions="zxOrderNoSearch"
+                      placeholder="针芯批号"
+                    >
+                      <template slot-scope="scope">
+                        {{ scope.item.order_no }}
+                      </template>
+                    </el-autocomplete>
+                  </div>
+                  <div v-if="isShow('th', index) === '1'">
+                    弹簧柄
+                    <el-autocomplete
+                      size="mini"
+                      :disabled="is_update"
+                      @select="inputSelectThPh"
+                      @focus="getPhIndex(index)"
+                      class="inline-input"
+                      v-model="item.th_order_no"
+                      :fetch-suggestions="thOrderNoSearch"
+                      placeholder="弹簧柄批号"
+                    >
+                      <template slot-scope="scope">
+                        {{ scope.item.order_no }}
+                      </template>
+                    </el-autocomplete>
+                  </div>
                 </td>
                 <td>
                   <b-form-group :disabled="is_update">
@@ -691,6 +709,68 @@ export default {
       midType: '',
       zxOrderNoList: [],
       thOrderNoList: [],
+      batchChoose: [
+        { code: '51.0', zx: '0', th: '0', on: '0', ycl: '0' },
+        { code: 'A1', zx: '0', th: '0', on: '1', ycl: '0' },
+        { code: 'A2', zx: '0', th: '0', on: '0', ycl: '0' },
+        { code: 'A3', zx: '0', th: '0', on: '0', ycl: '0' },
+        { code: 'A4', zx: '0', th: '0', on: '0', ycl: '0' },
+        { code: 'B1', zx: '0', th: '0', on: '1', ycl: '1' },
+        { code: 'B2', zx: '0', th: '0', on: '0', ycl: '0' },
+        { code: 'C', zx: '0', th: '0', on: '1', ycl: '1' },
+        { code: 'C1', zx: '0', th: '0', on: '1', ycl: '1' },
+        { code: 'C2', zx: '0', th: '0', on: '0', ycl: '1' },
+        { code: 'C3', zx: '0', th: '0', on: '0', ycl: '1' },
+        { code: 'D', zx: '0', th: '0', on: '1', ycl: '1' },
+        { code: 'D1', zx: '0', th: '0', on: '1', ycl: '1' },
+        { code: 'D2', zx: '0', th: '0', on: '0', ycl: '1' },
+        { code: 'D3', zx: '0', th: '0', on: '0', ycl: '1' },
+        { code: 'E', zx: '0', th: '1', on: '0', ycl: '0' },
+        { code: 'F', zx: '1', th: '0', on: '0', ycl: '0' },
+        { code: 'F1', zx: '1', th: '0', on: '0', ycl: '0' },
+        { code: 'F2', zx: '1', th: '0', on: '0', ycl: '0' },
+        { code: 'G', zx: '1', th: '1', on: '1', ycl: '0' },
+        { code: 'H', zx: '0', th: '0', on: '1', ycl: '0' },
+        { code: 'H1', zx: '0', th: '0', on: '1', ycl: '0' },
+        { code: 'H2', zx: '0', th: '0', on: '1', ycl: '0' },
+        { code: 'H3', zx: '0', th: '0', on: '1', ycl: '0' },
+        { code: 'H4', zx: '0', th: '0', on: '1', ycl: '0' },
+        { code: 'H5', zx: '0', th: '0', on: '1', ycl: '0' },
+        { code: 'I', zx: '0', th: '0', on: '0', ycl: '1' },
+        { code: 'I1', zx: '0', th: '0', on: '0', ycl: '1' },
+        { code: 'J', zx: '0', th: '0', on: '1', ycl: '0' },
+        { code: 'J1', zx: '0', th: '0', on: '1', ycl: '0' },
+        { code: 'J2', zx: '0', th: '0', on: '1', ycl: '0' },
+        { code: 'J3', zx: '0', th: '0', on: '1', ycl: '0' },
+        { code: 'J4', zx: '0', th: '0', on: '1', ycl: '0' },
+        { code: 'K', zx: '0', th: '0', on: '0', ycl: '1' },
+        { code: 'K1', zx: '0', th: '0', on: '1', ycl: '1' },
+        { code: 'K2', zx: '0', th: '0', on: '0', ycl: '1' },
+        { code: 'L', zx: '0', th: '0', on: '1', ycl: '0' },
+        { code: 'M', zx: '0', th: '0', on: '1', ycl: '0' },
+        { code: 'N', zx: '0', th: '0', on: '1', ycl: '0' },
+        { code: 'O', zx: '0', th: '0', on: '1', ycl: '0' },
+        { code: 'P', zx: '0', th: '0', on: '0', ycl: '1' },
+        { code: 'Q', zx: '0', th: '0', on: '0', ycl: '1' },
+        { code: 'Q1', zx: '0', th: '0', on: '1', ycl: '1' },
+        { code: 'Q2', zx: '0', th: '0', on: '0', ycl: '1' },
+        { code: 'R', zx: '0', th: '0', on: '1', ycl: '1' },
+        { code: 'R1', zx: '0', th: '0', on: '0', ycl: '1' },
+        { code: 'R2', zx: '0', th: '0', on: '0', ycl: '1' },
+        { code: 'S', zx: '0', th: '0', on: '0', ycl: '1' },
+        { code: 'S1', zx: '0', th: '0', on: '0', ycl: '1' },
+        { code: 'S2', zx: '0', th: '0', on: '0', ycl: '1' },
+        { code: 'S3', zx: '0', th: '0', on: '0', ycl: '1' },
+        { code: 'S4', zx: '0', th: '0', on: '0', ycl: '1' },
+        { code: 'T', zx: '0', th: '0', on: '0', ycl: '0' },
+        { code: 'T1', zx: '0', th: '0', on: '0', ycl: '0' },
+        { code: 'T2', zx: '0', th: '0', on: '0', ycl: '0' },
+        { code: 'W', zx: '1', th: '1', on: '0', ycl: '0' },
+        { code: 'X', zx: '0', th: '1', on: '0', ycl: '0' },
+        { code: 'Z', zx: '0', th: '1', on: '0', ycl: '1' },
+        { code: 'Z1', zx: '0', th: '1', on: '0', ycl: '0' },
+        { code: 'Z2', zx: '0', th: '1', on: '0', ycl: '0' },
+      ],
     };
   },
   computed: {
@@ -791,20 +871,41 @@ export default {
       }
       return result;
     },
+    // 批号显示
+    isShow(type, i) {
+      for (let index = 0; index < this.batchChoose.length; index++) {
+        if (this.batchChoose[index].code === this.subForm[i].work_name) {
+          if (type === 'on') {
+            return this.batchChoose[index].on;
+          }
+          if (type === 'ycl') {
+            return this.batchChoose[index].ycl;
+          }
+          if (type === 'zx') {
+            return this.batchChoose[index].zx;
+          }
+          if (type === 'th') {
+            return this.batchChoose[index].th;
+          }
+        }
+      }
+    },
     //半成品批号选择
     orderNoSearch(queryString, cb) {
-      if (this.orderNoList === undefined) {
-        return;
+      let restaurants = this.orderNoList != undefined ? this.orderNoList : [];
+      restaurants = restaurants.filter(item => {
+        return item.order_no != null;
+      });
+      let result;
+      if (queryString !== undefined) {
+        result = restaurants.filter(item => {
+          return item.order_no.toLowerCase().indexOf(queryString.toLowerCase()) >= 0;
+        });
+      } else {
+        result = restaurants;
       }
-      let restaurants = this.orderNoList;
-      let result = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
       // 调用 callback 返回建议列表的数据
       cb(result);
-    },
-    createFilter(queryString) {
-      return restaurant => {
-        return restaurant.order_no.toLowerCase().indexOf(queryString.toLowerCase()) === 0;
-      };
     },
     //针芯批号选择
     zxOrderNoSearch(queryString, cb) {
@@ -823,7 +924,7 @@ export default {
       // 调用 callback 返回建议列表的数据
       cb(result);
     },
-    //弹簧批号选择
+    //弹簧柄批号选择
     thOrderNoSearch(queryString, cb) {
       let restaurants = this.thOrderNoList != undefined ? this.thOrderNoList : [];
       restaurants = restaurants.filter(item => {
@@ -1126,7 +1227,6 @@ export default {
       if (result.data.msg === '成功') {
         if (this.subForm[0].work_name != null) {
           for (let index = 0; index < this.subForm.length; index++) {
-            delete this.subForm[index].create_time;
             delete this.subForm[index].id;
             delete this.subForm[index].job_report_main;
             delete this.subForm[index].work_name;

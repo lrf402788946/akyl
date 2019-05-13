@@ -181,9 +181,10 @@
               </tr>
               <tr v-for="(item, index) in pzForm" :key="index">
                 <td>
-                  <el-select class="marginBot" style="height:40px !important" v-model="item.cl_id" filterable placeholder="请选择材料">
+                  <!-- <el-select class="marginBot" style="height:40px !important" v-model="item.cl_id" filterable placeholder="请选择材料">
                     <el-option v-for="(item2, index) in materialList" :key="index" :label="item2.text" :value="item2.value">{{ item2.text }}</el-option>
-                  </el-select>
+                  </el-select> -->
+                  <b-form-input v-model="item.cl_name"></b-form-input>
                 </td>
                 <td>
                   <b-form-input v-model="item.num" type="number" onkeypress="return (/[0-9.]/.test(String.fromCharCode(event.keyCode)))"></b-form-input>
@@ -374,19 +375,19 @@ export default {
         // this.workList.unshift(defalut);
       }
     },
-    //查询材料表
-    async searchMaterial() {
-      let result = await this.$axios.get(`/akyl/cl/cl_list?name=&skip=0&limit=10000`);
-      if (result.data.rescode === '0') {
-        this.materialList = result.data.cList.map(item => {
-          let newObject = { text: item.name, value: item.id };
-          return newObject;
-        });
-      } else {
-        let defalut = { text: '无材料可选择', value: null, disabled: true };
-        this.materialList = '';
-      }
-    },
+    // //查询材料表
+    // async searchMaterial() {
+    //   let result = await this.$axios.get(`/akyl/cl/cl_list?name=&skip=0&limit=10000`);
+    //   if (result.data.rescode === '0') {
+    //     this.materialList = result.data.cList.map(item => {
+    //       let newObject = { text: item.name, value: item.id };
+    //       return newObject;
+    //     });
+    //   } else {
+    //     let defalut = { text: '无材料可选择', value: null, disabled: true };
+    //     this.materialList = '';
+    //   }
+    // },
     //验证,因为添加和修改的验证内容都是一样的,所以用一个方法
     toValidate(type) {
       this.kindValidator.validate(this.form, (errors, fields) => {
