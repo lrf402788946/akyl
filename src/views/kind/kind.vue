@@ -47,6 +47,7 @@
             <i class="base-margin-right-5 fa fa-plus-square"></i>添加型号
           </a>
           <entrance @research="search"></entrance>
+          <entrancePZ @research="search"></entrancePZ>
         </div>
         <!-- 导出 -->
         <div style="margin:10px 0;">
@@ -229,6 +230,7 @@
 <script>
 import Validator from 'async-validator';
 import entrance from '@/components/entrance.vue';
+import entrancePZ from '@/components/entrancePZ.vue';
 import exportExcel from '@/components/exportExcel.vue';
 export default {
   name: 'kind',
@@ -238,6 +240,7 @@ export default {
   components: {
     exportExcel,
     entrance,
+    entrancePZ,
   },
   data() {
     return {
@@ -273,7 +276,7 @@ export default {
   created() {
     this.search();
     this.searchWork();
-    this.searchMaterial();
+    // this.searchMaterial();
   },
   watch: {
     is_title_search: {
