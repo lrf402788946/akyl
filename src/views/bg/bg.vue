@@ -499,7 +499,7 @@
                     <el-autocomplete
                       size="mini"
                       :disabled="is_update"
-                      @select="inputSelectThPh"
+                      @select="inputSelectZxPh"
                       @focus="getPhIndex(index)"
                       class="inline-input"
                       v-model="item.zx_order_no"
@@ -700,7 +700,6 @@ export default {
       orderNoList: {},
       outerVisible: false,
       outerVisibleUpdate: false,
-      contractPrice: '',
       staffList: [],
       select_create_time: '',
       select_job_num: '',
@@ -860,17 +859,6 @@ export default {
     handleSelect(item) {
       this.form.job_num = item.job_num;
       this.updateForm.job_num = item.job_num;
-    },
-    isG(index) {
-      let work_id = this.subForm[index].work_id;
-      let result = true;
-      for (const item of this.workList) {
-        if (item.id === work_id && item.code === 'G') {
-          result = false;
-          break;
-        }
-      }
-      return result;
     },
     // 批号显示
     isShow(type, i) {
