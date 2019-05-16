@@ -4,7 +4,7 @@
     <div class="base-form">
       <div class="form-inline">
         <div class="base-form-title" style="width:100%;">
-          <a class="base-margin-left-20">工薪查询</a>
+          <a class="base-margin-left-20">工资查询</a>
           <div class="button-table"></div>
         </div>
       </div>
@@ -196,6 +196,7 @@
                   <td>工时(小时)</td>
                   <td>数量</td>
                   <td>加班</td>
+                  <td>金额</td>
                   <td>备注</td>
                 </tr>
                 <tr v-for="(item, index) in subList" :key="index">
@@ -219,6 +220,9 @@
                   </td>
                   <td>
                     {{ item.add_time }}
+                  </td>
+                  <td>
+                    {{ item.price }}
                   </td>
                   <td>
                     {{ item.remark }}
@@ -246,7 +250,7 @@ import { mapState } from 'vuex';
 export default {
   name: 'gxcx',
   metaInfo: {
-    title: '工薪查询',
+    title: '工资查询',
   },
   components: {},
   data() {
@@ -322,6 +326,7 @@ export default {
     },
     //查询子表
     async searchSubForm(item) {
+      this.subList = [];
       let result = await this.$axios.get(`/akyl/wages/wages_curdate_detail?job_num=${item.job_num}&create_time=${item.gz_month}`);
       if (result.data.rescode === '0') {
         this.$set(this, 'subList', result.data.jobReportSubList);

@@ -11,14 +11,7 @@
           <div class="col-lg-3 mb25">
             <div class="lh44">月份查询：</div>
             <!-- <span class="demonstration">月份查询</span> -->
-            <el-date-picker
-              v-model="value1"
-              type="month"
-              value-format="yyyy-MM"
-              format="yyyy-MM"
-              placeholder="选择月份"
-              :picker-options="pickerOptions0"
-            ></el-date-picker>
+            <el-date-picker v-model="value1" type="month" value-format="yyyy-MM" format="yyyy-MM" placeholder="选择月份"></el-date-picker>
           </div>
           <div class="col-lg-3 mb25">
             <div class="lh44">部门查询：</div>
@@ -128,14 +121,14 @@ export default {
   },
   data() {
     return {
-      pickerOptions0: {
-        disabledDate(time) {
-          let curDate = new Date().getTime();
-          let three = 30 * 24 * 3600 * 1000;
-          let threeMonths = curDate - three;
-          return time.getTime() > threeMonths;
-        },
-      },
+      // pickerOptions0: {
+      //   disabledDate(time) {
+      //     let curDate = new Date().getTime();
+      //     let three = 30 * 24 * 3600 * 1000;
+      //     let threeMonths = curDate - three;
+      //     return time.getTime() > threeMonths;
+      //   },
+      // },
       biaotoushow: false,
       list: [],
       operateId: {},

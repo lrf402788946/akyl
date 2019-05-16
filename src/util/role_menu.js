@@ -127,6 +127,10 @@ export const TJ = {
       name: '生产统计',
       router_name: 'sc',
     },
+    {
+      name: '请假加班查询',
+      router_name: 'qj',
+    },
   ],
 };
 

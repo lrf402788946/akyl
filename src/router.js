@@ -32,6 +32,7 @@ import pjl from './views/pjl/pjl.vue';
 import packageList from './views/packageList/packageList.vue';
 import xnk from './views/xnk/xnk.vue';
 import sc from './views/sc/sc.vue';
+import qj from './views/qj/qj.vue';
 
 Vue.use(Router);
 const router = new Router({
@@ -197,6 +198,11 @@ const router = new Router({
           path: '/sc',
           name: 'sc',
           component: sc,
+        },
+        {
+          path: '/qj',
+          name: 'qj',
+          component: qj,
         },
       ],
     },

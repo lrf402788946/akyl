@@ -27,14 +27,12 @@
             onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
           ></b-form-input>
         </div>
-        <div class="col-lg-2 mb25">
-          <b-button
-            variant="primary"
-            style="font-size:14px !important; color:#fff !important; width: 60% !important; margin-top:3px;  padding: 6px 0 !important; margin-right:0 !important;"
-            @click="search()"
-            >查&nbsp;&nbsp;询</b-button
-          >
-        </div>
+        <b-button
+          variant="primary"
+          style="font-size:14px !important; color:#fff !important; width: 20% !important; margin-top:3px;  padding: 6px 0 !important; margin-left:3% !important;"
+          @click="search()"
+          >查&nbsp;&nbsp;询</b-button
+        >
         <div class="base-align-right" style="margin-bottom: 20px;">
           <a
             class="btn btn-info base-margin-bottom"
@@ -1006,7 +1004,7 @@ export default {
       // if (this.innerVisible != true) {
       //   this.subForm[index].kind_id = '';
       // }
-      if (this.subForm[0].work_name === '51.0') {
+      if ((this.subForm[0].work_name === '51.0') & (this.outerVisibleUpdate != true)) {
         this.subForm[0].kind_id = 6025;
         this.subForm[0].num = 0;
         this.subForm[0].work_type = 0;

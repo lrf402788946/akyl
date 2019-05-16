@@ -1,8 +1,8 @@
 <template lang="html">
-  <div id="pdt">
+  <div id="qj">
     <div class="form-inline">
       <div class="base-form-title" style="width:100%;">
-        <a class="base-margin-left-20">型号统计</a>
+        <a class="base-margin-left-20">请假加班查询</a>
         <div class="button-table"></div>
       </div>
     </div>
@@ -10,29 +10,26 @@
       <div class="row">
         <div class="col-lg-4 mb25">
           <el-date-picker
-            style="width: 100%;"
             v-model="search_time"
-            value-format="yyyy-MM-dd"
-            format="yyyy-MM-dd"
             type="daterange"
+            align="right"
+            unlink-panels
             range-separator="-"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
-            unlink-panels
+            :picker-options="pickerOptions"
           >
           </el-date-picker>
+        </div>
+        <div class="col-lg-3 mb25">
+          <el-select class="marginBot" style="height:40px !important" v-model="type" filterable placeholder="请选择加班还是请假">
+            <el-option v-for="item in types" :key="item.value" :label="item.text" :value="item.value"> </el-option>
+          </el-select>
         </div>
         <div class="col-lg-3 mb25">
           <el-select class="marginBot" style="height:40px !important" v-model="dept_id" filterable placeholder="请选择部门">
             <el-option v-for="item in deptList" :key="item.value" :label="item.text" :value="item.value"> </el-option>
           </el-select>
-          <!-- <b-form-select style="height:40px !important" v-model="dept_id" :options="deptList" class="marginBot" /> -->
-        </div>
-        <div class="col-lg-3 mb25">
-          <el-select class="marginBot" style="height:40px !important" v-model="kind_id" filterable placeholder="请选择型号">
-            <el-option v-for="item in kindList" :key="item.value" :label="item.text" :value="item.value"> </el-option>
-          </el-select>
-          <!-- <b-form-select style="height:40px !important" v-model="kind_id" :options="kindList" class="marginBot" /> -->
         </div>
         <div class="col-lg-2 mb25">
           <b-button
@@ -43,20 +40,19 @@
           >
         </div>
       </div>
-      <p align="right">总计：{{ countNum }} 个</p>
       <table class="table table-bordered table-striped ">
         <tbody v-if="list.length > 0">
           <tr>
             <th>工号</th>
             <th>姓名</th>
-            <th>型号</th>
-            <th>工作量</th>
+            <th>请假次数/加班次数</th>
+            <th>请假总时间/加班总时间</th>
           </tr>
           <tr v-for="(item, index) in list" :key="index">
-            <td>{{ item.code }}</td>
-            <td>{{ item.name }}</td>
             <td>{{ item.job_num }}</td>
-            <td>{{ item.num }}</td>
+            <td>{{ item.user_name }}</td>
+            <td>{{ item.count_num }}</td>
+            <td>{{ item.sum_num }}</td>
           </tr>
         </tbody>
         <tbody v-else>
@@ -71,9 +67,9 @@
 
 <script>
 export default {
-  name: 'pdt',
+  name: 'qj',
   metaInfo: {
-    title: '型号统计',
+    title: '请假加班查询',
   },
   components: {},
   data() {
@@ -85,6 +81,37 @@ export default {
       deptList: [],
       kindList: [],
       countNum: 0,
+      types: [{ text: '请假', value: '0' }, { text: '加班', value: '1' }],
+      type: '',
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: '本月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date(new Date().setDate(1));
+              picker.$emit('pick', [start, end]);
+            },
+          },
+          {
+            text: '今年至今',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date(new Date().getFullYear(), 0);
+              picker.$emit('pick', [start, end]);
+            },
+          },
+          {
+            text: '最近六个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setMonth(start.getMonth() - 6);
+              picker.$emit('pick', [start, end]);
+            },
+          },
+        ],
+      },
     };
   },
   computed: {},
@@ -99,27 +126,29 @@ export default {
         let newObject = { text: item.dept_name, value: item.id };
         return newObject;
       });
-      // let defalut = { text: '请选择部门', value: null, disabled: true };
-      // this.deptList.unshift(defalut);
-      //请求类型表
-      result = await this.$axios.get('/akyl/kind/kind_list?skip=0&limit=999999');
-      this.kindList = result.data.kindList.map(item => {
-        let newObject = { text: item.name, value: item.id };
-        return newObject;
-      });
-      // defalut = { text: '请选择型号', value: null, disabled: true };
-      // this.kindList.unshift(defalut);
     },
     async search() {
-      if (this.dept_id === null) this.dept_id = '';
-      if (this.kind_id === null) this.kind_id = '';
       if (!this.search_time.length > 0) {
         this.$message.error('请选择时间范围');
         return false;
       }
-      let result = await this.$axios.get(
-        `/akyl/count/count_per?dept_id=${this.dept_id}&start_time=${this.search_time[0]}&end_time=${this.search_time[1]}&kind_id=${this.kind_id}`
-      );
+      let month = this.search_time[0].getMonth() * 1 + 1 + '';
+      let day = this.search_time[0].getDate() + '';
+      month = month.length === 1 ? '0' + month : month;
+      day = day.length === 1 ? '0' + day : day;
+      let month1 = this.search_time[1].getMonth() * 1 + 1 + '';
+      let day1 = this.search_time[1].getDate() + '';
+      month1 = month1.length === 1 ? '0' + month1 : month1;
+      day1 = day1.length === 1 ? '0' + day1 : day1;
+      let startTime = this.search_time[0].getFullYear() + '-' + month + '-' + day;
+      let endTime = this.search_time[1].getFullYear() + '-' + month1 + '-' + day1;
+      if (this.dept_id === null) this.dept_id = '';
+      if (this.kind_id === null) this.kind_id = '';
+      if (!this.type.length > 0) {
+        this.$message.error('请选择加班还是请假');
+        return false;
+      }
+      let result = await this.$axios.get(`/akyl/count/count_leave?dept_id=${this.dept_id}&start_time=${startTime}&end_time=${endTime}&type=${this.type}`);
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.dataList);
         this.$set(this, 'countNum', result.data.countSum);

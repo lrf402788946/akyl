@@ -11,19 +11,22 @@
       <div class="base-padding-20 base-bg-fff">
         <table>
           <tr>
-            <td>员工编号查询:</td>
-            <td style="padding-left:50px">员工姓名查询:</td>
-            <td style="padding-left:150px"></td>
-            <td style="padding-left:250px"></td>
+            <td style="width:25% !important;">部门查询:</td>
+            <td style="width:25% !important;">员工编号查询:</td>
+            <td style="width:25% !important;">员工姓名查询:</td>
+            <td></td>
           </tr>
           <tr>
             <td>
-              <b-form-input v-model="select_staff_job_num" placeholder="输入员工工号" style="width:200px,margin-left:50px"></b-form-input>
+              <b-form-select v-model="cdeptid" :options="deptList" />
             </td>
-            <td style="padding-left:50px">
-              <b-form-input v-model="select_staff_user_name" placeholder="输入员工姓名" style="padding-left:50px,width:200px"></b-form-input>
+            <td>
+              <b-form-input v-model="select_staff_job_num"></b-form-input>
             </td>
-            <td style="padding-left:60px">
+            <td>
+              <b-form-input v-model="select_staff_user_name"></b-form-input>
+            </td>
+            <td>
               <b-button
                 variant="primary"
                 style="font-size: 12px !important; color: rgb(255, 255, 255) !important; width: 100% !important; padding: 6px 15px !important; margin-right: 0px !important;"
@@ -135,24 +138,6 @@
             >
             </b-form-input>
           </div>
-          <!-- <div class="col-lg-6">
-            <b-form-input
-              v-model="addForm.home_address"
-              placeholder="家庭住址"
-              class="marginBot"
-              onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
-            >
-            </b-form-input>
-          </div> -->
-          <!-- <div class="col-lg-6">
-            <b-form-input
-              v-model="addForm.emaill"
-              placeholder="电子信箱"
-              class="marginBot"
-              onkeypress="return (/[0-9a-zA-Z@.]/.test(String.fromCharCode(event.keyCode)))"
-            >
-            </b-form-input>
-          </div> -->
           <div class="col-lg-6">
             <el-date-picker v-model="addForm.birthday" type="date" placeholder="出生日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd"></el-date-picker>
           </div>
@@ -166,16 +151,6 @@
             >
             </b-form-input>
           </div>
-          <!-- <div class="col-lg-6">
-            <b-form-input
-              v-model="addForm.card_no"
-              maxlength="20"
-              placeholder="卡号"
-              class="marginBot"
-              onkeypress="return (/[0-9\\-]/.test(String.fromCharCode(event.keyCode)))"
-            >
-            </b-form-input>
-          </div> -->
           <div class="col-lg-6">
             <b-form-select v-model="addForm.dept_id" :options="deptList" class="marginBot" />
           </div>
@@ -250,22 +225,6 @@
               onkeypress="return (/[0-9]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
           </div>
-          <!-- <div class="col-lg-12 marginBot4">
-            <p class="marginBot4">家庭住址</p>
-            <b-form-input
-              v-model="updateForm.home_address"
-              :disabled="is_update"
-              onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
-            ></b-form-input>
-          </div> -->
-          <!-- <div class="col-lg-6 marginBot4">
-            <p class="marginBot4">电子信箱</p>
-            <b-form-input
-              v-model="updateForm.emaill"
-              :disabled="is_update"
-              onkeypress="return (/[0-9a-zA-Z@.]/.test(String.fromCharCode(event.keyCode)))"
-            ></b-form-input>
-          </div> -->
           <div class="col-lg-6 marginBot4">
             <p class="marginBot4">出生日期</p>
             <el-date-picker
@@ -286,15 +245,6 @@
               onkeypress="return (/[0-9a-zA-Z]/.test(String.fromCharCode(event.keyCode)))"
             ></b-form-input>
           </div>
-          <!-- <div class="col-lg-6 marginBot4">
-            <p class="marginBot4">卡号</p>
-            <b-form-input
-              v-model="updateForm.card_no"
-              maxlength="20"
-              :disabled="is_update"
-              onkeypress="return (/[0-9]/.test(String.fromCharCode(event.keyCode)))"
-            ></b-form-input>
-          </div> -->
           <div class="col-lg-6 marginBot4">
             <p class="marginBot4">部门</p>
             <b-form-select v-model="updateForm.dept_id" :options="deptList" :disabled="is_update" />
@@ -421,9 +371,10 @@ export default {
       tq: [{ text: '是否通勤', value: null, disabled: true }, { text: '通勤', value: '0' }, { text: '不通勤', value: '1' }],
       currentPage: 1,
       limit: 15,
-      totalRow: 100,
+      totalRow: 0,
       deptList: [],
       postList: [],
+      cdeptid: '', //要查询的部门
       select_staff_user_name: '', //要查询的员工名字
       select_staff_job_num: '', //要查询的员工编号
       addUserValidator: new Validator({
@@ -495,9 +446,14 @@ export default {
         this.is_title_search = false;
         return;
       }
+      if (this.cdeptid === null) {
+        this.cdeptid = '';
+      }
       this.skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(
-        `/akyl/staff/staff_list?job_num=${this.select_staff_job_num}&user_name=${this.select_staff_user_name}&skip=${this.skip}&limit=${this.limit}`
+        `/akyl/staff/staff_list?job_num=${this.select_staff_job_num}&user_name=${this.select_staff_user_name}&skip=${this.skip}&limit=${this.limit}&dept_id=${
+          this.cdeptid
+        }`
       );
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.staffList);
@@ -516,9 +472,14 @@ export default {
         this.is_title_search = true;
         return;
       }
+      if (this.cdeptid === null) {
+        this.cdeptid = '';
+      }
       this.skip = (this.currentPage - 1) * this.limit;
       let result = await this.$axios.get(
-        `/akyl/staff/staff_list?job_num=${this.select_staff_job_num}&user_name=${this.select_staff_user_name}&skip=${this.skip}&limit=${this.limit}`
+        `/akyl/staff/staff_list?job_num=${this.select_staff_job_num}&user_name=${this.select_staff_user_name}&skip=${this.skip}&limit=${this.limit}&dept_id=${
+          this.cdeptid
+        }`
       );
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.staffList);
@@ -538,9 +499,14 @@ export default {
         this.is_title_search = true;
         return;
       }
+      if (this.cdeptid === null) {
+        this.cdeptid = '';
+      }
       this.skip = 0;
       let result = await this.$axios.get(
-        `/akyl/staff/staff_list?job_num=${this.select_staff_job_num}&user_name=${this.select_staff_user_name}&skip=${this.skip}&limit=${this.limit}`
+        `/akyl/staff/staff_list?job_num=${this.select_staff_job_num}&user_name=${this.select_staff_user_name}&skip=${this.skip}&limit=${this.limit}&dept_id=${
+          this.cdeptid
+        }`
       );
       if (result.data.msg === '成功') {
         this.$set(this, 'list', result.data.staffList);
